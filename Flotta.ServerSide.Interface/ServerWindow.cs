@@ -7,36 +7,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Flotta.ServerSide;
 
-namespace ProgettoEsame
+namespace Flotta.ServerSide.Interface
 {
 	public partial class ServerWindow : Form
 	{
 
-		private Server _server;
+		private IServerInterface _server;
 
 		public ServerWindow(Server server)
 		{
 			InitializeComponent();
 
 			_server = server;
-			_server.Window = this;
+			_server.OnConnectionsChange += UpdateCounter;
 		}
 
 		private void NewClient(object sender, EventArgs e)
 		{
 			_server.SpawnClient();
-			UpdateCounter();
 		}
 
-		public void UpdateCounter()
+		public void UpdateCounter(int activeConnections)
 		{
-			clientCountLbl.Text = "" + _server.ClientCount;
+			clientCountLbl.Text = "" + activeConnections;
 		}
 
 		private void CloseServer(object sender, FormClosingEventArgs e)
 		{
-			if (!_server.CanTerminate)
+			if(!_server.CanTerminate)
 			{
 				e.Cancel = true;
 				MessageBox.Show("Impossibile uscire con client aperti!");

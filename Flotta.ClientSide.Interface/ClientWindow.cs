@@ -7,24 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Flotta.ClientSide;
 
-namespace ProgettoEsame
+namespace Flotta.ClientSide.Interface
 {
 	public partial class ClientWindow : Form
 	{
-		private Client _client;
+		private IClient _client;
 
-		public ClientWindow(Client client)
+		public ClientWindow(IClient client)
 		{
 			InitializeComponent();
 
 			_client = client;
-			_client.Window = this;
 		}
 
 		private void CloseClient(object sender, FormClosedEventArgs e)
 		{
-			_client.exit();
+			_client.Exit();
 		}
 	}
 }
