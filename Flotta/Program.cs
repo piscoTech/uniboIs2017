@@ -30,7 +30,7 @@ namespace Flotta
 			Application.Run(new ServerWindow(_server));
 		}
 
-		static void SpawnClient()
+		private static void SpawnClient()
 		{
 			Client client = new Client(_server);
 			(new ClientWindow(client)).Show();
