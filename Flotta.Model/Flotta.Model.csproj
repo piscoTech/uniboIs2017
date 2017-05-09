@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDBObject.cs" />
+    <Compile Include="LinkedObject.cs" />
+    <Compile Include="Mezzo.cs" />
+    <Compile Include="Permesso.cs" />
+    <Compile Include="PermessoType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
