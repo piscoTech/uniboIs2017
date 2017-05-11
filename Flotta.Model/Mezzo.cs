@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public class Mezzo : IDBObject
+	internal class Mezzo : IDBObject
 	{
 
 		private string _modello;
@@ -19,9 +19,10 @@ namespace Flotta.Model
 		private float _lunghezza;
 		private float _profondita;
 		private float _volumeCarico;
-		// Tessere
-		// Dispositivi
-		private HashSet<Permesso> _permessi; // Ho usato un Set perchè non interessa l'ordine, useremo quello alfabetico di PermessoType.Name
+        private HashSet<Permesso> _permessi; // Ho usato un Set perchè non interessa l'ordine, useremo quello alfabetico di PermessoType.Name
+        private HashSet<Tessera> _tessere;
+        private HashSet<Dispositivo> _dispositivi;
+        
 
 		public string Modello
 		{
@@ -143,9 +144,21 @@ namespace Flotta.Model
 				_volumeCarico = value;
 			}
 		}
-		// Tessere
-		// Dispositivi
-		public Permesso[] Permessi
+		public ITessera[] Tessere
+        {
+            get
+            {
+                return _tessere.ToArray();
+            }
+        }
+		public IDispositivo[] Dispostivi
+        {
+            get
+            {
+                return _dispositivi.ToArray();
+            }
+        }
+		public IPermesso[] Permessi
 		{
 			get
 			{
@@ -153,12 +166,47 @@ namespace Flotta.Model
 			}
 		}
 
-		// Tessere
-		// Dispositivi
-		public void AddPermesso(Permesso perm)
+        public void AddTessera(ITessera t)
+        {
+            bool exist = false;
+            foreach (Tessera te in _tessere)
+            {
+                if (te.Type.Name.Equals(t.Type.Name))
+                {
+                    exist = true;
+                    break;
+                }   
+            }
+            if (!exist) _tessere.Add(t as Tessera);
+        }
+
+        public void AddDispositivo(IDispositivo d)
+        {
+            bool exist = false;
+            foreach (Dispositivo di in _dispositivi)
+            {
+                if (di.Type.Name.Equals(d.Type.Name))
+                {
+                    exist = true;
+                    break;
+                }        
+            }
+            if (!exist) _dispositivi.Add(d as Dispositivo);
+        }
+
+        public void AddPermesso(IPermesso p)
 		{
-			_permessi.Add(perm);
-		}
+            bool exist = false;
+            foreach (Permesso pe in _permessi)
+            {
+                if (pe.Type.Name.Equals(p.Type.Name))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+            if (!exist) _permessi.Add(p as Permesso);
+        }
 
 	}
 }
