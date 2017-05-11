@@ -13,9 +13,9 @@ namespace Flotta.ClientSide.Interface
 
 	public delegate void MezzoTabAction(int index);
 
-	public partial class MezzoTabControl : UserControl, IMezzoTabControl
+	internal partial class MezzoTabControl : UserControl, IMezzoTabControl
 	{
-		public MezzoTabControl()
+		internal MezzoTabControl()
 		{
 			InitializeComponent();
 		}
