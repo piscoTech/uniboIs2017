@@ -14,6 +14,7 @@ namespace Flotta
 	{
 
 		private static Server _server;
+		private static List<IClient> _clients = new List<IClient>();
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -32,8 +33,10 @@ namespace Flotta
 
 		private static void SpawnClient()
 		{
-			Client client = new Client(_server);
-			(new ClientWindow(client)).Show();
+			IClient client = ClientSideFactory.NewClientPresenter(_server);
+			_clients.Add(client);
+
+			client.ExitClient += (c) => _clients.Remove(c);
 		}
 	}
 }

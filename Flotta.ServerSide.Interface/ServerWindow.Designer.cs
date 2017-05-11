@@ -83,8 +83,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.Name = "ServerWindow";
-			this.Text = "Server";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CloseServer);
+			this.Text = "Server – Flotta";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

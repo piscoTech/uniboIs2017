@@ -28,34 +28,70 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
+			this.mezziList = new System.Windows.Forms.DataGridView();
+			this.noSelectionLbl = new System.Windows.Forms.Label();
+			this.mezzoTabControl = new Flotta.ClientSide.Interface.MezzoTabControl();
+			((System.ComponentModel.ISupportInitialize)(this.mezziList)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// label1
+			// mezziList
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(120, 122);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(66, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "I\'m a client :)";
+			this.mezziList.AllowUserToAddRows = false;
+			this.mezziList.AllowUserToDeleteRows = false;
+			this.mezziList.AllowUserToResizeColumns = false;
+			this.mezziList.AllowUserToResizeRows = false;
+			this.mezziList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.mezziList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.mezziList.Dock = System.Windows.Forms.DockStyle.Left;
+			this.mezziList.Location = new System.Drawing.Point(0, 0);
+			this.mezziList.MultiSelect = false;
+			this.mezziList.Name = "mezziList";
+			this.mezziList.ReadOnly = true;
+			this.mezziList.RowHeadersVisible = false;
+			this.mezziList.Size = new System.Drawing.Size(240, 473);
+			this.mezziList.TabIndex = 1;
+			this.mezziList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MezzoClicked);
+			// 
+			// noSelectionLbl
+			// 
+			this.noSelectionLbl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.noSelectionLbl.Location = new System.Drawing.Point(240, 0);
+			this.noSelectionLbl.Name = "noSelectionLbl";
+			this.noSelectionLbl.Size = new System.Drawing.Size(344, 473);
+			this.noSelectionLbl.TabIndex = 3;
+			this.noSelectionLbl.Text = "Seleziona un mezzo";
+			this.noSelectionLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// mezzoTabControl
+			// 
+			this.mezzoTabControl.CurrentTab = 0;
+			this.mezzoTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mezzoTabControl.Location = new System.Drawing.Point(240, 0);
+			this.mezzoTabControl.Name = "mezzoTabControl";
+			this.mezzoTabControl.Size = new System.Drawing.Size(344, 473);
+			this.mezzoTabControl.TabIndex = 4;
 			// 
 			// ClientWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Controls.Add(this.label1);
+			this.ClientSize = new System.Drawing.Size(584, 473);
+			this.Controls.Add(this.mezzoTabControl);
+			this.Controls.Add(this.noSelectionLbl);
+			this.Controls.Add(this.mezziList);
+			this.MinimumSize = new System.Drawing.Size(600, 500);
 			this.Name = "ClientWindow";
-			this.Text = "ClientWindow";
+			this.Text = "Mezzi – Flotta";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseClient);
+			((System.ComponentModel.ISupportInitialize)(this.mezziList)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridView mezziList;
+		private System.Windows.Forms.Label noSelectionLbl;
+		private MezzoTabControl mezzoTabControl;
 	}
 }

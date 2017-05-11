@@ -34,13 +34,15 @@ namespace Flotta.ServerSide.Interface
 			clientCountLbl.Text = "" + activeConnections;
 		}
 
-		private void CloseServer(object sender, FormClosingEventArgs e)
+		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			if(!_server.CanTerminate)
+			base.OnFormClosing(e);
+			if (!_server.CanTerminate)
 			{
 				e.Cancel = true;
 				MessageBox.Show("Impossibile uscire con client aperti!");
 			}
 		}
+
 	}
 }

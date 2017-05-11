@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Flotta.ClientSide
+namespace Flotta.ClientSide.Interface
 {
-
-	public interface IClient
+	public interface IMezzoListItem
 	{
-
-		event ClientAction ExitClient;
-
+		string Description { get; }
 	}
 }

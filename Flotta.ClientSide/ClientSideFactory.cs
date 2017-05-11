@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Flotta.ServerSide;
 
 namespace Flotta.ClientSide
 {
-
-	public interface IClient
+	public static class ClientSideFactory
 	{
-
-		event ClientAction ExitClient;
-
+		public static IClient NewClientPresenter(IServer server)
+		{
+			return (new Client(server));
+		}
 	}
 }
