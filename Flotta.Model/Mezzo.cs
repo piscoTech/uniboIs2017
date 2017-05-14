@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	internal class Mezzo : IDBObject
+	internal class Mezzo : IMezzo
 	{
 
 		private string _modello;
@@ -151,7 +151,7 @@ namespace Flotta.Model
                 return _tessere.ToArray();
             }
         }
-		public IDispositivo[] Dispostivi
+		public IDispositivo[] Dispositivi
         {
             get
             {
@@ -166,7 +166,7 @@ namespace Flotta.Model
 			}
 		}
 
-        public void AddTessera(ITessera t)
+        public bool AddTessera(ITessera t)
         {
             bool exist = false;
             foreach (Tessera te in _tessere)
@@ -178,9 +178,10 @@ namespace Flotta.Model
                 }   
             }
             if (!exist) _tessere.Add(t as Tessera);
+            return !exist;
         }
 
-        public void AddDispositivo(IDispositivo d)
+        public bool AddDispositivo(IDispositivo d)
         {
             bool exist = false;
             foreach (Dispositivo di in _dispositivi)
@@ -192,9 +193,10 @@ namespace Flotta.Model
                 }        
             }
             if (!exist) _dispositivi.Add(d as Dispositivo);
+            return !exist;
         }
 
-        public void AddPermesso(IPermesso p)
+        public bool AddPermesso(IPermesso p)
 		{
             bool exist = false;
             foreach (Permesso pe in _permessi)
@@ -206,7 +208,61 @@ namespace Flotta.Model
                 }
             }
             if (!exist) _permessi.Add(p as Permesso);
+            return !exist;
         }
+
+        public void RemoveTessera(ITesseraType tessera)
+        {
+            foreach (Tessera t in _tessere)
+            {
+                if (t.Type.Equals(tessera))
+                    _tessere.Remove(t);
+            }
+        }
+
+        public void RemoveDispositivo(IDispositivoType dispositivo)
+        {
+            foreach (Dispositivo d in _dispositivi)
+            {
+                if (d.Type.Equals(dispositivo))
+                    _dispositivi.Remove(d);
+            }
+        }
+
+        public void RemovePermesso(IPermessoType permesso)
+        {
+            foreach(Permesso p in _permessi)
+            {
+                if (p.Type.Equals(permesso))
+                    _permessi.Remove(p);
+            }
+        }
+
+        private bool checkType(IEnumerable<LinkedObject> array)
+        {
+            List<LinkedObject> o = new List<LinkedObject>();
+
+            foreach(LinkedObject l in array)
+            {
+                if (!o.Contains(l))
+                    o.Add(l);
+                else
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool IsValid
+        {
+            get => !String.IsNullOrEmpty(_modello) && !String.IsNullOrEmpty(_targa) &&
+                   !String.IsNullOrEmpty(_numeroTelaio) && _portata > 0 && _altezza > 0 &&
+                   _lunghezza > 0 && _profondita > 0 && _volumeCarico > 0 &&
+                   checkType(from t in _tessere select t.Type) &&
+                   checkType(from d in _dispositivi select d.Type) &&
+                   checkType(from p in _permessi select p.Type);
+        }
+ 
 
 	}
 }

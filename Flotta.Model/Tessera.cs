@@ -9,10 +9,10 @@ namespace Flotta.Model
     internal class Tessera : ITessera
     {
         private TesseraType _type;
-        private String _codice;
-        private String _pin;
+        private string _codice;
+        private string _pin;
 
-        public Tessera(String codice, String pin)
+        public Tessera(string codice, string pin)
         {
             _codice = codice;
             _pin = pin;
@@ -26,7 +26,7 @@ namespace Flotta.Model
             }
         }
 
-        public String Codice
+        public string Codice
         {
             get
             {
@@ -38,7 +38,7 @@ namespace Flotta.Model
             }
         }
 
-        public String Pin
+        public string Pin
         {
             get
             {
