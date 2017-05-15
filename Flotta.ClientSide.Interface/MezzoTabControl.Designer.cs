@@ -80,7 +80,7 @@
 			this.tabViewGenerale.Name = "tabViewGenerale";
 			this.tabViewGenerale.Size = new System.Drawing.Size(350, 387);
 			this.tabViewGenerale.TabIndex = 0;
-			this.tabViewGenerale.Title = null;
+			this.tabViewGenerale.Modello = null;
 			// 
 			// tabPage2
 			// 

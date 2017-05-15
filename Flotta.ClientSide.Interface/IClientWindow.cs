@@ -10,11 +10,12 @@ namespace Flotta.ClientSide.Interface
 	public interface IClientWindow
 	{
 		void Show();
-		List<IMezzoListItem> MezziList { set; }
+		IEnumerable<IMezzoListItem> MezziList { set; }
 		IMezzoTabControl MezzoTabControl { get; }
 		bool HasMezzo { set; }
 
 		event GenericAction WindowClose;
 		event MezzoListAction MezzoSelected;
+		event GenericAction CreateNewMezzo;
 	}
 }

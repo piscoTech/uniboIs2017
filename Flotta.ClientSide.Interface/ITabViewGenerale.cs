@@ -12,7 +12,8 @@ namespace Flotta.ClientSide.Interface
 		event GenericAction CancelEdit;
 		event GenericAction SaveEdit;
 
-		string Title { get; set; }
+		string Modello { get; set; }
+		string Targa { get; set; }
 		bool EditMode { set; }
 	}
 }

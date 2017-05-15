@@ -46,7 +46,7 @@ namespace Flotta.ClientSide.Interface
 			mezziList.DataSource = _mezziList;
 		}
 
-		public List<IMezzoListItem> MezziList
+		public IEnumerable<IMezzoListItem> MezziList
 		{
 			set
 			{
@@ -78,6 +78,12 @@ namespace Flotta.ClientSide.Interface
 		private void MezzoClicked(object sender, DataGridViewCellEventArgs e)
 		{
 			MezzoSelected?.Invoke(e.RowIndex);
+		}
+
+		public event GenericAction CreateNewMezzo;
+		private void NewMezzo(object sender, EventArgs e)
+		{
+			CreateNewMezzo?.Invoke();
 		}
 
 	}

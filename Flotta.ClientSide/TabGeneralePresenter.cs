@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flotta.ClientSide.Interface;
+using Flotta.Model;
 
 namespace Flotta.ClientSide
 {
@@ -12,6 +13,11 @@ namespace Flotta.ClientSide
 
 		private MezzoTabPresenter _tabs;
 		private ITabViewGenerale _view;
+
+		private IMezzo Mezzo
+		{
+			get => _tabs.Mezzo;
+		}
 
 		private bool _editMode;
 		private bool EditMode
@@ -41,7 +47,8 @@ namespace Flotta.ClientSide
 			if (_tabs.Mezzo == null)
 				return;
 
-			_view.Title = _tabs.Mezzo.Description + (_editMode ? " (Edit)" : "");
+			_view.Modello = Mezzo.Modello;
+			_view.Targa = Mezzo.Targa;
 			_view.EditMode = _editMode;
 		}
 

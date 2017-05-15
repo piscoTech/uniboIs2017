@@ -10,6 +10,7 @@ using Flotta.ClientSide.Interface;
 namespace Flotta.ClientSide
 {
 	public delegate void ClientAction(IClient client);
+	public delegate void StatusReportAction(bool status);
 
 	class Client : IClient
 	{
@@ -19,7 +20,7 @@ namespace Flotta.ClientSide
 
 		private MezzoTabPresenter _mezzoPresenter;
 
-		private List<DummyMezzo> _mezziList = new List<DummyMezzo>();
+		private List<IMezzo> _mezziList = new List<IMezzo>();
 
 		internal Client(IServer server)
 		{
@@ -28,13 +29,11 @@ namespace Flotta.ClientSide
 			_server.ClientConnected();
 			_server.OnObjectChange += ObjectChanged;
 
-			_mezziList.Add(new DummyMezzo() { Nome = "Prova", Targa = "AB000CB" });
-			_mezziList.Add(new DummyMezzo() { Nome = "Esempio", Targa = "AB123CB" });
-
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
 			_mainWindow.Show();
 			_mainWindow.WindowClose += Exit;
 			_mainWindow.MezzoSelected += OnMezzoSelected;
+			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 
 			_mezzoPresenter = new MezzoTabPresenter(this, _mainWindow.MezzoTabControl);
 
@@ -43,28 +42,45 @@ namespace Flotta.ClientSide
 
 		private void UpdateMezziList()
 		{
-			List<IMezzoListItem> tmp = new List<IMezzoListItem>();
-
-			foreach(DummyMezzo m in _mezziList)
-			{
-				tmp.Add(ClientSideInterfaceFactory.NewMezzoListItem(m.Nome, m.Targa));
-			}
-
-			_mainWindow.MezziList = tmp;
+			_mezziList = _server.Mezzi.ToList();
+			_mainWindow.MezziList = from m in _mezziList select ClientSideInterfaceFactory.NewMezzoListItem(m.Numero, m.Modello, m.Targa);
 		}
 
 		private void ObjectChanged(IDBObject obj)
 		{
-			throw new NotImplementedException("Qualcosa è cambiato nel database");
+			if(obj is IMezzo)
+			{
+				UpdateMezziList();
+				if(_mezzoPresenter.Mezzo == obj)
+				{
+					_mezzoPresenter.Mezzo = _mezzoPresenter.Mezzo;
+				}
+			}
 		}
 
 		private void OnMezzoSelected(int index)
 		{
-			if (index < 0 || index >= _mezziList.Count)
+			if (index < 0 || index >= _mezziList.Count())
 				return;
 
 			_mainWindow.HasMezzo = true;
 			_mezzoPresenter.Mezzo = _mezziList[index];
+		}
+
+		private NewMezzoPresenter _newMezzo;
+
+		private void OnCreateNewMezzo()
+		{
+			INewMezzoInterface newMezzoWindow = ClientSideInterfaceFactory.NewNewMezzoInterface();
+			_newMezzo = new NewMezzoPresenter(_server, newMezzoWindow);
+			_newMezzo.CreationCompleted += OnNewMezzoCreated;
+
+			newMezzoWindow.ShowDialog();
+		}
+
+		private void OnNewMezzoCreated(bool created)
+		{
+			_newMezzo = null;
 		}
 
 		public event ClientAction ExitClient;

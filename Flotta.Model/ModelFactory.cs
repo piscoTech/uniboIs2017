@@ -6,18 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	internal class Permesso : IPermesso
+	public static class ModelFactory
 	{
-
-		private PermessoType _type;
-
-		public IPermessoType Type
+		public static IMezzo NewMezzo ()
 		{
-			get
-			{
-				return _type;
-			}
+			return new Mezzo();
 		}
-
 	}
 }

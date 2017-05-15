@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flotta.ClientSide.Interface;
+using Flotta.Model;
 
 namespace Flotta.ClientSide
 {
@@ -11,7 +12,7 @@ namespace Flotta.ClientSide
 	{
 
 		private Client _client;
-		private DummyMezzo _mezzo;
+		private IMezzo _mezzo;
 
 		private IMezzoTabControl _tabControl;
 		private ITabPresenter[] _tabPresenters = new ITabPresenter[5];
@@ -28,7 +29,7 @@ namespace Flotta.ClientSide
 			OnTabChange(_tabControl.CurrentTab);
 		}
 
-		internal DummyMezzo Mezzo
+		internal IMezzo Mezzo
 		{
 			get
 			{

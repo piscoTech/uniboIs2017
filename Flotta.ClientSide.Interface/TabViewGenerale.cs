@@ -36,10 +36,16 @@ namespace Flotta.ClientSide.Interface
 			SaveEdit?.Invoke();
 		}
 
-		public string Title
+		public string Modello
 		{
-			get => mezzoTitle.Text;
-			set => mezzoTitle.Text = value;
+			get => modello.Text;
+			set => modello.Text = value;
+		}
+
+		public string Targa
+		{
+			get => targa.Text;
+			set => targa.Text = value;
 		}
 
 		public bool EditMode
@@ -49,8 +55,14 @@ namespace Flotta.ClientSide.Interface
 				enterEditBtn.Visible = !value;
 				cancelEditBtn.Visible = value;
 				saveEditBtn.Visible = value;
+
+				foreach(var control in controlContainer.Controls)
+				{
+					TextBox text = control as TextBox;
+					if (text != null)
+						text.ReadOnly = !value;
+				}
 			}
 		}
-
 	}
 }

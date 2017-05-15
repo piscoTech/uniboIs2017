@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface LinkedObject
+	public interface LinkedObject  : IDBObject
 	{
 
 		string Name { get; set;	}
