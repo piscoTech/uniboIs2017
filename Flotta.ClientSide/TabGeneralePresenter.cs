@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Flotta.ClientSide.Interface;
 using Flotta.Model;
+using Flotta.ServerSide;
+using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
 	internal class TabGeneralePresenter : ITabPresenter
 	{
 
+		private IServer _server;
 		private MezzoTabPresenter _tabs;
 		private ITabViewGenerale _view;
 
@@ -30,13 +33,15 @@ namespace Flotta.ClientSide
 			}
 		}
 
-		internal TabGeneralePresenter(MezzoTabPresenter tabs, ITabViewGenerale view)
+		internal TabGeneralePresenter(IServer server, MezzoTabPresenter tabs, ITabViewGenerale view)
 		{
+			_server = server;
 			_tabs = tabs;
 			_view = view;
 
 			EditMode = false;
 
+			_view.DeleteMezzo += OnDeleteMezzo;
 			_view.CancelEdit += OnCancelEdit;
 			_view.EnterEdit += OnEnterEdit;
 			_view.SaveEdit += OnSaveEdit;
@@ -67,7 +72,6 @@ namespace Flotta.ClientSide
 				return;
 
 			EditMode = true;
-			Console.WriteLine("Generale Enter Edit");
 		}
 
 		public void OnCancelEdit()
@@ -76,7 +80,6 @@ namespace Flotta.ClientSide
 				return;
 
 			EditMode = false;
-			Console.WriteLine("Generale Cancel Edit");
 		}
 
 		private void OnSaveEdit()
@@ -84,10 +87,22 @@ namespace Flotta.ClientSide
 			if (!EditMode)
 				return;
 
-			// Save all data
+			var errors =_server.UpdateMezzo(_tabs.Mezzo, true, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tabs.Mezzo.Tessere, _tabs.Mezzo.Dispositivi, _tabs.Mezzo.Permessi);
 
-			EditMode = false;
-			Console.WriteLine("Generale Save Edit");
+			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
+			
+			// The tab will be automatically reloaded exiting edit mode automatically with the notification from the server
+		}
+
+		private void OnDeleteMezzo()
+		{
+			if(MessageBox.Show("Sei sicuro di voler cancellare il mezzo corrente?", "Elimina mezzo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				if (!_server.DeleteMezzo(_tabs.Mezzo))
+					MessageBox.Show("Errore durante l'eliminazione del mezzo", "Errore");
+
+				// The tab will be automatically reloaded exiting display mode automatically with the notification from the server
+			}
 		}
 	}
 }

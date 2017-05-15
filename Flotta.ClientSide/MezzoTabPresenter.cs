@@ -5,24 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Flotta.ClientSide.Interface;
 using Flotta.Model;
+using Flotta.ServerSide;
 
 namespace Flotta.ClientSide
 {
 	internal class MezzoTabPresenter
 	{
 
+		private IServer _server;
 		private Client _client;
 		private IMezzo _mezzo;
 
 		private IMezzoTabControl _tabControl;
 		private ITabPresenter[] _tabPresenters = new ITabPresenter[5];
 
-		internal MezzoTabPresenter(Client client, IMezzoTabControl tabControl)
+		internal MezzoTabPresenter(IServer server, Client client, IMezzoTabControl tabControl)
 		{
+			_server = server;
 			_client = client;
 			_tabControl = tabControl;
 
-			_tabPresenters[0] = new TabGeneralePresenter(this, _tabControl.GeneraleTab);
+			_tabPresenters[0] = new TabGeneralePresenter(_server, this, _tabControl.GeneraleTab);
 
 			_tabControl.CurrentTab = 0;
 			_tabControl.TabChanged += OnTabChange;
@@ -39,7 +42,7 @@ namespace Flotta.ClientSide
 			{
 				_mezzo = value;
 				_tabControl.CurrentTab = 0;
-				OnTabChange(_tabControl.CurrentTab);
+				ReloadTab();
 			}
 		}
 
@@ -61,6 +64,11 @@ namespace Flotta.ClientSide
 				if (tab == _tabPresenters[index])
 					tab.Reload();
 			}
+		}
+
+		internal void ReloadTab()
+		{
+			OnTabChange(_tabControl.CurrentTab);
 		}
 
 	}

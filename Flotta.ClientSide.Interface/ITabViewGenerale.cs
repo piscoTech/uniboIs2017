@@ -8,6 +8,7 @@ namespace Flotta.ClientSide.Interface
 {
 	public interface ITabViewGenerale
 	{
+		event GenericAction DeleteMezzo;
 		event GenericAction EnterEdit;
 		event GenericAction CancelEdit;
 		event GenericAction SaveEdit;

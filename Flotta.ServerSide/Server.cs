@@ -38,7 +38,8 @@ namespace Flotta.ServerSide
 			get => _activeConnections == 0;
 		}
 
-		public event ObjectChangedHandler ObjectChange;
+		public event ObjectChangedHandler ObjectChanged;
+		public event ObjectChangedHandler ObjectRemoved;
 
 		public void ClientConnected()
 		{
@@ -73,12 +74,9 @@ namespace Flotta.ServerSide
 			if (mezzo == null) throw new ArgumentNullException();
 			List<String> errors = new List<string>();
 
-			var numMatch = from m in _mezzi where m.Numero == numero select m;
+			var numMatch = from m in _mezzi where m.Numero == numero && m != mezzo select m;
 			if (numMatch.Count() > 0)
-			{
-				if (isNew || numMatch.Count() > 1 || numMatch.First() != mezzo)
-					errors.Add("Il numero è già utilizzato");
-			}
+				errors.Add("Il numero è già utilizzato");
 
 			// Check that all Tessera/Dispositivo/PermessoType exists and are saved on server
 
@@ -88,16 +86,29 @@ namespace Flotta.ServerSide
 			{
 				errors = mezzo.Update(modello, targa, numero, numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza, profondità, volumeCarico, tessere, dispositivi, permessi).ToList();
 
-				if(errors.Count == 0)
+				if (errors.Count == 0)
 				{
-					if (!_mezzi.Contains(mezzo))
+					if (isNew && !_mezzi.Contains(mezzo))
 						_mezzi.Add(mezzo);
-					ObjectChange(mezzo);
+					ObjectChanged(mezzo);
 				}
 
 				return errors;
 			}
-
 		}
+
+		public bool DeleteMezzo(IMezzo mezzo)
+		{
+			if (mezzo == null) throw new ArgumentNullException();
+
+			if (_mezzi.Contains(mezzo) && _mezzi.Remove(mezzo))
+			{
+				ObjectRemoved(mezzo);
+				return true;
+			}
+
+			return false;
+		}
+
 	}
 }

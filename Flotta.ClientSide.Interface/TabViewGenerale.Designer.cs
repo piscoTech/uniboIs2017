@@ -53,6 +53,7 @@
 			this.lunghezza = new System.Windows.Forms.TextBox();
 			this.profondita = new System.Windows.Forms.TextBox();
 			this.volumeCarico = new System.Windows.Forms.TextBox();
+			this.deleteBtn = new System.Windows.Forms.Button();
 			label12 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
 			label1 = new System.Windows.Forms.Label();
@@ -159,6 +160,7 @@
 			// 
 			// panel2
 			// 
+			this.panel2.Controls.Add(this.deleteBtn);
 			this.panel2.Controls.Add(this.enterEditBtn);
 			this.panel2.Controls.Add(this.cancelEditBtn);
 			this.panel2.Controls.Add(this.saveEditBtn);
@@ -303,6 +305,18 @@
 			this.volumeCarico.Size = new System.Drawing.Size(89, 20);
 			this.volumeCarico.TabIndex = 38;
 			// 
+			// deleteBtn
+			// 
+			this.deleteBtn.Dock = System.Windows.Forms.DockStyle.Right;
+			this.deleteBtn.Location = new System.Drawing.Point(183, 0);
+			this.deleteBtn.Name = "deleteBtn";
+			this.deleteBtn.Size = new System.Drawing.Size(75, 25);
+			this.deleteBtn.TabIndex = 3;
+			this.deleteBtn.Text = "Elimina";
+			this.deleteBtn.UseVisualStyleBackColor = true;
+			this.deleteBtn.Visible = false;
+			this.deleteBtn.Click += new System.EventHandler(this.OnDelete);
+			// 
 			// TabViewGenerale
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,5 +348,6 @@
 		private System.Windows.Forms.TextBox lunghezza;
 		private System.Windows.Forms.TextBox profondita;
 		private System.Windows.Forms.TextBox volumeCarico;
+		private System.Windows.Forms.Button deleteBtn;
 	}
 }

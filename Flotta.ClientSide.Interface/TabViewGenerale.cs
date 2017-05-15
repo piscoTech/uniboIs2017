@@ -186,6 +186,7 @@ namespace Flotta.ClientSide.Interface
 			set
 			{
 				enterEditBtn.Visible = !value;
+				deleteBtn.Visible = !value;
 				cancelEditBtn.Visible = value;
 				saveEditBtn.Visible = value;
 
@@ -196,6 +197,12 @@ namespace Flotta.ClientSide.Interface
 						text.ReadOnly = !value;
 				}
 			}
+		}
+
+		public event GenericAction DeleteMezzo;
+		private void OnDelete(object sender, EventArgs e)
+		{
+			DeleteMezzo?.Invoke();
 		}
 	}
 }

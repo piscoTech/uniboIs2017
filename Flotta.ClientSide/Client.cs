@@ -27,7 +27,8 @@ namespace Flotta.ClientSide
 			_server = server;
 
 			_server.ClientConnected();
-			_server.ObjectChange += ObjectChanged;
+			_server.ObjectChanged += OnObjectChanged;
+			_server.ObjectRemoved += OnObjectRemoved;
 
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
 			_mainWindow.Show();
@@ -35,7 +36,7 @@ namespace Flotta.ClientSide
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 
-			_mezzoPresenter = new MezzoTabPresenter(this, _mainWindow.MezzoTabControl);
+			_mezzoPresenter = new MezzoTabPresenter(_server, this, _mainWindow.MezzoTabControl);
 
 			UpdateMezziList();
 		}
@@ -46,14 +47,28 @@ namespace Flotta.ClientSide
 			_mainWindow.MezziList = from m in _mezziList select ClientSideInterfaceFactory.NewMezzoListItem(m.Numero, m.Modello, m.Targa);
 		}
 
-		private void ObjectChanged(IDBObject obj)
+		private void OnObjectChanged(IDBObject obj)
 		{
 			if(obj is IMezzo)
 			{
 				UpdateMezziList();
 				if(_mezzoPresenter.Mezzo == obj)
 				{
-					_mezzoPresenter.Mezzo = _mezzoPresenter.Mezzo;
+					_mezzoPresenter.ReloadTab();
+				}
+			}
+		}
+
+		private void OnObjectRemoved(IDBObject obj)
+		{
+			if (obj is IMezzo)
+			{
+				UpdateMezziList();
+				if (_mezzoPresenter.Mezzo == obj)
+				{
+					_mainWindow.HasMezzo = false;
+					_mezzoPresenter.Mezzo = null;
+					_mezzoPresenter.ReloadTab();
 				}
 			}
 		}
