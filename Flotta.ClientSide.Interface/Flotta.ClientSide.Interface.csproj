@@ -42,19 +42,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientSideInterfaceFactory.cs" />
     <Compile Include="ClientWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ClientWindow.Designer.cs">
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="IClientWindow.cs" />
+    <Compile Include="IMezzoListItem.cs" />
+    <Compile Include="IMezzoTabControl.cs" />
+    <Compile Include="INewMezzoInterface.cs" />
+    <Compile Include="ITabViewGenerale.cs" />
+    <Compile Include="MezzoListItem.cs" />
+    <Compile Include="MezzoTabControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MezzoTabControl.Designer.cs">
+      <DependentUpon>MezzoTabControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewMezzoInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewMezzoInterface.Designer.cs">
+      <DependentUpon>NewMezzoInterface.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabViewGenerale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabViewGenerale.Designer.cs">
+      <DependentUpon>TabViewGenerale.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Flotta.ClientSide\Flotta.ClientSide.csproj">
-      <Project>{276363b5-e2a2-47bd-b689-a45615c2242a}</Project>
-      <Name>Flotta.ClientSide</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="ClientWindow.resx">
+      <DependentUpon>ClientWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MezzoTabControl.resx">
+      <DependentUpon>MezzoTabControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewMezzoInterface.resx">
+      <DependentUpon>NewMezzoInterface.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabViewGenerale.resx">
+      <DependentUpon>TabViewGenerale.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

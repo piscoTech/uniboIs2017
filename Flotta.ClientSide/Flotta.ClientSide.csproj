@@ -42,10 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="ClientSideFactory.cs" />
     <Compile Include="IClient.cs" />
+    <Compile Include="ITabPresenter.cs" />
+    <Compile Include="MezzoTabPresenter.cs" />
+    <Compile Include="NewMezzoPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabGeneralePresenter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj">
+      <Project>{5726f43b-f170-4728-8fc2-0bf551065211}</Project>
+      <Name>Flotta.ClientSide.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Flotta.Model\Flotta.Model.csproj">
       <Project>{be639df6-5db3-463b-ad3d-d8ac4f0bc79f}</Project>
       <Name>Flotta.Model</Name>

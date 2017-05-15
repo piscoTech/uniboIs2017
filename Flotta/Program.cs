@@ -13,7 +13,8 @@ namespace Flotta
 	static class Program
 	{
 
-		private static Server _server;
+		private static IServer _server;
+		private static List<IClient> _clients = new List<IClient>();
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -25,16 +26,18 @@ namespace Flotta
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			_server = new Server();
-			_server.ClientCreator = SpawnClient;
+			IServerWindow serverWindow = ServerSideInterfaceFactory.NewServerWindow();
+			_server = ServerSideFactory.NewServer(serverWindow, SpawnClient);
 
-			Application.Run(new ServerWindow(_server));
+			serverWindow.Run();
 		}
 
 		private static void SpawnClient()
 		{
-			Client client = new Client(_server);
-			(new ClientWindow(client)).Show();
+			IClient client = ClientSideFactory.NewClientPresenter(_server);
+			_clients.Add(client);
+
+			client.ExitClient += (c) => _clients.Remove(c);
 		}
 	}
 }

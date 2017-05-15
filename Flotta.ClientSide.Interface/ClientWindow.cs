@@ -11,20 +11,80 @@ using Flotta.ClientSide;
 
 namespace Flotta.ClientSide.Interface
 {
-	public partial class ClientWindow : Form
-	{
-		private IClient _client;
 
-		public ClientWindow(IClient client)
+	public delegate void GenericAction();
+	public delegate void MezzoListAction(int index);
+
+	internal partial class ClientWindow : Form, IClientWindow
+	{
+
+		private BindingList<MezzoListItem> _mezziList = new BindingList<MezzoListItem>();
+
+		internal ClientWindow()
 		{
 			InitializeComponent();
 
-			_client = client;
+			HasMezzo = false;
+
+			BindMezziList();
 		}
 
+		private void BindMezziList()
+		{
+			mezziList.AutoGenerateColumns = false;
+
+			DataGridViewCell cell = new DataGridViewTextBoxCell();
+			DataGridViewTextBoxColumn colMezziName = new DataGridViewTextBoxColumn()
+			{
+				CellTemplate = cell,
+				Name = "Mezzi",
+				HeaderText = "Mezzi",
+				DataPropertyName = "Description"
+			};
+			mezziList.Columns.Add(colMezziName);
+
+			mezziList.DataSource = _mezziList;
+		}
+
+		public IEnumerable<IMezzoListItem> MezziList
+		{
+			set
+			{
+				_mezziList.Clear();
+				foreach (IMezzoListItem m in value)
+				{
+					if (m is MezzoListItem) _mezziList.Add(m as MezzoListItem);
+				}
+			}
+		}
+
+		public IMezzoTabControl MezzoTabControl { get => mezzoTabControl; }
+		public bool HasMezzo
+		{
+			set
+			{
+				noSelectionLbl.Visible = !value;
+				mezzoTabControl.Visible = value;
+			}
+		}
+
+		public event GenericAction WindowClose;
 		private void CloseClient(object sender, FormClosedEventArgs e)
 		{
-			_client.Exit();
+			WindowClose();
 		}
+
+		public event MezzoListAction MezzoSelected;
+		private void MezzoClicked(object sender, DataGridViewCellEventArgs e)
+		{
+			MezzoSelected?.Invoke(e.RowIndex);
+		}
+
+		public event GenericAction CreateNewMezzo;
+		private void NewMezzo(object sender, EventArgs e)
+		{
+			CreateNewMezzo?.Invoke();
+		}
+
 	}
 }

@@ -6,29 +6,23 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    public interface IMezzo : IDBObject
-    {
-        string Modello { get; set; }
-        string Targa { get; set; }
-        uint Numero { get; set; }
-        string NumeroTelaio { get; set; }
-        uint AnnoImmatricolazione { get; set; }
-        float Portata { get; set; }
-        float Altezza { get; set; }
-        float Lunghezza { get; set; }
-        float Profondita { get; set; }
-        float VolumeCarico { get; set; }
-        ITessera[] Tessere { get; }
-        IDispositivo[] Dispositivi { get; }
-        IPermesso[] Permessi { get; }
-        bool IsValid { get; }
+	public interface IMezzo : IDBObject
+	{
+		string Modello { get; }
+		string Targa { get; }
+		uint Numero { get; }
+		string NumeroTelaio { get; }
+		uint AnnoImmatricolazione { get; }
+		float Portata { get; }
+		float Altezza { get; }
+		float Lunghezza { get; }
+		float Profondita { get; }
+		float VolumeCarico { get; }
+		ITessera[] Tessere { get; }
+		IDispositivo[] Dispositivi { get; }
+		IPermesso[] Permessi { get; }
 
-        bool AddTessera(ITessera tessera);
-        bool AddDispositivo(IDispositivo dispositivo);
-        bool AddPermesso(IPermesso permesso);
-        void RemoveTessera(ITesseraType tessera);
-        void RemoveDispositivo(IDispositivoType dispositivo);
-        void RemovePermesso(IPermessoType permesso);
+		IEnumerable<string> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondità, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 
-    }
+	}
 }
