@@ -11,22 +11,24 @@ using Flotta.ServerSide;
 
 namespace Flotta.ServerSide.Interface
 {
-	public partial class ServerWindow : Form
+	public partial class ServerWindow : Form, IServerWindow
 	{
 
-		private IServerInterface _server;
-
-		public ServerWindow(Server server)
+		private bool _canTerminate = false;
+		public bool CanTerminate
 		{
-			InitializeComponent();
-
-			_server = server;
-			_server.OnConnectionsChange += UpdateCounter;
+			set => _canTerminate = value;
 		}
 
+		internal ServerWindow()
+		{
+			InitializeComponent();
+		}
+
+		public event CreateClientHandler CreateClient;
 		private void NewClient(object sender, EventArgs e)
 		{
-			_server.SpawnClient();
+			CreateClient?.Invoke();
 		}
 
 		public void UpdateCounter(int activeConnections)
@@ -37,11 +39,16 @@ namespace Flotta.ServerSide.Interface
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
-			if (!_server.CanTerminate)
+			if (!_canTerminate)
 			{
 				e.Cancel = true;
 				MessageBox.Show("Impossibile uscire con client aperti!");
 			}
+		}
+
+		public void Run()
+		{
+			Application.Run(this);
 		}
 
 	}

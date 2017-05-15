@@ -49,6 +49,15 @@ namespace Flotta.ClientSide
 
 			_view.Modello = Mezzo.Modello;
 			_view.Targa = Mezzo.Targa;
+			_view.Numero = Mezzo.Numero;
+			_view.NumeroTelaio = Mezzo.NumeroTelaio;
+			_view.AnnoImmatricolazione = Mezzo.AnnoImmatricolazione;
+			_view.Portata = Mezzo.Portata;
+			_view.Altezza = Mezzo.Altezza;
+			_view.Lunghezza = Mezzo.Lunghezza;
+			_view.Profondita = Mezzo.Profondita;
+			_view.VolumeCarico = Mezzo.VolumeCarico;
+
 			_view.EditMode = _editMode;
 		}
 

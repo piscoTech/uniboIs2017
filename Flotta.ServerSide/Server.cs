@@ -4,17 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flotta.Model;
+using Flotta.ServerSide.Interface;
 
 namespace Flotta.ServerSide
 {
-	public class Server : IServerInterface
+	public class Server : IServer
 	{
 
+		private IServerWindow _window;
 		private HashSet<IMezzo> _mezzi = new HashSet<IMezzo>();
 
-		public delegate void CreateClient();
-		private CreateClient _createClient;
-		public CreateClient ClientCreator
+		internal Server(IServerWindow window)
+		{
+			_window = window;
+
+			_window.CreateClient += OnCreateClient;
+			_window.CanTerminate = true;
+		}
+
+		private CreateClientHandler _createClient;
+		public CreateClientHandler ClientCreator
 		{
 			set
 			{
@@ -24,27 +33,19 @@ namespace Flotta.ServerSide
 
 		private readonly object _syncLock = new object();
 		private int _activeConnections = 0;
-
-		public bool CanTerminate
+		private bool CanTerminate
 		{
-			get
-			{
-				lock (_syncLock)
-				{
-					return _activeConnections == 0;
-				}
-			}
+			get => _activeConnections == 0;
 		}
 
-		public event ConnectionsChanged OnConnectionsChange;
-		public event ObjectChanged OnObjectChange;
+		public event ObjectChangedHandler ObjectChange;
 
 		public void ClientConnected()
 		{
 			lock (_syncLock)
 			{
-				_activeConnections++;
-				OnConnectionsChange(_activeConnections);
+				_window.UpdateCounter(++_activeConnections);
+				_window.CanTerminate = CanTerminate;
 			}
 		}
 
@@ -52,12 +53,12 @@ namespace Flotta.ServerSide
 		{
 			lock (_syncLock)
 			{
-				_activeConnections--;
-				OnConnectionsChange(_activeConnections);
+				_window.UpdateCounter(--_activeConnections);
+				_window.CanTerminate = CanTerminate;
 			}
 		}
 
-		public void SpawnClient()
+		private void OnCreateClient()
 		{
 			_createClient();
 		}
@@ -91,7 +92,7 @@ namespace Flotta.ServerSide
 				{
 					if (!_mezzi.Contains(mezzo))
 						_mezzi.Add(mezzo);
-					OnObjectChange(mezzo);
+					ObjectChange(mezzo);
 				}
 
 				return errors;

@@ -27,7 +27,7 @@ namespace Flotta.ClientSide
 			_server = server;
 
 			_server.ClientConnected();
-			_server.OnObjectChange += ObjectChanged;
+			_server.ObjectChange += ObjectChanged;
 
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
 			_mainWindow.Show();

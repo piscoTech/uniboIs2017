@@ -41,7 +41,7 @@ namespace Flotta.ClientSide
 			ITessera[] t = new ITessera[0];
 			IDispositivo[] d = new IDispositivo[0];
 			IPermesso[] p = new IPermesso[0];
-			var errors = _server.UpdateMezzo(_mezzo, true, _window.TabGenerale.Modello, _window.TabGenerale.Targa, 10, "Prova", 2017, 0, 0, 0, 0, 0, t, d, p);
+			var errors = _server.UpdateMezzo(_mezzo, true, _window.TabGenerale.Modello, _window.TabGenerale.Targa, _window.TabGenerale.Numero, _window.TabGenerale.NumeroTelaio, _window.TabGenerale.AnnoImmatricolazione, _window.TabGenerale.Portata, _window.TabGenerale.Altezza, _window.TabGenerale.Lunghezza, _window.TabGenerale.Profondita, _window.TabGenerale.VolumeCarico, t, d, p);
 
 			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
 			else

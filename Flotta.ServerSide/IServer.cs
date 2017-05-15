@@ -8,13 +8,13 @@ using Flotta.Model;
 namespace Flotta.ServerSide
 {
 
-	public delegate void ObjectChanged(IDBObject obj);
+	public delegate void ObjectChangedHandler(IDBObject obj);
 
 	public interface IServer
 	{
 		void ClientDisconnected();
 		void ClientConnected();
-		event ObjectChanged OnObjectChange;
+		event ObjectChangedHandler ObjectChange;
 
 		IEnumerable<IMezzo> Mezzi { get; }
 

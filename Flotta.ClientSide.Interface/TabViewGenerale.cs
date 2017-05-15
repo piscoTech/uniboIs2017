@@ -48,6 +48,139 @@ namespace Flotta.ClientSide.Interface
 			set => targa.Text = value;
 		}
 
+		public uint Numero
+		{
+			get
+			{
+				try
+				{
+					return Convert.ToUInt32(numero.Text);
+				}
+				catch (Exception)
+				{
+					return 0;
+				}
+			}
+			set => numero.Text = Convert.ToString(value);
+		}
+
+		public string NumeroTelaio
+		{
+			get => numeroTelaio.Text;
+			set => numeroTelaio.Text = value;
+		}
+
+		public uint AnnoImmatricolazione
+		{
+			get
+			{
+				try
+				{
+					return Convert.ToUInt32(annoImmatricolazione.Text);
+				}
+				catch (Exception)
+				{
+					return 0;
+				}
+			}
+			set => annoImmatricolazione.Text = Convert.ToString(value);
+		}
+
+		public float Portata
+		{
+			get
+			{
+				if (portata.Text == "")
+					return 0;
+
+				try
+				{
+					return Convert.ToSingle(portata.Text);
+				}
+				catch (Exception)
+				{
+					return -1;
+				}
+			}
+			set => portata.Text = value > 0 ? Convert.ToString(value) : "";
+		}
+
+		public float Altezza
+		{
+			get
+			{
+				if (altezza.Text == "")
+					return 0;
+
+				try
+				{
+					return Convert.ToSingle(altezza.Text);
+				}
+				catch (Exception)
+				{
+					return -1;
+				}
+			}
+			set => altezza.Text = value > 0 ? Convert.ToString(value) : "";
+		}
+
+		public float Lunghezza
+		{
+			get
+			{
+				if (lunghezza.Text == "")
+					return 0;
+
+				try
+				{
+					return Convert.ToSingle(lunghezza.Text);
+				}
+				catch (Exception)
+				{
+					return -1;
+				}
+			}
+			set => lunghezza.Text = value > 0 ? Convert.ToString(value) : "";
+		}
+
+		public float Profondita
+		{
+			get
+			{
+				if (profondita.Text == "")
+					return 0;
+
+				try
+				{
+					return Convert.ToSingle(profondita.Text);
+				}
+				catch (Exception)
+				{
+					return -1;
+				}
+			}
+			set => profondita.Text = value > 0 ? Convert.ToString(value) : "";
+		}
+
+		public float VolumeCarico
+		{
+			get
+			{
+				if (volumeCarico.Text == "")
+					return 0;
+
+				try
+				{
+					return Convert.ToSingle(volumeCarico.Text);
+				}
+				catch (Exception)
+				{
+					return -1;
+				}
+			}
+			set => volumeCarico.Text = value > 0 ? Convert.ToString(value) : "";
+		}
+
 		public bool EditMode
 		{
 			set
@@ -56,7 +189,7 @@ namespace Flotta.ClientSide.Interface
 				cancelEditBtn.Visible = value;
 				saveEditBtn.Visible = value;
 
-				foreach(var control in controlContainer.Controls)
+				foreach (var control in controlContainer.Controls)
 				{
 					TextBox text = control as TextBox;
 					if (text != null)

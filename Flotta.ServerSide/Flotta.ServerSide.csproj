@@ -41,14 +41,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IServer.cs" />
-    <Compile Include="IServerInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="ServerSideFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flotta.Model\Flotta.Model.csproj">
       <Project>{be639df6-5db3-463b-ad3d-d8ac4f0bc79f}</Project>
       <Name>Flotta.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flotta.ServerSide.Interface\Flotta.ServerSide.Interface.csproj">
+      <Project>{6848b119-df0d-45da-8db5-5edf9dbece36}</Project>
+      <Name>Flotta.ServerSide.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
