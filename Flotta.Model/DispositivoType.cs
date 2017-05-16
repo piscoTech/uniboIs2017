@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    internal class DispositivoType : LinkedObject, IDispositivoType
+	public abstract class IDispositivoType : LinkedObject
+	{
+	}
+
+	internal class DispositivoType : IDispositivoType
     {
     }
 }

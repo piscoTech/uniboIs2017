@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class LinkedObjectManagerPresenter<T> where T : class, ILinkedObject
+	class LinkedObjectManagerPresenter<T> where T : LinkedObject
 	{
 
 		internal delegate IEnumerable<T> GetListHandler();

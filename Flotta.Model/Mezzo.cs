@@ -116,11 +116,11 @@ namespace Flotta.Model
 			}
 		}
 
-		private bool CheckType(IEnumerable<ILinkedObject> array)
+		private bool CheckType(IEnumerable<LinkedObject> array)
 		{
-			List<ILinkedObject> o = new List<ILinkedObject>();
+			List<LinkedObject> o = new List<LinkedObject>();
 
-			foreach (ILinkedObject l in array)
+			foreach (LinkedObject l in array)
 			{
 				if (!o.Contains(l))
 					o.Add(l);

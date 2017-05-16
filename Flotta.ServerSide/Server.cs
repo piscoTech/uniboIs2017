@@ -142,7 +142,7 @@ namespace Flotta.ServerSide
 			return false;
 		}
 
-		private IEnumerable<string> UpdateLinkedObject<T>(HashSet<T> list, T obj, string name) where T : class, ILinkedObject
+		private IEnumerable<string> UpdateLinkedObject<T>(HashSet<T> list, T obj, string name) where T : LinkedObject
 		{
 			if (obj == null) throw new ArgumentNullException();
 
@@ -195,7 +195,7 @@ namespace Flotta.ServerSide
 			return UpdateLinkedObject(_manutenzioneTypes, manutenzione, name);
 		}
 
-		private bool DeleteLinkedObject<T>(HashSet<T> list, T obj, bool disable) where T : class, ILinkedObject
+		private bool DeleteLinkedObject<T>(HashSet<T> list, T obj, bool disable) where T : LinkedObject
 		{
 			if (disable)
 			{

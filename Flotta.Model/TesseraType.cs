@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	internal class TesseraType : LinkedObject, ITesseraType
+	public abstract class ITesseraType : LinkedObject
+	{
+	}
+
+	internal class TesseraType : ITesseraType
 	{
 	}
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	internal class ManutenzioneType : LinkedObject, IManutenzioneType
+	public abstract class IManutenzioneType : LinkedObject
+	{
+	}
+
+	internal class ManutenzioneType : IManutenzioneType
 	{
 	}
 }
