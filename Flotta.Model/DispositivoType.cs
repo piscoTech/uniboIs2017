@@ -6,27 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    internal class DispositivoType : IDispositivoType
+    internal class DispositivoType : LinkedObject, IDispositivoType
     {
-        private string _name;
-
-        public DispositivoType(string name)
-        {
-            _name = name;
-        }
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-
-            set
-            {
-                _name = value;
-            }
-        }
-
     }
 }

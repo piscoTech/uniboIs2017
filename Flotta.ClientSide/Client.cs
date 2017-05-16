@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Flotta.Model;
 using Flotta.ServerSide;
 using Flotta.ClientSide.Interface;
+using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
@@ -19,6 +20,7 @@ namespace Flotta.ClientSide
 		private IClientWindow _mainWindow;
 
 		private MezzoTabPresenter _mezzoPresenter;
+		private object _typesPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -35,6 +37,15 @@ namespace Flotta.ClientSide
 			_mainWindow.WindowClose += Exit;
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
+
+			_mainWindow.OpenTesseraTypes += () => {
+				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
+		
+				_typesPresenter = new LinkedObjectManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType);
+
+				window.ShowDialog();
+			};
 
 			_mezzoPresenter = new MezzoTabPresenter(_server, this, _mainWindow.MezzoTabControl);
 

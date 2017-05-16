@@ -6,27 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	internal class PermessoType : IPermessoType
+	internal class PermessoType : LinkedObject, IPermessoType
 	{
-
-		private string _name;
-
-		public PermessoType(string name)
-		{
-			_name = name;
-		}
-
-		public string Name
-		{
-			get
-			{
-				return _name;
-			}
-
-			set
-			{
-				_name = value;
-			}
-		}
 	}
 }

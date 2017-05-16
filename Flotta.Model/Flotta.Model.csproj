@@ -45,6 +45,7 @@
     <Compile Include="IDBObject.cs" />
     <Compile Include="IDispositivo.cs" />
     <Compile Include="IDispositivoType.cs" />
+    <Compile Include="ILinkedObject.cs" />
     <Compile Include="IManutenzione.cs" />
     <Compile Include="IManutenzioneType.cs" />
     <Compile Include="IMezzo.cs" />

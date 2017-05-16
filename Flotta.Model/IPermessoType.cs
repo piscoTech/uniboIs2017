@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    public interface IPermessoType : LinkedObject
-    {
-    }
+	public interface IPermessoType : ILinkedObject
+	{
+	}
 }

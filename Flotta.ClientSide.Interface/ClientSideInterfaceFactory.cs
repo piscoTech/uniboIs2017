@@ -24,5 +24,20 @@ namespace Flotta.ClientSide.Interface
 			return new NewMezzoInterface();
 		}
 
+		public static ILinkedObjectManagerWindow NewLinkedObjectManagerWindow()
+		{
+			return new LinkedObjectManagerWindow();
+		}
+
+		public static ILinkedObjectListItem NewLinkedObjectListItem(string name, bool disabled)
+		{
+			return new LinkedObjectListItem(name, disabled);
+		}
+
+		public static IUpdateLinkedObjectDialog NewUpdateLinkedObjectDialog()
+		{
+			return new UpdateLinkedObjectDialog();
+		}
+
 	}
 }

@@ -87,7 +87,7 @@ namespace Flotta.ClientSide
 			if (!EditMode)
 				return;
 
-			var errors =_server.UpdateMezzo(_tabs.Mezzo, true, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tabs.Mezzo.Tessere, _tabs.Mezzo.Dispositivi, _tabs.Mezzo.Permessi);
+			var errors =_server.UpdateMezzo(_tabs.Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tabs.Mezzo.Tessere, _tabs.Mezzo.Dispositivi, _tabs.Mezzo.Permessi);
 
 			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
 			

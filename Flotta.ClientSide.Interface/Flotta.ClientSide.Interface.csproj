@@ -54,12 +54,25 @@
     <Compile Include="IMezzoTabControl.cs" />
     <Compile Include="INewMezzoInterface.cs" />
     <Compile Include="ITabViewGenerale.cs" />
+    <Compile Include="LinkedObjectListItem.cs" />
+    <Compile Include="LinkedObjectManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LinkedObjectManagerWindow.Designer.cs">
+      <DependentUpon>LinkedObjectManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MezzoListItem.cs" />
     <Compile Include="MezzoTabControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MezzoTabControl.Designer.cs">
       <DependentUpon>MezzoTabControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateLinkedObjectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateLinkedObjectDialog.Designer.cs">
+      <DependentUpon>UpdateLinkedObjectDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="NewMezzoInterface.cs">
       <SubType>Form</SubType>
@@ -79,8 +92,14 @@
     <EmbeddedResource Include="ClientWindow.resx">
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LinkedObjectManagerWindow.resx">
+      <DependentUpon>LinkedObjectManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MezzoTabControl.resx">
       <DependentUpon>MezzoTabControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateLinkedObjectDialog.resx">
+      <DependentUpon>UpdateLinkedObjectDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewMezzoInterface.resx">
       <DependentUpon>NewMezzoInterface.cs</DependentUpon>
