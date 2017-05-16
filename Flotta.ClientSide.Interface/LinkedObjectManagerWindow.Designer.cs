@@ -51,6 +51,7 @@
 			this.typeList.RowHeadersVisible = false;
 			this.typeList.Size = new System.Drawing.Size(403, 329);
 			this.typeList.TabIndex = 2;
+			this.typeList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnCellClick);
 			// 
 			// panel1
 			// 

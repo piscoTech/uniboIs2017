@@ -10,13 +10,17 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
+	public delegate void TypeListAction(int index);
+
 	public interface ILinkedObjectManagerWindow
 	{
-		DialogResult ShowDialog();
+		void Show();
 		event FormClosedEventHandler FormClosed;
 		IEnumerable<ILinkedObjectListItem> TypeList { set; }
 
 		event GenericAction CreateNewType;
+		event TypeListAction DeleteType;
+		event TypeListAction EditType;
 	}
 
 	partial class LinkedObjectManagerWindow : Form, ILinkedObjectManagerWindow
@@ -47,15 +51,38 @@ namespace Flotta.ClientSide.Interface
 			typeList.Columns.Add(colTypeName);
 
 			cell = new DataGridViewCheckBoxCell();
-			DataGridViewCheckBoxColumn colTypeDisabled = new DataGridViewCheckBoxColumn() {
+			DataGridViewCheckBoxColumn colTypeDisabled = new DataGridViewCheckBoxColumn()
+			{
 				CellTemplate = cell,
 				Name = "Disabilitato",
 				HeaderText = "Disabilitato",
-				DataPropertyName = "IsDisabled"
+				DataPropertyName = "IsDisabled",
+				AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+				Width = 75
 			};
-			colTypeDisabled.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-			colTypeDisabled.Width = 75;
 			typeList.Columns.Add(colTypeDisabled);
+
+			DataGridViewButtonColumn colTypeEdit = new DataGridViewButtonColumn()
+			{
+				HeaderText = "",
+				Name = "Modifica",
+				Text = "Modifica",
+				UseColumnTextForButtonValue = true,
+				AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+				Width = 60
+			};
+			typeList.Columns.Add(colTypeEdit);
+
+			DataGridViewButtonColumn colTypeDelete = new DataGridViewButtonColumn()
+			{
+				HeaderText = "",
+				Name = "Elimina",
+				Text = "Elimina",
+				UseColumnTextForButtonValue = true,
+				AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+				Width = 60
+			};
+			typeList.Columns.Add(colTypeDelete);
 
 			typeList.DataSource = _typeList;
 		}
@@ -77,6 +104,20 @@ namespace Flotta.ClientSide.Interface
 		{
 			Console.WriteLine(CreateNewType);
 			CreateNewType?.Invoke();
+		}
+
+		public event TypeListAction DeleteType;
+		public event TypeListAction EditType;
+		private void OnCellClick(object sender, DataGridViewCellEventArgs e)
+		{
+			// Exclude click on header
+			if (e.RowIndex < 0)
+				return;
+
+			if (e.ColumnIndex == 2)
+				EditType?.Invoke(e.RowIndex);
+			if (e.ColumnIndex == 3)
+				DeleteType?.Invoke(e.RowIndex);
 		}
 	}
 }

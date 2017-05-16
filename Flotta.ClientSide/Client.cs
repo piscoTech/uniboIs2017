@@ -44,7 +44,7 @@ namespace Flotta.ClientSide
 		
 				_typesPresenter = new LinkedObjectManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType);
 
-				window.ShowDialog();
+				window.Show();
 			};
 
 			_mezzoPresenter = new MezzoTabPresenter(_server, this, _mainWindow.MezzoTabControl);
@@ -86,9 +86,6 @@ namespace Flotta.ClientSide
 
 		private void OnMezzoSelected(int index)
 		{
-			if (index < 0 || index >= _mezziList.Count())
-				return;
-
 			_mainWindow.HasMezzo = true;
 			_mezzoPresenter.Mezzo = _mezziList[index];
 		}

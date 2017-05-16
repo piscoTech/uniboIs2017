@@ -36,6 +36,8 @@ namespace Flotta.ClientSide
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;
 			_window.CreateNewType += OnCreateNewType;
+			_window.EditType += OnEditType;
+			_window.DeleteType += OnDeleteType;
 
 			_getList = getList;
 			_updateType = updateType;
@@ -82,6 +84,29 @@ namespace Flotta.ClientSide
 			_updateDialog.SaveType += OnSaveType;
 
 			_updateDialog.ShowDialog();
+		}
+
+		private void OnEditType(int index)
+		{
+			if (_activeType != null)
+				return;
+
+			_activeType = _typeList[index];
+			_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedObjectDialog();
+			_updateDialog.FormClosed += (object sender, FormClosedEventArgs e) => _activeType = null;
+			_updateDialog.SaveType += OnSaveType;
+			_updateDialog.TypeName = _activeType.Name;
+
+			_updateDialog.ShowDialog();
+		}
+
+		private void OnDeleteType(int index)
+		{
+			if(MessageBox.Show("Sei sicuro di voler eliminare " + _typeList[index].Name + "?", "Elimina", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				if (!_deleteType(_typeList[index]))
+					MessageBox.Show("Errore durante l'eliminazione");
+			}
 		}
 
 		private void OnSaveType(string name)

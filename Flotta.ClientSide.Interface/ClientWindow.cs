@@ -77,6 +77,10 @@ namespace Flotta.ClientSide.Interface
 		public event MezzoListAction MezzoSelected;
 		private void MezzoClicked(object sender, DataGridViewCellEventArgs e)
 		{
+			// Exclude click on header
+			if (e.RowIndex < 0)
+				return;
+
 			MezzoSelected?.Invoke(e.RowIndex);
 		}
 
