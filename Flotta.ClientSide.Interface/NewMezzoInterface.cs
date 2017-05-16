@@ -29,7 +29,7 @@ namespace Flotta.ClientSide.Interface
 			set => _confirmClose = value;
 		}
 
-		public ITabViewGenerale TabGenerale
+		public ITabGeneraleView TabGenerale
 		{
 			get => tabViewGenerale;
 		}

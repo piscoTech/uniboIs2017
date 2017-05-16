@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
+	public interface IPermesso : IDBObject
+	{
+		IPermessoType Type { get; }
+	}
+
 	internal class Permesso : IPermesso
 	{
 

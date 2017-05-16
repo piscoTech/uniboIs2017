@@ -13,6 +13,6 @@ namespace Flotta.ClientSide.Interface
 
 		int CurrentTab { get; set; }
 
-		ITabViewGenerale GeneraleTab { get; }
+		ITabGeneraleView GeneraleTab { get; }
 	}
 }

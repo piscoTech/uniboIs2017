@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tabViewGenerale = new TabViewGenerale();
+			this.tabViewGenerale = new TabGeneraleView();
 			this.SuspendLayout();
 			// 
 			// tabViewGenerale
@@ -56,6 +56,6 @@
 
 		#endregion
 
-		private TabViewGenerale tabViewGenerale;
+		private TabGeneraleView tabViewGenerale;
 	}
 }

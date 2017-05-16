@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    internal class Dispositivo : IDispositivo
+	public interface IDispositivo : IDBObject
+	{
+		IDispositivoType Type { get; }
+	}
+
+	internal class Dispositivo : IDispositivo
     {
         private DispositivoType _type;
 

@@ -12,7 +12,7 @@ namespace Flotta.ClientSide.Interface
 		DialogResult ShowDialog();
 		void Close();
 
-		ITabViewGenerale TabGenerale { get; }
+		ITabGeneraleView TabGenerale { get; }
 
 		bool ConfirmBeforeClosing { set; }
 		event FormClosedEventHandler FormClosed;

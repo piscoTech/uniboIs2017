@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	internal partial class TabViewGenerale : UserControl, ITabViewGenerale
+	internal partial class TabGeneraleView : UserControl, ITabGeneraleView
 	{
 
-		internal TabViewGenerale()
+		internal TabGeneraleView()
 		{
 			InitializeComponent();
 		}

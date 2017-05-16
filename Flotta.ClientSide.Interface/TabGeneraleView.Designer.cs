@@ -1,6 +1,6 @@
 ﻿namespace Flotta.ClientSide.Interface
 {
-	partial class TabViewGenerale
+	partial class TabGeneraleView
 	{
 		/// <summary> 
 		/// Required designer variable.

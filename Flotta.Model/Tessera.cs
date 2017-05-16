@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    internal class Tessera : ITessera
+	public interface ITessera : IDBObject
+	{
+		ITesseraType Type { get; }
+
+		String Codice { get; set; }
+
+		String Pin { get; set; }
+	}
+
+	internal class Tessera : ITessera
     {
         private TesseraType _type;
         private string _codice;

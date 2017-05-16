@@ -32,7 +32,7 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public ITabViewGenerale GeneraleTab
+		public ITabGeneraleView GeneraleTab
 		{
 			get => tabViewGenerale;
 		}

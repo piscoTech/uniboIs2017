@@ -15,7 +15,7 @@ namespace Flotta.ClientSide
 
 		private IServer _server;
 		private MezzoTabPresenter _tabs;
-		private ITabViewGenerale _view;
+		private ITabGeneraleView _view;
 
 		private IMezzo Mezzo
 		{
@@ -33,7 +33,7 @@ namespace Flotta.ClientSide
 			}
 		}
 
-		internal TabGeneralePresenter(IServer server, MezzoTabPresenter tabs, ITabViewGenerale view)
+		internal TabGeneralePresenter(IServer server, MezzoTabPresenter tabs, ITabGeneraleView view)
 		{
 			_server = server;
 			_tabs = tabs;

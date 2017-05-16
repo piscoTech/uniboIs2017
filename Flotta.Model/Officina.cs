@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    internal class Officina : IOfficina
+	public interface IOfficina : IDBObject
+	{
+		string Nome { get; set; }
+		string Telefono { get; set; }
+		string Via { get; set; }
+		string Cap { get; set; }
+		string Citta { get; set; }
+		string Provincia { get; set; }
+		string Nazione { get; set; }
+	}
+
+	internal class Officina : IOfficina
     {
         private string _nome;
         private string _telefono;

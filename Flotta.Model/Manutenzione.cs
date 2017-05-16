@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    internal class Manutenzione : IManutenzione
+	public interface IManutenzione : IDBObject
+	{
+		DateTime Data { get; set; }
+		IManutenzioneType Type { get; set; }
+		string Note { get; set; }
+		float Costo { get; set; }
+	}
+
+	internal class Manutenzione : IManutenzione
     {
         private DateTime _data;
         private string _note;

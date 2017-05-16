@@ -30,7 +30,7 @@
 		{
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabViewGenerale = new Flotta.ClientSide.Interface.TabViewGenerale();
+			this.tabViewGenerale = new Flotta.ClientSide.Interface.TabGeneraleView();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -192,6 +192,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.Label label5;
-		private TabViewGenerale tabViewGenerale;
+		private TabGeneraleView tabViewGenerale;
 	}
 }
