@@ -10,12 +10,24 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public partial class NewMezzoInterface : Form, INewMezzoInterface
+	public interface INewMezzoView
+	{
+		DialogResult ShowDialog();
+		void Close();
+
+		ITabGeneraleView TabGenerale { get; }
+
+		bool ConfirmBeforeClosing { set; }
+		event FormClosedEventHandler FormClosed;
+		event GenericAction SaveMezzo;
+	}
+
+	public partial class NewMezzoView : Form, INewMezzoView
 	{
 
 		private bool _confirmClose = true;
 
-		public NewMezzoInterface()
+		public NewMezzoView()
 		{
 			InitializeComponent();
 

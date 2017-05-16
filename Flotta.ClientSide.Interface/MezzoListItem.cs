@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flotta.ClientSide.Interface
 {
+	public interface IMezzoListItem
+	{
+		string Description { get; }
+	}
+
 	class MezzoListItem : IMezzoListItem
 	{
 		private uint _numero;

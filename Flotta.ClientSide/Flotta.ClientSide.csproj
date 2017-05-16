@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="ClientSideFactory.cs" />
-    <Compile Include="IClient.cs" />
     <Compile Include="ITabPresenter.cs" />
     <Compile Include="MezzoTabPresenter.cs" />
     <Compile Include="NewMezzoPresenter.cs" />

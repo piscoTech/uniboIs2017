@@ -1,6 +1,6 @@
 ﻿namespace Flotta.ClientSide.Interface
 {
-	partial class NewMezzoInterface
+	partial class NewMezzoView
 	{
 		/// <summary>
 		/// Required designer variable.

@@ -10,6 +10,27 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
+	public interface ITabGeneraleView
+	{
+		event GenericAction DeleteMezzo;
+		event GenericAction EnterEdit;
+		event GenericAction CancelEdit;
+		event GenericAction SaveEdit;
+
+		string Modello { get; set; }
+		string Targa { get; set; }
+		uint Numero { get; set; }
+		string NumeroTelaio { get; set; }
+		uint AnnoImmatricolazione { get; set; }
+		float Portata { get; set; }
+		float Altezza { get; set; }
+		float Lunghezza { get; set; }
+		float Profondita { get; set; }
+		float VolumeCarico { get; set; }
+
+		bool EditMode { set; }
+	}
+
 	internal partial class TabGeneraleView : UserControl, ITabGeneraleView
 	{
 

@@ -19,9 +19,9 @@ namespace Flotta.ClientSide.Interface
 			return new MezzoListItem(numero, modello, targa);
 		}
 
-		public static INewMezzoInterface NewNewMezzoInterface()
+		public static INewMezzoView NewNewMezzoInterface()
 		{
-			return new NewMezzoInterface();
+			return new NewMezzoView();
 		}
 
 	}

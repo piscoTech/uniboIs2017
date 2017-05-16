@@ -58,7 +58,7 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public IMezzoTabControl MezzoTabControl { get => mezzoTabControl; }
+		public IMezzoTabView MezzoTabControl { get => mezzoTabControl; }
 		public bool HasMezzo
 		{
 			set

@@ -30,7 +30,7 @@
 		{
 			this.mezziList = new System.Windows.Forms.DataGridView();
 			this.noSelectionLbl = new System.Windows.Forms.Label();
-			this.mezzoTabControl = new MezzoTabControl();
+			this.mezzoTabControl = new MezzoTabView();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.flottaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.nuovoMezzoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,7 +127,7 @@
 
         private System.Windows.Forms.DataGridView mezziList;
 		private System.Windows.Forms.Label noSelectionLbl;
-		private MezzoTabControl mezzoTabControl;
+		private MezzoTabView mezzoTabControl;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem flottaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem nuovoMezzoToolStripMenuItem;

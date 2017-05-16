@@ -16,10 +16,10 @@ namespace Flotta.ClientSide
 		private Client _client;
 		private IMezzo _mezzo;
 
-		private IMezzoTabControl _tabControl;
+		private IMezzoTabView _tabControl;
 		private ITabPresenter[] _tabPresenters = new ITabPresenter[5];
 
-		internal MezzoTabPresenter(IServer server, Client client, IMezzoTabControl tabControl)
+		internal MezzoTabPresenter(IServer server, Client client, IMezzoTabView tabControl)
 		{
 			_server = server;
 			_client = client;

@@ -11,7 +11,7 @@ namespace Flotta.ClientSide.Interface
 	{
 		void Show();
 		IEnumerable<IMezzoListItem> MezziList { set; }
-		IMezzoTabControl MezzoTabControl { get; }
+		IMezzoTabView MezzoTabControl { get; }
 		bool HasMezzo { set; }
 
 		event GenericAction WindowClose;

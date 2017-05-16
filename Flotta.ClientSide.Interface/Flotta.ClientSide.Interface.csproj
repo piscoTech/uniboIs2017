@@ -50,22 +50,18 @@
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="IClientWindow.cs" />
-    <Compile Include="IMezzoListItem.cs" />
-    <Compile Include="IMezzoTabControl.cs" />
-    <Compile Include="INewMezzoInterface.cs" />
-    <Compile Include="ITabGeneraleView.cs" />
     <Compile Include="MezzoListItem.cs" />
-    <Compile Include="MezzoTabControl.cs">
+    <Compile Include="MezzoTabView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MezzoTabControl.Designer.cs">
-      <DependentUpon>MezzoTabControl.cs</DependentUpon>
+    <Compile Include="MezzoTabView.Designer.cs">
+      <DependentUpon>MezzoTabView.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewMezzoInterface.cs">
+    <Compile Include="NewMezzoView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewMezzoInterface.Designer.cs">
-      <DependentUpon>NewMezzoInterface.cs</DependentUpon>
+    <Compile Include="NewMezzoView.Designer.cs">
+      <DependentUpon>NewMezzoView.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabGeneraleView.cs">
@@ -79,11 +75,11 @@
     <EmbeddedResource Include="ClientWindow.resx">
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MezzoTabControl.resx">
-      <DependentUpon>MezzoTabControl.cs</DependentUpon>
+    <EmbeddedResource Include="MezzoTabView.resx">
+      <DependentUpon>MezzoTabView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewMezzoInterface.resx">
-      <DependentUpon>NewMezzoInterface.cs</DependentUpon>
+    <EmbeddedResource Include="NewMezzoView.resx">
+      <DependentUpon>NewMezzoView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabGeneraleView.resx">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>

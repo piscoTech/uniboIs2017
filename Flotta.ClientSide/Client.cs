@@ -9,6 +9,11 @@ using Flotta.ClientSide.Interface;
 
 namespace Flotta.ClientSide
 {
+	public interface IClient
+	{
+		event ClientAction ExitClient;
+	}
+
 	public delegate void ClientAction(IClient client);
 	public delegate void StatusReportAction(bool status);
 
@@ -86,7 +91,7 @@ namespace Flotta.ClientSide
 
 		private void OnCreateNewMezzo()
 		{
-			INewMezzoInterface newMezzoWindow = ClientSideInterfaceFactory.NewNewMezzoInterface();
+			INewMezzoView newMezzoWindow = ClientSideInterfaceFactory.NewNewMezzoInterface();
 			_newMezzo = new NewMezzoPresenter(_server, newMezzoWindow);
 			_newMezzo.CreationCompleted += OnNewMezzoCreated;
 
