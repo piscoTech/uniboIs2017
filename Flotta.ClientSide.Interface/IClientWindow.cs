@@ -17,5 +17,7 @@ namespace Flotta.ClientSide.Interface
 		event GenericAction WindowClose;
 		event MezzoListAction MezzoSelected;
 		event GenericAction CreateNewMezzo;
+
+		event GenericAction OpenTesseraTypes;
 	}
 }

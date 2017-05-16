@@ -34,6 +34,11 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.flottaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.nuovoMezzoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tipiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tessereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dispositiviToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.permessiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.manutenzioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.mezziList)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -88,7 +93,8 @@
 			// flottaToolStripMenuItem
 			// 
 			this.flottaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuovoMezzoToolStripMenuItem});
+            this.nuovoMezzoToolStripMenuItem,
+            this.tipiToolStripMenuItem});
 			this.flottaToolStripMenuItem.Name = "flottaToolStripMenuItem";
 			this.flottaToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
 			this.flottaToolStripMenuItem.Text = "Flotta";
@@ -100,6 +106,45 @@
 			this.nuovoMezzoToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.nuovoMezzoToolStripMenuItem.Text = "Nuovo mezzo";
 			this.nuovoMezzoToolStripMenuItem.Click += new System.EventHandler(this.NewMezzo);
+			// 
+			// tipiToolStripMenuItem
+			// 
+			this.tipiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tessereToolStripMenuItem,
+            this.dispositiviToolStripMenuItem,
+            this.permessiToolStripMenuItem,
+            this.manutenzioniToolStripMenuItem});
+			this.tipiToolStripMenuItem.Name = "tipiToolStripMenuItem";
+			this.tipiToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.tipiToolStripMenuItem.Text = "Tipi";
+			// 
+			// tessereToolStripMenuItem
+			// 
+			this.tessereToolStripMenuItem.Name = "tessereToolStripMenuItem";
+			this.tessereToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tessereToolStripMenuItem.Text = "Tessere";
+			this.tessereToolStripMenuItem.Click += new System.EventHandler(this.OnOpenTesseraTypes);
+			// 
+			// dispositiviToolStripMenuItem
+			// 
+			this.dispositiviToolStripMenuItem.Name = "dispositiviToolStripMenuItem";
+			this.dispositiviToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.dispositiviToolStripMenuItem.Text = "Dispositivi";
+			this.dispositiviToolStripMenuItem.Click += new System.EventHandler(this.OnOpenDispositivoTypes);
+			// 
+			// permessiToolStripMenuItem
+			// 
+			this.permessiToolStripMenuItem.Name = "permessiToolStripMenuItem";
+			this.permessiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.permessiToolStripMenuItem.Text = "Permessi";
+			this.permessiToolStripMenuItem.Click += new System.EventHandler(this.OnOpenPermessoTypes);
+			// 
+			// manutenzioniToolStripMenuItem
+			// 
+			this.manutenzioniToolStripMenuItem.Name = "manutenzioniToolStripMenuItem";
+			this.manutenzioniToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.manutenzioniToolStripMenuItem.Text = "Manutenzioni";
+			this.manutenzioniToolStripMenuItem.Click += new System.EventHandler(this.OnOpenManutenzioneTypes);
 			// 
 			// ClientWindow
 			// 
@@ -131,5 +176,10 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem flottaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem nuovoMezzoToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tipiToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tessereToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem dispositiviToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem permessiToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem manutenzioniToolStripMenuItem;
 	}
 }

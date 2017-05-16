@@ -43,10 +43,6 @@
     <Compile Include="Dispositivo.cs" />
     <Compile Include="DispositivoType.cs" />
     <Compile Include="IDBObject.cs" />
-    <Compile Include="IDispositivoType.cs" />
-    <Compile Include="IManutenzioneType.cs" />
-    <Compile Include="IPermessoType.cs" />
-    <Compile Include="ITesseraType.cs" />
     <Compile Include="LinkedObject.cs" />
     <Compile Include="Manutenzione.cs" />
     <Compile Include="ManutenzioneType.cs" />

@@ -18,7 +18,7 @@ namespace Flotta.ClientSide.Interface
 	internal partial class ClientWindow : Form, IClientWindow
 	{
 
-		private BindingList<MezzoListItem> _mezziList = new BindingList<MezzoListItem>();
+		private BindingList<IMezzoListItem> _mezziList = new BindingList<IMezzoListItem>();
 
 		internal ClientWindow()
 		{
@@ -53,7 +53,7 @@ namespace Flotta.ClientSide.Interface
 				_mezziList.Clear();
 				foreach (IMezzoListItem m in value)
 				{
-					if (m is MezzoListItem) _mezziList.Add(m as MezzoListItem);
+					_mezziList.Add(m);
 				}
 			}
 		}
@@ -77,6 +77,10 @@ namespace Flotta.ClientSide.Interface
 		public event MezzoListAction MezzoSelected;
 		private void MezzoClicked(object sender, DataGridViewCellEventArgs e)
 		{
+			// Exclude click on header
+			if (e.RowIndex < 0)
+				return;
+
 			MezzoSelected?.Invoke(e.RowIndex);
 		}
 
@@ -86,5 +90,25 @@ namespace Flotta.ClientSide.Interface
 			CreateNewMezzo?.Invoke();
 		}
 
+		public event GenericAction OpenTesseraTypes;
+		private void OnOpenTesseraTypes(object sender, EventArgs e)
+		{
+			OpenTesseraTypes?.Invoke();
+		}
+
+		private void OnOpenDispositivoTypes(object sender, EventArgs e)
+		{
+
+		}
+
+		private void OnOpenPermessoTypes(object sender, EventArgs e)
+		{
+
+		}
+
+		private void OnOpenManutenzioneTypes(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

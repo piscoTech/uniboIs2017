@@ -12,5 +12,10 @@ namespace Flotta.Model
 		{
 			return new Mezzo();
 		}
+
+		public static ITesseraType NewTesseraType()
+		{
+			return new TesseraType();
+		}
 	}
 }
