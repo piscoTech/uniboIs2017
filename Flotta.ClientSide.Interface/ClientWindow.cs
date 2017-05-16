@@ -11,9 +11,22 @@ using Flotta.ClientSide;
 
 namespace Flotta.ClientSide.Interface
 {
-
 	public delegate void GenericAction();
 	public delegate void MezzoListAction(int index);
+
+	public interface IClientWindow
+	{
+		void Show();
+		IEnumerable<IMezzoListItem> MezziList { set; }
+		IMezzoTabView MezzoTabControl { get; }
+		bool HasMezzo { set; }
+
+		event GenericAction WindowClose;
+		event MezzoListAction MezzoSelected;
+		event GenericAction CreateNewMezzo;
+
+		event GenericAction OpenTesseraTypes;
+	}
 
 	internal partial class ClientWindow : Form, IClientWindow
 	{

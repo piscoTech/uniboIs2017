@@ -8,7 +8,6 @@ using Flotta.ServerSide.Interface;
 
 namespace Flotta.ServerSide
 {
-
 	public delegate void ObjectChangedHandler(IDBObject obj);
 
 	public interface IServer

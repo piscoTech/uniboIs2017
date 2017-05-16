@@ -49,7 +49,6 @@
     <Compile Include="ClientWindow.Designer.cs">
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="IClientWindow.cs" />
     <Compile Include="LinkedObjectListItem.cs" />
     <Compile Include="LinkedObjectManagerWindow.cs">
       <SubType>Form</SubType>

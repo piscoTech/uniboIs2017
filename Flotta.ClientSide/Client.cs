@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
+	public delegate void ClientAction(IClient client);
+	public delegate void StatusReportAction(bool status);
+
 	public interface IClient
 	{
 		event ClientAction ExitClient;
 	}
-
-	public delegate void ClientAction(IClient client);
-	public delegate void StatusReportAction(bool status);
 
 	class Client : IClient
 	{

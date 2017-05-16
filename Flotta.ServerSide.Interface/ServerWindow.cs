@@ -11,6 +11,17 @@ using Flotta.ServerSide;
 
 namespace Flotta.ServerSide.Interface
 {
+	public delegate void CreateClientHandler();
+
+	public interface IServerWindow
+	{
+		bool CanTerminate { set; }
+		event CreateClientHandler CreateClient;
+		void UpdateCounter(int activeConnections);
+
+		void Run();
+	}
+
 	public partial class ServerWindow : Form, IServerWindow
 	{
 

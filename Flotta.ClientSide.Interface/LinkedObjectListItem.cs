@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Flotta.ClientSide.Interface
 {
-
 	public interface ILinkedObjectListItem
 	{
 		string Description { get; }
