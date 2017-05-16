@@ -30,7 +30,7 @@
 		{
 			this.mezziList = new System.Windows.Forms.DataGridView();
 			this.noSelectionLbl = new System.Windows.Forms.Label();
-			this.mezzoTabControl = new MezzoTabView();
+			this.mezzoTabView = new MezzoTabView();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.flottaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.nuovoMezzoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,6 +39,7 @@
 			this.dispositiviToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.permessiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.manutenzioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.assicurazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.mezziList)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -71,14 +72,14 @@
 			this.noSelectionLbl.Text = "Seleziona un mezzo";
 			this.noSelectionLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// mezzoTabControl
+			// mezzoTabView
 			// 
-			this.mezzoTabControl.CurrentTab = 0;
-			this.mezzoTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mezzoTabControl.Location = new System.Drawing.Point(240, 24);
-			this.mezzoTabControl.Name = "mezzoTabControl";
-			this.mezzoTabControl.Size = new System.Drawing.Size(344, 437);
-			this.mezzoTabControl.TabIndex = 4;
+			this.mezzoTabView.CurrentTab = 0;
+			this.mezzoTabView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mezzoTabView.Location = new System.Drawing.Point(240, 24);
+			this.mezzoTabView.Name = "mezzoTabView";
+			this.mezzoTabView.Size = new System.Drawing.Size(344, 437);
+			this.mezzoTabView.TabIndex = 4;
 			// 
 			// menuStrip1
 			// 
@@ -113,7 +114,8 @@
             this.tessereToolStripMenuItem,
             this.dispositiviToolStripMenuItem,
             this.permessiToolStripMenuItem,
-            this.manutenzioniToolStripMenuItem});
+            this.manutenzioniToolStripMenuItem,
+            this.assicurazioniToolStripMenuItem});
 			this.tipiToolStripMenuItem.Name = "tipiToolStripMenuItem";
 			this.tipiToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.tipiToolStripMenuItem.Text = "Tipi";
@@ -146,12 +148,19 @@
 			this.manutenzioniToolStripMenuItem.Text = "Manutenzioni";
 			this.manutenzioniToolStripMenuItem.Click += new System.EventHandler(this.OnOpenManutenzioneTypes);
 			// 
+			// assicurazioniToolStripMenuItem
+			// 
+			this.assicurazioniToolStripMenuItem.Name = "assicurazioniToolStripMenuItem";
+			this.assicurazioniToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.assicurazioniToolStripMenuItem.Text = "Assicurazioni";
+			this.assicurazioniToolStripMenuItem.Click += new System.EventHandler(this.OnOpenAssicurazioneTypes);
+			// 
 			// ClientWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(584, 461);
-			this.Controls.Add(this.mezzoTabControl);
+			this.Controls.Add(this.mezzoTabView);
 			this.Controls.Add(this.noSelectionLbl);
 			this.Controls.Add(this.mezziList);
 			this.Controls.Add(this.menuStrip1);
@@ -172,7 +181,7 @@
 
         private System.Windows.Forms.DataGridView mezziList;
 		private System.Windows.Forms.Label noSelectionLbl;
-		private MezzoTabView mezzoTabControl;
+		private MezzoTabView mezzoTabView;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem flottaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem nuovoMezzoToolStripMenuItem;
@@ -181,5 +190,6 @@
 		private System.Windows.Forms.ToolStripMenuItem dispositiviToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem permessiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem manutenzioniToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem assicurazioniToolStripMenuItem;
 	}
 }

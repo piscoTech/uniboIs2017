@@ -44,7 +44,7 @@ namespace Flotta.ClientSide.Interface
 
 		public ITabGeneraleView GeneraleTab
 		{
-			get => tabViewGenerale;
+			get => tabGeneraleView;
 		}
 
 		public event GenericAction ExitEdit;

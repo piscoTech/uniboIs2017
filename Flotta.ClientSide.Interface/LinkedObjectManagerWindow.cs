@@ -15,8 +15,10 @@ namespace Flotta.ClientSide.Interface
 	public interface ILinkedObjectManagerWindow
 	{
 		void Show();
+		void Close();
 		event FormClosedEventHandler FormClosed;
 		IEnumerable<ILinkedObjectListItem> TypeList { set; }
+		string TypeName { set; }
 
 		event GenericAction CreateNewType;
 		event TypeListAction DeleteType;
@@ -118,6 +120,11 @@ namespace Flotta.ClientSide.Interface
 				EditType?.Invoke(e.RowIndex);
 			if (e.ColumnIndex == 3)
 				DeleteType?.Invoke(e.RowIndex);
+		}
+
+		public string TypeName
+		{
+			set => this.Text = value + " – Flotta";
 		}
 	}
 }

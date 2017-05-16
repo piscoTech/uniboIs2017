@@ -30,7 +30,6 @@
 		{
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabViewGenerale = new Flotta.ClientSide.Interface.TabGeneraleView();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -45,6 +44,7 @@
 			this.tabPage3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			this.tabPage5.SuspendLayout();
+			this.tabGeneraleView = new TabGeneraleView();
 			this.SuspendLayout();
 			// 
 			// tabControl
@@ -64,7 +64,7 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.tabViewGenerale);
+			this.tabPage1.Controls.Add(this.tabGeneraleView);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -73,14 +73,23 @@
 			this.tabPage1.Text = "Generale";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// tabViewGenerale
+			// tabGeneraleView
 			// 
-			this.tabViewGenerale.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabViewGenerale.Location = new System.Drawing.Point(3, 3);
-			this.tabViewGenerale.Name = "tabViewGenerale";
-			this.tabViewGenerale.Size = new System.Drawing.Size(350, 387);
-			this.tabViewGenerale.TabIndex = 0;
-			this.tabViewGenerale.Modello = null;
+			this.tabGeneraleView.Altezza = 0F;
+			this.tabGeneraleView.AnnoImmatricolazione = ((uint)(0u));
+			this.tabGeneraleView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabGeneraleView.Location = new System.Drawing.Point(3, 3);
+			this.tabGeneraleView.Lunghezza = 0F;
+			this.tabGeneraleView.Modello = "";
+			this.tabGeneraleView.Name = "tabGeneraleView";
+			this.tabGeneraleView.Numero = ((uint)(0u));
+			this.tabGeneraleView.NumeroTelaio = "";
+			this.tabGeneraleView.Portata = 0F;
+			this.tabGeneraleView.Profondita = 0F;
+			this.tabGeneraleView.Size = new System.Drawing.Size(350, 387);
+			this.tabGeneraleView.TabIndex = 0;
+			this.tabGeneraleView.Targa = "";
+			this.tabGeneraleView.VolumeCarico = 0F;
 			// 
 			// tabPage2
 			// 
@@ -163,12 +172,12 @@
 			this.label5.Text = "Non implementato";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// MezzoTabControl
+			// MezzoTabView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tabControl);
-			this.Name = "MezzoTabControl";
+			this.Name = "MezzoTabView";
 			this.Size = new System.Drawing.Size(364, 419);
 			this.tabControl.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
@@ -192,6 +201,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.Label label5;
-		private TabGeneraleView tabViewGenerale;
+		private TabGeneraleView tabGeneraleView;
 	}
 }
