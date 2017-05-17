@@ -19,20 +19,24 @@ namespace Flotta.ServerSide
 
 		IEnumerable<IMezzo> Mezzi { get; }
 		IEnumerable<ITesseraType> TesseraTypes { get; }
+		IEnumerable<IDispositivoType> DispositivoTypes { get; }
+		IEnumerable<IPermessoType> PermessoTypes { get; }
+		IEnumerable<IManutenzioneType> ManutenzioneTypes { get; }
+		IEnumerable<IAssicurazioneType> AssicurazioneTypes { get; }
 
-		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondità, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
+		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
 
 		IEnumerable<string> UpdateTesseraType(ITesseraType tessera, string name);
 		IEnumerable<string> UpdateDispositivoType(IDispositivoType dispositivo, string name);
 		IEnumerable<string> UpdatePermessoType(IPermessoType permesso, string name);
 		IEnumerable<string> UpdateManutenzioneType(IManutenzioneType manutenzione, string name);
-		// UpdateAssicurazioneType
+		IEnumerable<string> UpdateAssicurazioneType(IAssicurazioneType assicurazione, string name);
 		bool DeleteTesseraType(ITesseraType tessera);
 		bool DeleteDispositivoType(IDispositivoType dispositivo);
 		bool DeletePermessoType(IPermessoType permesso);
 		bool DeleteManutenzioneType(IManutenzioneType manutenzione);
-		// DeleteAssicurazioneType
+		bool DeleteAssicurazioneType(IAssicurazioneType manutenzione);
 	}
 
 	public class Server : IServer
@@ -45,7 +49,7 @@ namespace Flotta.ServerSide
 		private HashSet<IDispositivoType> _dispositivoTypes = new HashSet<IDispositivoType>();
 		private HashSet<IPermessoType> _permessoTypes = new HashSet<IPermessoType>();
 		private HashSet<IManutenzioneType> _manutenzioneTypes = new HashSet<IManutenzioneType>();
-		// _assicurazioneType
+		private HashSet<IAssicurazioneType> _assicurazioneTypes = new HashSet<IAssicurazioneType>();
 
 		internal Server(IServerWindow window)
 		{
@@ -99,8 +103,12 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
 		public IEnumerable<ITesseraType> TesseraTypes => from t in _tesseraTypes orderby t.IsDisabled, t.Name select t;
+		public IEnumerable<IDispositivoType> DispositivoTypes => from t in _dispositivoTypes orderby t.IsDisabled, t.Name select t;
+		public IEnumerable<IPermessoType> PermessoTypes => from t in _permessoTypes orderby t.IsDisabled, t.Name select t;
+		public IEnumerable<IManutenzioneType> ManutenzioneTypes => from t in _manutenzioneTypes orderby t.IsDisabled, t.Name select t;
+		public IEnumerable<IAssicurazioneType> AssicurazioneTypes => from t in _assicurazioneTypes orderby t.IsDisabled, t.Name select t;
 
-		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondità, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
+		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
 		{
 			if (mezzo == null) throw new ArgumentNullException();
 			List<String> errors = new List<string>();
@@ -109,13 +117,18 @@ namespace Flotta.ServerSide
 			if (numMatch.Count() > 0)
 				errors.Add("Il numero è già utilizzato");
 
-			// Check that all Tessera/Dispositivo/PermessoType exists and are saved on server
-
+			if(!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in _tesseraTypes select t))
+				errors.Add("Uno o più tipi di tessere non esistono");
+			if(!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in _dispositivoTypes select d))
+				errors.Add("Uno o più tipi di dispositivi non esistono");
+			if(!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in _permessoTypes select p))
+				errors.Add("Uoa o più tipi di permessi non esistono");
+			
 			if (errors.Count > 0)
 				return errors;
 			else
 			{
-				errors = mezzo.Update(modello, targa, numero, numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza, profondità, volumeCarico, tessere, dispositivi, permessi).ToList();
+				errors = mezzo.Update(modello, targa, numero, numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza, profondita, volumeCarico, tessere, dispositivi, permessi).ToList();
 
 				if (errors.Count == 0)
 				{
@@ -192,6 +205,11 @@ namespace Flotta.ServerSide
 		public IEnumerable<string> UpdateManutenzioneType(IManutenzioneType manutenzione, string name)
 		{
 			return UpdateLinkedObject(_manutenzioneTypes, manutenzione, name);
+		}
+
+		public IEnumerable<string> UpdateAssicurazioneType(IAssicurazioneType assicurazione, string name)
+		{
+			return UpdateLinkedObject(_assicurazioneTypes, assicurazione, name);
 		}
 
 		private bool DeleteLinkedObject<T>(HashSet<T> list, T obj, bool disable) where T : LinkedObject
@@ -275,6 +293,15 @@ namespace Flotta.ServerSide
 			// Check if no manutenzione uses the type
 
 			return DeleteLinkedObject(_manutenzioneTypes, manutenzione, false);
+		}
+
+		public bool DeleteAssicurazioneType(IAssicurazioneType assicurazione)
+		{
+			if (assicurazione == null) throw new ArgumentNullException();
+
+			// Check if no incidents uses the type
+
+			return DeleteLinkedObject(_assicurazioneTypes, assicurazione, false);
 		}
 	}
 }

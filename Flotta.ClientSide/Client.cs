@@ -25,7 +25,7 @@ namespace Flotta.ClientSide
 		private IClientWindow _mainWindow;
 
 		private MezzoTabPresenter _mezzoPresenter;
-		private object _typesPresenter;
+		private IClosablePresenter _typesPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -44,10 +44,57 @@ namespace Flotta.ClientSide
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 
 			_mainWindow.OpenTesseraTypes += () => {
+				_typesPresenter?.Close();
 				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-		
-				_typesPresenter = new LinkedObjectManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType);
+				
+				var presenter = new LinkedObjectManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType);
+				presenter.TypeName = "Tessere";
+				_typesPresenter = presenter;
+
+				window.Show();
+			};
+			_mainWindow.OpenDispositivoTypes += () => {
+				_typesPresenter?.Close();
+				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
+				
+				var presenter = new LinkedObjectManagerPresenter<IDispositivoType>(_server, window, () => _server.DispositivoTypes, _server.UpdateDispositivoType, _server.DeleteDispositivoType, ModelFactory.NewDispositivoType);
+				presenter.TypeName = "Dispositivi";
+				_typesPresenter = presenter;
+
+				window.Show();
+			};
+			_mainWindow.OpenPermessoTypes += () => {
+				_typesPresenter?.Close();
+				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
+				
+				var presenter = new LinkedObjectManagerPresenter<IPermessoType>(_server, window, () => _server.PermessoTypes, _server.UpdatePermessoType, _server.DeletePermessoType, ModelFactory.NewPermessoType);
+				presenter.TypeName = "Permessi";
+				_typesPresenter = presenter;
+
+				window.Show();
+			};
+			_mainWindow.OpenManutenzioneTypes += () => {
+				_typesPresenter?.Close();
+				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
+	
+				var presenter = new LinkedObjectManagerPresenter<IManutenzioneType>(_server, window, () => _server.ManutenzioneTypes, _server.UpdateManutenzioneType, _server.DeleteManutenzioneType, ModelFactory.NewManutenzioneType);
+				presenter.TypeName = "Manutenzioni";
+				_typesPresenter = presenter;
+
+				window.Show();
+			};
+			_mainWindow.OpenAssicurazioneTypes += () => {
+				_typesPresenter?.Close();
+				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
+				
+				var presenter = new LinkedObjectManagerPresenter<IAssicurazioneType>(_server, window, () => _server.AssicurazioneTypes, _server.UpdateAssicurazioneType, _server.DeleteAssicurazioneType, ModelFactory.NewAssicurazioneType);
+				presenter.TypeName = "Assicurazioni";
+				_typesPresenter = presenter;
 
 				window.Show();
 			};

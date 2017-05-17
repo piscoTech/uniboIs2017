@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="ClientSideFactory.cs" />
+    <Compile Include="IClosablePresenter.cs" />
     <Compile Include="ITabPresenter.cs" />
     <Compile Include="LinkedObjectManagerPresenter.cs" />
     <Compile Include="MezzoTabPresenter.cs" />

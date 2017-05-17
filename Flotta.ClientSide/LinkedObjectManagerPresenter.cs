@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class LinkedObjectManagerPresenter<T> where T : LinkedObject
+	class LinkedObjectManagerPresenter<T> : IClosablePresenter where T : LinkedObject
 	{
 
 		internal delegate IEnumerable<T> GetListHandler();
@@ -27,6 +27,15 @@ namespace Flotta.ClientSide
 		private GetNewType _newType;
 
 		private List<T> _typeList;
+		private string _typeName;
+		internal string TypeName
+		{
+			set
+			{
+				_typeName = value;
+				_window.TypeName = value;
+			}
+		}
 
 		internal LinkedObjectManagerPresenter(IServer server, ILinkedObjectManagerWindow window, GetListHandler getList, UpdateTypeHandler updateType, DeleteTypeHandler deleteType, GetNewType newType)
 		{
@@ -82,6 +91,7 @@ namespace Flotta.ClientSide
 			_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedObjectDialog();
 			_updateDialog.FormClosed += (object sender, FormClosedEventArgs e) => _activeType = null;
 			_updateDialog.SaveType += OnSaveType;
+			_updateDialog.TypeName = _typeName;
 
 			_updateDialog.ShowDialog();
 		}
@@ -95,7 +105,8 @@ namespace Flotta.ClientSide
 			_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedObjectDialog();
 			_updateDialog.FormClosed += (object sender, FormClosedEventArgs e) => _activeType = null;
 			_updateDialog.SaveType += OnSaveType;
-			_updateDialog.TypeName = _activeType.Name;
+			_updateDialog.NameText = _activeType.Name;
+			_updateDialog.TypeName = _typeName;
 
 			_updateDialog.ShowDialog();
 		}
@@ -119,6 +130,12 @@ namespace Flotta.ClientSide
 				_updateDialog.Close();
 				_updateDialog = null;
 			}
+		}
+
+		public void Close()
+		{
+			_updateDialog?.Close();
+			_window.Close();
 		}
 	}
 }

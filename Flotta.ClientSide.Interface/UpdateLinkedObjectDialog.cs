@@ -18,6 +18,7 @@ namespace Flotta.ClientSide.Interface
 		DialogResult ShowDialog();
 		event FormClosedEventHandler FormClosed;
 		event SaveType SaveType;
+		string NameText { set; }
 		string TypeName { set; }
 	}
 
@@ -28,7 +29,7 @@ namespace Flotta.ClientSide.Interface
 			InitializeComponent();
 		}
 
-		public string TypeName
+		public string NameText
 		{
 			set => name.Text = value;
 		}
@@ -37,6 +38,11 @@ namespace Flotta.ClientSide.Interface
 		private void OnSaveType(object sender, EventArgs e)
 		{
 			SaveType?.Invoke(name.Text);
+		}
+
+		public string TypeName
+		{
+			set => this.Text = "Cambia – " + value + " – Flotta";
 		}
 	}
 }

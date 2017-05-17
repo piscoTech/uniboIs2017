@@ -26,6 +26,10 @@ namespace Flotta.ClientSide.Interface
 		event GenericAction CreateNewMezzo;
 
 		event GenericAction OpenTesseraTypes;
+		event GenericAction OpenDispositivoTypes;
+		event GenericAction OpenPermessoTypes;
+		event GenericAction OpenManutenzioneTypes;
+		event GenericAction OpenAssicurazioneTypes;
 	}
 
 	internal partial class ClientWindow : Form, IClientWindow
@@ -71,13 +75,13 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public IMezzoTabView MezzoTabControl { get => mezzoTabControl; }
+		public IMezzoTabView MezzoTabControl { get => mezzoTabView; }
 		public bool HasMezzo
 		{
 			set
 			{
 				noSelectionLbl.Visible = !value;
-				mezzoTabControl.Visible = value;
+				mezzoTabView.Visible = value;
 			}
 		}
 
@@ -109,19 +113,29 @@ namespace Flotta.ClientSide.Interface
 			OpenTesseraTypes?.Invoke();
 		}
 
+		public event GenericAction OpenDispositivoTypes;
 		private void OnOpenDispositivoTypes(object sender, EventArgs e)
 		{
-
+			OpenDispositivoTypes?.Invoke();
 		}
 
+		public event GenericAction OpenPermessoTypes;
 		private void OnOpenPermessoTypes(object sender, EventArgs e)
 		{
-
+			OpenPermessoTypes?.Invoke();
 		}
 
+
+		public event GenericAction OpenManutenzioneTypes;
 		private void OnOpenManutenzioneTypes(object sender, EventArgs e)
 		{
+			OpenManutenzioneTypes?.Invoke();
+		}
 
+		public event GenericAction OpenAssicurazioneTypes;
+		private void OnOpenAssicurazioneTypes(object sender, EventArgs e)
+		{
+			OpenAssicurazioneTypes?.Invoke();
 		}
 	}
 }
