@@ -17,6 +17,9 @@ namespace Flotta.ClientSide
 		private bool _saved = false;
 		private IMezzo _mezzo;
 
+		private List<ITessera> _tessere = new List<ITessera>();
+		private List<ITesseraListItem> _tessereItems = new List<ITesseraListItem>();
+
 		private INewMezzoDialog _window;
 
 		internal NewMezzoPresenter(IServer server, INewMezzoDialog window)
@@ -26,6 +29,9 @@ namespace Flotta.ClientSide
 
 			_window.FormClosed += OnCompletion;
 			_window.SaveMezzo += OnSave;
+
+			_tessereItems = (from t in _server.TesseraTypes where !t.IsDisabled select ClientSideInterfaceFactory.NewTesseraListItem(false, t.Name, "", "")).ToList();
+			_window.TabGenerale.Tessere = _tessereItems;
 		}
 
 		internal event StatusReportAction CreationCompleted;

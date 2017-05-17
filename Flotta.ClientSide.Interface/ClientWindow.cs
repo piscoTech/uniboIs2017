@@ -60,6 +60,7 @@ namespace Flotta.ClientSide.Interface
 			};
 			mezziList.Columns.Add(colMezziName);
 
+			mezziList.DisableSort();
 			mezziList.DataSource = _mezziList;
 		}
 

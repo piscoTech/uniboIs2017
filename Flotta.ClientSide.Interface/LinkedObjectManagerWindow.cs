@@ -86,6 +86,7 @@ namespace Flotta.ClientSide.Interface
 			};
 			typeList.Columns.Add(colTypeDelete);
 
+			typeList.DisableSort();
 			typeList.DataSource = _typeList;
 		}
 

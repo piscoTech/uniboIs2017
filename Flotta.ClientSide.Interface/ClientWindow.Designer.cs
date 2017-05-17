@@ -58,7 +58,7 @@
 			this.mezziList.Name = "mezziList";
 			this.mezziList.ReadOnly = true;
 			this.mezziList.RowHeadersVisible = false;
-			this.mezziList.Size = new System.Drawing.Size(240, 437);
+			this.mezziList.Size = new System.Drawing.Size(240, 537);
 			this.mezziList.TabIndex = 1;
 			this.mezziList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MezzoClicked);
 			// 
@@ -67,7 +67,7 @@
 			this.noSelectionLbl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.noSelectionLbl.Location = new System.Drawing.Point(240, 24);
 			this.noSelectionLbl.Name = "noSelectionLbl";
-			this.noSelectionLbl.Size = new System.Drawing.Size(344, 437);
+			this.noSelectionLbl.Size = new System.Drawing.Size(744, 537);
 			this.noSelectionLbl.TabIndex = 3;
 			this.noSelectionLbl.Text = "Seleziona un mezzo";
 			this.noSelectionLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -78,7 +78,7 @@
 			this.mezzoTabView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mezzoTabView.Location = new System.Drawing.Point(240, 24);
 			this.mezzoTabView.Name = "mezzoTabView";
-			this.mezzoTabView.Size = new System.Drawing.Size(344, 437);
+			this.mezzoTabView.Size = new System.Drawing.Size(744, 537);
 			this.mezzoTabView.TabIndex = 4;
 			// 
 			// menuStrip1
@@ -87,7 +87,7 @@
             this.flottaToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(584, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(984, 24);
 			this.menuStrip1.TabIndex = 5;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -123,35 +123,35 @@
 			// tessereToolStripMenuItem
 			// 
 			this.tessereToolStripMenuItem.Name = "tessereToolStripMenuItem";
-			this.tessereToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tessereToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.tessereToolStripMenuItem.Text = "Tessere";
 			this.tessereToolStripMenuItem.Click += new System.EventHandler(this.OnOpenTesseraTypes);
 			// 
 			// dispositiviToolStripMenuItem
 			// 
 			this.dispositiviToolStripMenuItem.Name = "dispositiviToolStripMenuItem";
-			this.dispositiviToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.dispositiviToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.dispositiviToolStripMenuItem.Text = "Dispositivi";
 			this.dispositiviToolStripMenuItem.Click += new System.EventHandler(this.OnOpenDispositivoTypes);
 			// 
 			// permessiToolStripMenuItem
 			// 
 			this.permessiToolStripMenuItem.Name = "permessiToolStripMenuItem";
-			this.permessiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.permessiToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.permessiToolStripMenuItem.Text = "Permessi";
 			this.permessiToolStripMenuItem.Click += new System.EventHandler(this.OnOpenPermessoTypes);
 			// 
 			// manutenzioniToolStripMenuItem
 			// 
 			this.manutenzioniToolStripMenuItem.Name = "manutenzioniToolStripMenuItem";
-			this.manutenzioniToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.manutenzioniToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.manutenzioniToolStripMenuItem.Text = "Manutenzioni";
 			this.manutenzioniToolStripMenuItem.Click += new System.EventHandler(this.OnOpenManutenzioneTypes);
 			// 
 			// assicurazioniToolStripMenuItem
 			// 
 			this.assicurazioniToolStripMenuItem.Name = "assicurazioniToolStripMenuItem";
-			this.assicurazioniToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.assicurazioniToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.assicurazioniToolStripMenuItem.Text = "Assicurazioni";
 			this.assicurazioniToolStripMenuItem.Click += new System.EventHandler(this.OnOpenAssicurazioneTypes);
 			// 
@@ -159,13 +159,13 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(584, 461);
+			this.ClientSize = new System.Drawing.Size(984, 561);
 			this.Controls.Add(this.mezzoTabView);
 			this.Controls.Add(this.noSelectionLbl);
 			this.Controls.Add(this.mezziList);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
-			this.MinimumSize = new System.Drawing.Size(600, 500);
+			this.MinimumSize = new System.Drawing.Size(1000, 600);
 			this.Name = "ClientWindow";
 			this.Text = "Mezzi – Flotta";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseClient);

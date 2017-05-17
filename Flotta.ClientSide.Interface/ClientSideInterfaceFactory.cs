@@ -39,5 +39,10 @@ namespace Flotta.ClientSide.Interface
 			return new UpdateLinkedObjectDialog();
 		}
 
+		public static ITesseraListItem NewTesseraListItem(bool inUse, string type, string codice, string pin)
+		{
+			return new TesseraListItem(inUse, type, codice, pin);
+		}
+
 	}
 }

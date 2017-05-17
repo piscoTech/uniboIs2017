@@ -28,15 +28,20 @@ namespace Flotta.ClientSide.Interface
 		float Profondita { get; set; }
 		float VolumeCarico { get; set; }
 
+		IEnumerable<ITesseraListItem> Tessere { set; }
+
 		bool EditMode { set; }
 	}
 
 	internal partial class TabGeneraleView : UserControl, ITabGeneraleView
 	{
+		private BindingList<ITesseraListItem> _tessere = new BindingList<ITesseraListItem>();
 
 		internal TabGeneraleView()
 		{
 			InitializeComponent();
+
+			tessereList.DataSource = _tessere;
 		}
 
 		public event GenericAction EnterEdit;
@@ -55,6 +60,12 @@ namespace Flotta.ClientSide.Interface
 		private void OnSaveEdit(object sender, EventArgs e)
 		{
 			SaveEdit?.Invoke();
+		}
+
+		public event GenericAction DeleteMezzo;
+		private void OnDelete(object sender, EventArgs e)
+		{
+			DeleteMezzo?.Invoke();
 		}
 
 		public string Modello
@@ -202,6 +213,18 @@ namespace Flotta.ClientSide.Interface
 			set => volumeCarico.Text = value > 0 ? Convert.ToString(value) : "";
 		}
 
+		public IEnumerable<ITesseraListItem> Tessere
+		{
+			set
+			{
+				_tessere.Clear();
+				foreach(var t in value)
+				{
+					_tessere.Add(t);
+				}
+			}
+		}
+
 		public bool EditMode
 		{
 			set
@@ -216,13 +239,153 @@ namespace Flotta.ClientSide.Interface
 					if (control is TextBox text)
 						text.ReadOnly = !value;
 				}
+
+				#region Tessere List Setup
+				{
+					tessereList.Columns.Clear();
+
+					DataGridViewCell cell;
+					if (value)
+					{
+						cell = new DataGridViewCheckBoxCell();
+						DataGridViewCheckBoxColumn colTypeInUse = new DataGridViewCheckBoxColumn()
+						{
+							CellTemplate = cell,
+							Name = "InUse",
+							HeaderText = "",
+							DataPropertyName = "InUse",
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+							Width = 20
+						};
+						tessereList.Columns.Add(colTypeInUse);
+					}
+
+					cell = new DataGridViewTextBoxCell();
+					DataGridViewTextBoxColumn colTypeName = new DataGridViewTextBoxColumn()
+					{
+						CellTemplate = cell,
+						Name = "Tessere",
+						HeaderText = "Tessere",
+						DataPropertyName = "Type"
+					};
+					tessereList.Columns.Add(colTypeName);
+
+					DataGridViewTextBoxColumn colCode = new DataGridViewTextBoxColumn()
+					{
+						CellTemplate = cell,
+						Name = "Codice",
+						HeaderText = "Codice",
+						DataPropertyName = "Codice"
+					};
+					tessereList.Columns.Add(colCode);
+
+					DataGridViewTextBoxColumn colPin = new DataGridViewTextBoxColumn()
+					{
+						CellTemplate = cell,
+						Name = "PIN",
+						HeaderText = "PIN",
+						DataPropertyName = "Pin"
+					};
+					tessereList.Columns.Add(colPin);
+
+					if (value)
+					{
+						DataGridViewButtonColumn colTypeEdit = new DataGridViewButtonColumn()
+						{
+							HeaderText = "",
+							Name = "Modifica",
+							Text = "Modifica",
+							UseColumnTextForButtonValue = true,
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+							Width = 60
+						};
+						tessereList.Columns.Add(colTypeEdit);
+
+						DataGridViewButtonColumn colTypeRemove = new DataGridViewButtonColumn()
+						{
+							HeaderText = "",
+							Name = "Rimuovi",
+							Text = "Rimuovi",
+							UseColumnTextForButtonValue = true,
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+							Width = 60
+						};
+						tessereList.Columns.Add(colTypeRemove);
+					}
+					tessereList.DisableSort();
+				}
+				#endregion
+
+				#region Dispositivi & Permessi List Setup
+				foreach (var group in new Tuple<DataGridView, string>[] { new Tuple<DataGridView, string>(dispositiviList, "Dispositivi"), new Tuple<DataGridView, string>(permessiList, "Permessi") })
+				{
+					var list = group.Item1;
+					list.Columns.Clear();
+
+					DataGridViewCell cell;
+					if (value)
+					{
+						cell = new DataGridViewCheckBoxCell();
+						DataGridViewCheckBoxColumn colTypeInUse = new DataGridViewCheckBoxColumn()
+						{
+							CellTemplate = cell,
+							Name = "InUse",
+							HeaderText = "",
+							DataPropertyName = "InUse",
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+							Width = 20
+						};
+						list.Columns.Add(colTypeInUse);
+					}
+
+					cell = new DataGridViewTextBoxCell();
+					DataGridViewTextBoxColumn colTypeName = new DataGridViewTextBoxColumn()
+					{
+						CellTemplate = cell,
+						Name = group.Item2,
+						HeaderText = group.Item2,
+						DataPropertyName = "Type"
+					};
+					list.Columns.Add(colTypeName);
+
+					DataGridViewTextBoxColumn colAttachment = new DataGridViewTextBoxColumn()
+					{
+						CellTemplate = cell,
+						Name = "Allegato",
+						HeaderText = "Allegato",
+						DataPropertyName = "Allegato"
+					};
+					list.Columns.Add(colAttachment);
+
+					if (value)
+					{
+						DataGridViewButtonColumn colTypeEdit = new DataGridViewButtonColumn()
+						{
+							HeaderText = "",
+							Name = "Modifica",
+							Text = "Modifica",
+							UseColumnTextForButtonValue = true,
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+							Width = 60
+						};
+						list.Columns.Add(colTypeEdit);
+
+						DataGridViewButtonColumn colTypeRemove = new DataGridViewButtonColumn()
+						{
+							HeaderText = "",
+							Name = "Rimuovi",
+							Text = "Rimuovi",
+							UseColumnTextForButtonValue = true,
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+							Width = 60
+						};
+						list.Columns.Add(colTypeRemove);
+					}
+					list.DisableSort();
+				}
+				#endregion
 			}
 		}
 
-		public event GenericAction DeleteMezzo;
-		private void OnDelete(object sender, EventArgs e)
-		{
-			DeleteMezzo?.Invoke();
-		}
 	}
 }

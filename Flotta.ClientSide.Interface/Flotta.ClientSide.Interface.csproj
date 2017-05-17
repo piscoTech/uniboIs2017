@@ -49,6 +49,7 @@
     <Compile Include="ClientWindow.Designer.cs">
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatatGridViewExtensions.cs" />
     <Compile Include="LinkedObjectListItem.cs" />
     <Compile Include="LinkedObjectManagerWindow.cs">
       <SubType>Form</SubType>
@@ -66,6 +67,7 @@
     <Compile Include="NewMezzoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TesseraListItem.cs" />
     <Compile Include="UpdateLinkedObjectDialog.cs">
       <SubType>Form</SubType>
     </Compile>

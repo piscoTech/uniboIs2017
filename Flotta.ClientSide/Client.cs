@@ -171,6 +171,7 @@ namespace Flotta.ClientSide
 		public event ClientAction ExitClient;
 		private void Exit()
 		{
+			_typesPresenter?.Close();
 			_server.ClientDisconnected();
 			ExitClient(this);
 		}
