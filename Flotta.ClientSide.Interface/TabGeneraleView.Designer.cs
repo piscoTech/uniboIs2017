@@ -39,6 +39,7 @@
 			System.Windows.Forms.Label label8;
 			System.Windows.Forms.Label label9;
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.deleteBtn = new System.Windows.Forms.Button();
 			this.enterEditBtn = new System.Windows.Forms.Button();
 			this.cancelEditBtn = new System.Windows.Forms.Button();
 			this.saveEditBtn = new System.Windows.Forms.Button();
@@ -53,7 +54,6 @@
 			this.lunghezza = new System.Windows.Forms.TextBox();
 			this.profondita = new System.Windows.Forms.TextBox();
 			this.volumeCarico = new System.Windows.Forms.TextBox();
-			this.deleteBtn = new System.Windows.Forms.Button();
 			label12 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
 			label1 = new System.Windows.Forms.Label();
@@ -169,6 +169,18 @@
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(483, 25);
 			this.panel2.TabIndex = 2;
+			// 
+			// deleteBtn
+			// 
+			this.deleteBtn.Dock = System.Windows.Forms.DockStyle.Left;
+			this.deleteBtn.Location = new System.Drawing.Point(0, 0);
+			this.deleteBtn.Name = "deleteBtn";
+			this.deleteBtn.Size = new System.Drawing.Size(75, 25);
+			this.deleteBtn.TabIndex = 3;
+			this.deleteBtn.Text = "Elimina";
+			this.deleteBtn.UseVisualStyleBackColor = true;
+			this.deleteBtn.Visible = false;
+			this.deleteBtn.Click += new System.EventHandler(this.OnDelete);
 			// 
 			// enterEditBtn
 			// 
@@ -305,25 +317,13 @@
 			this.volumeCarico.Size = new System.Drawing.Size(89, 20);
 			this.volumeCarico.TabIndex = 38;
 			// 
-			// deleteBtn
-			// 
-			this.deleteBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.deleteBtn.Location = new System.Drawing.Point(183, 0);
-			this.deleteBtn.Name = "deleteBtn";
-			this.deleteBtn.Size = new System.Drawing.Size(75, 25);
-			this.deleteBtn.TabIndex = 3;
-			this.deleteBtn.Text = "Elimina";
-			this.deleteBtn.UseVisualStyleBackColor = true;
-			this.deleteBtn.Visible = false;
-			this.deleteBtn.Click += new System.EventHandler(this.OnDelete);
-			// 
-			// TabViewGenerale
+			// TabGeneraleView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.controlContainer);
 			this.Controls.Add(this.panel2);
-			this.Name = "TabViewGenerale";
+			this.Name = "TabGeneraleView";
 			this.Size = new System.Drawing.Size(483, 717);
 			this.panel2.ResumeLayout(false);
 			this.controlContainer.ResumeLayout(false);

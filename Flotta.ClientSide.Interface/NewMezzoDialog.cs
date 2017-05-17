@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface INewMezzoView
+	public interface INewMezzoDialog
 	{
 		DialogResult ShowDialog();
 		void Close();
@@ -22,18 +22,18 @@ namespace Flotta.ClientSide.Interface
 		event GenericAction SaveMezzo;
 	}
 
-	public partial class NewMezzoView : Form, INewMezzoView
+	public partial class NewMezzoDialog : Form, INewMezzoDialog
 	{
 
 		private bool _confirmClose = true;
 
-		public NewMezzoView()
+		public NewMezzoDialog()
 		{
 			InitializeComponent();
 
-			tabViewGenerale.EditMode = true;
-			tabViewGenerale.CancelEdit += () => this.Close();
-			tabViewGenerale.SaveEdit += OnSaveEdit;
+			tabGeneraleView.EditMode = true;
+			tabGeneraleView.CancelEdit += () => this.Close();
+			tabGeneraleView.SaveEdit += OnSaveEdit;
 		}
 
 		public bool ConfirmBeforeClosing
@@ -43,7 +43,7 @@ namespace Flotta.ClientSide.Interface
 
 		public ITabGeneraleView TabGenerale
 		{
-			get => tabViewGenerale;
+			get => tabGeneraleView;
 		}
 
 		public event GenericAction SaveMezzo;

@@ -63,7 +63,7 @@
     <Compile Include="MezzoTabView.Designer.cs">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewMezzoView.cs">
+    <Compile Include="NewMezzoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UpdateLinkedObjectDialog.cs">
@@ -72,8 +72,8 @@
     <Compile Include="UpdateLinkedObjectDialog.Designer.cs">
       <DependentUpon>UpdateLinkedObjectDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewMezzoView.Designer.cs">
-      <DependentUpon>NewMezzoView.cs</DependentUpon>
+    <Compile Include="NewMezzoDialog.Designer.cs">
+      <DependentUpon>NewMezzoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabGeneraleView.cs">
@@ -90,8 +90,8 @@
     <EmbeddedResource Include="MezzoTabView.resx">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewMezzoView.resx">
-      <DependentUpon>NewMezzoView.cs</DependentUpon>
+    <EmbeddedResource Include="NewMezzoDialog.resx">
+      <DependentUpon>NewMezzoDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LinkedObjectManagerWindow.resx">
       <DependentUpon>LinkedObjectManagerWindow.cs</DependentUpon>

@@ -17,9 +17,9 @@ namespace Flotta.ClientSide
 		private bool _saved = false;
 		private IMezzo _mezzo;
 
-		private INewMezzoView _window;
+		private INewMezzoDialog _window;
 
-		internal NewMezzoPresenter(IServer server, INewMezzoView window)
+		internal NewMezzoPresenter(IServer server, INewMezzoDialog window)
 		{
 			_server = server;
 			_window = window;

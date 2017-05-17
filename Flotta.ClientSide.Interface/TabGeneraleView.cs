@@ -82,7 +82,7 @@ namespace Flotta.ClientSide.Interface
 					return 0;
 				}
 			}
-			set => numero.Text = Convert.ToString(value);
+			set => numero.Text = value > 0 ? Convert.ToString(value) : "";
 		}
 
 		public string NumeroTelaio
@@ -104,7 +104,7 @@ namespace Flotta.ClientSide.Interface
 					return 0;
 				}
 			}
-			set => annoImmatricolazione.Text = Convert.ToString(value);
+			set => annoImmatricolazione.Text = value > 0 ? Convert.ToString(value) : "";
 		}
 
 		public float Portata
@@ -213,8 +213,7 @@ namespace Flotta.ClientSide.Interface
 
 				foreach (var control in controlContainer.Controls)
 				{
-					TextBox text = control as TextBox;
-					if (text != null)
+					if (control is TextBox text)
 						text.ReadOnly = !value;
 				}
 			}

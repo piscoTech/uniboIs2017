@@ -47,9 +47,11 @@ namespace Flotta.ClientSide
 				_typesPresenter?.Close();
 				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-				
-				var presenter = new LinkedObjectManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType);
-				presenter.TypeName = "Tessere";
+
+				var presenter = new LinkedObjectManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType)
+				{
+					TypeName = "Tessere"
+				};
 				_typesPresenter = presenter;
 
 				window.Show();
@@ -58,9 +60,11 @@ namespace Flotta.ClientSide
 				_typesPresenter?.Close();
 				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-				
-				var presenter = new LinkedObjectManagerPresenter<IDispositivoType>(_server, window, () => _server.DispositivoTypes, _server.UpdateDispositivoType, _server.DeleteDispositivoType, ModelFactory.NewDispositivoType);
-				presenter.TypeName = "Dispositivi";
+
+				var presenter = new LinkedObjectManagerPresenter<IDispositivoType>(_server, window, () => _server.DispositivoTypes, _server.UpdateDispositivoType, _server.DeleteDispositivoType, ModelFactory.NewDispositivoType)
+				{
+					TypeName = "Dispositivi"
+				};
 				_typesPresenter = presenter;
 
 				window.Show();
@@ -69,9 +73,11 @@ namespace Flotta.ClientSide
 				_typesPresenter?.Close();
 				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-				
-				var presenter = new LinkedObjectManagerPresenter<IPermessoType>(_server, window, () => _server.PermessoTypes, _server.UpdatePermessoType, _server.DeletePermessoType, ModelFactory.NewPermessoType);
-				presenter.TypeName = "Permessi";
+
+				var presenter = new LinkedObjectManagerPresenter<IPermessoType>(_server, window, () => _server.PermessoTypes, _server.UpdatePermessoType, _server.DeletePermessoType, ModelFactory.NewPermessoType)
+				{
+					TypeName = "Permessi"
+				};
 				_typesPresenter = presenter;
 
 				window.Show();
@@ -80,9 +86,11 @@ namespace Flotta.ClientSide
 				_typesPresenter?.Close();
 				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-	
-				var presenter = new LinkedObjectManagerPresenter<IManutenzioneType>(_server, window, () => _server.ManutenzioneTypes, _server.UpdateManutenzioneType, _server.DeleteManutenzioneType, ModelFactory.NewManutenzioneType);
-				presenter.TypeName = "Manutenzioni";
+
+				var presenter = new LinkedObjectManagerPresenter<IManutenzioneType>(_server, window, () => _server.ManutenzioneTypes, _server.UpdateManutenzioneType, _server.DeleteManutenzioneType, ModelFactory.NewManutenzioneType)
+				{
+					TypeName = "Manutenzioni"
+				};
 				_typesPresenter = presenter;
 
 				window.Show();
@@ -91,9 +99,11 @@ namespace Flotta.ClientSide
 				_typesPresenter?.Close();
 				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-				
-				var presenter = new LinkedObjectManagerPresenter<IAssicurazioneType>(_server, window, () => _server.AssicurazioneTypes, _server.UpdateAssicurazioneType, _server.DeleteAssicurazioneType, ModelFactory.NewAssicurazioneType);
-				presenter.TypeName = "Assicurazioni";
+
+				var presenter = new LinkedObjectManagerPresenter<IAssicurazioneType>(_server, window, () => _server.AssicurazioneTypes, _server.UpdateAssicurazioneType, _server.DeleteAssicurazioneType, ModelFactory.NewAssicurazioneType)
+				{
+					TypeName = "Assicurazioni"
+				};
 				_typesPresenter = presenter;
 
 				window.Show();
@@ -146,11 +156,11 @@ namespace Flotta.ClientSide
 
 		private void OnCreateNewMezzo()
 		{
-			INewMezzoView newMezzoWindow = ClientSideInterfaceFactory.NewNewMezzoInterface();
-			_newMezzo = new NewMezzoPresenter(_server, newMezzoWindow);
+			INewMezzoDialog newMezzoDialog = ClientSideInterfaceFactory.NewNewMezzoDialog();
+			_newMezzo = new NewMezzoPresenter(_server, newMezzoDialog);
 			_newMezzo.CreationCompleted += OnNewMezzoCreated;
 
-			newMezzoWindow.ShowDialog();
+			newMezzoDialog.ShowDialog();
 		}
 
 		private void OnNewMezzoCreated(bool created)
