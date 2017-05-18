@@ -57,6 +57,24 @@ namespace Flotta.ServerSide
 
 			_window.CreateClient += OnCreateClient;
 			_window.CanTerminate = true;
+
+			FillDatabase();
+		}
+
+		private void FillDatabase()
+		{
+			ITesseraType tt = ModelFactory.NewTesseraType();
+			tt.Update("Tessera 1");
+			_tesseraTypes.Add(tt);
+			tt = ModelFactory.NewTesseraType();
+			tt.Update("Tessera 2");
+			_tesseraTypes.Add(tt);
+
+			IMezzo m = ModelFactory.NewMezzo();
+			ITessera t = ModelFactory.NewTessera(_tesseraTypes.ElementAt(1));
+			t.Update("ABC123", "7654");
+			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[0], new IPermesso[0]);
+			_mezzi.Add(m);
 		}
 
 		private CreateClientHandler _createClient;

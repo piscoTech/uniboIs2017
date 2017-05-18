@@ -40,9 +40,9 @@ namespace Flotta.Model
 		private float _lunghezza;
 		private float _profondita;
 		private float _volumeCarico;
-		private HashSet<Tessera> _tessere = new HashSet<Tessera>();
-		private HashSet<Dispositivo> _dispositivi = new HashSet<Dispositivo>();
-		private HashSet<Permesso> _permessi = new HashSet<Permesso>();
+		private HashSet<ITessera> _tessere = new HashSet<ITessera>();
+		private HashSet<IDispositivo> _dispositivi = new HashSet<IDispositivo>();
+		private HashSet<IPermesso> _permessi = new HashSet<IPermesso>();
 
 		public string Modello
 		{
@@ -216,16 +216,11 @@ namespace Flotta.Model
 			_profondita = profondita;
 			_volumeCarico = volumeCarico;
 
-			_tessere.Clear() ;
-			_tessere.Concat(tessere);
-			_dispositivi.Clear();
-			_dispositivi.Concat(dispositivi);
-			_permessi.Clear();
-			_permessi.Concat(permessi);
-
+			_tessere = new HashSet<ITessera>(tessere);
+			_dispositivi = new HashSet<IDispositivo>(dispositivi);
+			_permessi = new HashSet<IPermesso>(permessi);
+			
 			return errors;
 		}
-
-
 	}
 }

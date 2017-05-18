@@ -40,9 +40,7 @@
 			System.Windows.Forms.Label label3;
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.deleteBtn = new System.Windows.Forms.Button();
-			this.enterEditBtn = new System.Windows.Forms.Button();
 			this.cancelEditBtn = new System.Windows.Forms.Button();
-			this.saveEditBtn = new System.Windows.Forms.Button();
 			this.controlContainer = new System.Windows.Forms.TableLayoutPanel();
 			this.permessiList = new System.Windows.Forms.DataGridView();
 			this.dispositiviList = new System.Windows.Forms.DataGridView();
@@ -57,6 +55,8 @@
 			this.numero = new System.Windows.Forms.TextBox();
 			this.targa = new System.Windows.Forms.TextBox();
 			this.modello = new System.Windows.Forms.TextBox();
+			this.saveEditBtn = new System.Windows.Forms.Button();
+			this.enterEditBtn = new System.Windows.Forms.Button();
 			label9 = new System.Windows.Forms.Label();
 			label8 = new System.Windows.Forms.Label();
 			label7 = new System.Windows.Forms.Label();
@@ -166,10 +166,10 @@
 			// 
 			// panel2
 			// 
-			this.panel2.Controls.Add(this.deleteBtn);
 			this.panel2.Controls.Add(this.enterEditBtn);
-			this.panel2.Controls.Add(this.cancelEditBtn);
 			this.panel2.Controls.Add(this.saveEditBtn);
+			this.panel2.Controls.Add(this.deleteBtn);
+			this.panel2.Controls.Add(this.cancelEditBtn);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panel2.Location = new System.Drawing.Point(0, 420);
 			this.panel2.Name = "panel2";
@@ -189,39 +189,16 @@
 			this.deleteBtn.Visible = false;
 			this.deleteBtn.Click += new System.EventHandler(this.OnDelete);
 			// 
-			// enterEditBtn
-			// 
-			this.enterEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.enterEditBtn.Location = new System.Drawing.Point(165, 3);
-			this.enterEditBtn.Name = "enterEditBtn";
-			this.enterEditBtn.Size = new System.Drawing.Size(75, 22);
-			this.enterEditBtn.TabIndex = 2;
-			this.enterEditBtn.Text = "Modifica";
-			this.enterEditBtn.UseVisualStyleBackColor = true;
-			this.enterEditBtn.Visible = false;
-			this.enterEditBtn.Click += new System.EventHandler(this.OnEnterEdit);
-			// 
 			// cancelEditBtn
 			// 
 			this.cancelEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.cancelEditBtn.Location = new System.Drawing.Point(240, 3);
+			this.cancelEditBtn.Location = new System.Drawing.Point(315, 3);
 			this.cancelEditBtn.Name = "cancelEditBtn";
 			this.cancelEditBtn.Size = new System.Drawing.Size(75, 22);
 			this.cancelEditBtn.TabIndex = 1;
 			this.cancelEditBtn.Text = "Annulla";
 			this.cancelEditBtn.UseVisualStyleBackColor = true;
 			this.cancelEditBtn.Click += new System.EventHandler(this.OnCancelEdit);
-			// 
-			// saveEditBtn
-			// 
-			this.saveEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.saveEditBtn.Location = new System.Drawing.Point(315, 3);
-			this.saveEditBtn.Name = "saveEditBtn";
-			this.saveEditBtn.Size = new System.Drawing.Size(75, 22);
-			this.saveEditBtn.TabIndex = 0;
-			this.saveEditBtn.Text = "Salva";
-			this.saveEditBtn.UseVisualStyleBackColor = true;
-			this.saveEditBtn.Click += new System.EventHandler(this.OnSaveEdit);
 			// 
 			// controlContainer
 			// 
@@ -403,6 +380,27 @@
 			this.modello.Size = new System.Drawing.Size(200, 20);
 			this.modello.TabIndex = 1;
 			// 
+			// saveEditBtn
+			// 
+			this.saveEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
+			this.saveEditBtn.Location = new System.Drawing.Point(240, 3);
+			this.saveEditBtn.Name = "saveEditBtn";
+			this.saveEditBtn.Size = new System.Drawing.Size(75, 22);
+			this.saveEditBtn.TabIndex = 4;
+			this.saveEditBtn.Text = "Salva";
+			this.saveEditBtn.UseVisualStyleBackColor = true;
+			// 
+			// enterEditBtn
+			// 
+			this.enterEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
+			this.enterEditBtn.Location = new System.Drawing.Point(165, 3);
+			this.enterEditBtn.Name = "enterEditBtn";
+			this.enterEditBtn.Size = new System.Drawing.Size(75, 22);
+			this.enterEditBtn.TabIndex = 5;
+			this.enterEditBtn.Text = "Modifica";
+			this.enterEditBtn.UseVisualStyleBackColor = true;
+			this.enterEditBtn.Visible = false;
+			// 
 			// TabGeneraleView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -423,9 +421,7 @@
 
 		#endregion
 		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.Button enterEditBtn;
 		private System.Windows.Forms.Button cancelEditBtn;
-		private System.Windows.Forms.Button saveEditBtn;
 		private System.Windows.Forms.Button deleteBtn;
 		private System.Windows.Forms.TextBox volumeCarico;
 		private System.Windows.Forms.TextBox profondita;
@@ -441,5 +437,7 @@
 		private System.Windows.Forms.DataGridView dispositiviList;
 		private System.Windows.Forms.DataGridView tessereList;
 		private System.Windows.Forms.TableLayoutPanel controlContainer;
+		private System.Windows.Forms.Button enterEditBtn;
+		private System.Windows.Forms.Button saveEditBtn;
 	}
 }

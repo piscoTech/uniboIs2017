@@ -15,23 +15,25 @@ namespace Flotta.ClientSide
 
 		private IServer _server;
 		private bool _saved = false;
-		private IMezzo _mezzo;
+		private IMezzo _mezzo = ModelFactory.NewMezzo();
 
 		private List<ITessera> _tessere = new List<ITessera>();
 		private List<ITesseraListItem> _tessereItems = new List<ITesseraListItem>();
 
 		private INewMezzoDialog _window;
+		private TabGeneralePresenter _presenter;
 
 		internal NewMezzoPresenter(IServer server, INewMezzoDialog window)
 		{
 			_server = server;
 			_window = window;
+			_presenter = new TabGeneralePresenter(_server, _mezzo, _window.TabGenerale)
+			{
+				EditMode = true
+			};
 
 			_window.FormClosed += OnCompletion;
 			_window.SaveMezzo += OnSave;
-
-			_tessereItems = (from t in _server.TesseraTypes where !t.IsDisabled select ClientSideInterfaceFactory.NewTesseraListItem(false, t.Name, "", "")).ToList();
-			_window.TabGenerale.Tessere = _tessereItems;
 		}
 
 		internal event StatusReportAction CreationCompleted;
@@ -42,8 +44,6 @@ namespace Flotta.ClientSide
 
 		private void OnSave()
 		{
-			if (_mezzo == null) _mezzo = ModelFactory.NewMezzo();
-
 			ITessera[] t = new ITessera[0];
 			IDispositivo[] d = new IDispositivo[0];
 			IPermesso[] p = new IPermesso[0];
