@@ -156,11 +156,13 @@ namespace Flotta.ClientSide
 
 		private void OnCreateNewMezzo()
 		{
-			INewMezzoDialog newMezzoDialog = ClientSideInterfaceFactory.NewNewMezzoDialog();
-			_newMezzo = new NewMezzoPresenter(_server, newMezzoDialog);
-			_newMezzo.CreationCompleted += OnNewMezzoCreated;
+			using (INewMezzoDialog newMezzoDialog = ClientSideInterfaceFactory.NewNewMezzoDialog())
+			{
+				_newMezzo = new NewMezzoPresenter(_server, newMezzoDialog);
+				_newMezzo.CreationCompleted += OnNewMezzoCreated;
 
-			newMezzoDialog.ShowDialog();
+				newMezzoDialog.ShowDialog();
+			}
 		}
 
 		private void OnNewMezzoCreated(bool created)

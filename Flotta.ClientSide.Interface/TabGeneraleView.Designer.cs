@@ -39,6 +39,8 @@
 			System.Windows.Forms.Label label12;
 			System.Windows.Forms.Label label3;
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.enterEditBtn = new System.Windows.Forms.Button();
+			this.saveEditBtn = new System.Windows.Forms.Button();
 			this.deleteBtn = new System.Windows.Forms.Button();
 			this.cancelEditBtn = new System.Windows.Forms.Button();
 			this.controlContainer = new System.Windows.Forms.TableLayoutPanel();
@@ -55,8 +57,6 @@
 			this.numero = new System.Windows.Forms.TextBox();
 			this.targa = new System.Windows.Forms.TextBox();
 			this.modello = new System.Windows.Forms.TextBox();
-			this.saveEditBtn = new System.Windows.Forms.Button();
-			this.enterEditBtn = new System.Windows.Forms.Button();
 			label9 = new System.Windows.Forms.Label();
 			label8 = new System.Windows.Forms.Label();
 			label7 = new System.Windows.Forms.Label();
@@ -176,6 +176,29 @@
 			this.panel2.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.panel2.Size = new System.Drawing.Size(390, 25);
 			this.panel2.TabIndex = 2;
+			// 
+			// enterEditBtn
+			// 
+			this.enterEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
+			this.enterEditBtn.Location = new System.Drawing.Point(165, 3);
+			this.enterEditBtn.Name = "enterEditBtn";
+			this.enterEditBtn.Size = new System.Drawing.Size(75, 22);
+			this.enterEditBtn.TabIndex = 5;
+			this.enterEditBtn.Text = "Modifica";
+			this.enterEditBtn.UseVisualStyleBackColor = true;
+			this.enterEditBtn.Visible = false;
+			this.enterEditBtn.Click += new System.EventHandler(this.OnEnterEdit);
+			// 
+			// saveEditBtn
+			// 
+			this.saveEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
+			this.saveEditBtn.Location = new System.Drawing.Point(240, 3);
+			this.saveEditBtn.Name = "saveEditBtn";
+			this.saveEditBtn.Size = new System.Drawing.Size(75, 22);
+			this.saveEditBtn.TabIndex = 4;
+			this.saveEditBtn.Text = "Salva";
+			this.saveEditBtn.UseVisualStyleBackColor = true;
+			this.saveEditBtn.Click += new System.EventHandler(this.OnSaveEdit);
 			// 
 			// deleteBtn
 			// 
@@ -309,6 +332,7 @@
 			this.tessereList.RowHeadersVisible = false;
 			this.tessereList.Size = new System.Drawing.Size(384, 150);
 			this.tessereList.TabIndex = 39;
+			this.tessereList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnTesseraClick);
 			// 
 			// volumeCarico
 			// 
@@ -379,27 +403,6 @@
 			this.modello.Name = "modello";
 			this.modello.Size = new System.Drawing.Size(200, 20);
 			this.modello.TabIndex = 1;
-			// 
-			// saveEditBtn
-			// 
-			this.saveEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.saveEditBtn.Location = new System.Drawing.Point(240, 3);
-			this.saveEditBtn.Name = "saveEditBtn";
-			this.saveEditBtn.Size = new System.Drawing.Size(75, 22);
-			this.saveEditBtn.TabIndex = 4;
-			this.saveEditBtn.Text = "Salva";
-			this.saveEditBtn.UseVisualStyleBackColor = true;
-			// 
-			// enterEditBtn
-			// 
-			this.enterEditBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.enterEditBtn.Location = new System.Drawing.Point(165, 3);
-			this.enterEditBtn.Name = "enterEditBtn";
-			this.enterEditBtn.Size = new System.Drawing.Size(75, 22);
-			this.enterEditBtn.TabIndex = 5;
-			this.enterEditBtn.Text = "Modifica";
-			this.enterEditBtn.UseVisualStyleBackColor = true;
-			this.enterEditBtn.Visible = false;
 			// 
 			// TabGeneraleView
 			// 

@@ -10,12 +10,14 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
+	public delegate void LinkedObjectAction(int index);
+
 	public interface ITabGeneraleView
 	{
-		event GenericAction DeleteMezzo;
-		event GenericAction EnterEdit;
-		event GenericAction CancelEdit;
-		event GenericAction SaveEdit;
+		event Action DeleteMezzo;
+		event Action EnterEdit;
+		event Action CancelEdit;
+		event Action SaveEdit;
 
 		string Modello { get; set; }
 		string Targa { get; set; }
@@ -30,39 +32,48 @@ namespace Flotta.ClientSide.Interface
 
 		IEnumerable<ITesseraListItem> Tessere { set; }
 
+		event LinkedObjectAction TesseraEdit;
+		event LinkedObjectAction TesseraRemove;
+
 		bool EditMode { set; }
 	}
 
 	internal partial class TabGeneraleView : UserControl, ITabGeneraleView
 	{
+		private bool _editMode;
+		//private List<ITesseraListItem> _tessere = new List<ITesseraListItem>();
 		private BindingList<ITesseraListItem> _tessere = new BindingList<ITesseraListItem>();
 
 		internal TabGeneraleView()
 		{
 			InitializeComponent();
 
+			tessereList.AutoGenerateColumns = false;
+			dispositiviList.AutoGenerateColumns = false;
+			permessiList.AutoGenerateColumns = false;
+
 			tessereList.DataSource = _tessere;
 		}
 
-		public event GenericAction EnterEdit;
+		public event Action EnterEdit;
 		private void OnEnterEdit(object sender, EventArgs e)
 		{
 			EnterEdit?.Invoke();
 		}
 
-		public event GenericAction CancelEdit;
+		public event Action CancelEdit;
 		private void OnCancelEdit(object sender, EventArgs e)
 		{
 			CancelEdit?.Invoke();
 		}
 
-		public event GenericAction SaveEdit;
+		public event Action SaveEdit;
 		private void OnSaveEdit(object sender, EventArgs e)
 		{
 			SaveEdit?.Invoke();
 		}
 
-		public event GenericAction DeleteMezzo;
+		public event Action DeleteMezzo;
 		private void OnDelete(object sender, EventArgs e)
 		{
 			DeleteMezzo?.Invoke();
@@ -218,10 +229,12 @@ namespace Flotta.ClientSide.Interface
 			set
 			{
 				_tessere.Clear();
-				foreach(var t in value)
-				{
+				// As _tessere is the DataSource of the corresponding data grid we must change the existing collection
+				foreach (var t in value)
 					_tessere.Add(t);
-				}
+				//_tessere.AddRange(value);
+				//tessereList.Refresh();
+				//tessereList.DataSource = value;
 			}
 		}
 
@@ -229,6 +242,8 @@ namespace Flotta.ClientSide.Interface
 		{
 			set
 			{
+				_editMode = value;
+
 				enterEditBtn.Visible = !value;
 				deleteBtn.Visible = !value;
 				cancelEditBtn.Visible = value;
@@ -312,7 +327,9 @@ namespace Flotta.ClientSide.Interface
 						};
 						tessereList.Columns.Add(colTypeRemove);
 					}
+
 					tessereList.DisableSort();
+					tessereList.Refresh();
 				}
 				#endregion
 
@@ -387,5 +404,17 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
+		public event LinkedObjectAction TesseraEdit;
+		public event LinkedObjectAction TesseraRemove;
+		private void OnTesseraClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < 0 || !_editMode)
+				return;
+
+			if (e.ColumnIndex == 4)
+				TesseraEdit?.Invoke(e.RowIndex);
+			else if (e.ColumnIndex == 5)
+				TesseraRemove?.Invoke(e.RowIndex);
+		}
 	}
 }

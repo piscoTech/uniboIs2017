@@ -84,6 +84,12 @@
     <Compile Include="TabGeneraleView.Designer.cs">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateTesseraDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateTesseraDialog.Designer.cs">
+      <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientWindow.resx">
@@ -103,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TabGeneraleView.resx">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateTesseraDialog.resx">
+      <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

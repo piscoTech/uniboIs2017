@@ -72,7 +72,7 @@ namespace Flotta.ServerSide
 
 			IMezzo m = ModelFactory.NewMezzo();
 			ITessera t = ModelFactory.NewTessera(_tesseraTypes.ElementAt(1));
-			t.Update("ABC123", "7654");
+			t.Update("123", "7654");
 			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[0], new IPermesso[0]);
 			_mezzi.Add(m);
 		}

@@ -85,30 +85,35 @@ namespace Flotta.ClientSide
 
 		private void OnCreateNewType()
 		{
-			if (_activeType != null)
-				return;
-
-			_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedObjectDialog();
-			_updateDialog.FormClosed += (object sender, FormClosedEventArgs e) => _activeType = null;
-			_updateDialog.SaveType += OnSaveType;
-			_updateDialog.TypeName = _typeName;
-
-			_updateDialog.ShowDialog();
+			DoEdit(null);
 		}
 
 		private void OnEditType(int index)
 		{
-			if (_activeType != null)
-				return;
+			DoEdit(_typeList[index]);
+		}
 
-			_activeType = _typeList[index];
-			_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedObjectDialog();
-			_updateDialog.FormClosed += (object sender, FormClosedEventArgs e) => _activeType = null;
-			_updateDialog.SaveType += OnSaveType;
-			_updateDialog.NameText = _activeType.Name;
-			_updateDialog.TypeName = _typeName;
+		private void DoEdit(T activeType)
+		{
+			_activeType = activeType;
 
-			_updateDialog.ShowDialog();
+			using (_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedObjectDialog())
+			{
+				_updateDialog.NameText = activeType?.Name ?? "";
+				_updateDialog.TypeName = _typeName;
+
+				if(_updateDialog.ShowDialog() == DialogResult.OK)
+				{
+					T type = activeType ?? _newType();
+					var errors = _updateType(type, _updateDialog.NameText);
+					if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
+					else
+					{
+						_updateDialog.Close();
+						_updateDialog = null;
+					}
+				}
+			}
 		}
 
 		private void OnDeleteType(int index)
@@ -117,18 +122,6 @@ namespace Flotta.ClientSide
 			{
 				if (!_deleteType(_typeList[index]))
 					MessageBox.Show("Errore durante l'eliminazione");
-			}
-		}
-
-		private void OnSaveType(string name)
-		{
-			T type = _activeType == null ? _newType() : _activeType;
-			var errors = _updateType(type, name);
-			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
-			else
-			{
-				_updateDialog.Close();
-				_updateDialog = null;
 			}
 		}
 

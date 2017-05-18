@@ -14,6 +14,7 @@ namespace Flotta.Model
 		String Pin { get; }
 
 		IEnumerable<string> Update(string codice, string pin);
+		bool IsValid { get; }
 	}
 
 	internal class Tessera : ITessera
@@ -66,14 +67,14 @@ namespace Flotta.Model
 			codice = codice?.Trim();
 			pin = pin?.Trim();
 			if (String.IsNullOrEmpty(codice))
-				errors.Add(_type.Name + ": codice non specificato");
-			else if (!alphaNum.IsMatch(pin))
-				errors.Add(_type.Name + ": codice non valido, usa solo 0-9");
+				errors.Add("Codice non specificato");
+			else if (!alphaNum.IsMatch(codice))
+				errors.Add("Codice non valido, usa solo 0-9");
 
 			if (String.IsNullOrEmpty(pin))
-				errors.Add(_type.Name + ": PIN non specificato");
+				errors.Add("PIN non specificato");
 			else if (!alphaNum.IsMatch(pin))
-				errors.Add(_type.Name + ": PIN non valido, usa solo 0-9");
+				errors.Add("PIN non valido, usa solo 0-9");
 
 			if (errors.Count > 0)
 				return errors;
@@ -84,8 +85,11 @@ namespace Flotta.Model
 			return errors;
 		}
 
+		public bool IsValid => Update(_codice, _pin).Count() == 0;
+
 		public object Clone()
 		{
+			// Also copy the reference to scadenza
 			return new Tessera(_type, _codice, _pin);
 		}
 	}

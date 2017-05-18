@@ -11,7 +11,6 @@ using Flotta.ClientSide;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate void GenericAction();
 	public delegate void MezzoListAction(int index);
 
 	public interface IClientWindow
@@ -21,15 +20,15 @@ namespace Flotta.ClientSide.Interface
 		IMezzoTabView MezzoTabControl { get; }
 		bool HasMezzo { set; }
 
-		event GenericAction WindowClose;
+		event Action WindowClose;
 		event MezzoListAction MezzoSelected;
-		event GenericAction CreateNewMezzo;
+		event Action CreateNewMezzo;
 
-		event GenericAction OpenTesseraTypes;
-		event GenericAction OpenDispositivoTypes;
-		event GenericAction OpenPermessoTypes;
-		event GenericAction OpenManutenzioneTypes;
-		event GenericAction OpenAssicurazioneTypes;
+		event Action OpenTesseraTypes;
+		event Action OpenDispositivoTypes;
+		event Action OpenPermessoTypes;
+		event Action OpenManutenzioneTypes;
+		event Action OpenAssicurazioneTypes;
 	}
 
 	internal partial class ClientWindow : Form, IClientWindow
@@ -86,7 +85,7 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public event GenericAction WindowClose;
+		public event Action WindowClose;
 		private void CloseClient(object sender, FormClosedEventArgs e)
 		{
 			WindowClose();
@@ -102,38 +101,38 @@ namespace Flotta.ClientSide.Interface
 			MezzoSelected?.Invoke(e.RowIndex);
 		}
 
-		public event GenericAction CreateNewMezzo;
+		public event Action CreateNewMezzo;
 		private void NewMezzo(object sender, EventArgs e)
 		{
 			CreateNewMezzo?.Invoke();
 		}
 
-		public event GenericAction OpenTesseraTypes;
+		public event Action OpenTesseraTypes;
 		private void OnOpenTesseraTypes(object sender, EventArgs e)
 		{
 			OpenTesseraTypes?.Invoke();
 		}
 
-		public event GenericAction OpenDispositivoTypes;
+		public event Action OpenDispositivoTypes;
 		private void OnOpenDispositivoTypes(object sender, EventArgs e)
 		{
 			OpenDispositivoTypes?.Invoke();
 		}
 
-		public event GenericAction OpenPermessoTypes;
+		public event Action OpenPermessoTypes;
 		private void OnOpenPermessoTypes(object sender, EventArgs e)
 		{
 			OpenPermessoTypes?.Invoke();
 		}
 
 
-		public event GenericAction OpenManutenzioneTypes;
+		public event Action OpenManutenzioneTypes;
 		private void OnOpenManutenzioneTypes(object sender, EventArgs e)
 		{
 			OpenManutenzioneTypes?.Invoke();
 		}
 
-		public event GenericAction OpenAssicurazioneTypes;
+		public event Action OpenAssicurazioneTypes;
 		private void OnOpenAssicurazioneTypes(object sender, EventArgs e)
 		{
 			OpenAssicurazioneTypes?.Invoke();

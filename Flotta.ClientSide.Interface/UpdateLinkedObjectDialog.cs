@@ -10,15 +10,11 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate void SaveType(string name);
-
-	public interface IUpdateLinkedObjectDialog
+	public interface IUpdateLinkedObjectDialog : IDisposable
 	{
 		void Close();
 		DialogResult ShowDialog();
-		event FormClosedEventHandler FormClosed;
-		event SaveType SaveType;
-		string NameText { set; }
+		string NameText { get; set; }
 		string TypeName { set; }
 	}
 
@@ -31,18 +27,13 @@ namespace Flotta.ClientSide.Interface
 
 		public string NameText
 		{
+			get => name.Text;
 			set => name.Text = value;
-		}
-
-		public event SaveType SaveType;
-		private void OnSaveType(object sender, EventArgs e)
-		{
-			SaveType?.Invoke(name.Text);
 		}
 
 		public string TypeName
 		{
-			set => this.Text = "Cambia – " + value + " – Flotta";
+			set => this.Text = "Modifica – Tipo " + value + " – Flotta";
 		}
 	}
 }

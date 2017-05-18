@@ -20,7 +20,7 @@ namespace Flotta.ClientSide.Interface
 		IEnumerable<ILinkedObjectListItem> TypeList { set; }
 		string TypeName { set; }
 
-		event GenericAction CreateNewType;
+		event Action CreateNewType;
 		event TypeListAction DeleteType;
 		event TypeListAction EditType;
 	}
@@ -102,7 +102,7 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public event GenericAction CreateNewType;
+		public event Action CreateNewType;
 		private void OnCreateNewType(object sender, EventArgs e)
 		{
 			Console.WriteLine(CreateNewType);
@@ -125,7 +125,7 @@ namespace Flotta.ClientSide.Interface
 
 		public string TypeName
 		{
-			set => this.Text = value + " – Flotta";
+			set => this.Text = "Tipi " + value + " – Flotta";
 		}
 	}
 }

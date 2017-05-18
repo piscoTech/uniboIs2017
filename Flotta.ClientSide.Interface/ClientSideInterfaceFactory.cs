@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Flotta.ClientSide.Interface
 {
+	public delegate bool ConfirmAction();
+
 	public static class ClientSideInterfaceFactory
 	{
 
@@ -42,6 +44,11 @@ namespace Flotta.ClientSide.Interface
 		public static ITesseraListItem NewTesseraListItem(bool inUse, string type, string codice, string pin)
 		{
 			return new TesseraListItem(inUse, type, codice, pin);
+		}
+
+		public static IUpdateTesseraDialog NewUpdateTesseraDialog()
+		{
+			return new UpdateTesseraDialog();
 		}
 
 	}

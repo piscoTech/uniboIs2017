@@ -69,19 +69,17 @@ namespace Flotta.ClientSide
 		private List<IPermesso> _permessiTmp = null;
 		// IPermessoListItem
 
-		internal TabGeneralePresenter(IServer server, IMezzo mezzo, ITabGeneraleView view)
+		internal TabGeneralePresenter(IServer server, IMezzo mezzo, ITabGeneraleView view) : this(server, view)
 		{
 			_mezzo = mezzo;
-			CommonContructor(server, view);
 		}
 
-		internal TabGeneralePresenter(IServer server, MezzoTabPresenter tabs, ITabGeneraleView view)
+		internal TabGeneralePresenter(IServer server, MezzoTabPresenter tabs, ITabGeneraleView view) : this(server, view)
 		{
 			_tabs = tabs;
-			CommonContructor(server, view);
 		}
 
-		private void CommonContructor(IServer server, ITabGeneraleView view)
+		private TabGeneralePresenter(IServer server, ITabGeneraleView view)
 		{
 			_server = server;
 			_view = view;
@@ -92,12 +90,17 @@ namespace Flotta.ClientSide
 			_view.CancelEdit += OnCancelEdit;
 			_view.EnterEdit += OnEnterEdit;
 			_view.SaveEdit += OnSaveEdit;
+
+			_view.TesseraEdit += OnTesseraEdit;
+			_view.TesseraRemove += OnTesseraRemove;
 		}
 
 		public void Reload()
 		{
 			if (Mezzo == null)
 				return;
+
+			_view.EditMode = _editMode;
 
 			_view.Modello = Mezzo.Modello;
 			_view.Targa = Mezzo.Targa;
@@ -124,8 +127,6 @@ namespace Flotta.ClientSide
 			{
 				_view.Tessere = from t in Mezzo.Tessere orderby t.Type.Name select ClientSideInterfaceFactory.NewTesseraListItem(true, t.Type.Name, t.Codice, t.Pin);
 			}
-
-			_view.EditMode = _editMode;
 		}
 
 		private void OnEnterEdit()
@@ -144,13 +145,67 @@ namespace Flotta.ClientSide
 			EditMode = false;
 		}
 
-		internal event GenericAction MezzoSaved;
+		private void OnTesseraEdit(int index)
+		{
+			if (!_editMode)
+				return;
+
+			ITesseraType tt = _tessereTypes[index];
+			var ti = _tessereItems[index];
+			var t = (from tess in _tessereTmp where tess.Type == tt select tess).ElementAtOrDefault(0);
+			using (var tesseraDialog = ClientSideInterfaceFactory.NewUpdateTesseraDialog())
+			{
+				tesseraDialog.Codice = t?.Codice ?? "";
+				tesseraDialog.Pin = t?.Pin ?? "";
+				tesseraDialog.Validation = () =>
+				{
+					var tess = t ?? ModelFactory.NewTessera(tt);
+					var errors = tess.Update(tesseraDialog.Codice, tesseraDialog.Pin);
+					if (errors.Count() > 0)
+					{
+						MessageBox.Show(String.Join("\r\n", errors), "Errore");
+						return false;
+					}
+					else
+					{
+						if (t == null)
+							_tessereTmp.Add(tess);
+
+						ti.InUse = true;
+						ti.Codice = tess.Codice;
+						ti.Pin = tess.Pin;
+
+						return true;
+					}
+				};
+
+				if (tesseraDialog.ShowDialog() == DialogResult.OK)
+				{
+					_view.Tessere = _tessereItems;
+				}
+			}
+		}
+		private void OnTesseraRemove(int index)
+		{
+			if (!_editMode)
+				return;
+
+			ITesseraType tt = _tessereTypes[index];
+			var ti = _tessereItems[index];
+			ti.InUse = false;
+			ti.Codice = "";
+			ti.Pin = "";
+			_tessereTmp.Remove((from t in _tessereTmp where t.Type == tt select t).ElementAtOrDefault(0));
+			_view.Tessere = _tessereItems;
+		}
+
+		internal event Action MezzoSaved;
 		private void OnSaveEdit()
 		{
 			if (!EditMode)
 				return;
 
-			var errors = _server.UpdateMezzo(_tabs.Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, Mezzo.Tessere, Mezzo.Dispositivi, Mezzo.Permessi);
+			var errors = _server.UpdateMezzo(Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tessereTmp, Mezzo.Dispositivi, Mezzo.Permessi);
 
 			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
 

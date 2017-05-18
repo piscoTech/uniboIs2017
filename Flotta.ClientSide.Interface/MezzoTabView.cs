@@ -15,7 +15,7 @@ namespace Flotta.ClientSide.Interface
 
 	public interface IMezzoTabView
 	{
-		event GenericAction ExitEdit;
+		event Action ExitEdit;
 		event MezzoTabAction TabChanged;
 
 		int CurrentTab { get; set; }
@@ -47,7 +47,7 @@ namespace Flotta.ClientSide.Interface
 			get => tabGeneraleView;
 		}
 
-		public event GenericAction ExitEdit;
+		public event Action ExitEdit;
 		public event MezzoTabAction TabChanged;
 		private void OnTabChange(object sender, TabControlEventArgs e)
 		{

@@ -195,6 +195,8 @@ namespace Flotta.Model
 
 			if (!CheckType(from t in tessere select t.Type))
 				errors.Add("Una o più tipi di tessera sono stati usati più di una volta");
+			else if ((from t in tessere select t.IsValid).Contains(false))
+				errors.Add("Una o più tessere non sono valide");
 
 			if (!CheckType(from d in dispositivi select d.Type))
 				errors.Add("Una o più tipi di dispositivo sono stati usati più di una volta");
@@ -216,7 +218,24 @@ namespace Flotta.Model
 			_profondita = profondita;
 			_volumeCarico = volumeCarico;
 
-			_tessere = new HashSet<ITessera>(tessere);
+			// We cannot create a new set from the passed collections has this one are clones of the originals and the reference to scadenze may have changed
+
+			// Drop removed items, we clone Linq result to break any dependecy to the modified collections
+			foreach(ITessera tess in (from t in _tessere where !(from nt in tessere select nt.Type).Contains(t.Type) select t).ToArray())
+			{
+				_tessere.Remove(tess);
+			}
+			// Update kept items
+			foreach(ITessera tess in tessere)
+			{
+				(from t in _tessere where t.Type == tess.Type select t).ElementAtOrDefault(0)?.Update(tess.Codice, tess.Pin);
+			}
+			// Add new items, we clone Linq result to break any dependecy to the modified collections
+			foreach (ITessera tess in (from t in tessere where !(from ot in _tessere select ot.Type).Contains(t.Type) select t).ToArray())
+			{
+				_tessere.Add(tess);
+			}
+
 			_dispositivi = new HashSet<IDispositivo>(dispositivi);
 			_permessi = new HashSet<IPermesso>(permessi);
 			
