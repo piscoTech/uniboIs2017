@@ -6,23 +6,49 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IPermesso : IDBObject
+	public interface IPermesso : IDBObject, ICloneable
 	{
 		IPermessoType Type { get; }
+		IPDF Allegato { get; }
+
+		IEnumerable<string> Update(IPDF Allegato);
+		bool IsValid { get; }
 	}
 
 	internal class Permesso : IPermesso
 	{
+		private IPermessoType _type;
+		private IPDF _allegato;
 
-		private PermessoType _type;
-
-		public IPermessoType Type
+		internal Permesso(IPermessoType type)
 		{
-			get
-			{
-				return _type;
-			}
+			_type = type;
 		}
 
+		private Permesso(IPermessoType type, IPDF allegato)
+		{
+			_type = type;
+			_allegato = allegato;
+		}
+
+		public IPermessoType Type => _type;
+		public IPDF Allegato => _allegato;
+
+		public IEnumerable<string> Update(IPDF allegato)
+		{
+			if (!(allegato?.IsValid ?? true))
+				return new string[] { "Allegato non valido" };
+
+			_allegato = allegato;
+			return new string[0];
+		}
+
+		public bool IsValid => _allegato?.IsValid ?? true;
+
+		public object Clone()
+		{
+			// Also copy the reference to scadenza
+			return new Permesso(_type, _allegato);
+		}
 	}
 }

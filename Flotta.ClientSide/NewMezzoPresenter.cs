@@ -40,6 +40,7 @@ namespace Flotta.ClientSide
 		private void OnCompletion(object sender, FormClosedEventArgs e)
 		{
 			CreationCompleted?.Invoke(_saved);
+			_window.Dispose();
 		}
 
 		private void OnSave()

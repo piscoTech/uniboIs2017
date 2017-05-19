@@ -10,9 +10,8 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface IUpdateLinkedObjectDialog : IDisposable
+	public interface IUpdateLinkedObjectDialog : ICloseableDisposable
 	{
-		void Close();
 		DialogResult ShowDialog();
 		string NameText { get; set; }
 		string TypeName { set; }

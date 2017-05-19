@@ -51,5 +51,10 @@ namespace Flotta.ClientSide.Interface
 			return new UpdateTesseraDialog();
 		}
 
+		public static IDispositivoPermessoListItem NewDispositivoPermessoListItem(bool inUse, string type, string allegatoPath)
+		{
+			return new DispositivoPermessoListItem(inUse, type, allegatoPath);
+		}
+
 	}
 }

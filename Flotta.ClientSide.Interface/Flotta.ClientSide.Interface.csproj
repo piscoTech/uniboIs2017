@@ -50,6 +50,8 @@
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="DatatGridViewExtensions.cs" />
+    <Compile Include="DispositivoPermessoListItem.cs" />
+    <Compile Include="ICloseableDisposable.cs" />
     <Compile Include="LinkedObjectListItem.cs" />
     <Compile Include="LinkedObjectManagerWindow.cs">
       <SubType>Form</SubType>

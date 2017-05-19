@@ -35,29 +35,9 @@ namespace Flotta.Model
 			_pin = pin;
 		}
 
-		public ITesseraType Type
-		{
-			get
-			{
-				return _type;
-			}
-		}
-
-		public string Codice
-		{
-			get
-			{
-				return _codice;
-			}
-		}
-
-		public string Pin
-		{
-			get
-			{
-				return _pin;
-			}
-		}
+		public ITesseraType Type => _type;
+		public string Codice => _codice;
+		public string Pin => _pin;
 
 		public IEnumerable<string> Update(string codice, string pin)
 		{

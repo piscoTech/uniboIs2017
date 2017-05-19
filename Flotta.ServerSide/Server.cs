@@ -68,12 +68,36 @@ namespace Flotta.ServerSide
 			_tesseraTypes.Add(tt);
 			tt = ModelFactory.NewTesseraType();
 			tt.Update("Tessera 2");
+			tt.Disable();
 			_tesseraTypes.Add(tt);
+
+			IDispositivoType dt = ModelFactory.NewDispositivoType();
+			dt.Update("Dispositivo 1");
+			dt.Disable();
+			_dispositivoTypes.Add(dt);
+			dt = ModelFactory.NewDispositivoType();
+			dt.Update("Dispositivo 2");
+			_dispositivoTypes.Add(dt);
+
+			IPermessoType pt = ModelFactory.NewPermessoType();
+			pt.Update("Permesso 1");
+			_permessoTypes.Add(pt);
+			pt = ModelFactory.NewPermessoType();
+			pt.Update("Permesso 2");
+			pt.Disable();
+			_permessoTypes.Add(pt);
 
 			IMezzo m = ModelFactory.NewMezzo();
 			ITessera t = ModelFactory.NewTessera(_tesseraTypes.ElementAt(1));
 			t.Update("123", "7654");
-			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[0], new IPermesso[0]);
+			IDispositivo d = ModelFactory.NewDispositivo(_dispositivoTypes.ElementAt(0));
+			d.Update(null);
+			IPermesso p1, p2;
+			p1 = ModelFactory.NewPermesso(_permessoTypes.ElementAt(0));
+			p1.Update(null);
+			p2 = ModelFactory.NewPermesso(_permessoTypes.ElementAt(1));
+			p1.Update(null);
+			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
 		}
 
@@ -135,13 +159,13 @@ namespace Flotta.ServerSide
 			if (numMatch.Count() > 0)
 				errors.Add("Il numero è già utilizzato");
 
-			if(!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in _tesseraTypes select t))
+			if (!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in _tesseraTypes select t))
 				errors.Add("Uno o più tipi di tessere non esistono");
-			if(!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in _dispositivoTypes select d))
+			if (!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in _dispositivoTypes select d))
 				errors.Add("Uno o più tipi di dispositivi non esistono");
-			if(!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in _permessoTypes select p))
+			if (!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in _permessoTypes select p))
 				errors.Add("Uoa o più tipi di permessi non esistono");
-			
+
 			if (errors.Count > 0)
 				return errors;
 			else

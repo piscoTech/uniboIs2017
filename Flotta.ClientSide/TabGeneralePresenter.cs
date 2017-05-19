@@ -31,30 +31,12 @@ namespace Flotta.ClientSide
 			set
 			{
 				_editMode = value;
-
-				if (value)
-				{
-					_tessereTmp = (from t in Mezzo.Tessere select t.Clone() as ITessera).ToList();
-					_tessereTypes = (from t in _server.TesseraTypes where !t.IsDisabled || (from tt in Mezzo.Tessere select tt.Type).Contains(t) select t).ToList();
-
-					//_dispositivoTmp = (from d in Mezzo.Dispositivi select d.Clone()).ToList();
-
-					//_permessiTmp = (from p in Mezzo.Permessi select p.Clone()).ToList();
-				}
-				else
-				{
-					_tessereTmp = null;
-					_tessereTypes = null;
-					_tessereItems = null;
-
-					_dispositivoTmp = null;
-
-					_permessiTmp = null;
-				}
-
 				Reload();
 			}
 		}
+
+		private LinkedObject _editingType;
+		private ICloseableDisposable _editingTypeDialog;
 
 		///<summary>During editing keeps a local copy of tessere linked to mezzo to edit freely.</summary>
 		private List<ITessera> _tessereTmp = null;
@@ -63,11 +45,19 @@ namespace Flotta.ClientSide
 		///<summary>During editing keeps visual items for tessere corresponding to the list of available types _tessereTypes.</summary>
 		private List<ITesseraListItem> _tessereItems = null;
 
-		private List<IDispositivo> _dispositivoTmp = null;
-		// IDispositivoListItem
+		///<summary>During editing keeps a local copy of dispositivi linked to mezzo to edit freely.</summary>
+		private List<IDispositivo> _dispositiviTmp = null;
+		///<summary>During editing keeps the subset of dispositivi types available, aka non disabled or already linked to mezzo.</summary>
+		private List<IDispositivoType> _dispositiviTypes = null;
+		///<summary>During editing keeps visual items for dispositivi corresponding to the list of available types _dispositiviTypes.</summary>
+		private List<IDispositivoPermessoListItem> _dispositiviItems = null;
 
+		///<summary>During editing keeps a local copy of permessi linked to mezzo to edit freely.</summary>
 		private List<IPermesso> _permessiTmp = null;
-		// IPermessoListItem
+		///<summary>During editing keeps the subset of permessi types available, aka non disabled or already linked to mezzo.</summary>
+		private List<IPermessoType> _permessiTypes = null;
+		///<summary>During editing keeps visual items for permessi corresponding to the list of available types _permessiTypes.</summary>
+		private List<IDispositivoPermessoListItem> _permessiItems = null;
 
 		internal TabGeneralePresenter(IServer server, IMezzo mezzo, ITabGeneraleView view) : this(server, view)
 		{
@@ -86,6 +76,9 @@ namespace Flotta.ClientSide
 
 			EditMode = false;
 
+			_server.ObjectChanged += OnObjectChanged;
+			_server.ObjectRemoved += OnObjectRemoved;
+
 			_view.DeleteMezzo += OnDeleteMezzo;
 			_view.CancelEdit += OnCancelEdit;
 			_view.EnterEdit += OnEnterEdit;
@@ -99,6 +92,32 @@ namespace Flotta.ClientSide
 		{
 			if (Mezzo == null)
 				return;
+
+			if (EditMode)
+			{
+				_tessereTmp = (from t in Mezzo.Tessere select t.Clone() as ITessera).ToList();
+				_tessereTypes = (from t in _server.TesseraTypes where !t.IsDisabled || (from tt in Mezzo.Tessere select tt.Type).Contains(t) select t).ToList();
+
+				_dispositiviTmp = (from d in Mezzo.Dispositivi select d.Clone() as IDispositivo).ToList();
+				_dispositiviTypes = (from d in _server.DispositivoTypes where !d.IsDisabled || (from dt in Mezzo.Dispositivi select dt.Type).Contains(d) select d).ToList();
+
+				_permessiTmp = (from p in Mezzo.Permessi select p.Clone() as IPermesso).ToList();
+				_permessiTypes = (from p in _server.PermessoTypes where !p.IsDisabled || (from pt in Mezzo.Permessi select pt.Type).Contains(p) select p).ToList();
+			}
+			else
+			{
+				_tessereTmp = null;
+				_tessereTypes = null;
+				_tessereItems = null;
+
+				_dispositiviTmp = null;
+				_dispositiviTypes = null;
+				_dispositiviItems = null;
+
+				_permessiTmp = null;
+				_permessiTypes = null;
+				_permessiItems = null;
+			}
 
 			_view.EditMode = _editMode;
 
@@ -122,10 +141,52 @@ namespace Flotta.ClientSide
 					_tessereItems.Add(ClientSideInterfaceFactory.NewTesseraListItem(tess != null, tt.Name, tess?.Codice ?? "", tess?.Pin ?? ""));
 				}
 				_view.Tessere = _tessereItems;
+
+				_dispositiviItems = new List<IDispositivoPermessoListItem>();
+				foreach (var dt in _dispositiviTypes)
+				{
+					IDispositivo disp = (from d in _dispositiviTmp where d.Type == dt select d).ElementAtOrDefault(0);
+					_dispositiviItems.Add(ClientSideInterfaceFactory.NewDispositivoPermessoListItem(disp != null, dt.Name, disp?.Allegato?.Path));
+				}
+				_view.Dispositivi = _dispositiviItems;
+
+				_permessiItems = new List<IDispositivoPermessoListItem>();
+				foreach (var pt in _permessiTypes)
+				{
+					IPermesso perm = (from p in _permessiTmp where p.Type == pt select p).ElementAtOrDefault(0);
+					_permessiItems.Add(ClientSideInterfaceFactory.NewDispositivoPermessoListItem(perm != null, pt.Name, perm?.Allegato?.Path));
+				}
+				_view.Permessi = _permessiItems;
 			}
 			else
 			{
 				_view.Tessere = from t in Mezzo.Tessere orderby t.Type.Name select ClientSideInterfaceFactory.NewTesseraListItem(true, t.Type.Name, t.Codice, t.Pin);
+
+				_view.Dispositivi = from d in Mezzo.Dispositivi orderby d.Type.Name select ClientSideInterfaceFactory.NewDispositivoPermessoListItem(true, d.Type.Name, d.Allegato?.Path);
+
+				_view.Permessi = from p in Mezzo.Permessi orderby p.Type.Name select ClientSideInterfaceFactory.NewDispositivoPermessoListItem(true, p.Type.Name, p.Allegato?.Path);
+			}
+		}
+
+		private void OnObjectChanged(IDBObject obj)
+		{
+			// Change in mezzo, and so tessere, dispositivi and permessi, are handled by parent presenters
+			if (obj is ITesseraType || obj is IDispositivoType || obj is IPermessoType)
+				Reload();
+		}
+		private void OnObjectRemoved(IDBObject obj)
+		{
+			// Change in mezzo, and so tessere, dispositivi and permessi, are handled by parent presenters
+			if (obj is ITesseraType || obj is IDispositivoType || obj is IPermessoType)
+			{
+				Reload();
+				if (obj == _editingType)
+				{
+					_editingTypeDialog.Close();
+					_editingTypeDialog.Dispose();
+					_editingType = null;
+					_editingTypeDialog = null;
+				}
 			}
 		}
 
@@ -151,10 +212,12 @@ namespace Flotta.ClientSide
 				return;
 
 			ITesseraType tt = _tessereTypes[index];
+			_editingType = tt;
 			var ti = _tessereItems[index];
 			var t = (from tess in _tessereTmp where tess.Type == tt select tess).ElementAtOrDefault(0);
 			using (var tesseraDialog = ClientSideInterfaceFactory.NewUpdateTesseraDialog())
 			{
+				_editingTypeDialog = tesseraDialog;
 				tesseraDialog.Codice = t?.Codice ?? "";
 				tesseraDialog.Pin = t?.Pin ?? "";
 				tesseraDialog.Validation = () =>
@@ -183,6 +246,8 @@ namespace Flotta.ClientSide
 				{
 					_view.Tessere = _tessereItems;
 				}
+				_editingTypeDialog = null;
+				_editingType = null;
 			}
 		}
 		private void OnTesseraRemove(int index)
@@ -205,7 +270,7 @@ namespace Flotta.ClientSide
 			if (!EditMode)
 				return;
 
-			var errors = _server.UpdateMezzo(Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tessereTmp, Mezzo.Dispositivi, Mezzo.Permessi);
+			var errors = _server.UpdateMezzo(Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tessereTmp, _dispositiviTmp, _permessiTmp);
 
 			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
 

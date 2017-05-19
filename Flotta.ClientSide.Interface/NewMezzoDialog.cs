@@ -10,10 +10,9 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface INewMezzoDialog : IDisposable
+	public interface INewMezzoDialog : ICloseableDisposable
 	{
 		DialogResult ShowDialog();
-		void Close();
 
 		ITabGeneraleView TabGenerale { get; }
 

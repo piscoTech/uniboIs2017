@@ -31,9 +31,17 @@ namespace Flotta.ClientSide.Interface
 		float VolumeCarico { get; set; }
 
 		IEnumerable<ITesseraListItem> Tessere { set; }
+		IEnumerable<IDispositivoPermessoListItem> Dispositivi { set; }
+		IEnumerable<IDispositivoPermessoListItem> Permessi { set; }
 
 		event LinkedObjectAction TesseraEdit;
 		event LinkedObjectAction TesseraRemove;
+
+		event LinkedObjectAction DispositivoEdit;
+		event LinkedObjectAction DispositivoRemove;
+
+		event LinkedObjectAction PermessoEdit;
+		event LinkedObjectAction PermessoRemove;
 
 		bool EditMode { set; }
 	}
@@ -41,8 +49,9 @@ namespace Flotta.ClientSide.Interface
 	internal partial class TabGeneraleView : UserControl, ITabGeneraleView
 	{
 		private bool _editMode;
-		//private List<ITesseraListItem> _tessere = new List<ITesseraListItem>();
 		private BindingList<ITesseraListItem> _tessere = new BindingList<ITesseraListItem>();
+		private BindingList<IDispositivoPermessoListItem> _dispositivi = new BindingList<IDispositivoPermessoListItem>();
+		private BindingList<IDispositivoPermessoListItem> _permessi = new BindingList<IDispositivoPermessoListItem>();
 
 		internal TabGeneraleView()
 		{
@@ -53,6 +62,8 @@ namespace Flotta.ClientSide.Interface
 			permessiList.AutoGenerateColumns = false;
 
 			tessereList.DataSource = _tessere;
+			dispositiviList.DataSource = _dispositivi;
+			permessiList.DataSource = _permessi;
 		}
 
 		public event Action EnterEdit;
@@ -232,9 +243,28 @@ namespace Flotta.ClientSide.Interface
 				// As _tessere is the DataSource of the corresponding data grid we must change the existing collection
 				foreach (var t in value)
 					_tessere.Add(t);
-				//_tessere.AddRange(value);
-				//tessereList.Refresh();
-				//tessereList.DataSource = value;
+			}
+		}
+
+		public IEnumerable<IDispositivoPermessoListItem> Dispositivi
+		{
+			set
+			{
+				_dispositivi.Clear();
+				// As _tessere is the DataSource of the corresponding data grid we must change the existing collection
+				foreach (var t in value)
+					_dispositivi.Add(t);
+			}
+		}
+
+		public IEnumerable<IDispositivoPermessoListItem> Permessi
+		{
+			set
+			{
+				_permessi.Clear();
+				// As _tessere is the DataSource of the corresponding data grid we must change the existing collection
+				foreach (var t in value)
+					_permessi.Add(t);
 			}
 		}
 
@@ -370,7 +400,7 @@ namespace Flotta.ClientSide.Interface
 						CellTemplate = cell,
 						Name = "Allegato",
 						HeaderText = "Allegato",
-						DataPropertyName = "Allegato"
+						DataPropertyName = "AllegatoPath"
 					};
 					list.Columns.Add(colAttachment);
 
@@ -415,6 +445,32 @@ namespace Flotta.ClientSide.Interface
 				TesseraEdit?.Invoke(e.RowIndex);
 			else if (e.ColumnIndex == 5)
 				TesseraRemove?.Invoke(e.RowIndex);
+		}
+
+		public event LinkedObjectAction DispositivoEdit;
+		public event LinkedObjectAction DispositivoRemove;
+		private void OnDispositivoClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < 0 || !_editMode)
+				return;
+
+			if (e.ColumnIndex == 3)
+				DispositivoEdit?.Invoke(e.RowIndex);
+			else if (e.ColumnIndex == 4)
+				DispositivoRemove?.Invoke(e.RowIndex);
+		}
+
+		public event LinkedObjectAction PermessoEdit;
+		public event LinkedObjectAction PermessoRemove;
+		private void OnPermessoClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < 0 || !_editMode)
+				return;
+
+			if (e.ColumnIndex == 3)
+				PermessoEdit?.Invoke(e.RowIndex);
+			else if (e.ColumnIndex == 4)
+				PermessoRemove?.Invoke(e.RowIndex);
 		}
 	}
 }

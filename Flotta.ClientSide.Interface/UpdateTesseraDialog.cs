@@ -10,9 +10,8 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface IUpdateTesseraDialog : IDisposable
+	public interface IUpdateTesseraDialog : ICloseableDisposable
 	{
-		void Close();
 		DialogResult ShowDialog();
 		string Codice { get; set; }
 		string Pin { get; set; }

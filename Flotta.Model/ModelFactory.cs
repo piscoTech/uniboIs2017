@@ -42,5 +42,15 @@ namespace Flotta.Model
 		{
 			return new Tessera(type);
 		}
+
+		public static IDispositivo NewDispositivo(IDispositivoType type)
+		{
+			return new Dispositivo(type);
+		}
+
+		public static IPermesso NewPermesso(IPermessoType type)
+		{
+			return new Permesso(type);
+		}
 	}
 }

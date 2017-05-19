@@ -43,13 +43,16 @@
     <Compile Include="AssicurazioneType.cs" />
     <Compile Include="Dispositivo.cs" />
     <Compile Include="DispositivoType.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="IDBObject.cs" />
+    <Compile Include="Immagine.cs" />
     <Compile Include="LinkedObject.cs" />
     <Compile Include="Manutenzione.cs" />
     <Compile Include="ManutenzioneType.cs" />
     <Compile Include="Mezzo.cs" />
     <Compile Include="ModelFactory.cs" />
     <Compile Include="Officina.cs" />
+    <Compile Include="PDF.cs" />
     <Compile Include="Permesso.cs" />
     <Compile Include="PermessoType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
