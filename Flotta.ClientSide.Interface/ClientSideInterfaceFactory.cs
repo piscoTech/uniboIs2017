@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Flotta.ClientSide.Interface
 {
+	public delegate bool ConfirmAction();
+
 	public static class ClientSideInterfaceFactory
 	{
 
@@ -24,20 +26,39 @@ namespace Flotta.ClientSide.Interface
 			return new NewMezzoDialog();
 		}
 
-		public static ILinkedObjectManagerWindow NewLinkedObjectManagerWindow()
+		public static ILinkedTypeManagerWindow NewLinkedTypeManagerWindow()
 		{
-			return new LinkedObjectManagerWindow();
+			return new LinkedTypeManagerWindow();
 		}
 
-		public static ILinkedObjectListItem NewLinkedObjectListItem(string name, bool disabled)
+		public static ILinkedTypeListItem NewLinkedTypeListItem(string name, bool disabled)
 		{
-			return new LinkedObjectListItem(name, disabled);
+			return new LinkedTypeListItem(name, disabled);
 		}
 
-		public static IUpdateLinkedObjectDialog NewUpdateLinkedObjectDialog()
+		public static IUpdateLinkedTypeDialog NewUpdateLinkedTypeDialog()
 		{
-			return new UpdateLinkedObjectDialog();
+			return new UpdateLinkedTypeDialog();
 		}
 
+		public static ITesseraListItem NewTesseraListItem(bool inUse, string type, string codice, string pin)
+		{
+			return new TesseraListItem(inUse, type, codice, pin);
+		}
+
+		public static IDispositivoPermessoListItem NewDispositivoPermessoListItem(bool inUse, string type, string allegatoPath)
+		{
+			return new DispositivoPermessoListItem(inUse, type, allegatoPath);
+		}
+
+		public static IUpdateTesseraDialog NewUpdateTesseraDialog()
+		{
+			return new UpdateTesseraDialog();
+		}
+
+		public static IUpdateDispositivoPermessoDialog NewUpdateDispositivoPermessoDialog()
+		{
+			return new UpdateDispositivoPermessoDialog();
+		}
 	}
 }

@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Flotta.Model
+namespace Flotta.ClientSide.Interface
 {
-	public abstract class ITesseraType : LinkedType
+	public interface ICloseableDisposable : IDisposable
 	{
-	}
-
-	internal class TesseraType : ITesseraType
-	{
+		void Close();
 	}
 }

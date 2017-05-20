@@ -8,7 +8,7 @@ namespace Flotta.Model
 {
 	public static class ModelFactory
 	{
-		public static IMezzo NewMezzo ()
+		public static IMezzo NewMezzo()
 		{
 			return new Mezzo();
 		}
@@ -36,6 +36,21 @@ namespace Flotta.Model
 		public static IAssicurazioneType NewAssicurazioneType()
 		{
 			return new AssicurazioneType();
+		}
+
+		public static ITessera NewTessera(ITesseraType type)
+		{
+			return new Tessera(type);
+		}
+
+		public static IDispositivo NewDispositivo(IDispositivoType type)
+		{
+			return new Dispositivo(type);
+		}
+
+		public static IPermesso NewPermesso(IPermessoType type)
+		{
+			return new Permesso(type);
 		}
 	}
 }

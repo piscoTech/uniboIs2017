@@ -10,16 +10,15 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface INewMezzoDialog
+	public interface INewMezzoDialog : ICloseableDisposable
 	{
 		DialogResult ShowDialog();
-		void Close();
 
 		ITabGeneraleView TabGenerale { get; }
 
 		bool ConfirmBeforeClosing { set; }
 		event FormClosedEventHandler FormClosed;
-		event GenericAction SaveMezzo;
+		event Action SaveMezzo;
 	}
 
 	public partial class NewMezzoDialog : Form, INewMezzoDialog
@@ -46,7 +45,7 @@ namespace Flotta.ClientSide.Interface
 			get => tabGeneraleView;
 		}
 
-		public event GenericAction SaveMezzo;
+		public event Action SaveMezzo;
 		private void OnSaveEdit()
 		{
 			SaveMezzo?.Invoke();

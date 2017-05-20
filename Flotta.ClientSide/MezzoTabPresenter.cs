@@ -46,7 +46,7 @@ namespace Flotta.ClientSide
 			}
 		}
 
-		internal event GenericAction OnExitEdit;
+		internal event Action OnExitEdit;
 		private void ExitEdit()
 		{
 			OnExitEdit();

@@ -1,6 +1,6 @@
 ﻿namespace Flotta.ClientSide.Interface
 {
-	partial class LinkedObjectManagerWindow
+	partial class LinkedTypeManagerWindow
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -73,15 +73,15 @@
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.OnCreateNewType);
 			// 
-			// LinkedObjectManagerWindow
+			// LinkedTypeManagerWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(403, 329);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.typeList);
-			this.Name = "LinkedObjectManagerWindow";
-			this.Text = "LinkedObjectManagerWindow";
+			this.Name = "LinkedTypeManagerWindow";
+			this.Text = "LinkedTypeManagerWindow";
 			((System.ComponentModel.ISupportInitialize)(this.typeList)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
