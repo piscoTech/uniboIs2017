@@ -45,10 +45,10 @@ namespace Flotta.ClientSide
 
 			_mainWindow.OpenTesseraTypes += () => {
 				_typesPresenter?.Close();
-				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
 
-				var presenter = new LinkedObjectManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType)
+				var presenter = new LinkedTypeManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType)
 				{
 					TypeName = "Tessere"
 				};
@@ -58,10 +58,10 @@ namespace Flotta.ClientSide
 			};
 			_mainWindow.OpenDispositivoTypes += () => {
 				_typesPresenter?.Close();
-				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
 
-				var presenter = new LinkedObjectManagerPresenter<IDispositivoType>(_server, window, () => _server.DispositivoTypes, _server.UpdateDispositivoType, _server.DeleteDispositivoType, ModelFactory.NewDispositivoType)
+				var presenter = new LinkedTypeManagerPresenter<IDispositivoType>(_server, window, () => _server.DispositivoTypes, _server.UpdateDispositivoType, _server.DeleteDispositivoType, ModelFactory.NewDispositivoType)
 				{
 					TypeName = "Dispositivi"
 				};
@@ -71,10 +71,10 @@ namespace Flotta.ClientSide
 			};
 			_mainWindow.OpenPermessoTypes += () => {
 				_typesPresenter?.Close();
-				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
 
-				var presenter = new LinkedObjectManagerPresenter<IPermessoType>(_server, window, () => _server.PermessoTypes, _server.UpdatePermessoType, _server.DeletePermessoType, ModelFactory.NewPermessoType)
+				var presenter = new LinkedTypeManagerPresenter<IPermessoType>(_server, window, () => _server.PermessoTypes, _server.UpdatePermessoType, _server.DeletePermessoType, ModelFactory.NewPermessoType)
 				{
 					TypeName = "Permessi"
 				};
@@ -84,10 +84,10 @@ namespace Flotta.ClientSide
 			};
 			_mainWindow.OpenManutenzioneTypes += () => {
 				_typesPresenter?.Close();
-				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
 
-				var presenter = new LinkedObjectManagerPresenter<IManutenzioneType>(_server, window, () => _server.ManutenzioneTypes, _server.UpdateManutenzioneType, _server.DeleteManutenzioneType, ModelFactory.NewManutenzioneType)
+				var presenter = new LinkedTypeManagerPresenter<IManutenzioneType>(_server, window, () => _server.ManutenzioneTypes, _server.UpdateManutenzioneType, _server.DeleteManutenzioneType, ModelFactory.NewManutenzioneType)
 				{
 					TypeName = "Manutenzioni"
 				};
@@ -97,10 +97,10 @@ namespace Flotta.ClientSide
 			};
 			_mainWindow.OpenAssicurazioneTypes += () => {
 				_typesPresenter?.Close();
-				ILinkedObjectManagerWindow window = ClientSideInterfaceFactory.NewLinkedObjectManagerWindow();
+				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
 				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
 
-				var presenter = new LinkedObjectManagerPresenter<IAssicurazioneType>(_server, window, () => _server.AssicurazioneTypes, _server.UpdateAssicurazioneType, _server.DeleteAssicurazioneType, ModelFactory.NewAssicurazioneType)
+				var presenter = new LinkedTypeManagerPresenter<IAssicurazioneType>(_server, window, () => _server.AssicurazioneTypes, _server.UpdateAssicurazioneType, _server.DeleteAssicurazioneType, ModelFactory.NewAssicurazioneType)
 				{
 					TypeName = "Assicurazioni"
 				};

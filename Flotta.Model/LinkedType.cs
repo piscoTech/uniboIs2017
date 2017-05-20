@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public abstract class LinkedObject: IDBObject
+	public abstract class LinkedType: IDBObject
 	{
 
 		private string _name;

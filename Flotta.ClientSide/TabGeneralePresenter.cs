@@ -35,7 +35,7 @@ namespace Flotta.ClientSide
 			}
 		}
 
-		private LinkedObject _editingType;
+		private LinkedType _editingType;
 		private ICloseableDisposable _editingTypeDialog;
 
 		///<summary>During editing keeps a local copy of tessere linked to mezzo to edit freely.</summary>
@@ -86,6 +86,12 @@ namespace Flotta.ClientSide
 
 			_view.TesseraEdit += OnTesseraEdit;
 			_view.TesseraRemove += OnTesseraRemove;
+
+			_view.DispositivoEdit += OnDispositivoEdit;
+			_view.DispositivoRemove += OnDispositivoRemove;
+
+			_view.PermessoEdit += OnPermessoEdit;
+			_view.PermessoRemove += OnPermessoRemove;
 		}
 
 		public void Reload()
@@ -262,6 +268,82 @@ namespace Flotta.ClientSide
 			ti.Pin = "";
 			_tessereTmp.Remove((from t in _tessereTmp where t.Type == tt select t).ElementAtOrDefault(0));
 			_view.Tessere = _tessereItems;
+		}
+
+		private bool OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item, List<O> list, Func<T, O> createNew) where T : LinkedType where O : class, ILinkedObjectWithPDF<T>
+		{
+			if (!_editMode)
+				return false;
+
+			bool res;
+			_editingType = type;
+			var o = (from obj in list where obj.Type == type select obj).ElementAtOrDefault(0);
+			using (var objDialog = ClientSideInterfaceFactory.NewUpdateDispositivoPermessoDialog())
+			{
+				_editingTypeDialog = objDialog;
+				objDialog.Type = desc;
+				objDialog.Path = o?.Allegato?.Path ?? "";
+				objDialog.Validation = () =>
+				{
+					var obj = o ?? createNew(type);
+					// Files are not supported, all attachment will be null
+					var errors = obj.Update(null);
+					if (errors.Count() > 0)
+					{
+						MessageBox.Show(String.Join("\r\n", errors), "Errore");
+						return false;
+					}
+					else
+					{
+						if (o == null)
+							list.Add(obj);
+
+						item.InUse = true;
+						item.AllegatoPath = obj.Allegato?.Path;
+
+						return true;
+					}
+				};
+
+				res = objDialog.ShowDialog() == DialogResult.OK;
+				_editingTypeDialog = null;
+				_editingType = null;
+			}
+
+			return res;
+		}
+		private bool OnDispositivoPermessoRemove<T, O>(T type, IDispositivoPermessoListItem item, List<O> list) where T : LinkedType where O : ILinkedObject<T>
+		{
+			if (!_editMode)
+				return false;
+
+			item.InUse = false;
+			item.AllegatoPath = null;
+			list.Remove((from dp in list where dp.Type == type select dp).ElementAtOrDefault(0));
+
+			return true;
+		}
+
+		private void OnDispositivoEdit(int index)
+		{
+			if (OnDispositivoPermessoEdit("Dispositivo", _dispositiviTypes[index], _dispositiviItems[index], _dispositiviTmp, ModelFactory.NewDispositivo))
+				_view.Dispositivi = _dispositiviItems;
+		}
+		private void OnDispositivoRemove(int index)
+		{
+			if (OnDispositivoPermessoRemove(_dispositiviTypes[index], _dispositiviItems[index], _dispositiviTmp))
+				_view.Dispositivi = _dispositiviItems;
+		}
+
+		private void OnPermessoEdit(int index)
+		{
+			if (OnDispositivoPermessoEdit("Permesso", _permessiTypes[index], _permessiItems[index], _permessiTmp, ModelFactory.NewPermesso))
+				_view.Permessi = _permessiItems;
+		}
+		private void OnPermessoRemove(int index)
+		{
+			if (OnDispositivoPermessoRemove(_permessiTypes[index], _permessiItems[index], _permessiTmp))
+				_view.Permessi = _permessiItems;
 		}
 
 		internal event Action MezzoSaved;

@@ -144,11 +144,11 @@ namespace Flotta.ServerSide
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
-		public IEnumerable<ITesseraType> TesseraTypes => from t in _tesseraTypes orderby t.IsDisabled, t.Name select t;
-		public IEnumerable<IDispositivoType> DispositivoTypes => from t in _dispositivoTypes orderby t.IsDisabled, t.Name select t;
-		public IEnumerable<IPermessoType> PermessoTypes => from t in _permessoTypes orderby t.IsDisabled, t.Name select t;
-		public IEnumerable<IManutenzioneType> ManutenzioneTypes => from t in _manutenzioneTypes orderby t.IsDisabled, t.Name select t;
-		public IEnumerable<IAssicurazioneType> AssicurazioneTypes => from t in _assicurazioneTypes orderby t.IsDisabled, t.Name select t;
+		public IEnumerable<ITesseraType> TesseraTypes => from t in _tesseraTypes orderby t.Name select t;
+		public IEnumerable<IDispositivoType> DispositivoTypes => from t in _dispositivoTypes orderby t.Name select t;
+		public IEnumerable<IPermessoType> PermessoTypes => from t in _permessoTypes orderby t.Name select t;
+		public IEnumerable<IManutenzioneType> ManutenzioneTypes => from t in _manutenzioneTypes orderby t.Name select t;
+		public IEnumerable<IAssicurazioneType> AssicurazioneTypes => from t in _assicurazioneTypes orderby t.Name select t;
 
 		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
 		{
@@ -164,7 +164,7 @@ namespace Flotta.ServerSide
 			if (!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in _dispositivoTypes select d))
 				errors.Add("Uno o più tipi di dispositivi non esistono");
 			if (!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in _permessoTypes select p))
-				errors.Add("Uoa o più tipi di permessi non esistono");
+				errors.Add("Uno o più tipi di permessi non esistono");
 
 			if (errors.Count > 0)
 				return errors;
@@ -196,7 +196,7 @@ namespace Flotta.ServerSide
 			return false;
 		}
 
-		private IEnumerable<string> UpdateLinkedObject<T>(HashSet<T> list, T obj, string name) where T : LinkedObject
+		private IEnumerable<string> UpdateLinkedType<T>(HashSet<T> list, T obj, string name) where T : LinkedType
 		{
 			if (obj == null) throw new ArgumentNullException();
 
@@ -231,30 +231,30 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<string> UpdateTesseraType(ITesseraType tessera, string name)
 		{
-			return UpdateLinkedObject(_tesseraTypes, tessera, name);
+			return UpdateLinkedType(_tesseraTypes, tessera, name);
 		}
 
 		public IEnumerable<string> UpdateDispositivoType(IDispositivoType dispositivo, string name)
 		{
-			return UpdateLinkedObject(_dispositivoTypes, dispositivo, name);
+			return UpdateLinkedType(_dispositivoTypes, dispositivo, name);
 		}
 
 		public IEnumerable<string> UpdatePermessoType(IPermessoType permesso, string name)
 		{
-			return UpdateLinkedObject(_permessoTypes, permesso, name);
+			return UpdateLinkedType(_permessoTypes, permesso, name);
 		}
 
 		public IEnumerable<string> UpdateManutenzioneType(IManutenzioneType manutenzione, string name)
 		{
-			return UpdateLinkedObject(_manutenzioneTypes, manutenzione, name);
+			return UpdateLinkedType(_manutenzioneTypes, manutenzione, name);
 		}
 
 		public IEnumerable<string> UpdateAssicurazioneType(IAssicurazioneType assicurazione, string name)
 		{
-			return UpdateLinkedObject(_assicurazioneTypes, assicurazione, name);
+			return UpdateLinkedType(_assicurazioneTypes, assicurazione, name);
 		}
 
-		private bool DeleteLinkedObject<T>(HashSet<T> list, T obj, bool disable) where T : LinkedObject
+		private bool DeleteLinkedType<T>(HashSet<T> list, T obj, bool disable) where T : LinkedType
 		{
 			if (disable)
 			{
@@ -289,7 +289,7 @@ namespace Flotta.ServerSide
 					  where t.Count() > 0
 					  select t;
 
-			return DeleteLinkedObject(_tesseraTypes, tessera, res.Count() > 0);
+			return DeleteLinkedType(_tesseraTypes, tessera, res.Count() > 0);
 		}
 
 		public bool DeleteDispositivoType(IDispositivoType dispositivo)
@@ -307,7 +307,7 @@ namespace Flotta.ServerSide
 					  where t.Count() > 0
 					  select t;
 
-			return DeleteLinkedObject(_dispositivoTypes, dispositivo, res.Count() > 0);
+			return DeleteLinkedType(_dispositivoTypes, dispositivo, res.Count() > 0);
 		}
 
 		public bool DeletePermessoType(IPermessoType permesso)
@@ -325,7 +325,7 @@ namespace Flotta.ServerSide
 					  where t.Count() > 0
 					  select t;
 
-			return DeleteLinkedObject(_permessoTypes, permesso, res.Count() > 0);
+			return DeleteLinkedType(_permessoTypes, permesso, res.Count() > 0);
 		}
 
 		public bool DeleteManutenzioneType(IManutenzioneType manutenzione)
@@ -334,7 +334,7 @@ namespace Flotta.ServerSide
 
 			// Check if no manutenzione uses the type
 
-			return DeleteLinkedObject(_manutenzioneTypes, manutenzione, false);
+			return DeleteLinkedType(_manutenzioneTypes, manutenzione, false);
 		}
 
 		public bool DeleteAssicurazioneType(IAssicurazioneType assicurazione)
@@ -343,7 +343,7 @@ namespace Flotta.ServerSide
 
 			// Check if no incidents uses the type
 
-			return DeleteLinkedObject(_assicurazioneTypes, assicurazione, false);
+			return DeleteLinkedType(_assicurazioneTypes, assicurazione, false);
 		}
 	}
 }

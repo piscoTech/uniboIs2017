@@ -52,12 +52,12 @@
     <Compile Include="DatatGridViewExtensions.cs" />
     <Compile Include="DispositivoPermessoListItem.cs" />
     <Compile Include="ICloseableDisposable.cs" />
-    <Compile Include="LinkedObjectListItem.cs" />
-    <Compile Include="LinkedObjectManagerWindow.cs">
+    <Compile Include="LinkedTypeListItem.cs" />
+    <Compile Include="LinkedTypeManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LinkedObjectManagerWindow.Designer.cs">
-      <DependentUpon>LinkedObjectManagerWindow.cs</DependentUpon>
+    <Compile Include="LinkedTypeManagerWindow.Designer.cs">
+      <DependentUpon>LinkedTypeManagerWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MezzoListItem.cs" />
     <Compile Include="MezzoTabView.cs">
@@ -70,11 +70,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TesseraListItem.cs" />
-    <Compile Include="UpdateLinkedObjectDialog.cs">
+    <Compile Include="UpdateLinkedTypeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UpdateLinkedObjectDialog.Designer.cs">
-      <DependentUpon>UpdateLinkedObjectDialog.cs</DependentUpon>
+    <Compile Include="UpdateLinkedTypeDialog.Designer.cs">
+      <DependentUpon>UpdateLinkedTypeDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="NewMezzoDialog.Designer.cs">
       <DependentUpon>NewMezzoDialog.cs</DependentUpon>
@@ -85,6 +85,12 @@
     </Compile>
     <Compile Include="TabGeneraleView.Designer.cs">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateDispositivoPermessoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateDispositivoPermessoDialog.Designer.cs">
+      <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UpdateTesseraDialog.cs">
       <SubType>Form</SubType>
@@ -103,11 +109,14 @@
     <EmbeddedResource Include="NewMezzoDialog.resx">
       <DependentUpon>NewMezzoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LinkedObjectManagerWindow.resx">
-      <DependentUpon>LinkedObjectManagerWindow.cs</DependentUpon>
+    <EmbeddedResource Include="LinkedTypeManagerWindow.resx">
+      <DependentUpon>LinkedTypeManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateLinkedObjectDialog.resx">
-      <DependentUpon>UpdateLinkedObjectDialog.cs</DependentUpon>
+    <EmbeddedResource Include="UpdateDispositivoPermessoDialog.resx">
+      <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateLinkedTypeDialog.resx">
+      <DependentUpon>UpdateLinkedTypeDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabGeneraleView.resx">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>

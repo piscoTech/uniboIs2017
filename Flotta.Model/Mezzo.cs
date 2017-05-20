@@ -136,11 +136,11 @@ namespace Flotta.Model
 			}
 		}
 
-		private bool CheckType(IEnumerable<LinkedObject> array)
+		private bool CheckType(IEnumerable<LinkedType> array)
 		{
-			List<LinkedObject> o = new List<LinkedObject>();
+			List<LinkedType> o = new List<LinkedType>();
 
-			foreach (LinkedObject l in array)
+			foreach (LinkedType l in array)
 			{
 				if (!o.Contains(l))
 					o.Add(l);
@@ -200,9 +200,13 @@ namespace Flotta.Model
 
 			if (!CheckType(from d in dispositivi select d.Type))
 				errors.Add("Una o più tipi di dispositivo sono stati usati più di una volta");
+			else if ((from d in dispositivi select d.IsValid).Contains(false))
+				errors.Add("Una o più dispositivi non sono validi");
 
 			if (!CheckType(from p in permessi select p.Type))
 				errors.Add("Una o più tipi di permesso sono stati usati più di una volta");
+			else if ((from p in permessi select p.IsValid).Contains(false))
+				errors.Add("Una o più permessi non sono validi");
 
 			if (errors.Count > 0)
 				return errors;
@@ -218,26 +222,47 @@ namespace Flotta.Model
 			_profondita = profondita;
 			_volumeCarico = volumeCarico;
 
-			// We cannot create a new set from the passed collections has this one are clones of the originals and the reference to scadenze may have changed
+			// We cannot create a new set from the passed collections as it contains clones of the originals and the reference to scadenze may have changed
 
 			// Drop removed items, we clone Linq result to break any dependecy to the modified collections
 			foreach(ITessera tess in (from t in _tessere where !(from nt in tessere select nt.Type).Contains(t.Type) select t).ToArray())
 			{
 				_tessere.Remove(tess);
 			}
+			foreach (IDispositivo disp in (from d in _dispositivi where !(from nd in dispositivi select nd.Type).Contains(d.Type) select d).ToArray())
+			{
+				_dispositivi.Remove(disp);
+			}
+			foreach (IPermesso perm in (from p in _permessi where !(from np in permessi select np.Type).Contains(p.Type) select p).ToArray())
+			{
+				_permessi.Remove(perm);
+			}
 			// Update kept items
-			foreach(ITessera tess in tessere)
+			foreach (ITessera tess in tessere)
 			{
 				(from t in _tessere where t.Type == tess.Type select t).ElementAtOrDefault(0)?.Update(tess.Codice, tess.Pin);
+			}
+			foreach (IDispositivo disp in dispositivi)
+			{
+				(from d in _dispositivi where d.Type == disp.Type select d).ElementAtOrDefault(0)?.Update(disp.Allegato);
+			}
+			foreach (IPermesso perm in permessi)
+			{
+				(from p in _permessi where p.Type == perm.Type select p).ElementAtOrDefault(0)?.Update(perm.Allegato);
 			}
 			// Add new items, we clone Linq result to break any dependecy to the modified collections
 			foreach (ITessera tess in (from t in tessere where !(from ot in _tessere select ot.Type).Contains(t.Type) select t).ToArray())
 			{
 				_tessere.Add(tess);
 			}
-
-			_dispositivi = new HashSet<IDispositivo>(dispositivi);
-			_permessi = new HashSet<IPermesso>(permessi);
+			foreach (IDispositivo disp in (from d in dispositivi where !(from od in _dispositivi select od.Type).Contains(d.Type) select d).ToArray())
+			{
+				_dispositivi.Add(disp);
+			}
+			foreach (IPermesso perm in (from p in permessi where !(from op in _permessi select op.Type).Contains(p.Type) select p).ToArray())
+			{
+				_permessi.Add(perm);
+			}
 			
 			return errors;
 		}

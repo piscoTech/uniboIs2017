@@ -12,12 +12,12 @@ namespace Flotta.ClientSide.Interface
 {
 	public delegate void TypeListAction(int index);
 
-	public interface ILinkedObjectManagerWindow
+	public interface ILinkedTypeManagerWindow
 	{
 		void Show();
 		void Close();
 		event FormClosedEventHandler FormClosed;
-		IEnumerable<ILinkedObjectListItem> TypeList { set; }
+		IEnumerable<ILinkedTypeListItem> TypeList { set; }
 		string TypeName { set; }
 
 		event Action CreateNewType;
@@ -25,13 +25,13 @@ namespace Flotta.ClientSide.Interface
 		event TypeListAction EditType;
 	}
 
-	partial class LinkedObjectManagerWindow : Form, ILinkedObjectManagerWindow
+	partial class LinkedTypeManagerWindow : Form, ILinkedTypeManagerWindow
 	{
 
-		private BindingList<ILinkedObjectListItem> _typeList
-			= new BindingList<ILinkedObjectListItem>();
+		private BindingList<ILinkedTypeListItem> _typeList
+			= new BindingList<ILinkedTypeListItem>();
 
-		public LinkedObjectManagerWindow()
+		public LinkedTypeManagerWindow()
 		{
 			InitializeComponent();
 
@@ -90,12 +90,12 @@ namespace Flotta.ClientSide.Interface
 			typeList.DataSource = _typeList;
 		}
 
-		public IEnumerable<ILinkedObjectListItem> TypeList
+		public IEnumerable<ILinkedTypeListItem> TypeList
 		{
 			set
 			{
 				_typeList.Clear();
-				foreach (ILinkedObjectListItem m in value)
+				foreach (ILinkedTypeListItem m in value)
 				{
 					_typeList.Add(m);
 				}

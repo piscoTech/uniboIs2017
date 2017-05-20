@@ -45,8 +45,9 @@
     <Compile Include="DispositivoType.cs" />
     <Compile Include="File.cs" />
     <Compile Include="IDBObject.cs" />
+    <Compile Include="ILinkedObject.cs" />
     <Compile Include="Immagine.cs" />
-    <Compile Include="LinkedObject.cs" />
+    <Compile Include="LinkedType.cs" />
     <Compile Include="Manutenzione.cs" />
     <Compile Include="ManutenzioneType.cs" />
     <Compile Include="Mezzo.cs" />

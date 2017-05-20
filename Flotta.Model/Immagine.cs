@@ -13,6 +13,7 @@ namespace Flotta.Model
 
 	internal class Immagine : IImmagine
 	{
-		public override bool IsValid => false;
+		public override bool IsValid => Path?.ToLower().EndsWith(".jpg") ?? false;
+		protected override IEnumerable<string> ValidTypes => new string[] {"JPG"};
 	}
 }

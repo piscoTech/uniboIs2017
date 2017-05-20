@@ -10,34 +10,33 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface IUpdateTesseraDialog : ICloseableDisposable
+	public interface IUpdateDispositivoPermessoDialog : ICloseableDisposable
 	{
 		DialogResult ShowDialog();
-		string Codice { get; set; }
-		string Pin { get; set; }
+		string Type { set; }
+		string Path { get; set; }
 
 		ConfirmAction Validation { set; }
 	}
 
-	internal partial class UpdateTesseraDialog : Form, IUpdateTesseraDialog
+	public partial class UpdateDispositivoPermessoDialog : Form, IUpdateDispositivoPermessoDialog
 	{
 		private ConfirmAction _validation;
 
-		internal UpdateTesseraDialog()
+		public UpdateDispositivoPermessoDialog()
 		{
 			InitializeComponent();
 		}
 
-		public string Codice
+		public string Type
 		{
-			get => codice.Text;
-			set => codice.Text = value;
+			set => this.Text = "Modifica – " + value + " – Flotta";
 		}
 
-		public string Pin
+		public string Path
 		{
-			get => pin.Text;
-			set => pin.Text = value;
+			get => filePath.Text;
+			set => filePath.Text = value;
 		}
 
 		public ConfirmAction Validation
@@ -48,6 +47,15 @@ namespace Flotta.ClientSide.Interface
 		private void OnSave(object sender, EventArgs e)
 		{
 			this.DialogResult = (_validation?.Invoke() ?? false) ? DialogResult.OK : DialogResult.None;
+		}
+
+		private void OnSelectFile(object sender, EventArgs e)
+		{
+			openFileDialog.FileName = Path;
+			if(openFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				filePath.Text = openFileDialog.FileName;
+			}
 		}
 	}
 }

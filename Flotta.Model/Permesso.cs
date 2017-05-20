@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IPermesso : IDBObject, ICloneable
+	public interface IPermesso : IDBObject, ICloneable, ILinkedObjectWithPDF<IPermessoType>
 	{
-		IPermessoType Type { get; }
-		IPDF Allegato { get; }
-
-		IEnumerable<string> Update(IPDF Allegato);
 		bool IsValid { get; }
 	}
 

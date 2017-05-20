@@ -45,7 +45,7 @@
     <Compile Include="ClientSideFactory.cs" />
     <Compile Include="IClosablePresenter.cs" />
     <Compile Include="ITabPresenter.cs" />
-    <Compile Include="LinkedObjectManagerPresenter.cs" />
+    <Compile Include="LinkedTypeManagerPresenter.cs" />
     <Compile Include="MezzoTabPresenter.cs" />
     <Compile Include="NewMezzoPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

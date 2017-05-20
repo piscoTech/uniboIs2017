@@ -13,6 +13,7 @@ namespace Flotta.Model
 
 	internal class PDF : IPDF
 	{
-		public override bool IsValid => false;
+		public override bool IsValid => Path?.ToLower().EndsWith(".pdf") ?? false;
+		protected override IEnumerable<string> ValidTypes => new string[] { "PDF" };
 	}
 }

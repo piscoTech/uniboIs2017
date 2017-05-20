@@ -298,6 +298,7 @@
 			this.permessiList.RowHeadersVisible = false;
 			this.permessiList.Size = new System.Drawing.Size(384, 150);
 			this.permessiList.TabIndex = 41;
+			this.permessiList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnPermessoClick);
 			// 
 			// dispositiviList
 			// 
@@ -315,6 +316,7 @@
 			this.dispositiviList.RowHeadersVisible = false;
 			this.dispositiviList.Size = new System.Drawing.Size(384, 150);
 			this.dispositiviList.TabIndex = 40;
+			this.dispositiviList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnDispositivoClick);
 			// 
 			// tessereList
 			// 

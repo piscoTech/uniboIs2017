@@ -10,16 +10,20 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface IUpdateLinkedObjectDialog : ICloseableDisposable
+	public interface IUpdateLinkedTypeDialog : ICloseableDisposable
 	{
 		DialogResult ShowDialog();
 		string NameText { get; set; }
 		string TypeName { set; }
+
+		ConfirmAction Validation { set; }
 	}
 
-	partial class UpdateLinkedObjectDialog : Form, IUpdateLinkedObjectDialog
+	partial class UpdateLinkedTypeDialog : Form, IUpdateLinkedTypeDialog
 	{
-		internal UpdateLinkedObjectDialog()
+		private ConfirmAction _validation;
+
+		internal UpdateLinkedTypeDialog()
 		{
 			InitializeComponent();
 		}
@@ -33,6 +37,16 @@ namespace Flotta.ClientSide.Interface
 		public string TypeName
 		{
 			set => this.Text = "Modifica – Tipo " + value + " – Flotta";
+		}
+
+		public ConfirmAction Validation
+		{
+			set => _validation = value;
+		}
+
+		private void OnSave(object sender, EventArgs e)
+		{
+			this.DialogResult = (_validation?.Invoke() ?? false) ? DialogResult.OK : DialogResult.None;
 		}
 	}
 }

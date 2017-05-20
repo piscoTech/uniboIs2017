@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface ITessera : IDBObject, ICloneable
+	public interface ITessera : IDBObject, ICloneable, ILinkedObject<ITesseraType>
 	{
-		ITesseraType Type { get; }
 		String Codice { get; }
 		String Pin { get; }
 
