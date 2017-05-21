@@ -6,41 +6,62 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public abstract class LinkedType: IDBObject
-	{
-
-		private string _name;
-		private bool _disabled;
-
-		public string Name
+    [AttributeUsage(AttributeTargets.Class)]
+    internal class LinkedTypeAttribute : Attribute
+    {
+        private string _name;
+		public LinkedTypeAttribute(string name)
 		{
-			get => _name;
+			Name = name;
 		}
 
-		public bool IsDisabled
+        public string Name
 		{
-			get => _disabled;
+			get { return _name; }
+			set
+			{
+				if (String.IsNullOrEmpty(value))
+					throw new ArgumentException("String.IsNullOrEmpty(value)");
+				_name = value;
+			}
 		}
+    }
 
-		public IEnumerable<string> Update(string name)
-		{
-			List<string> errors = new List<string>();
-			name = name?.Trim();
-			if (String.IsNullOrEmpty(name))
-				errors.Add("Nome non specificato");
+    public abstract class LinkedType : IDBObject
+    {
 
-			if (errors.Count > 0)
-				return errors;
+        private string _name;
+        private bool _disabled;
 
-			_name = name;
+        public string Name
+        {
+            get => _name;
+        }
 
-			return errors;
-		}
+        public bool IsDisabled
+        {
+            get => _disabled;
+        }
 
-		public void Disable()
-		{
-			_disabled = true;
-		}
+        public IEnumerable<string> Update(string name)
+        {
+            List<string> errors = new List<string>();
+            name = name?.Trim();
+            if (String.IsNullOrEmpty(name))
+                errors.Add("Nome non specificato");
 
-	}
+            if (errors.Count > 0)
+                return errors;
+
+            _name = name;
+
+            return errors;
+        }
+
+        public void Disable()
+        {
+            _disabled = true;
+        }
+
+    }
 }

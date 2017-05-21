@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public abstract class IPermessoType : LinkedType
-	{
-	}
+    [LinkedTypeAttribute("Permessi")]
+    public abstract class IPermessoType : LinkedType
+    {
+    }
 
-	internal class PermessoType : IPermessoType
-	{
-	}
+    internal class PermessoType : IPermessoType
+    {
+    }
 }

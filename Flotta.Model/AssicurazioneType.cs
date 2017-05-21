@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public abstract class IAssicurazioneType : LinkedType
-	{
-	}
+    [LinkedTypeAttribute("Assicurazioni")]
+    public abstract class IAssicurazioneType : LinkedType
+    {
+    }
 
-	internal class AssicurazioneType : IAssicurazioneType
-	{
-	}
+    internal class AssicurazioneType : IAssicurazioneType
+    {
+    }
 }

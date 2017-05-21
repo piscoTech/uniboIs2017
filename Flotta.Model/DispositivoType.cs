@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public abstract class IDispositivoType : LinkedType
-	{
-	}
+    [LinkedTypeAttribute("Dispositivi")]
+    public abstract class IDispositivoType : LinkedType
+    {
+    }
 
-	internal class DispositivoType : IDispositivoType
+    internal class DispositivoType : IDispositivoType
     {
     }
 }
