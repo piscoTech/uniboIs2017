@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IDispositivo : IDBObject, ICloneable, ILinkedObjectWithPDF<IDispositivoType>
+	public interface IDispositivo : ICloneable, ILinkedObjectWithPDF<IDispositivoType>
 	{
 		bool IsValid { get; }
 	}

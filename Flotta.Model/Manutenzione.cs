@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IManutenzione : IDBObject, ILinkedObject<IManutenzioneType>
+	public interface IManutenzione : ILinkedObject<IManutenzioneType>
 	{
 		DateTime Data { get; set; }
 		string Note { get; set; }

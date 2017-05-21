@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface ILinkedObject<T> where T : LinkedType
+	public interface ILinkedObject<T> : IDBObject where T : LinkedType
 	{
 		T Type { get; }
 	}
@@ -14,6 +14,6 @@ namespace Flotta.Model
 	public interface ILinkedObjectWithPDF<T> : ILinkedObject<T> where T : LinkedType
 	{
 		IPDF Allegato { get; }
-		IEnumerable<string> Update(IPDF Allegato);
+		IEnumerable<string> Update(IPDF allegato);
 	}
 }
