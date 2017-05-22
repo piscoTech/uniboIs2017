@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE639DF6-5DB3-463B-AD3D-D8AC4F0BC79F}</ProjectGuid>
+    <ProjectGuid>{7B9D2105-4A39-4AC2-9C8E-6F90673592BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Flotta.Model</RootNamespace>
-    <AssemblyName>Flotta.Model</AssemblyName>
+    <RootNamespace>Flotta.Utils</RootNamespace>
+    <AssemblyName>Flotta.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,39 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssicurazioneType.cs" />
-    <Compile Include="Dispositivo.cs" />
-    <Compile Include="DispositivoType.cs" />
-    <Compile Include="File.cs" />
-    <Compile Include="IDBObject.cs" />
-    <Compile Include="ILinkedObject.cs" />
-    <Compile Include="Immagine.cs" />
-    <Compile Include="LinkedType.cs" />
-    <Compile Include="Manutenzione.cs" />
-    <Compile Include="ManutenzioneType.cs" />
-    <Compile Include="Mezzo.cs" />
-    <Compile Include="ModelFactory.cs" />
-    <Compile Include="Officina.cs" />
-    <Compile Include="PDF.cs" />
-    <Compile Include="Permesso.cs" />
-    <Compile Include="PermessoType.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tessera.cs" />
-    <Compile Include="TesseraType.cs" />
-    <Compile Include="LinkedTypeDescriptor.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Flotta.Utils\Flotta.Utils.csproj">
-      <Project>{7b9d2105-4a39-4ac2-9c8e-6f90673592bc}</Project>
-      <Name>Flotta.Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

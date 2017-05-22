@@ -44,19 +44,17 @@ namespace Flotta.ClientSide
             _mainWindow.MezzoSelected += OnMezzoSelected;
             _mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 
-            var factory = from m in typeof(ModelFactory).GetMethods() where m.Name.StartsWith("New") && m.Name.EndsWith("Type") select m;
             var serverActions = from m in _server.GetType().GetMethods() where m.Name.EndsWith("Type") && m.GetParameters().Count() <= 2 && m.GetParameters().Count() > 0 && typeof(LinkedType).IsAssignableFrom(m.GetParameters()[0].ParameterType) select m;
             var updateActions = from m in serverActions where m.GetParameters().Count() == 2 && m.Name.StartsWith("Update") && m.GetParameters()[1].ParameterType == typeof(string) && m.ReturnType == typeof(IEnumerable<string>) select m;
             var deleteActions = from m in serverActions where m.GetParameters().Count() == 1 && m.Name.StartsWith("Delete") && m.ReturnType == typeof(bool) select m;
             var serverProperties = from p in _server.GetType().GetProperties() where p.Name.EndsWith("Types") && typeof(IEnumerable<LinkedType>).IsAssignableFrom(p.PropertyType) && p.CanRead select p;
             foreach (var type in ModelFactory.GetAllLinkedTypes())
             {
-                var create = (from m in factory where m.ReturnType.IsAssignableFrom(type.Type) select m).ElementAtOrDefault(0);
                 var update = (from m in updateActions where m.GetParameters()[0].ParameterType == type.Type select m).ElementAtOrDefault(0);
                 var delete = (from m in deleteActions where m.GetParameters()[0].ParameterType == type.Type select m).ElementAtOrDefault(0);
                 var list = (from p in serverProperties where p.PropertyType == typeof(IEnumerable<>).MakeGenericType(type.Type) select p).ElementAtOrDefault(0);
 
-                if (create == null || update == null || delete == null || list == null)
+                if (update == null || delete == null || list == null)
                     Console.WriteLine("Found " + type.Description + "(" + type.Type + ") but necessary methods and properties are not available");
                 else
                 {
@@ -72,8 +70,6 @@ namespace Flotta.ClientSide
                         var deleteType = typeof(Func<,>).MakeGenericType(new Type[] { type.Type, typeof(bool) });
                         var deleteFunc = Delegate.CreateDelegate(deleteType, _server, delete, true);
 
-                        var createType = typeof(Func<>).MakeGenericType(type.Type);
-                        var createFunc = Delegate.CreateDelegate(createType, create, true);
                         _mainWindow.AddNewLinkedType(type.Description, () =>
                         {
                             _typesPresenter?.Close();
@@ -81,7 +77,7 @@ namespace Flotta.ClientSide
                             window.FormClosed += (object s, FormClosedEventArgs e) => _typesPresenter = null;
 
                             var presenterType = typeof(LinkedTypeManagerPresenter<>).MakeGenericType(type.Type);
-                            var presenter = Activator.CreateInstance(presenterType, BindingFlags.NonPublic | BindingFlags.Instance, null, new Object[] { _server, window, listFunc, updateFunc, deleteFunc, createFunc, type.Description }, null) as IClosablePresenter;
+							var presenter = Activator.CreateInstance(presenterType, BindingFlags.NonPublic | BindingFlags.Instance, null, new Object[] { _server, window, listFunc, updateFunc, deleteFunc, type.Creator, type.Description }, null) as IClosablePresenter;
                             _typesPresenter = presenter;
 
                             window.Show();

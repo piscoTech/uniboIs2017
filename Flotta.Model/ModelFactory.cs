@@ -2,69 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using Flotta.Utils;
 
 namespace Flotta.Model
 {
-    public static class ModelFactory
-    {
-        public static IMezzo NewMezzo()
-        {
-            return new Mezzo();
-        }
+	public static class ModelFactory
+	{
+		public static IMezzo NewMezzo()
+		{
+			return new Mezzo();
+		}
 
-        private static IEnumerable<LinkedTypeDescriptor> _linkedTypeCache = null;
-        public static IEnumerable<LinkedTypeDescriptor> GetAllLinkedTypes()
-        {
-            if (_linkedTypeCache == null)
-            {
-                Assembly assembly = Assembly.GetExecutingAssembly();
+		private static IEnumerable<LinkedTypeDescriptor> _linkedTypeCache = null;
+		public static IEnumerable<LinkedTypeDescriptor> GetAllLinkedTypes()
+		{
+			if (_linkedTypeCache == null)
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
 
-                _linkedTypeCache = from t in assembly.GetTypes() let attr = t.GetCustomAttributes(typeof(LinkedTypeAttribute), true)?.ElementAtOrDefault(0) where attr != null && typeof(LinkedType).IsAssignableFrom(t) && t.IsAbstract select new LinkedTypeDescriptor(t, (attr as LinkedTypeAttribute).Name);
-            }
+				var rawTypes = from t in assembly.GetTypes() let attr = t.GetCustomAttributes(typeof(LinkedTypeAttribute), true)?.ElementAtOrDefault(0) where attr != null && typeof(LinkedType).IsAssignableFrom(t) select new { Type = t, Description = (attr as LinkedTypeAttribute).Name };
+				var types = from ab in rawTypes let t = (from type in rawTypes where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type) select type.Type).ElementAtOrDefault(0) where ab.Type.IsAbstract && t != null select new { Type = ab.Type, Description = ab.Description, ConcreteType = t };
+				var tmp = new List<LinkedTypeDescriptor>();
+				foreach (var t in types)
+				{
+					var creator = t.ConcreteType.DelegateForParameterlessConstructor();
+					if (creator != null)
+					{
+						tmp.Add((LinkedTypeDescriptor)Activator.CreateInstance(typeof(LinkedTypeDescriptor), BindingFlags.NonPublic | BindingFlags.Instance, null, new Object[] { t.Type, t.Description, creator }, null));
+					}
+				}
 
-            return _linkedTypeCache;
-        }
+				_linkedTypeCache = tmp;
+			}
 
-        public static ITesseraType NewTesseraType()
-        {
-            return new TesseraType();
-        }
+			return _linkedTypeCache;
+		}
 
-        public static IDispositivoType NewDispositivoType()
-        {
-            return new DispositivoType();
-        }
+		public static T NewLinkedType<T>() where T : LinkedType
+		{
+			return (from types in GetAllLinkedTypes() where types.Type == typeof(T) select types.Creator as Func<T>).ElementAtOrDefault(0)?.Invoke();
+		}
 
-        public static IPermessoType NewPermessoType()
-        {
-            return new PermessoType();
-        }
+		public static ITessera NewTessera(ITesseraType type)
+		{
+			return new Tessera(type);
+		}
 
-        public static IManutenzioneType NewManutenzioneType()
-        {
-            return new ManutenzioneType();
-        }
+		public static IDispositivo NewDispositivo(IDispositivoType type)
+		{
+			return new Dispositivo(type);
+		}
 
-        public static IAssicurazioneType NewAssicurazioneType()
-        {
-            return new AssicurazioneType();
-        }
-
-        public static ITessera NewTessera(ITesseraType type)
-        {
-            return new Tessera(type);
-        }
-
-        public static IDispositivo NewDispositivo(IDispositivoType type)
-        {
-            return new Dispositivo(type);
-        }
-
-        public static IPermesso NewPermesso(IPermessoType type)
-        {
-            return new Permesso(type);
-        }
-    }
+		public static IPermesso NewPermesso(IPermessoType type)
+		{
+			return new Permesso(type);
+		}
+	}
 }

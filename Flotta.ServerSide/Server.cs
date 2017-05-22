@@ -63,26 +63,26 @@ namespace Flotta.ServerSide
 
         private void FillDatabase()
         {
-            ITesseraType tt = ModelFactory.NewTesseraType();
+			ITesseraType tt = ModelFactory.NewLinkedType<ITesseraType>();
             tt.Update("Tessera 1");
             _tesseraTypes.Add(tt);
-            tt = ModelFactory.NewTesseraType();
+			tt = ModelFactory.NewLinkedType<ITesseraType>();
             tt.Update("Tessera 2");
             tt.Disable();
             _tesseraTypes.Add(tt);
 
-            IDispositivoType dt = ModelFactory.NewDispositivoType();
+            IDispositivoType dt = ModelFactory.NewLinkedType<IDispositivoType>();
             dt.Update("Dispositivo 1");
             dt.Disable();
             _dispositivoTypes.Add(dt);
-            dt = ModelFactory.NewDispositivoType();
+            dt = ModelFactory.NewLinkedType<IDispositivoType>();
             dt.Update("Dispositivo 2");
             _dispositivoTypes.Add(dt);
 
-            IPermessoType pt = ModelFactory.NewPermessoType();
+			IPermessoType pt = ModelFactory.NewLinkedType<IPermessoType>();
             pt.Update("Permesso 1");
             _permessoTypes.Add(pt);
-            pt = ModelFactory.NewPermessoType();
+            pt = ModelFactory.NewLinkedType<IPermessoType>();
             pt.Update("Permesso 2");
             pt.Disable();
             _permessoTypes.Add(pt);
