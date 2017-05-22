@@ -39,7 +39,9 @@ namespace Flotta.ClientSide.Interface
 			return new UpdateLinkedObjectDialog();
 		}
 
-		
+		public static INewManutenzioneDialog NewNewManutenzioneDialog(){
+			return new NewManutenzioneDialog();
+		}
 
 	}
 }

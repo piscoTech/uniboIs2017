@@ -39,6 +39,7 @@ namespace Flotta.ClientSide
 			_view.CancelEdit += OnCancelEdit;
 			_view.EnterEdit += OnEnterEdit;
 			_view.SaveEdit += OnSaveEdit;
+			_view.NuovaManutenzione += OnNuovaManutenzione;
 		}
 
 		public void Reload()
@@ -73,11 +74,14 @@ namespace Flotta.ClientSide
 		{
 			if (!EditMode)
 				return;
-
-		
-			
 		}
 
+		private void OnNuovaManutenzione() {
+			using (INewManutenzioneDialog dialog = ClientSideInterfaceFactory.NewNewManutenzioneDialog()){
+				var presenter = new NewManutenzionePresenter(_server, dialog);
 
+				dialog.ShowDialog();
+			}
+		}
 	}
 }

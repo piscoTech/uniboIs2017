@@ -16,7 +16,7 @@ namespace Flotta.ClientSide.Interface
 		event GenericAction CancelEdit;
 		event GenericAction SaveEdit;
 		DataGridView ManutenzioniList { get; }
-
+		event Action NuovaManutenzione;
 	}
 
 	internal partial class TabManutenzioniView : UserControl, ITabManutenzioniView
@@ -46,10 +46,10 @@ namespace Flotta.ClientSide.Interface
 			SaveEdit?.Invoke();
 		}
 
+		public event Action NuovaManutenzione;
 		public void OnNewManutenzione(object sender, EventArgs e)
 		{
-			new NewManutenzioneDialog().Show();
-
+			NuovaManutenzione?.Invoke();
 		}
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

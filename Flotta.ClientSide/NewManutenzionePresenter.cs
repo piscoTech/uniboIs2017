@@ -45,7 +45,6 @@ namespace Flotta.ClientSide
 
 		private void OnSave()
 		{
-			_window.Close();
 			if (_manutenzione == null) _manutenzione = ModelFactory.NewManutenzione();
 			
 			var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,_window.Tipo, _window.Costo);

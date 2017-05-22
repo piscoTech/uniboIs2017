@@ -313,10 +313,9 @@ namespace Flotta.ServerSide
 			List<String> errors = new List<string>();
 			
 
-			//var numMatch = from m in _mezzi where m.Numero == numero && m != mezzo select m;
-			var numMatch = from t in _manutenzioneTypes where t.Name == tipo select t;
+			var nameMatch = from t in _manutenzioneTypes where t.Name == tipo select t;
 
-			if (numMatch.Count() == 0)
+			if (nameMatch.Count() == 0)
 				errors.Add("non esiste il tipo di manutenzione: " + tipo);
 
 			if (data > DateTime.Now)
@@ -324,6 +323,8 @@ namespace Flotta.ServerSide
 
 			if (errors.Count() > 0)
 				return errors;
+
+
 
 			if (!_manutenzioni.Contains(manutenzione))
 				_manutenzioni.Add(manutenzione);
