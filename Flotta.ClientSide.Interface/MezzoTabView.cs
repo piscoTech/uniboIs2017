@@ -21,6 +21,7 @@ namespace Flotta.ClientSide.Interface
 		int CurrentTab { get; set; }
 
 		ITabGeneraleView GeneraleTab { get; }
+		ITabManutenzioniView ManutenzioniTab { get; }
 	}
 
 	internal partial class MezzoTabView : UserControl, IMezzoTabView
@@ -47,6 +48,11 @@ namespace Flotta.ClientSide.Interface
 			get => tabGeneraleView;
 		}
 
+		public ITabManutenzioniView ManutenzioniTab
+		{
+			get => tabManutenzioniView;
+		}
+
 		public event GenericAction ExitEdit;
 		public event MezzoTabAction TabChanged;
 		private void OnTabChange(object sender, TabControlEventArgs e)
@@ -54,5 +60,10 @@ namespace Flotta.ClientSide.Interface
 			ExitEdit?.Invoke();
 			TabChanged?.Invoke(tabControl.SelectedIndex);
 		}
+
+		//private void tabManutenzioniView1_Load(object sender, EventArgs e)
+		//{
+
+		//}
 	}
 }

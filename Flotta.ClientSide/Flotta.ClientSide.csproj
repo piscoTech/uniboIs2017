@@ -47,9 +47,11 @@
     <Compile Include="ITabPresenter.cs" />
     <Compile Include="LinkedObjectManagerPresenter.cs" />
     <Compile Include="MezzoTabPresenter.cs" />
+    <Compile Include="NewManutenzionePresenter.cs" />
     <Compile Include="NewMezzoPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabGeneralePresenter.cs" />
+    <Compile Include="TabManutenzioniPresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj">

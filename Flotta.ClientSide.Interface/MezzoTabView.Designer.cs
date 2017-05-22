@@ -38,13 +38,14 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.label5 = new System.Windows.Forms.Label();
+			this.tabGeneraleView = new Flotta.ClientSide.Interface.TabGeneraleView();
+			this.tabManutenzioniView = new Flotta.ClientSide.Interface.TabManutenzioniView();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			this.tabPage5.SuspendLayout();
-			this.tabGeneraleView = new TabGeneraleView();
 			this.SuspendLayout();
 			// 
 			// tabControl
@@ -73,24 +74,6 @@
 			this.tabPage1.Text = "Generale";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// tabGeneraleView
-			// 
-			this.tabGeneraleView.Altezza = 0F;
-			this.tabGeneraleView.AnnoImmatricolazione = ((uint)(0u));
-			this.tabGeneraleView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabGeneraleView.Location = new System.Drawing.Point(3, 3);
-			this.tabGeneraleView.Lunghezza = 0F;
-			this.tabGeneraleView.Modello = "";
-			this.tabGeneraleView.Name = "tabGeneraleView";
-			this.tabGeneraleView.Numero = ((uint)(0u));
-			this.tabGeneraleView.NumeroTelaio = "";
-			this.tabGeneraleView.Portata = 0F;
-			this.tabGeneraleView.Profondita = 0F;
-			this.tabGeneraleView.Size = new System.Drawing.Size(350, 387);
-			this.tabGeneraleView.TabIndex = 0;
-			this.tabGeneraleView.Targa = "";
-			this.tabGeneraleView.VolumeCarico = 0F;
-			// 
 			// tabPage2
 			// 
 			this.tabPage2.Controls.Add(this.label1);
@@ -114,6 +97,7 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.tabManutenzioniView);
 			this.tabPage3.Controls.Add(this.label3);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
@@ -172,6 +156,32 @@
 			this.label5.Text = "Non implementato";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// tabGeneraleView
+			// 
+			this.tabGeneraleView.Altezza = 0F;
+			this.tabGeneraleView.AnnoImmatricolazione = ((uint)(0u));
+			this.tabGeneraleView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabGeneraleView.Location = new System.Drawing.Point(3, 3);
+			this.tabGeneraleView.Lunghezza = 0F;
+			this.tabGeneraleView.Modello = "";
+			this.tabGeneraleView.Name = "tabGeneraleView";
+			this.tabGeneraleView.Numero = ((uint)(0u));
+			this.tabGeneraleView.NumeroTelaio = "";
+			this.tabGeneraleView.Portata = 0F;
+			this.tabGeneraleView.Profondita = 0F;
+			this.tabGeneraleView.Size = new System.Drawing.Size(350, 387);
+			this.tabGeneraleView.TabIndex = 0;
+			this.tabGeneraleView.Targa = "";
+			this.tabGeneraleView.VolumeCarico = 0F;
+			// 
+			// tabManutenzioniView
+			// 
+			this.tabManutenzioniView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabManutenzioniView.Location = new System.Drawing.Point(0, 0);
+			this.tabManutenzioniView.Name = "tabManutenzioniView";
+			this.tabManutenzioniView.Size = new System.Drawing.Size(356, 393);
+			this.tabManutenzioniView.TabIndex = 2;
+			// 
 			// MezzoTabView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,11 +206,12 @@
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TabPage tabPage3;
-		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TabPage tabPage4;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label3;
 		private TabGeneraleView tabGeneraleView;
+		private TabManutenzioniView tabManutenzioniView;
 	}
 }

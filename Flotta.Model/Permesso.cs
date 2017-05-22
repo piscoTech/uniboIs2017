@@ -13,7 +13,7 @@ namespace Flotta.Model
 
 	internal class Permesso : IPermesso
 	{
-
+   
 		private PermessoType _type;
 
 		public IPermessoType Type

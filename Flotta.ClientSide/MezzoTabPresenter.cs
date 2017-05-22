@@ -26,6 +26,7 @@ namespace Flotta.ClientSide
 			_tabControl = tabControl;
 
 			_tabPresenters[0] = new TabGeneralePresenter(_server, this, _tabControl.GeneraleTab);
+			_tabPresenters[1] = new TabManutenzioniPresenter(_server, this, _tabControl.ManutenzioniTab);
 
 			_tabControl.CurrentTab = 0;
 			_tabControl.TabChanged += OnTabChange;

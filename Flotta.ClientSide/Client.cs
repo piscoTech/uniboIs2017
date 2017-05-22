@@ -28,6 +28,7 @@ namespace Flotta.ClientSide
 		private IClosablePresenter _typesPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
+		
 
 		internal Client(IServer server)
 		{
@@ -120,6 +121,8 @@ namespace Flotta.ClientSide
 			_mainWindow.MezziList = from m in _mezziList select ClientSideInterfaceFactory.NewMezzoListItem(m.Numero, m.Modello, m.Targa);
 		}
 
+	
+
 		private void OnObjectChanged(IDBObject obj)
 		{
 			if(obj is IMezzo)
@@ -162,6 +165,7 @@ namespace Flotta.ClientSide
 
 			newMezzoDialog.ShowDialog();
 		}
+
 
 		private void OnNewMezzoCreated(bool created)
 		{

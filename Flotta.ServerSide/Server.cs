@@ -18,6 +18,7 @@ namespace Flotta.ServerSide
 		event ObjectChangedHandler ObjectRemoved;
 
 		IEnumerable<IMezzo> Mezzi { get; }
+		IEnumerable<IManutenzione> Manutenzioni { get; }
 		IEnumerable<ITesseraType> TesseraTypes { get; }
 		IEnumerable<IDispositivoType> DispositivoTypes { get; }
 		IEnumerable<IPermessoType> PermessoTypes { get; }
@@ -26,6 +27,7 @@ namespace Flotta.ServerSide
 
 		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
+		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, string tipo, float costo);
 
 		IEnumerable<string> UpdateTesseraType(ITesseraType tessera, string name);
 		IEnumerable<string> UpdateDispositivoType(IDispositivoType dispositivo, string name);
@@ -44,6 +46,7 @@ namespace Flotta.ServerSide
 
 		private IServerWindow _window;
 		private HashSet<IMezzo> _mezzi = new HashSet<IMezzo>();
+		private HashSet<IManutenzione> _manutenzioni = new HashSet<IManutenzione>();
 
 		private HashSet<ITesseraType> _tesseraTypes = new HashSet<ITesseraType>();
 		private HashSet<IDispositivoType> _dispositivoTypes = new HashSet<IDispositivoType>();
@@ -102,6 +105,7 @@ namespace Flotta.ServerSide
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
+		public IEnumerable<IManutenzione> Manutenzioni => from m in _manutenzioni select m;
 		public IEnumerable<ITesseraType> TesseraTypes => from t in _tesseraTypes orderby t.IsDisabled, t.Name select t;
 		public IEnumerable<IDispositivoType> DispositivoTypes => from t in _dispositivoTypes orderby t.IsDisabled, t.Name select t;
 		public IEnumerable<IPermessoType> PermessoTypes => from t in _permessoTypes orderby t.IsDisabled, t.Name select t;
@@ -302,6 +306,29 @@ namespace Flotta.ServerSide
 			// Check if no incidents uses the type
 
 			return DeleteLinkedObject(_assicurazioneTypes, assicurazione, false);
+		}
+
+		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, string  tipo, float costo)
+		{
+			List<String> errors = new List<string>();
+			
+
+			//var numMatch = from m in _mezzi where m.Numero == numero && m != mezzo select m;
+			var numMatch = from t in _manutenzioneTypes where t.Name == tipo select t;
+
+			if (numMatch.Count() == 0)
+				errors.Add("non esiste il tipo di manutenzione: " + tipo);
+
+			if (data > DateTime.Now)
+				errors.Add("data senza senso");
+
+			if (errors.Count() > 0)
+				return errors;
+
+			if (!_manutenzioni.Contains(manutenzione))
+				_manutenzioni.Add(manutenzione);
+
+			return errors;
 		}
 	}
 }

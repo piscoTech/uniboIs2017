@@ -37,5 +37,10 @@ namespace Flotta.Model
 		{
 			return new AssicurazioneType();
 		}
+
+		public static IManutenzione NewManutenzione()
+		{
+			return new Manutenzione();
+		}
 	}
 }

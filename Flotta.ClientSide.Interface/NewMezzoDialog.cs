@@ -64,5 +64,9 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
+		private void tabGeneraleView_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

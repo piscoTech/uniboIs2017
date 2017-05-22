@@ -48,6 +48,7 @@
 			this.tabGeneraleView.TabIndex = 0;
 			this.tabGeneraleView.Targa = "";
 			this.tabGeneraleView.VolumeCarico = 0F;
+			this.tabGeneraleView.Load += new System.EventHandler(this.tabGeneraleView_Load);
 			// 
 			// NewMezzoDialog
 			// 

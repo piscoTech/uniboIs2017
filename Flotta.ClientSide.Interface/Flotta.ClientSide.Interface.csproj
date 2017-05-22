@@ -63,8 +63,20 @@
     <Compile Include="MezzoTabView.Designer.cs">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewManutenzioneDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewManutenzioneDialog.Designer.cs">
+      <DependentUpon>NewManutenzioneDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewMezzoDialog.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TabManutenzioniView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabManutenzioniView.Designer.cs">
+      <DependentUpon>TabManutenzioniView.cs</DependentUpon>
     </Compile>
     <Compile Include="UpdateLinkedObjectDialog.cs">
       <SubType>Form</SubType>
@@ -90,11 +102,17 @@
     <EmbeddedResource Include="MezzoTabView.resx">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NewManutenzioneDialog.resx">
+      <DependentUpon>NewManutenzioneDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewMezzoDialog.resx">
       <DependentUpon>NewMezzoDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LinkedObjectManagerWindow.resx">
       <DependentUpon>LinkedObjectManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabManutenzioniView.resx">
+      <DependentUpon>TabManutenzioniView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateLinkedObjectDialog.resx">
       <DependentUpon>UpdateLinkedObjectDialog.cs</DependentUpon>
