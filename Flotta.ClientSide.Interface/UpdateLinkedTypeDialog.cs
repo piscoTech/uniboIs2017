@@ -16,12 +16,12 @@ namespace Flotta.ClientSide.Interface
 		string NameText { get; set; }
 		string TypeName { set; }
 
-		ConfirmAction Validation { set; }
+		Func<bool> Validation { set; }
 	}
 
 	partial class UpdateLinkedTypeDialog : Form, IUpdateLinkedTypeDialog
 	{
-		private ConfirmAction _validation;
+		private Func<bool> _validation;
 
 		internal UpdateLinkedTypeDialog()
 		{
@@ -39,7 +39,7 @@ namespace Flotta.ClientSide.Interface
 			set => this.Text = "Modifica – Tipo " + value + " – Flotta";
 		}
 
-		public ConfirmAction Validation
+		public Func<bool> Validation
 		{
 			set => _validation = value;
 		}

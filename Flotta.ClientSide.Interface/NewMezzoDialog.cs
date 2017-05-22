@@ -62,6 +62,5 @@ namespace Flotta.ClientSide.Interface
 				}
 			}
 		}
-
 	}
 }

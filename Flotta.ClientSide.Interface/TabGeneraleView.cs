@@ -10,8 +10,6 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate void LinkedObjectAction(int index);
-
 	public interface ITabGeneraleView
 	{
 		event Action DeleteMezzo;
@@ -34,14 +32,14 @@ namespace Flotta.ClientSide.Interface
 		IEnumerable<IDispositivoPermessoListItem> Dispositivi { set; }
 		IEnumerable<IDispositivoPermessoListItem> Permessi { set; }
 
-		event LinkedObjectAction TesseraEdit;
-		event LinkedObjectAction TesseraRemove;
+		event Action<int> TesseraEdit;
+		event Action<int> TesseraRemove;
 
-		event LinkedObjectAction DispositivoEdit;
-		event LinkedObjectAction DispositivoRemove;
+		event Action<int> DispositivoEdit;
+		event Action<int> DispositivoRemove;
 
-		event LinkedObjectAction PermessoEdit;
-		event LinkedObjectAction PermessoRemove;
+		event Action<int> PermessoEdit;
+		event Action<int> PermessoRemove;
 
 		bool EditMode { set; }
 	}
@@ -434,8 +432,8 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public event LinkedObjectAction TesseraEdit;
-		public event LinkedObjectAction TesseraRemove;
+		public event Action<int> TesseraEdit;
+		public event Action<int> TesseraRemove;
 		private void OnTesseraClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex < 0 || !_editMode)
@@ -447,8 +445,8 @@ namespace Flotta.ClientSide.Interface
 				TesseraRemove?.Invoke(e.RowIndex);
 		}
 
-		public event LinkedObjectAction DispositivoEdit;
-		public event LinkedObjectAction DispositivoRemove;
+		public event Action<int> DispositivoEdit;
+		public event Action<int> DispositivoRemove;
 		private void OnDispositivoClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex < 0 || !_editMode)
@@ -460,8 +458,8 @@ namespace Flotta.ClientSide.Interface
 				DispositivoRemove?.Invoke(e.RowIndex);
 		}
 
-		public event LinkedObjectAction PermessoEdit;
-		public event LinkedObjectAction PermessoRemove;
+		public event Action<int> PermessoEdit;
+		public event Action<int> PermessoRemove;
 		private void OnPermessoClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex < 0 || !_editMode)

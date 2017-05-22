@@ -8,14 +8,12 @@ using Flotta.ServerSide.Interface;
 
 namespace Flotta.ServerSide
 {
-	public delegate void ObjectChangedHandler(IDBObject obj);
-
 	public interface IServer
 	{
 		void ClientDisconnected();
 		void ClientConnected();
-		event ObjectChangedHandler ObjectChanged;
-		event ObjectChangedHandler ObjectRemoved;
+		event Action<IDBObject> ObjectChanged;
+		event Action<IDBObject> ObjectRemoved;
 
 		IEnumerable<IMezzo> Mezzi { get; }
 		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
@@ -104,8 +102,8 @@ namespace Flotta.ServerSide
 			get => _activeConnections == 0;
 		}
 
-		public event ObjectChangedHandler ObjectChanged;
-		public event ObjectChangedHandler ObjectRemoved;
+		public event Action<IDBObject> ObjectChanged;
+		public event Action<IDBObject> ObjectRemoved;
 
 		public void ClientConnected()
 		{

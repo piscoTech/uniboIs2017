@@ -11,12 +11,9 @@ using System.Reflection;
 
 namespace Flotta.ClientSide
 {
-	public delegate void ClientAction(IClient client);
-	public delegate void StatusReportAction(bool status);
-
 	public interface IClient
 	{
-		event ClientAction ExitClient;
+		event Action<IClient> ExitClient;
 	}
 
 	class Client : IClient
@@ -128,7 +125,7 @@ namespace Flotta.ClientSide
 			_newMezzo = null;
 		}
 
-		public event ClientAction ExitClient;
+		public event Action<IClient> ExitClient;
 		private void Exit()
 		{
 			_typesPresenter?.Close();

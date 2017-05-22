@@ -11,12 +11,10 @@ using Flotta.ServerSide;
 
 namespace Flotta.ServerSide.Interface
 {
-	public delegate void CreateClientHandler();
-
 	public interface IServerWindow
 	{
 		bool CanTerminate { set; }
-		event CreateClientHandler CreateClient;
+		event Action CreateClient;
 		void UpdateCounter(int activeConnections);
 
 		void Run();
@@ -36,7 +34,7 @@ namespace Flotta.ServerSide.Interface
 			InitializeComponent();
 		}
 
-		public event CreateClientHandler CreateClient;
+		public event Action CreateClient;
 		private void NewClient(object sender, EventArgs e)
 		{
 			CreateClient?.Invoke();
@@ -61,6 +59,5 @@ namespace Flotta.ServerSide.Interface
 		{
 			Application.Run(this);
 		}
-
 	}
 }

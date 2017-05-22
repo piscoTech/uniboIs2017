@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.ClientSide.Interface
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.ClientSide", "Flotta.ClientSide\Flotta.ClientSide.csproj", "{276363B5-E2A2-47BD-B689-A45615C2242A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.Utils", "Flotta.Utils\Flotta.Utils.csproj", "{7B9D2105-4A39-4AC2-9C8E-6F90673592BC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{276363B5-E2A2-47BD-B689-A45615C2242A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{276363B5-E2A2-47BD-B689-A45615C2242A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{276363B5-E2A2-47BD-B689-A45615C2242A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B9D2105-4A39-4AC2-9C8E-6F90673592BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B9D2105-4A39-4AC2-9C8E-6F90673592BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B9D2105-4A39-4AC2-9C8E-6F90673592BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B9D2105-4A39-4AC2-9C8E-6F90673592BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

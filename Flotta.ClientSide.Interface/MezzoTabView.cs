@@ -10,13 +10,10 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-
-	public delegate void MezzoTabAction(int index);
-
 	public interface IMezzoTabView
 	{
 		event Action ExitEdit;
-		event MezzoTabAction TabChanged;
+		event Action<int> TabChanged;
 
 		int CurrentTab { get; set; }
 
@@ -48,7 +45,7 @@ namespace Flotta.ClientSide.Interface
 		}
 
 		public event Action ExitEdit;
-		public event MezzoTabAction TabChanged;
+		public event Action<int> TabChanged;
 		private void OnTabChange(object sender, TabControlEventArgs e)
 		{
 			ExitEdit?.Invoke();

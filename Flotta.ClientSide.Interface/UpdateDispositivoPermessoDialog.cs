@@ -16,12 +16,12 @@ namespace Flotta.ClientSide.Interface
 		string Type { set; }
 		string Path { get; set; }
 
-		ConfirmAction Validation { set; }
+		Func<bool> Validation { set; }
 	}
 
 	public partial class UpdateDispositivoPermessoDialog : Form, IUpdateDispositivoPermessoDialog
 	{
-		private ConfirmAction _validation;
+		private Func<bool> _validation;
 
 		public UpdateDispositivoPermessoDialog()
 		{
@@ -39,7 +39,7 @@ namespace Flotta.ClientSide.Interface
 			set => filePath.Text = value;
 		}
 
-		public ConfirmAction Validation
+		public Func<bool> Validation
 		{
 			set => _validation = value;
 		}
@@ -52,7 +52,7 @@ namespace Flotta.ClientSide.Interface
 		private void OnSelectFile(object sender, EventArgs e)
 		{
 			openFileDialog.FileName = Path;
-			if(openFileDialog.ShowDialog() == DialogResult.OK)
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				filePath.Text = openFileDialog.FileName;
 			}

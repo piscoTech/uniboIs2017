@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using Flotta.Utils;
 
 namespace Flotta.Model
 {
@@ -32,13 +31,12 @@ namespace Flotta.Model
 											where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type)
 											select type.Type
 										   ).ElementAtOrDefault(0)
-								   let creator = t?.DelegateForParameterlessConstructor()
-								   where ab.Type.IsAbstract && t != null && creator != null
+								   where ab.Type.IsAbstract && t != null
 								   orderby ab.Description
 								   select (LinkedTypeDescriptor)Activator.CreateInstance(typeof(LinkedTypeDescriptor),
 																						 BindingFlags.NonPublic | BindingFlags.Instance,
 																						 null,
-																						 new Object[] { ab.Type, ab.Description, creator }, null
+																						 new Object[] { ab.Type, ab.Description, t }, null
 																						);
 			}
 
@@ -47,7 +45,11 @@ namespace Flotta.Model
 
 		public static T NewLinkedType<T>() where T : LinkedType
 		{
-			return (from types in GetAllLinkedTypes() where types.Type == typeof(T) select types.Creator as Func<T>).ElementAtOrDefault(0)?.Invoke();
+			Type concreteType = (from types in GetAllLinkedTypes() where types.Type == typeof(T) select types.ConcreteType).ElementAtOrDefault(0);
+			if (concreteType == null)
+				throw new NotImplementedException("Passed Type is not correctly implemented");
+
+			return Activator.CreateInstance(concreteType, true) as T;
 		}
 
 		public static ITessera NewTessera(ITesseraType type)

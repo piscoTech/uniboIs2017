@@ -64,6 +64,5 @@ namespace Flotta.Model
 		}
 
 		public abstract bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi);
-
 	}
 }

@@ -61,12 +61,6 @@
     <Compile Include="TesseraType.cs" />
     <Compile Include="LinkedTypeDescriptor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Flotta.Utils\Flotta.Utils.csproj">
-      <Project>{7b9d2105-4a39-4ac2-9c8e-6f90673592bc}</Project>
-      <Name>Flotta.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
