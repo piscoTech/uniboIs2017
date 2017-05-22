@@ -86,8 +86,8 @@ namespace Flotta.ServerSide
 			_mezzi.Add(m);
 		}
 
-		private CreateClientHandler _createClient;
-		public CreateClientHandler ClientCreator
+		private Action _createClient;
+		public Action ClientCreator
 		{
 			set
 			{
