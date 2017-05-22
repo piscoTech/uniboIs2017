@@ -23,19 +23,23 @@ namespace Flotta.Model
 			{
 				Assembly assembly = Assembly.GetExecutingAssembly();
 
-				var rawTypes = from t in assembly.GetTypes() let attr = t.GetCustomAttributes(typeof(LinkedTypeAttribute), true)?.ElementAtOrDefault(0) where attr != null && typeof(LinkedType).IsAssignableFrom(t) select new { Type = t, Description = (attr as LinkedTypeAttribute).Name };
-				var types = from ab in rawTypes let t = (from type in rawTypes where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type) select type.Type).ElementAtOrDefault(0) where ab.Type.IsAbstract && t != null select new { Type = ab.Type, Description = ab.Description, ConcreteType = t };
-				var tmp = new List<LinkedTypeDescriptor>();
-				foreach (var t in types)
-				{
-					var creator = t.ConcreteType.DelegateForParameterlessConstructor();
-					if (creator != null)
-					{
-						tmp.Add((LinkedTypeDescriptor)Activator.CreateInstance(typeof(LinkedTypeDescriptor), BindingFlags.NonPublic | BindingFlags.Instance, null, new Object[] { t.Type, t.Description, creator }, null));
-					}
-				}
-
-				_linkedTypeCache = tmp;
+				var rawTypes = from t in assembly.GetTypes()
+							   let attr = t.GetCustomAttributes(typeof(LinkedTypeAttribute), true)?.ElementAtOrDefault(0)
+							   where attr != null && typeof(LinkedType).IsAssignableFrom(t)
+							   select new { Type = t, Description = (attr as LinkedTypeAttribute).Name };
+				_linkedTypeCache = from ab in rawTypes
+								   let t = (from type in rawTypes
+											where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type)
+											select type.Type
+										   ).ElementAtOrDefault(0)
+								   let creator = t?.DelegateForParameterlessConstructor()
+								   where ab.Type.IsAbstract && t != null && creator != null
+								   orderby ab.Description
+								   select (LinkedTypeDescriptor)Activator.CreateInstance(typeof(LinkedTypeDescriptor),
+																						 BindingFlags.NonPublic | BindingFlags.Instance,
+																						 null,
+																						 new Object[] { ab.Type, ab.Description, creator }, null
+																						);
 			}
 
 			return _linkedTypeCache;

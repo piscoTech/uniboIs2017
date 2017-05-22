@@ -6,12 +6,25 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    [LinkedTypeAttribute("Tessere")]
-    public abstract class ITesseraType : LinkedType
-    {
-    }
+	[LinkedTypeAttribute("Tessere")]
+	public abstract class ITesseraType : LinkedType
+	{
+	}
 
-    internal class TesseraType : ITesseraType
-    {
-    }
+	internal class TesseraType : ITesseraType
+	{
+		public override bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi)
+		{
+			return (from t in (
+						from m in mezzi
+						select (
+							from t in m.Tessere
+							where t.Type == this
+							select t.Type
+						)
+					  )
+					where t.Count() > 0
+					select t).Count() > 0;
+		}
+	}
 }

@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    internal class LinkedTypeAttribute : Attribute
-    {
-        private string _name;
+	[AttributeUsage(AttributeTargets.Class)]
+	internal class LinkedTypeAttribute : Attribute
+	{
+		private string _name;
 		public LinkedTypeAttribute(string name)
 		{
 			Name = name;
 		}
 
-        public string Name
+		public string Name
 		{
 			get { return _name; }
 			set
@@ -25,43 +25,45 @@ namespace Flotta.Model
 				_name = value;
 			}
 		}
-    }
+	}
 
-    public abstract class LinkedType : IDBObject
-    {
+	public abstract class LinkedType : IDBObject
+	{
 
-        private string _name;
-        private bool _disabled;
+		private string _name;
+		private bool _disabled;
 
-        public string Name
-        {
-            get => _name;
-        }
+		public string Name
+		{
+			get => _name;
+		}
 
-        public bool IsDisabled
-        {
-            get => _disabled;
-        }
+		public bool IsDisabled
+		{
+			get => _disabled;
+		}
 
-        public IEnumerable<string> Update(string name)
-        {
-            List<string> errors = new List<string>();
-            name = name?.Trim();
-            if (String.IsNullOrEmpty(name))
-                errors.Add("Nome non specificato");
+		public IEnumerable<string> Update(string name)
+		{
+			List<string> errors = new List<string>();
+			name = name?.Trim();
+			if (String.IsNullOrEmpty(name))
+				errors.Add("Nome non specificato");
 
-            if (errors.Count > 0)
-                return errors;
+			if (errors.Count > 0)
+				return errors;
 
-            _name = name;
+			_name = name;
 
-            return errors;
-        }
+			return errors;
+		}
 
-        public void Disable()
-        {
-            _disabled = true;
-        }
+		public void Disable()
+		{
+			_disabled = true;
+		}
 
-    }
+		public abstract bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi);
+
+	}
 }
