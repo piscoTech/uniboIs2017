@@ -5,7 +5,7 @@ namespace Flotta.Model
 	public class LinkedTypeDescriptor
 	{
 		private Type _type;
-     	private string _desc;
+		private string _desc;
 		private Delegate _creator;
 
 		internal LinkedTypeDescriptor(Type type, string description, Delegate creator)
@@ -22,8 +22,8 @@ namespace Flotta.Model
 			_creator = creator;
 		}
 
-        public string Description => _desc;
+		public string Description => _desc;
 		public Type Type => _type;
-		public Delegate Creator => _creator;
-    }
+		internal Delegate Creator => _creator;
+	}
 }

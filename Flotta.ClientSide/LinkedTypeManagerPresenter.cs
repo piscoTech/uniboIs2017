@@ -10,121 +10,111 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-    class LinkedTypeManagerPresenter<T> : IClosablePresenter where T : LinkedType
-    {
-        private IServer _server;
-        private ILinkedTypeManagerWindow _window;
+	class LinkedTypeManagerPresenter<T> : IClosablePresenter where T : LinkedType
+	{
+		private IServer _server;
+		private ILinkedTypeManagerWindow _window;
 
-        private Func<IEnumerable<T>> _getList;
-        private Func<T, string, IEnumerable<string>> _updateType;
-        private Func<T, bool> _deleteType;
-        private Func<T> _newType;
+		private List<T> _typeList;
+		private string _typeName;
 
-        private List<T> _typeList;
-        private string _typeName;
+		internal LinkedTypeManagerPresenter(IServer server, ILinkedTypeManagerWindow window, string typeName)
+		{
+			_server = server;
+			_window = window;
 
-        internal LinkedTypeManagerPresenter(IServer server, ILinkedTypeManagerWindow window, Func<IEnumerable<T>> getList, Func<T, string, IEnumerable<string>> updateType, Func<T, bool> deleteType, Func<T> newType, string typeName)
-        {
-            _server = server;
-            _window = window;
+			_server.ObjectChanged += OnObjectChanged;
+			_server.ObjectRemoved += OnObjectRemoved;
+			_window.CreateNewType += OnCreateNewType;
+			_window.EditType += OnEditType;
+			_window.DeleteType += OnDeleteType;
 
-            _server.ObjectChanged += OnObjectChanged;
-            _server.ObjectRemoved += OnObjectRemoved;
-            _window.CreateNewType += OnCreateNewType;
-            _window.EditType += OnEditType;
-            _window.DeleteType += OnDeleteType;
+			_typeName = typeName;
+			_window.TypeName = _typeName;
 
-            _getList = getList;
-            _updateType = updateType;
-            _deleteType = deleteType;
-            _newType = newType;
+			UpdateTypeList();
+		}
 
-            _typeName = typeName;
-            _window.TypeName = _typeName;
+		private void OnObjectChanged(IDBObject obj)
+		{
+			if (obj is T)
+			{
+				UpdateTypeList();
+			}
+		}
 
-            UpdateTypeList();
-        }
+		private void OnObjectRemoved(IDBObject obj)
+		{
+			if (obj is T)
+			{
+				UpdateTypeList();
+				if ((obj as T) == _activeType)
+				{
+					_updateDialog?.Close();
+					_updateDialog?.Dispose();
+				}
+			}
+		}
 
-        private void OnObjectChanged(IDBObject obj)
-        {
-            if (obj is T)
-            {
-                UpdateTypeList();
-            }
-        }
+		private void UpdateTypeList()
+		{
+			_typeList = (from t in _server.GetLinkedTypes<T>() orderby t.IsDisabled, t.Name select t).ToList();
+			_window.TypeList = from t in _typeList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Name, t.IsDisabled);
+		}
 
-        private void OnObjectRemoved(IDBObject obj)
-        {
-            if (obj is T)
-            {
-                UpdateTypeList();
-                if ((obj as T) == _activeType)
-                {
-                    _updateDialog?.Close();
-                    _updateDialog?.Dispose();
-                }
-            }
-        }
+		private T _activeType = null;
+		private IUpdateLinkedTypeDialog _updateDialog;
 
-        private void UpdateTypeList()
-        {
-            _typeList = (from t in _getList() orderby t.IsDisabled, t.Name select t).ToList();
-            _window.TypeList = from t in _typeList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Name, t.IsDisabled);
-        }
+		private void OnCreateNewType()
+		{
+			DoEdit(null);
+		}
 
-        private T _activeType = null;
-        private IUpdateLinkedTypeDialog _updateDialog;
+		private void OnEditType(int index)
+		{
+			DoEdit(_typeList[index]);
+		}
 
-        private void OnCreateNewType()
-        {
-            DoEdit(null);
-        }
+		private void DoEdit(T activeType)
+		{
+			_activeType = activeType;
 
-        private void OnEditType(int index)
-        {
-            DoEdit(_typeList[index]);
-        }
+			using (_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedTypeDialog())
+			{
+				_updateDialog.NameText = activeType?.Name ?? "";
+				_updateDialog.TypeName = _typeName;
+				_updateDialog.Validation = () =>
+				{
+					T type = activeType ?? ModelFactory.NewLinkedType<T>();
+					var errors = _server.UpdateLinkedType(type, _updateDialog.NameText);
+					if (errors.Count() > 0)
+					{
+						MessageBox.Show(String.Join("\r\n", errors), "Errore");
+						return false;
+					}
+					else
+						return true;
+				};
 
-        private void DoEdit(T activeType)
-        {
-            _activeType = activeType;
+				_updateDialog.ShowDialog();
+				_updateDialog = null;
+			}
+		}
 
-            using (_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedTypeDialog())
-            {
-                _updateDialog.NameText = activeType?.Name ?? "";
-                _updateDialog.TypeName = _typeName;
-                _updateDialog.Validation = () =>
-                {
-                    T type = activeType ?? _newType();
-                    var errors = _updateType(type, _updateDialog.NameText);
-                    if (errors.Count() > 0)
-                    {
-                        MessageBox.Show(String.Join("\r\n", errors), "Errore");
-                        return false;
-                    }
-                    else
-                        return true;
-                };
+		private void OnDeleteType(int index)
+		{
+			if (MessageBox.Show("Sei sicuro di voler eliminare " + _typeList[index].Name + "?", "Elimina", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				if (!_server.DeleteLinkedType(_typeList[index]))
+					MessageBox.Show("Errore durante l'eliminazione");
+			}
+		}
 
-                _updateDialog.ShowDialog();
-                _updateDialog = null;
-            }
-        }
-
-        private void OnDeleteType(int index)
-        {
-            if (MessageBox.Show("Sei sicuro di voler eliminare " + _typeList[index].Name + "?", "Elimina", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                if (!_deleteType(_typeList[index]))
-                    MessageBox.Show("Errore durante l'eliminazione");
-            }
-        }
-
-        public void Close()
-        {
-            _updateDialog?.Close();
-            _updateDialog?.Dispose();
-            _window.Close();
-        }
-    }
+		public void Close()
+		{
+			_updateDialog?.Close();
+			_updateDialog?.Dispose();
+			_window.Close();
+		}
+	}
 }
