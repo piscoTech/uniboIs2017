@@ -250,7 +250,7 @@ namespace Flotta.ClientSide
 
 				if (tesseraDialog.ShowDialog() == DialogResult.OK)
 				{
-					_view.Tessere = _tessereItems;
+					_view.RefreshTessere();
 				}
 				_editingTypeDialog = null;
 				_editingType = null;
@@ -267,7 +267,7 @@ namespace Flotta.ClientSide
 			ti.Codice = "";
 			ti.Pin = "";
 			_tessereTmp.Remove((from t in _tessereTmp where t.Type == tt select t).ElementAtOrDefault(0));
-			_view.Tessere = _tessereItems;
+			_view.RefreshTessere();
 		}
 
 		private bool OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item, List<O> list, Func<T, O> createNew) where T : LinkedType where O : class, ILinkedObjectWithPDF<T>
@@ -327,23 +327,23 @@ namespace Flotta.ClientSide
 		private void OnDispositivoEdit(int index)
 		{
 			if (OnDispositivoPermessoEdit("Dispositivo", _dispositiviTypes[index], _dispositiviItems[index], _dispositiviTmp, ModelFactory.NewDispositivo))
-				_view.Dispositivi = _dispositiviItems;
+				_view.RefreshDispositivi();
 		}
 		private void OnDispositivoRemove(int index)
 		{
 			if (OnDispositivoPermessoRemove(_dispositiviTypes[index], _dispositiviItems[index], _dispositiviTmp))
-				_view.Dispositivi = _dispositiviItems;
+				_view.RefreshDispositivi();
 		}
 
 		private void OnPermessoEdit(int index)
 		{
 			if (OnDispositivoPermessoEdit("Permesso", _permessiTypes[index], _permessiItems[index], _permessiTmp, ModelFactory.NewPermesso))
-				_view.Permessi = _permessiItems;
+				_view.RefreshPermessi();
 		}
 		private void OnPermessoRemove(int index)
 		{
 			if (OnDispositivoPermessoRemove(_permessiTypes[index], _permessiItems[index], _permessiTmp))
-				_view.Permessi = _permessiItems;
+				_view.RefreshPermessi();
 		}
 
 		internal event Action MezzoSaved;

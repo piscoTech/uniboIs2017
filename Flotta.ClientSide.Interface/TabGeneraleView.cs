@@ -32,6 +32,10 @@ namespace Flotta.ClientSide.Interface
 		IEnumerable<IDispositivoPermessoListItem> Dispositivi { set; }
 		IEnumerable<IDispositivoPermessoListItem> Permessi { set; }
 
+		void RefreshTessere();
+		void RefreshDispositivi();
+		void RefreshPermessi();
+
 		event Action<int> TesseraEdit;
 		event Action<int> TesseraRemove;
 
@@ -264,6 +268,21 @@ namespace Flotta.ClientSide.Interface
 				foreach (var t in value)
 					_permessi.Add(t);
 			}
+		}
+
+		public void RefreshTessere()
+		{
+			tessereList.Refresh();
+		}
+
+		public void RefreshDispositivi()
+		{
+			dispositiviList.Refresh();
+		}
+
+		public void RefreshPermessi()
+		{
+			permessiList.Refresh();
 		}
 
 		public bool EditMode
