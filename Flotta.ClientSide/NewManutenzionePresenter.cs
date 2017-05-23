@@ -17,19 +17,19 @@ namespace Flotta.ClientSide
 		private IManutenzione _manutenzione;
 
 		private INewManutenzioneDialog _window;
-		
+		private IMezzo _mezzo;
 		
 
-		internal NewManutenzionePresenter(IServer server, INewManutenzioneDialog window)
+		internal NewManutenzionePresenter(IServer server, IMezzo mezzo, INewManutenzioneDialog window)
 		{
 			_server = server;
 			_window = window;
-			
+			_mezzo = mezzo;
 
 			_window.FormClosed += OnCompletion;
 			_window.SaveManutenzione += OnSave;
 			_window.CancelManutenzione += OnCancel;
-			
+			_window.Types = (from m in _server.ManutenzioneTypes select m.Name).ToList();
 		}
 
 		internal event StatusReportAction CreationCompleted;
@@ -47,7 +47,7 @@ namespace Flotta.ClientSide
 		{
 			if (_manutenzione == null) _manutenzione = ModelFactory.NewManutenzione();
 			
-			var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,_window.Tipo, _window.Costo);
+			var errors = _server.UpdateManutenzione(_mezzo, _manutenzione, _window.Data, _window.Note,_server.ManutenzioneTypes.ElementAtOrDefault(_window.Tipo), _window.Costo);
 			
 			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
 

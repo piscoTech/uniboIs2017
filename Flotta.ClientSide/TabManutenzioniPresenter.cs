@@ -39,19 +39,24 @@ namespace Flotta.ClientSide
 			_view.CancelEdit += OnCancelEdit;
 			_view.EnterEdit += OnEnterEdit;
 			_view.SaveEdit += OnSaveEdit;
+			_view.ModifyManutenzione += OnModifyManutenzione;
+			_view.DeleteManutenzione += OnDeleteManutenzione;
 			_view.NuovaManutenzione += OnNuovaManutenzione;
 		}
 
 		public void Reload()
 		{
-			UpdateManutenzioniList();
+			if (_tabs.Mezzo == null)
+				return;
 
+			_view.Manutenzioni = from m in _tabs.Mezzo.Manutenzioni select ClientSideInterfaceFactory.NewManutenzioneListItem(m.Data,m.Note,m.Type.Name,m.Costo);
 		}
 
-		private void UpdateManutenzioniList()
+	
+
+		private void UpdateTypeList()
 		{
-			foreach (IManutenzione m in _server.Manutenzioni)
-				_view.ManutenzioniList.Rows.Add(m.Data, m.Note, m.Costo, m.Type);
+
 		}
 
 		private void OnEnterEdit()
@@ -76,12 +81,23 @@ namespace Flotta.ClientSide
 				return;
 		}
 
-		private void OnNuovaManutenzione() {
+		private void OnNuovaManutenzione()
+		{
 			using (INewManutenzioneDialog dialog = ClientSideInterfaceFactory.NewNewManutenzioneDialog()){
-				var presenter = new NewManutenzionePresenter(_server, dialog);
+				var presenter = new NewManutenzionePresenter(_server,_tabs.Mezzo, dialog);
 
 				dialog.ShowDialog();
 			}
+		}
+
+		public void OnModifyManutenzione(int row)
+		{
+			ClientSideInterfaceFactory.NewNewManutenzioneDialog();
+		}
+
+		public void OnDeleteManutenzione(int row)
+		{
+			//come posso accedere alla datagrid da qui?
 		}
 	}
 }

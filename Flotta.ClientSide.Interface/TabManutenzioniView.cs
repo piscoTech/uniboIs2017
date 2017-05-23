@@ -15,18 +15,41 @@ namespace Flotta.ClientSide.Interface
 		event GenericAction EnterEdit;
 		event GenericAction CancelEdit;
 		event GenericAction SaveEdit;
-		DataGridView ManutenzioniList { get; }
+		event Action <int> ModifyManutenzione;
+		event Action <int> DeleteManutenzione;
 		event Action NuovaManutenzione;
+		IEnumerable<IManutenzioneListItem> Manutenzioni { set; }
+		void RefreshManutenzioni();
 	}
 
 	internal partial class TabManutenzioniView : UserControl, ITabManutenzioniView
 	{
+		private BindingList<IManutenzioneListItem> _manutenzioni = new BindingList<IManutenzioneListItem>();
+
 		public TabManutenzioniView()
 		{
 			InitializeComponent();
+
+			manutenzioniList.AutoGenerateColumns = false;
+			manutenzioniList.DataSource = _manutenzioni;
 		}
 
-		
+		public IEnumerable<IManutenzioneListItem> Manutenzioni
+		{
+			set
+			{
+				_manutenzioni.Clear();
+				foreach (IManutenzioneListItem m in value)
+				{
+					_manutenzioni.Add(m);
+				}
+			}
+		}
+
+		public void RefreshManutenzioni ()
+		{
+			manutenzioniList.Refresh();
+		}
 
 		public event GenericAction EnterEdit;
 		private void OnEnterEdit(object sender, EventArgs e)
@@ -52,17 +75,23 @@ namespace Flotta.ClientSide.Interface
 			NuovaManutenzione?.Invoke();
 		}
 
-		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		
+
+		public event Action <int>ModifyManutenzione;
+		public event Action <int>DeleteManutenzione;
+		private void OnCellClick(object sender, DataGridViewCellEventArgs e)
 		{
-			
+			// Exclude click on header
+			if (e.RowIndex < 0)
+				return;
+
+			if (e.ColumnIndex == 2)
+				ModifyManutenzione?.Invoke(e.RowIndex);
+			if (e.ColumnIndex == 3)
+				DeleteManutenzione?.Invoke(e.RowIndex);
 		}
 
-		public DataGridView ManutenzioniList
-		{
-			get => dataGridView1;
-		}
-
-
+		
 
 	}
 }

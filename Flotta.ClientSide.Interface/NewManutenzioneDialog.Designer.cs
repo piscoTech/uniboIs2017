@@ -33,12 +33,12 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.note = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.tipo = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.costo = new System.Windows.Forms.TextBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.annulla = new System.Windows.Forms.Button();
 			this.salva = new System.Windows.Forms.Button();
+			this.types = new System.Windows.Forms.ComboBox();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -82,13 +82,6 @@
 			this.label3.Size = new System.Drawing.Size(28, 13);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Tipo";
-			// 
-			// tipo
-			// 
-			this.tipo.Location = new System.Drawing.Point(60, 102);
-			this.tipo.Name = "tipo";
-			this.tipo.Size = new System.Drawing.Size(100, 20);
-			this.tipo.TabIndex = 5;
 			// 
 			// label4
 			// 
@@ -136,15 +129,23 @@
 			this.salva.UseVisualStyleBackColor = true;
 			this.salva.Click += new System.EventHandler(this.OnSaveManutenzione);
 			// 
+			// types
+			// 
+			this.types.FormattingEnabled = true;
+			this.types.Location = new System.Drawing.Point(60, 102);
+			this.types.Name = "types";
+			this.types.Size = new System.Drawing.Size(121, 21);
+			this.types.TabIndex = 9;
+			// 
 			// NewManutenzioneDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(422, 346);
+			this.Controls.Add(this.types);
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.costo);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.tipo);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.note);
 			this.Controls.Add(this.label2);
@@ -165,11 +166,11 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox note;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox tipo;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TextBox costo;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.Button annulla;
 		private System.Windows.Forms.Button salva;
+		private System.Windows.Forms.ComboBox types;
 	}
 }

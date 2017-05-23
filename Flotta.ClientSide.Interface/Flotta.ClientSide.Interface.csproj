@@ -56,6 +56,7 @@
     <Compile Include="LinkedObjectManagerWindow.Designer.cs">
       <DependentUpon>LinkedObjectManagerWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManutenzioneListItem.cs" />
     <Compile Include="MezzoListItem.cs" />
     <Compile Include="MezzoTabView.cs">
       <SubType>UserControl</SubType>

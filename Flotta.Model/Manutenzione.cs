@@ -12,6 +12,8 @@ namespace Flotta.Model
 		IManutenzioneType Type { get; set; }
 		string Note { get; set; }
 		float Costo { get; set; }
+		IMezzo Mezzo { get; }
+		IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float costo);
 	}
 
 	internal class Manutenzione : IManutenzione
@@ -20,6 +22,7 @@ namespace Flotta.Model
         private string _note;
         private float _costo;
         private IManutenzioneType _type;
+		private IMezzo _mezzo;
          
 
         public DateTime Data
@@ -45,5 +48,20 @@ namespace Flotta.Model
             get { return _type; }
             set { _type = value; }
         }
-    }
+
+		public IMezzo Mezzo
+		{
+			get { return _mezzo;  }
+		}
+
+		public IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float c)
+		{
+			_data = d;
+			_type = t;
+			_note = n;
+			_costo = c;
+
+			return new string[0];
+		}
+	}
 }

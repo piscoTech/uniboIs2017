@@ -19,12 +19,15 @@ namespace Flotta.Model
 		float Lunghezza { get; }
 		float Profondita { get; }
 		float VolumeCarico { get; }
-		ITessera[] Tessere { get; }
-		IDispositivo[] Dispositivi { get; }
-		IPermesso[] Permessi { get; }
+		IEnumerable<ITessera> Tessere { get; }
+		IEnumerable<IDispositivo> Dispositivi { get; }
+		IEnumerable<IPermesso> Permessi { get; }
+		IEnumerable<IManutenzione> Manutenzioni { get; }
 
 		IEnumerable<string> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 
+		void AddManutenzione(IManutenzione m);
+		void RemoveManutenzione(IManutenzione m);
 	}
 
 	internal class Mezzo : IMezzo
@@ -40,9 +43,10 @@ namespace Flotta.Model
 		private float _lunghezza;
 		private float _profondita;
 		private float _volumeCarico;
-		private HashSet<Tessera> _tessere = new HashSet<Tessera>();
-		private HashSet<Dispositivo> _dispositivi = new HashSet<Dispositivo>();
-		private HashSet<Permesso> _permessi = new HashSet<Permesso>();
+		private HashSet<ITessera> _tessere = new HashSet<ITessera>();
+		private HashSet<IDispositivo> _dispositivi = new HashSet<IDispositivo>();
+		private HashSet<IPermesso> _permessi = new HashSet<IPermesso>();
+		private HashSet<IManutenzione> _manutenzioni = new HashSet<IManutenzione>();
 
 		public string Modello
 		{
@@ -114,26 +118,44 @@ namespace Flotta.Model
 				return _volumeCarico;
 			}
 		}
-		public ITessera[] Tessere
+		public IEnumerable<ITessera> Tessere
 		{
 			get
 			{
-				return _tessere.ToArray();
+				return _tessere;
 			}
 		}
-		public IDispositivo[] Dispositivi
+		public IEnumerable<IDispositivo> Dispositivi
 		{
 			get
 			{
-				return _dispositivi.ToArray();
+				return _dispositivi;
 			}
 		}
-		public IPermesso[] Permessi
+		public IEnumerable<IPermesso> Permessi
 		{
 			get
 			{
-				return _permessi.ToArray();
+				return _permessi;
 			}
+		}
+
+		public IEnumerable<IManutenzione> Manutenzioni
+		{
+			get
+			{
+				return _manutenzioni;
+			}
+		}
+
+		public void AddManutenzione (IManutenzione m)
+		{
+			_manutenzioni.Add(m);
+		}
+
+		public void RemoveManutenzione(IManutenzione m)
+		{
+			_manutenzioni.Remove(m);
 		}
 
 		private bool CheckType(IEnumerable<LinkedObject> array)
