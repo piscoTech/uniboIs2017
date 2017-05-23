@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
+	[LinkedTypeAttribute("Manutenzioni")]
 	public abstract class IManutenzioneType : LinkedType
 	{
 	}
 
 	internal class ManutenzioneType : IManutenzioneType
 	{
+		public override bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi)
+		{
+			return false;
+		}
 	}
 }

@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate bool ConfirmAction();
-
 	public static class ClientSideInterfaceFactory
 	{
-
 		public static IClientWindow NewClientWindow()
 		{
 			return new ClientWindow();

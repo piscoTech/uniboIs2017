@@ -12,7 +12,6 @@ namespace Flotta.ClientSide
 {
 	class NewMezzoPresenter
 	{
-
 		private IServer _server;
 		private bool _saved = false;
 		private IMezzo _mezzo = ModelFactory.NewMezzo();
@@ -36,7 +35,7 @@ namespace Flotta.ClientSide
 			_window.SaveMezzo += OnSave;
 		}
 
-		internal event StatusReportAction CreationCompleted;
+		internal event Action<bool> CreationCompleted;
 		private void OnCompletion(object sender, FormClosedEventArgs e)
 		{
 			CreationCompleted?.Invoke(_saved);

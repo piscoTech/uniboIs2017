@@ -11,8 +11,6 @@ using Flotta.ClientSide;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate void MezzoListAction(int index);
-
 	public interface IClientWindow
 	{
 		void Show();
@@ -21,14 +19,10 @@ namespace Flotta.ClientSide.Interface
 		bool HasMezzo { set; }
 
 		event Action WindowClose;
-		event MezzoListAction MezzoSelected;
+		event Action<int> MezzoSelected;
 		event Action CreateNewMezzo;
 
-		event Action OpenTesseraTypes;
-		event Action OpenDispositivoTypes;
-		event Action OpenPermessoTypes;
-		event Action OpenManutenzioneTypes;
-		event Action OpenAssicurazioneTypes;
+		void AddNewLinkedType(string title, Action handler);
 	}
 
 	internal partial class ClientWindow : Form, IClientWindow
@@ -91,7 +85,7 @@ namespace Flotta.ClientSide.Interface
 			WindowClose();
 		}
 
-		public event MezzoListAction MezzoSelected;
+		public event Action<int> MezzoSelected;
 		private void MezzoClicked(object sender, DataGridViewCellEventArgs e)
 		{
 			// Exclude click on header
@@ -107,35 +101,16 @@ namespace Flotta.ClientSide.Interface
 			CreateNewMezzo?.Invoke();
 		}
 
-		public event Action OpenTesseraTypes;
-		private void OnOpenTesseraTypes(object sender, EventArgs e)
+		public void AddNewLinkedType(string title, Action handler)
 		{
-			OpenTesseraTypes?.Invoke();
-		}
+			ToolStripMenuItem item = new ToolStripMenuItem()
+			{
+				Name = title + "MenuItem",
+				Text = title
+			};
+			item.Click += (object sender, EventArgs e) => handler();
 
-		public event Action OpenDispositivoTypes;
-		private void OnOpenDispositivoTypes(object sender, EventArgs e)
-		{
-			OpenDispositivoTypes?.Invoke();
-		}
-
-		public event Action OpenPermessoTypes;
-		private void OnOpenPermessoTypes(object sender, EventArgs e)
-		{
-			OpenPermessoTypes?.Invoke();
-		}
-
-
-		public event Action OpenManutenzioneTypes;
-		private void OnOpenManutenzioneTypes(object sender, EventArgs e)
-		{
-			OpenManutenzioneTypes?.Invoke();
-		}
-
-		public event Action OpenAssicurazioneTypes;
-		private void OnOpenAssicurazioneTypes(object sender, EventArgs e)
-		{
-			OpenAssicurazioneTypes?.Invoke();
+			tipiToolStripMenuItem.DropDownItems.Add(item);
 		}
 	}
 }

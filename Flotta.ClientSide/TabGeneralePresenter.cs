@@ -102,13 +102,13 @@ namespace Flotta.ClientSide
 			if (EditMode)
 			{
 				_tessereTmp = (from t in Mezzo.Tessere select t.Clone() as ITessera).ToList();
-				_tessereTypes = (from t in _server.TesseraTypes where !t.IsDisabled || (from tt in Mezzo.Tessere select tt.Type).Contains(t) select t).ToList();
+				_tessereTypes = (from t in _server.GetLinkedTypes<ITesseraType>() where !t.IsDisabled || (from tt in Mezzo.Tessere select tt.Type).Contains(t) select t).ToList();
 
 				_dispositiviTmp = (from d in Mezzo.Dispositivi select d.Clone() as IDispositivo).ToList();
-				_dispositiviTypes = (from d in _server.DispositivoTypes where !d.IsDisabled || (from dt in Mezzo.Dispositivi select dt.Type).Contains(d) select d).ToList();
+				_dispositiviTypes = (from d in _server.GetLinkedTypes<IDispositivoType>() where !d.IsDisabled || (from dt in Mezzo.Dispositivi select dt.Type).Contains(d) select d).ToList();
 
 				_permessiTmp = (from p in Mezzo.Permessi select p.Clone() as IPermesso).ToList();
-				_permessiTypes = (from p in _server.PermessoTypes where !p.IsDisabled || (from pt in Mezzo.Permessi select pt.Type).Contains(p) select p).ToList();
+				_permessiTypes = (from p in _server.GetLinkedTypes<IPermessoType>() where !p.IsDisabled || (from pt in Mezzo.Permessi select pt.Type).Contains(p) select p).ToList();
 			}
 			else
 			{

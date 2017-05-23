@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,29 +15,41 @@ namespace Flotta.Model
 			return new Mezzo();
 		}
 
-		public static ITesseraType NewTesseraType()
+		private static IEnumerable<LinkedTypeDescriptor> _linkedTypeCache = null;
+		public static IEnumerable<LinkedTypeDescriptor> GetAllLinkedTypes()
 		{
-			return new TesseraType();
+			if (_linkedTypeCache == null)
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
+
+				var rawTypes = from t in assembly.GetTypes()
+							   let attr = t.GetCustomAttributes(typeof(LinkedTypeAttribute), true)?.ElementAtOrDefault(0)
+							   where attr != null && typeof(LinkedType).IsAssignableFrom(t)
+							   select new { Type = t, Description = (attr as LinkedTypeAttribute).Name };
+				_linkedTypeCache = from ab in rawTypes
+								   let t = (from type in rawTypes
+											where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type)
+											select type.Type
+										   ).ElementAtOrDefault(0)
+								   where ab.Type.IsAbstract && t != null
+								   orderby ab.Description
+								   select (LinkedTypeDescriptor)Activator.CreateInstance(typeof(LinkedTypeDescriptor),
+																						 BindingFlags.NonPublic | BindingFlags.Instance,
+																						 null,
+																						 new Object[] { ab.Type, ab.Description, t }, null
+																						);
+			}
+
+			return _linkedTypeCache;
 		}
 
-		public static IDispositivoType NewDispositivoType()
+		public static T NewLinkedType<T>() where T : LinkedType
 		{
-			return new DispositivoType();
-		}
+			Type concreteType = (from types in GetAllLinkedTypes() where types.Type == typeof(T) select types.ConcreteType).ElementAtOrDefault(0);
+			if (concreteType == null)
+				throw new NotImplementedException("Passed Type is not correctly implemented");
 
-		public static IPermessoType NewPermessoType()
-		{
-			return new PermessoType();
-		}
-
-		public static IManutenzioneType NewManutenzioneType()
-		{
-			return new ManutenzioneType();
-		}
-
-		public static IAssicurazioneType NewAssicurazioneType()
-		{
-			return new AssicurazioneType();
+			return Activator.CreateInstance(concreteType, true) as T;
 		}
 
 		public static ITessera NewTessera(ITesseraType type)

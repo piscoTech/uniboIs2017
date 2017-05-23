@@ -10,8 +10,6 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate void TypeListAction(int index);
-
 	public interface ILinkedTypeManagerWindow
 	{
 		void Show();
@@ -21,13 +19,12 @@ namespace Flotta.ClientSide.Interface
 		string TypeName { set; }
 
 		event Action CreateNewType;
-		event TypeListAction DeleteType;
-		event TypeListAction EditType;
+		event Action<int> DeleteType;
+		event Action<int> EditType;
 	}
 
 	partial class LinkedTypeManagerWindow : Form, ILinkedTypeManagerWindow
 	{
-
 		private BindingList<ILinkedTypeListItem> _typeList
 			= new BindingList<ILinkedTypeListItem>();
 
@@ -109,8 +106,8 @@ namespace Flotta.ClientSide.Interface
 			CreateNewType?.Invoke();
 		}
 
-		public event TypeListAction DeleteType;
-		public event TypeListAction EditType;
+		public event Action<int> DeleteType;
+		public event Action<int> EditType;
 		private void OnCellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			// Exclude click on header

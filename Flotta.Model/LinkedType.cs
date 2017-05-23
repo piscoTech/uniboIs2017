@@ -6,7 +6,28 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public abstract class LinkedType: IDBObject
+	[AttributeUsage(AttributeTargets.Class)]
+	internal class LinkedTypeAttribute : Attribute
+	{
+		private string _name;
+		public LinkedTypeAttribute(string name)
+		{
+			Name = name;
+		}
+
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				if (String.IsNullOrEmpty(value))
+					throw new ArgumentException("String.IsNullOrEmpty(value)");
+				_name = value;
+			}
+		}
+	}
+
+	public abstract class LinkedType : IDBObject
 	{
 
 		private string _name;
@@ -42,5 +63,6 @@ namespace Flotta.Model
 			_disabled = true;
 		}
 
+		public abstract bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi);
 	}
 }
