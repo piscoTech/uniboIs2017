@@ -9,9 +9,12 @@ namespace Flotta.Model
 {
 	public interface IMezzo : IDBObject
 	{
+		IImmagine Foto { get; }
 		string Modello { get; }
 		string Targa { get; }
 		uint Numero { get; }
+		string NumeroCartaCircolazione { get; }
+		IPDF CartaCircolazione { get; }
 		string NumeroTelaio { get; }
 		uint AnnoImmatricolazione { get; }
 		float Portata { get; }
@@ -23,17 +26,22 @@ namespace Flotta.Model
 		IDispositivo[] Dispositivi { get; }
 		IPermesso[] Permessi { get; }
 
-		IEnumerable<string> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
-
+		IEnumerable<string> Update(IImmagine foto, string modello, string targa, uint numero, string numCartaCircolazione,
+								   IPDF cartaCircolazione, string numeroTelaio, uint annoImmatricolazione,
+								   float portata, float altezza, float lunghezza, float profondita, float volumeCarico,
+								   IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi,
+								   IEnumerable<IPermesso> permessi);
 	}
 
 	internal class Mezzo : IMezzo
 	{
-
+		private IImmagine _foto;
 		private string _modello;
 		private string _targa;
 		private uint _numero;
 		private string _numeroTelaio;
+		private string _numeroCartaCircolazione;
+		private IPDF _cartaCircolazione;
 		private uint _annoImmatricolazione;
 		private float _portata;
 		private float _altezza;
@@ -44,97 +52,22 @@ namespace Flotta.Model
 		private HashSet<IDispositivo> _dispositivi = new HashSet<IDispositivo>();
 		private HashSet<IPermesso> _permessi = new HashSet<IPermesso>();
 
-		public string Modello
-		{
-			get
-			{
-				return _modello;
-			}
-		}
-		public string Targa
-		{
-			get
-			{
-				return _targa;
-			}
-		}
-		public uint Numero
-		{
-			get
-			{
-				return _numero;
-			}
-		}
-		public string NumeroTelaio
-		{
-			get
-			{
-				return _numeroTelaio;
-			}
-		}
-		public uint AnnoImmatricolazione
-		{
-			get
-			{
-				return _annoImmatricolazione;
-			}
-		}
-		public float Portata
-		{
-			get
-			{
-				return _portata;
-			}
-		}
-		public float Altezza
-		{
-			get
-			{
-				return _altezza;
-			}
-		}
-		public float Lunghezza
-		{
-			get
-			{
-				return _lunghezza;
-			}
-		}
-		public float Profondita
-		{
-			get
-			{
-				return _profondita;
-			}
-		}
-		public float VolumeCarico
-		{
-			get
-			{
-				return _volumeCarico;
-			}
-		}
-		public ITessera[] Tessere
-		{
-			get
-			{
-				return _tessere.ToArray();
-			}
-		}
-		public IDispositivo[] Dispositivi
-		{
-			get
-			{
-				return _dispositivi.ToArray();
-			}
-		}
-		public IPermesso[] Permessi
-		{
-			get
-			{
-				return _permessi.ToArray();
-			}
-		}
+		public IImmagine Foto => _foto;
+		public string Modello => _modello;
+		public string Targa => _targa;
+		public uint Numero => _numero;
+		public string NumeroCartaCircolazione => _numeroCartaCircolazione;
+		public IPDF CartaCircolazione => _cartaCircolazione;
+		public string NumeroTelaio => _numeroTelaio;
+		public uint AnnoImmatricolazione => _annoImmatricolazione;
+		public float Portata => _portata;
+		public float Altezza => _altezza;
+		public float Lunghezza => _lunghezza;
+		public float Profondita => _profondita;
+		public float VolumeCarico => _volumeCarico;
+		public ITessera[] Tessere => _tessere.ToArray();
+		public IDispositivo[] Dispositivi => _dispositivi.ToArray();
+		public IPermesso[] Permessi => _permessi.ToArray();
 
 		private bool CheckType(IEnumerable<LinkedType> array)
 		{
@@ -151,14 +84,24 @@ namespace Flotta.Model
 			return true;
 		}
 
-		public IEnumerable<String> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
+		public IEnumerable<string> Update(IImmagine foto, string modello, string targa, uint numero,
+										  string numCartaCircolazione, IPDF cartaCircolazione,
+										  string numeroTelaio, uint annoImmatricolazione, float portata,
+										  float altezza, float lunghezza, float profondita, float volumeCarico,
+										  IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi,
+										  IEnumerable<IPermesso> permessi)
 		{
 			List<String> errors = new List<string>();
 			Regex alphaNum = new Regex(@"^[A-Z0-9]+$");
 
 			modello = modello?.Trim();
 			targa = targa?.Trim()?.ToUpper();
+			numCartaCircolazione = numCartaCircolazione?.Trim()?.ToUpper();
 			numeroTelaio = numeroTelaio?.Trim()?.ToUpper();
+
+			if (!(foto?.IsValid ?? true))
+				errors.Add("Foto non valida");
+
 			if (String.IsNullOrEmpty(modello))
 				errors.Add("Modello non specificato");
 
@@ -169,6 +112,14 @@ namespace Flotta.Model
 
 			if (numero <= 0)
 				errors.Add("Il numero deve essere positivo");
+
+			if (String.IsNullOrEmpty(numCartaCircolazione))
+				errors.Add("Numero di carta di circolazione non specificato");
+			else if (!alphaNum.IsMatch(numCartaCircolazione))
+				errors.Add("Numero di carta di circolazione non valido, usa solo A-Z e 0-9");
+
+			if (!(cartaCircolazione?.IsValid ?? true))
+				errors.Add("Carta di circolazione non valida");
 
 			if (String.IsNullOrEmpty(numeroTelaio))
 				errors.Add("Numero di telaio non specificato");
@@ -211,9 +162,12 @@ namespace Flotta.Model
 			if (errors.Count > 0)
 				return errors;
 
+			_foto = foto;
 			_modello = modello;
 			_targa = targa;
 			_numero = numero;
+			_numeroCartaCircolazione = numCartaCircolazione;
+			_cartaCircolazione = cartaCircolazione;
 			_numeroTelaio = numeroTelaio;
 			_annoImmatricolazione = annoImmatricolazione;
 			_portata = portata;
@@ -225,7 +179,7 @@ namespace Flotta.Model
 			// We cannot create a new set from the passed collections as it contains clones of the originals and the reference to scadenze may have changed
 
 			// Drop removed items, we clone Linq result to break any dependecy to the modified collections
-			foreach(ITessera tess in (from t in _tessere where !(from nt in tessere select nt.Type).Contains(t.Type) select t).ToArray())
+			foreach (ITessera tess in (from t in _tessere where !(from nt in tessere select nt.Type).Contains(t.Type) select t).ToArray())
 			{
 				_tessere.Remove(tess);
 			}
@@ -263,7 +217,7 @@ namespace Flotta.Model
 			{
 				_permessi.Add(perm);
 			}
-			
+
 			return errors;
 		}
 	}

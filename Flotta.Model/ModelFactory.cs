@@ -24,11 +24,11 @@ namespace Flotta.Model
 
 				var rawTypes = from t in assembly.GetTypes()
 							   let attr = t.GetCustomAttributes(typeof(LinkedTypeAttribute), true)?.ElementAtOrDefault(0)
-							   where attr != null && typeof(LinkedType).IsAssignableFrom(t)
+							   where attr != null && t.IsSubclassOf(typeof(LinkedType))
 							   select new { Type = t, Description = (attr as LinkedTypeAttribute).Name };
 				_linkedTypeCache = from ab in rawTypes
 								   let t = (from type in rawTypes
-											where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type)
+											where !type.Type.IsAbstract && type.Type.IsSubclassOf(ab.Type)
 											select type.Type
 										   ).ElementAtOrDefault(0)
 								   where ab.Type.IsAbstract && t != null

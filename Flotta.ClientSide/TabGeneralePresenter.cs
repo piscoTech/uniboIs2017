@@ -130,6 +130,7 @@ namespace Flotta.ClientSide
 			_view.Modello = Mezzo.Modello;
 			_view.Targa = Mezzo.Targa;
 			_view.Numero = Mezzo.Numero;
+			_view.NumeroCartaCircolazione = Mezzo.NumeroCartaCircolazione;
 			_view.NumeroTelaio = Mezzo.NumeroTelaio;
 			_view.AnnoImmatricolazione = Mezzo.AnnoImmatricolazione;
 			_view.Portata = Mezzo.Portata;
@@ -352,12 +353,18 @@ namespace Flotta.ClientSide
 			if (!EditMode)
 				return;
 
-			var errors = _server.UpdateMezzo(Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tessereTmp, _dispositiviTmp, _permessiTmp);
+			var errors = _server.UpdateMezzo(null, Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroCartaCircolazione,
+											 null, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata,
+											 _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico,
+											 _tessereTmp, _dispositiviTmp, _permessiTmp);
 
-			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
-
-			// The tab will be automatically reloaded exiting edit mode automatically with the notification from the server
-			MezzoSaved?.Invoke();
+			if (errors.Count() > 0)
+				MessageBox.Show(String.Join("\r\n", errors), "Errore");
+			else
+			{
+				// The tab will be automatically reloaded exiting edit mode automatically with the notification from the server
+				MezzoSaved?.Invoke();
+			}
 		}
 
 		private void OnDeleteMezzo()

@@ -20,6 +20,7 @@ namespace Flotta.ClientSide.Interface
 		string Modello { get; set; }
 		string Targa { get; set; }
 		uint Numero { get; set; }
+		string NumeroCartaCircolazione { get; set; }
 		string NumeroTelaio { get; set; }
 		uint AnnoImmatricolazione { get; set; }
 		float Portata { get; set; }
@@ -118,6 +119,12 @@ namespace Flotta.ClientSide.Interface
 				}
 			}
 			set => numero.Text = value > 0 ? Convert.ToString(value) : "";
+		}
+
+		public string NumeroCartaCircolazione
+		{
+			get => numCartaCircolazione.Text;
+			set => numCartaCircolazione.Text = value;
 		}
 
 		public string NumeroTelaio

@@ -10,9 +10,9 @@ namespace Flotta.Model
 
 		internal LinkedTypeDescriptor(Type type, string description, Type concreteType)
 		{
-			if (!typeof(LinkedType).IsAssignableFrom(type) || !type.IsAbstract)
+			if (!type.IsSubclassOf(typeof(LinkedType)) || !type.IsAbstract)
 				throw new ArgumentException("Type is not an abstract LinkedObject");
-			if (!type.IsAssignableFrom(concreteType) || concreteType.IsAbstract)
+			if (!concreteType.IsSubclassOf(type) || concreteType.IsAbstract)
 				throw new ArgumentException("Concrete Type is not a concrete subtype of Type");
 			if (String.IsNullOrEmpty(description))
 				throw new ArgumentException("Invalid description");

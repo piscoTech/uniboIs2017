@@ -18,7 +18,12 @@ namespace Flotta.ServerSide
 		IEnumerable<IMezzo> Mezzi { get; }
 		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
 
-		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
+		IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
+										string numCartaCircolazione, IPDF cartaCircolazione,
+										string numeroTelaio, uint annoImmatricolazione, float portata,
+										float altezza, float lunghezza, float profondita,
+										float volumeCarico, IEnumerable<ITessera> tessere,
+										IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
 
 		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
@@ -82,7 +87,7 @@ namespace Flotta.ServerSide
 			p1.Update(null);
 			p2 = ModelFactory.NewPermesso(perm.ElementAt(1));
 			p1.Update(null);
-			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
+			m.Update(null, "Mezzo 1", "aa000aa", 100, "CRTCIRC123", null, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
 		}
 
@@ -146,7 +151,12 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
 
-		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
+		public IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
+											   string numCartaCircolazione, IPDF cartaCircolazione,
+											   string numeroTelaio, uint annoImmatricolazione, float portata,
+											   float altezza, float lunghezza, float profondita,
+											   float volumeCarico, IEnumerable<ITessera> tessere,
+											   IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
 		{
 			if (mezzo == null) throw new ArgumentNullException();
 			List<String> errors = new List<string>();
@@ -154,6 +164,10 @@ namespace Flotta.ServerSide
 			var numMatch = from m in _mezzi where m.Numero == numero && m != mezzo select m;
 			if (numMatch.Count() > 0)
 				errors.Add("Il numero è già utilizzato");
+
+			targa = targa?.Trim()?.ToUpper();
+			if (targa != null && (from m in _mezzi where m.Targa == targa && m != mezzo select m).Count() > 0)
+				errors.Add("La targa è già utilizzata");
 
 			if (!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in GetLinkedTypesSet<ITesseraType>() select t))
 				errors.Add("Uno o più tipi di tessere non esistono");
@@ -166,7 +180,9 @@ namespace Flotta.ServerSide
 				return errors;
 			else
 			{
-				errors = mezzo.Update(modello, targa, numero, numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza, profondita, volumeCarico, tessere, dispositivi, permessi).ToList();
+				errors = mezzo.Update(foto, modello, targa, numero, numCartaCircolazione, cartaCircolazione,
+									  numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza,
+									  profondita, volumeCarico, tessere, dispositivi, permessi).ToList();
 
 				if (errors.Count == 0)
 				{

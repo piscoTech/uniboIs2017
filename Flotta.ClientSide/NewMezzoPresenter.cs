@@ -32,7 +32,7 @@ namespace Flotta.ClientSide
 			};
 
 			_window.FormClosed += OnCompletion;
-			_window.SaveMezzo += OnSave;
+			_presenter.MezzoSaved += OnSave;
 		}
 
 		internal event Action<bool> CreationCompleted;
@@ -44,19 +44,9 @@ namespace Flotta.ClientSide
 
 		private void OnSave()
 		{
-			ITessera[] t = new ITessera[0];
-			IDispositivo[] d = new IDispositivo[0];
-			IPermesso[] p = new IPermesso[0];
-			var errors = _server.UpdateMezzo(_mezzo, _window.TabGenerale.Modello, _window.TabGenerale.Targa, _window.TabGenerale.Numero, _window.TabGenerale.NumeroTelaio, _window.TabGenerale.AnnoImmatricolazione, _window.TabGenerale.Portata, _window.TabGenerale.Altezza, _window.TabGenerale.Lunghezza, _window.TabGenerale.Profondita, _window.TabGenerale.VolumeCarico, t, d, p);
-
-			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
-			else
-			{
-				_saved = true;
-				_window.ConfirmBeforeClosing = false;
-				_window.Close();
-			}
-
+			_saved = true;
+			_window.ConfirmBeforeClosing = false;
+			_window.Close();
 		}
 
 	}
