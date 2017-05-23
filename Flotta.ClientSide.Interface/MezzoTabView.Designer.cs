@@ -31,20 +31,20 @@
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.label4 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.label5 = new System.Windows.Forms.Label();
+			this.tabGeneraleView = new TabGeneraleView();
+			this.tabScadenzeView = new TabScadenzeView();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			this.tabPage5.SuspendLayout();
-			this.tabGeneraleView = new TabGeneraleView();
 			this.SuspendLayout();
 			// 
 			// tabControl
@@ -93,7 +93,7 @@
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.Controls.Add(this.label1);
+			this.tabPage2.Controls.Add(this.tabScadenzeView);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -102,15 +102,13 @@
 			this.tabPage2.Text = "Scadenze";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
-			// label1
+			// tabScadenzeView
 			// 
-			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label1.Location = new System.Drawing.Point(3, 3);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(350, 387);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Non implementato";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.tabScadenzeView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabScadenzeView.Location = new System.Drawing.Point(3, 3);
+			this.tabScadenzeView.Name = "tabScadenzeView";
+			this.tabScadenzeView.Size = new System.Drawing.Size(350, 387);
+			this.tabScadenzeView.TabIndex = 0;
 			// 
 			// tabPage3
 			// 
@@ -194,7 +192,6 @@
 		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TabPage tabPage3;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TabPage tabPage4;
@@ -202,5 +199,6 @@
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.Label label5;
 		private TabGeneraleView tabGeneraleView;
+		private TabScadenzeView tabScadenzeView;
 	}
 }

@@ -15,10 +15,10 @@ namespace Flotta.Model
 			return new Mezzo();
 		}
 
-		private static IEnumerable<LinkedTypeDescriptor> _linkedTypeCache = null;
+		private static IEnumerable<LinkedTypeDescriptor> _linkedTypesCache = null;
 		public static IEnumerable<LinkedTypeDescriptor> GetAllLinkedTypes()
 		{
-			if (_linkedTypeCache == null)
+			if (_linkedTypesCache == null)
 			{
 				Assembly assembly = Assembly.GetExecutingAssembly();
 
@@ -26,21 +26,21 @@ namespace Flotta.Model
 							   let attr = t.GetCustomAttributes(typeof(LinkedTypeAttribute), true)?.ElementAtOrDefault(0)
 							   where attr != null && typeof(LinkedType).IsAssignableFrom(t)
 							   select new { Type = t, Description = (attr as LinkedTypeAttribute).Name };
-				_linkedTypeCache = from ab in rawTypes
-								   let t = (from type in rawTypes
-											where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type)
-											select type.Type
-										   ).ElementAtOrDefault(0)
-								   where ab.Type.IsAbstract && t != null
-								   orderby ab.Description
-								   select (LinkedTypeDescriptor)Activator.CreateInstance(typeof(LinkedTypeDescriptor),
-																						 BindingFlags.NonPublic | BindingFlags.Instance,
-																						 null,
-																						 new Object[] { ab.Type, ab.Description, t }, null
-																						);
+				_linkedTypesCache = from ab in rawTypes
+									let t = (from type in rawTypes
+											 where !type.Type.IsAbstract && ab.Type.IsAssignableFrom(type.Type)
+											 select type.Type
+											).ElementAtOrDefault(0)
+									where ab.Type.IsAbstract && t != null
+									orderby ab.Description
+									select (LinkedTypeDescriptor)Activator.CreateInstance(typeof(LinkedTypeDescriptor),
+																						  BindingFlags.NonPublic | BindingFlags.Instance,
+																						  null,
+																						  new Object[] { ab.Type, ab.Description, t }, null
+																						 );
 			}
 
-			return _linkedTypeCache;
+			return _linkedTypesCache;
 		}
 
 		public static T NewLinkedType<T>() where T : LinkedType
@@ -65,6 +65,21 @@ namespace Flotta.Model
 		public static IPermesso NewPermesso(IPermessoType type)
 		{
 			return new Permesso(type);
+		}
+
+		private static IEnumerable<ScadenzaTypeDescriptor> _scadenzaTypesCache = null;
+		public static IEnumerable<ScadenzaTypeDescriptor> GetAllScadenzaTypes()
+		{
+			if (_scadenzaTypesCache == null)
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
+
+				_scadenzaTypesCache = from t in assembly.GetTypes()
+									  where typeof(Scadenza).IsAssignableFrom(t) && !t.IsAbstract
+									  select new ScadenzaTypeDescriptor(t);
+			}
+
+			return _scadenzaTypesCache;
 		}
 	}
 }

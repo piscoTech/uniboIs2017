@@ -26,6 +26,7 @@ namespace Flotta.ClientSide
 			_tabControl = tabControl;
 
 			_tabPresenters[0] = new TabGeneralePresenter(_server, this, _tabControl.GeneraleTab);
+			_tabPresenters[1] = new TabScadenzePresenter(_server, this, _tabControl.ScadenzeTab);
 
 			_tabControl.CurrentTab = 0;
 			_tabControl.TabChanged += OnTabChange;
@@ -54,7 +55,7 @@ namespace Flotta.ClientSide
 
 		private void OnTabChange(int index)
 		{
-			foreach(ITabPresenter tab in _tabPresenters)
+			foreach (ITabPresenter tab in _tabPresenters)
 			{
 				if (tab == null)
 					continue;

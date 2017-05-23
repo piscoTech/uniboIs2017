@@ -18,6 +18,7 @@ namespace Flotta.ClientSide.Interface
 		int CurrentTab { get; set; }
 
 		ITabGeneraleView GeneraleTab { get; }
+		ITabScadenzeView ScadenzeTab { get; }
 	}
 
 	internal partial class MezzoTabView : UserControl, IMezzoTabView
@@ -39,10 +40,8 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public ITabGeneraleView GeneraleTab
-		{
-			get => tabGeneraleView;
-		}
+		public ITabGeneraleView GeneraleTab => tabGeneraleView;
+		public ITabScadenzeView ScadenzeTab => tabScadenzeView;
 
 		public event Action ExitEdit;
 		public event Action<int> TabChanged;

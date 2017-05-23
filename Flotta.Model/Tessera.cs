@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface ITessera : ICloneable, ILinkedObject<ITesseraType>
+	public interface ITessera : ICloneable, ILinkedObject<ITesseraType>, IScadenzaAdapter
 	{
 		String Codice { get; }
 		String Pin { get; }
@@ -21,22 +21,31 @@ namespace Flotta.Model
 		private ITesseraType _type;
 		private string _codice;
 		private string _pin;
+		private Scadenza _scadenza;
 
 		internal Tessera(ITesseraType type)
 		{
 			_type = type;
 		}
 
-		private Tessera(ITesseraType type, string codice, string pin)
+		private Tessera(ITesseraType type, string codice, string pin, Scadenza scadenza)
 		{
 			_type = type;
 			_codice = codice;
 			_pin = pin;
+			_scadenza = scadenza;
 		}
 
 		public ITesseraType Type => _type;
 		public string Codice => _codice;
 		public string Pin => _pin;
+
+		public Scadenza Scadenza
+		{
+			get => _scadenza;
+			set => _scadenza = value;
+		}
+		public string ScadenzaName => _type.Name;
 
 		public IEnumerable<string> Update(string codice, string pin)
 		{
@@ -68,8 +77,7 @@ namespace Flotta.Model
 
 		public object Clone()
 		{
-			// Also copy the reference to scadenza
-			return new Tessera(_type, _codice, _pin);
+			return new Tessera(_type, _codice, _pin, _scadenza);
 		}
 	}
 }
