@@ -65,6 +65,8 @@
     <Compile Include="ScadenzaManuale.cs" />
     <Compile Include="ScadenzaTypeDescriptor.cs" />
     <Compile Include="IScadenzaAdapter.cs" />
+    <Compile Include="ScadenzaFormat.cs" />
+    <Compile Include="ScadenzaFormatDescriptor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

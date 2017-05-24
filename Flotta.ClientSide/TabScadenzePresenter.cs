@@ -67,15 +67,13 @@ namespace Flotta.ClientSide
 					return;
 				}
 				IScadenzaListItem item = _scadenzeItem[index];
-				item.IsValid = scadOwner.Scadenza != null;
-				item.Date = (scadOwner.Scadenza?.HasDate ?? false) ? scadOwner.Scadenza.Date : new DateTime?();
+				item.Date = scadOwner.Scadenza?.DateDescription;
 			}
 			else
 			{
 				_scadenzeItem.AddRange(from s in _scadenze
 									   select ClientSideInterfaceFactory.NewScadenzaListItem(s.ScadenzaName,
-																							 s.Scadenza != null,
-																							 (s.Scadenza?.HasDate ?? false) ? s.Scadenza.Date : new DateTime?()));
+																							 s.Scadenza?.DateDescription));
 			}
 		}
 

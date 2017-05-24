@@ -114,6 +114,7 @@
 			this.saveBtn.TabIndex = 6;
 			this.saveBtn.Text = "Salva";
 			this.saveBtn.UseVisualStyleBackColor = true;
+			this.saveBtn.Click += new System.EventHandler(OnSave);
 			// 
 			// cancelBtn
 			// 

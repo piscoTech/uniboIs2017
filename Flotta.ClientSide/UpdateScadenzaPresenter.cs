@@ -13,6 +13,7 @@ namespace Flotta.ClientSide
 		private IUpdateScadenzaDialog _view;
 
 		private List<ScadenzaTypeDescriptor> _scadTypes;
+		private List<ScadenzaFormatDescriptor> _scadFormats;
 
 		private Scadenza _scad;
 
@@ -21,23 +22,46 @@ namespace Flotta.ClientSide
 			_view = view;
 
 			_scadTypes = ModelFactory.GetAllScadenzaTypes().ToList();
+			_scadFormats = ModelFactory.GetAllScadenzaFormats().ToList();
 
 			if (scadOwner.Scadenza == null)
 			{
-				_scad = _scadTypes.ElementAt(0).NewInstance;
+				_scad = _scadTypes[0].NewInstance;
 				if (_scad.HasDate)
+				{
 					_scad.Date = DateTime.Now;
+					_scad.Formatter = _scadFormats[0].Formatter;
+				}
 				// Setup other fields
 			}
 			else
-				_scad = scadOwner.Scadenza;
+				_scad = scadOwner.Scadenza.Clone() as Scadenza;
 
 			_view.ScadenzaName = scadOwner.ScadenzaName;
+
 			_view.Types = (from t in _scadTypes select t.Name).ToList();
+			_view.Formats = (from f in _scadFormats select f.Name).ToList();
 			_view.SelectedType = _scadTypes.FindIndex((ScadenzaTypeDescriptor desc) => desc.IsType(_scad));
+
 			UpdateUI();
 
 			_view.TypeChanged += OnTypeChanged;
+			_view.Validation = () =>
+			{
+				try
+				{
+					_scad.Date = _view.Date;
+					_scad.Formatter = _scadFormats[_view.SelectedFormat].Formatter;
+
+					return true;
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, "Errore");
+					return false;
+				}
+
+			};
 		}
 
 		internal Scadenza Scadenza => _scad;
@@ -65,7 +89,7 @@ namespace Flotta.ClientSide
 			if (_scad.HasDate)
 			{
 				_view.Date = _scad.Date;
-				_view.SelectedFormat = 0;
+				_view.SelectedFormat = _scadFormats.FindIndex((ScadenzaFormatDescriptor desc) => desc.IsFormat(_scad));
 			}
 			_view.RecurFieldVisible = _scad.HasRecurrentPeriod;
 			if (_scad.HasRecurrentPeriod)

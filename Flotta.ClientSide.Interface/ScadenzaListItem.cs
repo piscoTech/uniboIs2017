@@ -4,21 +4,18 @@ namespace Flotta.ClientSide.Interface
 	public interface IScadenzaListItem
 	{
 		string Name { get; }
-		bool IsValid { set; }
-		DateTime? Date { set; }
+		string Date { set; }
 		string DateDescription { get; }
 	}
 
 	class ScadenzaListItem : IScadenzaListItem
 	{
 		private string _name;
-		private bool _isValid;
-		private DateTime? _date;
+		private string _date;
 
-		internal ScadenzaListItem(string name, bool isValid, DateTime? date)
+		internal ScadenzaListItem(string name, string date)
 		{
 			_name = name;
-			_isValid = isValid;
 			_date = date;
 		}
 
@@ -27,19 +24,14 @@ namespace Flotta.ClientSide.Interface
 			get => _name;
 		}
 
-		public bool IsValid
-		{
-			set => _isValid = value;
-		}
-
-		public DateTime? Date
+		public string Date
 		{
 			set => _date = value;
 		}
 
 		public string DateDescription
 		{
-			get => _isValid ? (_date.HasValue ? _date.ToString() : "Illimitata") : "Non impostata";
+			get => _date ?? "Non impostata";
 		}
 	}
 }

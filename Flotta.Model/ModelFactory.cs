@@ -83,5 +83,22 @@ namespace Flotta.Model
 
 			return _scadenzaTypesCache;
 		}
+
+		private static IEnumerable<ScadenzaFormatDescriptor> _scadenzaFormatterCache = null;
+		public static IEnumerable<ScadenzaFormatDescriptor> GetAllScadenzaFormats()
+		{
+			if (_scadenzaFormatterCache == null)
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
+
+				_scadenzaFormatterCache = from f in assembly.GetTypes()
+										  let attr = f.GetCustomAttributes(typeof(ScadenzaFormatAttribute), true)?.ElementAtOrDefault(0) as ScadenzaFormatAttribute
+										  where f.IsSubclassOf(typeof(ScadenzaFormat)) && !f.IsAbstract && attr != null
+										  orderby attr.Order
+										  select new ScadenzaFormatDescriptor(Activator.CreateInstance(f, true) as ScadenzaFormat, attr);
+			}
+
+			return _scadenzaFormatterCache;
+		}
 	}
 }

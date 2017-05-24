@@ -14,21 +14,29 @@ namespace Flotta.ClientSide.Interface
 	{
 		DialogResult ShowDialog();
 		string ScadenzaName { set; }
+
 		IList<string> Types { set; }
 		int SelectedType { get; set; }
+
 		DateTime Date { get; set; }
+
+		IList<string> Formats { set; }
 		int SelectedFormat { get; set; }
+
 		int RecurCount { get; set; }
 		int RecurSelectedType { get; set; }
 
 		bool DateFieldsVisible { set; }
 		bool RecurFieldVisible { set; }
 
+		Func<bool> Validation { set; }
 		event Action TypeChanged;
 	}
 
 	internal partial class UpdateScadenzaDialog : Form, IUpdateScadenzaDialog
 	{
+		private Func<bool> _validation;
+
 		internal UpdateScadenzaDialog()
 		{
 			InitializeComponent();
@@ -54,6 +62,11 @@ namespace Flotta.ClientSide.Interface
 		{
 			get => date.Value;
 			set => date.Value = value;
+		}
+
+		public IList<string> Formats
+		{
+			set => format.DataSource = value;
 		}
 
 		public int SelectedFormat
@@ -98,6 +111,16 @@ namespace Flotta.ClientSide.Interface
 		private void OnTypeChanged(object sender, EventArgs e)
 		{
 			TypeChanged?.Invoke();
+		}
+
+		public Func<bool> Validation
+		{
+			set => _validation = value;
+		}
+
+		private void OnSave(object sender, EventArgs e)
+		{
+			this.DialogResult = (_validation?.Invoke() ?? false) ? DialogResult.OK : DialogResult.None;
 		}
 	}
 }
