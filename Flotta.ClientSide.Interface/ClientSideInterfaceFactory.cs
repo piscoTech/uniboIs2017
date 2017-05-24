@@ -58,9 +58,14 @@ namespace Flotta.ClientSide.Interface
 			return new UpdateDispositivoPermessoDialog();
 		}
 
-		public static IScadenzaListItem NewScadenzaListItem(string name, DateTime? date)
+		public static IScadenzaListItem NewScadenzaListItem(string name, bool isValid, DateTime? date)
 		{
-			return new ScadenzaListItem(name, date);
+			return new ScadenzaListItem(name, isValid, date);
+		}
+
+		public static IUpdateScadenzaDialog NewUpdateScadenzaDialog()
+		{
+			return new UpdateScadenzaDialog();
 		}
 	}
 }

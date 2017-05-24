@@ -10,12 +10,12 @@ namespace Flotta.Model
 	internal class LinkedTypeAttribute : Attribute
 	{
 		private string _name;
-		public LinkedTypeAttribute(string name)
+		internal LinkedTypeAttribute(string name)
 		{
 			Name = name;
 		}
 
-		public string Name
+		internal string Name
 		{
 			get { return _name; }
 			set

@@ -18,11 +18,16 @@ namespace Flotta.ServerSide
 		IEnumerable<IMezzo> Mezzi { get; }
 		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
 
-		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
+		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio,
+										uint annoImmatricolazione, float portata, float altezza, float lunghezza,
+										float profondita, float volumeCarico, IEnumerable<ITessera> tessere,
+										IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
 
 		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
 		bool DeleteLinkedType<T>(T obj) where T : LinkedType;
+
+		void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad);
 	}
 
 	public class Server : IServer
@@ -146,7 +151,10 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
 
-		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
+		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio,
+											   uint annoImmatricolazione, float portata, float altezza, float lunghezza,
+											   float profondita, float volumeCarico, IEnumerable<ITessera> tessere,
+											   IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
 		{
 			if (mezzo == null) throw new ArgumentNullException();
 			List<String> errors = new List<string>();
@@ -166,7 +174,8 @@ namespace Flotta.ServerSide
 				return errors;
 			else
 			{
-				errors = mezzo.Update(modello, targa, numero, numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza, profondita, volumeCarico, tessere, dispositivi, permessi).ToList();
+				errors = mezzo.Update(modello, targa, numero, numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza,
+									  profondita, volumeCarico, tessere, dispositivi, permessi).ToList();
 
 				if (errors.Count == 0)
 				{
@@ -247,6 +256,12 @@ namespace Flotta.ServerSide
 
 				return false;
 			}
+		}
+
+		public void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad)
+		{
+			scadOwner.Scadenza = scad;
+			ObjectChanged(scadOwner);
 		}
 	}
 }

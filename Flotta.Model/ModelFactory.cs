@@ -75,8 +75,10 @@ namespace Flotta.Model
 				Assembly assembly = Assembly.GetExecutingAssembly();
 
 				_scadenzaTypesCache = from t in assembly.GetTypes()
-									  where typeof(Scadenza).IsAssignableFrom(t) && !t.IsAbstract
-									  select new ScadenzaTypeDescriptor(t);
+									  let attr = t.GetCustomAttributes(typeof(ScadenzaTypeAttribute), true)?.ElementAtOrDefault(0) as ScadenzaTypeAttribute
+									  where t.IsSubclassOf(typeof(Scadenza)) && !t.IsAbstract && attr != null
+									  orderby attr.Order
+									  select new ScadenzaTypeDescriptor(t, attr);
 			}
 
 			return _scadenzaTypesCache;

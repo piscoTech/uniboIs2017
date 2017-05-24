@@ -45,7 +45,7 @@ namespace Flotta.Model
 			get => _scadenza;
 			set => _scadenza = value;
 		}
-		public string ScadenzaName => _type.Name;
+		public string ScadenzaName => "Tessera: " + _type.Name;
 
 		public IEnumerable<string> Update(string codice, string pin)
 		{

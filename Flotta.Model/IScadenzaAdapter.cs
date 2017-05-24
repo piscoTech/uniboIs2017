@@ -2,7 +2,7 @@
 
 namespace Flotta.Model
 {
-	public interface IScadenzaAdapter
+	public interface IScadenzaAdapter : IDBObject
 	{
 		Scadenza Scadenza { get; set; }
 		string ScadenzaName { get; }

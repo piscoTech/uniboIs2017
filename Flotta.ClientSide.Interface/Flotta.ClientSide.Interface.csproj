@@ -98,6 +98,12 @@
     <Compile Include="UpdateDispositivoPermessoDialog.Designer.cs">
       <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateScadenzaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateScadenzaDialog.Designer.cs">
+      <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateTesseraDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TabGeneraleView.resx">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateScadenzaDialog.resx">
+      <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateTesseraDialog.resx">
       <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>

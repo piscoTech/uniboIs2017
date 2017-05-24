@@ -21,6 +21,9 @@ namespace Flotta.ClientSide
 		private List<IScadenzaAdapter> _scadenze = new List<IScadenzaAdapter>();
 		private List<IScadenzaListItem> _scadenzeItem = new List<IScadenzaListItem>();
 
+		private IScadenzaAdapter _activeScad = null;
+		private UpdateScadenzaPresenter _updatePresenter = null;
+
 		internal TabScadenzePresenter(IServer server, MezzoTabPresenter tabs, ITabScadenzeView view)
 		{
 			_tabs = tabs;
@@ -31,7 +34,7 @@ namespace Flotta.ClientSide
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;
 
-			//_view.ScadenzaEdit +=;
+			_view.ScadenzaEdit += OnScadenzaEdit;
 			//_view.ScadenzaEdit += ;
 		}
 
@@ -40,34 +43,80 @@ namespace Flotta.ClientSide
 			if (_tabs.Mezzo == null)
 				return;
 
+			_updatePresenter?.Close();
+			// Close renew presenter
+			_activeScad = null;
+
 			_scadenze.Clear();
 			_scadenzeItem.Clear();
 
-			_scadenze.AddRange(_tabs.Mezzo.Tessere);
+			_scadenze.AddRange(from t in _tabs.Mezzo.Tessere orderby t.Type.Name select t);
 
-			foreach (var s in _scadenze)
-			{
-				var n = s.ScadenzaName;
-				var d = s.Scadenza?.Date;
-				var item = ClientSideInterfaceFactory.NewScadenzaListItem(n, d);
-
-				_scadenzeItem.Add(item);
-			}
-			//_scadenzeItem.AddRange(from s in _scadenze select ClientSideInterfaceFactory.NewScadenzaListItem(s.ScadenzaName, s.Scadenza.Date));
+			UpdateItems(null);
 			_view.Scadenze = _scadenzeItem;
+		}
+
+		private void UpdateItems(IScadenzaAdapter scadOwner)
+		{
+			if (scadOwner != null)
+			{
+				int index = _scadenze.IndexOf(scadOwner);
+				if (index < 0)
+				{
+					Reload();
+					return;
+				}
+				IScadenzaListItem item = _scadenzeItem[index];
+				item.IsValid = scadOwner.Scadenza != null;
+				item.Date = (scadOwner.Scadenza?.HasDate ?? false) ? scadOwner.Scadenza.Date : new DateTime?();
+			}
+			else
+			{
+				_scadenzeItem.AddRange(from s in _scadenze
+									   select ClientSideInterfaceFactory.NewScadenzaListItem(s.ScadenzaName,
+																							 s.Scadenza != null,
+																							 (s.Scadenza?.HasDate ?? false) ? s.Scadenza.Date : new DateTime?()));
+			}
 		}
 
 		private void OnObjectChanged(IDBObject obj)
 		{
-			throw new NotImplementedException();
+			if (obj is IScadenzaAdapter scadOwner && _scadenze.Contains(scadOwner))
+			{
+				UpdateItems(scadOwner);
+				_view.RefreshScadenze();
+			}
+			else if (obj is IScadenzaAdapter)
+				Reload();
 		}
 		private void OnObjectRemoved(IDBObject obj)
 		{
-			throw new NotImplementedException();
+			if (obj is IScadenzaAdapter scadOwner)
+			{
+				if (scadOwner == _activeScad)
+					_updatePresenter.Close();
+				Reload();
+			}
 		}
 
 		public void OnCancelEdit()
 		{
+		}
+
+		private void OnScadenzaEdit(int index)
+		{
+			_activeScad = _scadenze[index];
+
+			using (var updateDialog = ClientSideInterfaceFactory.NewUpdateScadenzaDialog())
+			{
+				_updatePresenter = new UpdateScadenzaPresenter(updateDialog, _activeScad);
+				if (updateDialog.ShowDialog() == DialogResult.OK)
+				{
+					_server.UpdateScadenza(_activeScad, _updatePresenter.Scadenza);
+				}
+			}
+			_updatePresenter = null;
+			_activeScad = null;
 		}
 	}
 }

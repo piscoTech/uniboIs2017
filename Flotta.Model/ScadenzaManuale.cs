@@ -1,8 +1,9 @@
 ﻿using System;
 namespace Flotta.Model
 {
+	[ScadenzaTypeAttribute("Manuale", 0)]
 	class ScadenzaManuale : ScadenzaConData
 	{
-		protected override string _description => "Manuale";
+		public override bool HasRecurrentPeriod => false;
 	}
 }
