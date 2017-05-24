@@ -131,6 +131,7 @@
 			// 
 			// types
 			// 
+			this.types.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.types.FormattingEnabled = true;
 			this.types.Location = new System.Drawing.Point(60, 102);
 			this.types.Name = "types";

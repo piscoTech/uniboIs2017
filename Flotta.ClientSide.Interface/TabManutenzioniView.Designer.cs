@@ -29,14 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.manutenzioniList = new System.Windows.Forms.DataGridView();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.button1 = new System.Windows.Forms.Button();
 			this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Note = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Costo = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Modifica = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.Elimina = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.button1 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.manutenzioniList)).BeginInit();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
@@ -62,25 +62,7 @@
 			this.manutenzioniList.RowHeadersVisible = false;
 			this.manutenzioniList.Size = new System.Drawing.Size(444, 509);
 			this.manutenzioniList.TabIndex = 0;
-			// 
-			// flowLayoutPanel1
-			// 
-			this.flowLayoutPanel1.Controls.Add(this.button1);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 476);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(444, 33);
-			this.flowLayoutPanel1.TabIndex = 1;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(3, 3);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "Nuovo";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.OnNewManutenzione);
+			this.manutenzioniList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnCellClick);
 			// 
 			// Data
 			// 
@@ -135,6 +117,25 @@
 			this.Elimina.Text = "Elimina";
 			this.Elimina.UseColumnTextForButtonValue = true;
 			this.Elimina.Width = 60;
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.Controls.Add(this.button1);
+			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 476);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(444, 33);
+			this.flowLayoutPanel1.TabIndex = 1;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(3, 3);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 2;
+			this.button1.Text = "Nuovo";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.OnNewManutenzione);
 			// 
 			// TabManutenzioniView
 			// 

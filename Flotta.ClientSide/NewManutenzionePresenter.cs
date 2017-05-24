@@ -17,14 +17,13 @@ namespace Flotta.ClientSide
 		private IManutenzione _manutenzione;
 
 		private INewManutenzioneDialog _window;
-		private IMezzo _mezzo;
 		
-
-		internal NewManutenzionePresenter(IServer server, IMezzo mezzo, INewManutenzioneDialog window)
+		internal NewManutenzionePresenter(IServer server, IManutenzione manut, INewManutenzioneDialog window)
 		{
 			_server = server;
 			_window = window;
-			_mezzo = mezzo;
+
+			_manutenzione = manut;
 
 			_window.FormClosed += OnCompletion;
 			_window.SaveManutenzione += OnSave;
@@ -45,10 +44,8 @@ namespace Flotta.ClientSide
 
 		private void OnSave()
 		{
-			if (_manutenzione == null) _manutenzione = ModelFactory.NewManutenzione();
-			
-			var errors = _server.UpdateManutenzione(_mezzo, _manutenzione, _window.Data, _window.Note,_server.ManutenzioneTypes.ElementAtOrDefault(_window.Tipo), _window.Costo);
-			
+			var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note, _server.ManutenzioneTypes.ElementAtOrDefault(_window.Tipo), _window.Costo);
+
 			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
 
 			else

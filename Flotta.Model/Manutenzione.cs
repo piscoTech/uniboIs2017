@@ -24,6 +24,13 @@ namespace Flotta.Model
         private IManutenzioneType _type;
 		private IMezzo _mezzo;
          
+		internal Manutenzione(IMezzo mezzo)
+		{
+			if (mezzo == null)
+				throw new ArgumentNullException();
+
+			_mezzo = mezzo;
+		}
 
         public DateTime Data
         {

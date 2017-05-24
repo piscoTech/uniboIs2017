@@ -26,7 +26,7 @@ namespace Flotta.ServerSide
 
 		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
-		IEnumerable<string> UpdateManutenzione(IMezzo mezzo, IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo);
+		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo);
 
 		IEnumerable<string> UpdateTesseraType(ITesseraType tessera, string name);
 		IEnumerable<string> UpdateDispositivoType(IDispositivoType dispositivo, string name);
@@ -38,6 +38,7 @@ namespace Flotta.ServerSide
 		bool DeletePermessoType(IPermessoType permesso);
 		bool DeleteManutenzioneType(IManutenzioneType manutenzione);
 		bool DeleteAssicurazioneType(IAssicurazioneType manutenzione);
+		void DeleteManutenzione(IManutenzione m);
 	}
 
 	public class Server : IServer
@@ -305,7 +306,7 @@ namespace Flotta.ServerSide
 			return DeleteLinkedObject(_assicurazioneTypes, assicurazione, false);
 		}
 
-		public IEnumerable<string> UpdateManutenzione(IMezzo mezzo, IManutenzione manutenzione, DateTime data, string note, IManutenzioneType  tipo, float costo)
+		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType  tipo, float costo)
 		{
 			List<String> errors = new List<string>();
 			
@@ -313,7 +314,7 @@ namespace Flotta.ServerSide
 			if (tipo == null || !_manutenzioneTypes.Contains(tipo))
 				errors.Add("non esiste il tipo di manutenzione: " + tipo);
 
-			if (data > DateTime.Now)
+			if (data.Date > DateTime.Now.Date)
 				errors.Add("data senza senso");
 
 			if (errors.Count() > 0)
@@ -324,15 +325,17 @@ namespace Flotta.ServerSide
 			if (errors.Count() > 0)
 				return errors;
 
-			if (!mezzo.Manutenzioni.Contains(manutenzione))
-				mezzo.AddManutenzione(manutenzione);
+			manutenzione.Mezzo.AddManutenzione(manutenzione);
 
 			ObjectChanged(manutenzione);
-			ObjectChanged(mezzo);
-
-			
 
 			return errors;
+		}
+
+		public void DeleteManutenzione(IManutenzione m)
+		{
+			m.Mezzo.RemoveManutenzione(m);
+			ObjectRemoved(m);
 		}
 	}
 }

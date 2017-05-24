@@ -38,9 +38,9 @@ namespace Flotta.Model
 			return new AssicurazioneType();
 		}
 
-		public static IManutenzione NewManutenzione()
+		public static IManutenzione NewManutenzione(IMezzo mezzo)
 		{
-			return new Manutenzione();
+			return new Manutenzione(mezzo);
 		}
 	}
 }

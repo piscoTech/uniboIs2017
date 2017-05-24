@@ -18,7 +18,7 @@ namespace Flotta.ClientSide.Interface
 		event Action <int> ModifyManutenzione;
 		event Action <int> DeleteManutenzione;
 		event Action NuovaManutenzione;
-		IEnumerable<IManutenzioneListItem> Manutenzioni { set; }
+		IEnumerable<IManutenzioneListItem> Manutenzioni { get; set; }
 		void RefreshManutenzioni();
 	}
 
@@ -36,6 +36,10 @@ namespace Flotta.ClientSide.Interface
 
 		public IEnumerable<IManutenzioneListItem> Manutenzioni
 		{
+			get
+			{
+				return _manutenzioni;
+			}
 			set
 			{
 				_manutenzioni.Clear();
@@ -85,9 +89,9 @@ namespace Flotta.ClientSide.Interface
 			if (e.RowIndex < 0)
 				return;
 
-			if (e.ColumnIndex == 2)
+			if (e.ColumnIndex == 4)
 				ModifyManutenzione?.Invoke(e.RowIndex);
-			if (e.ColumnIndex == 3)
+			if (e.ColumnIndex == 5)
 				DeleteManutenzione?.Invoke(e.RowIndex);
 		}
 

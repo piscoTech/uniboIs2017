@@ -22,11 +22,11 @@ namespace Flotta.ClientSide.Interface
 		event GenericAction CancelManutenzione;
 
 
-		DateTime Data { get; }
-		string Note { get; }
+		DateTime Data { get; set; }
+		string Note { get; set; }
 		int Tipo { get; set; }
 		IList<string> Types { set; }
-		float Costo { get; }
+		float Costo { get; set; }
 
 	}
 
@@ -36,6 +36,13 @@ namespace Flotta.ClientSide.Interface
 		{
 			InitializeComponent();
 			
+		}
+
+		internal NewManutenzioneDialog(DateTime d, string n, float c) : this()
+		{
+			data.Value = d;
+			note.Text = n;
+			costo.Text = Convert.ToString(c);
 		}
 
 		private bool _confirmClose = true;
@@ -73,11 +80,13 @@ namespace Flotta.ClientSide.Interface
 		public DateTime Data
 		{
 			get => data.Value;
+			set => data.Value = value;
 		}
 
 		public string Note
 		{
 			get => note.Text;
+			set => note.Text = value;
 		}
 
 		public int Tipo
@@ -105,6 +114,11 @@ namespace Flotta.ClientSide.Interface
 				{
 					return 0;
 				}
+			}
+
+			set
+			{
+				costo.Text = Convert.ToString(value);
 			}
 		}
 

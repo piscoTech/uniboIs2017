@@ -148,9 +148,10 @@ namespace Flotta.Model
 			}
 		}
 
-		public void AddManutenzione (IManutenzione m)
+		public void AddManutenzione(IManutenzione m)
 		{
-			_manutenzioni.Add(m);
+			if (!_manutenzioni.Contains(m))
+				_manutenzioni.Add(m);
 		}
 
 		public void RemoveManutenzione(IManutenzione m)
@@ -238,7 +239,7 @@ namespace Flotta.Model
 			_profondita = profondita;
 			_volumeCarico = volumeCarico;
 
-			_tessere.Clear() ;
+			_tessere.Clear();
 			_tessere.Concat(tessere);
 			_dispositivi.Clear();
 			_dispositivi.Concat(dispositivi);
