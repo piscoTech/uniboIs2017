@@ -100,5 +100,22 @@ namespace Flotta.Model
 
 			return _scadenzaFormatterCache;
 		}
+
+		private static IEnumerable<ScadenzaRecurrencyTypeDescriptor> _scadenzaRecurrencyTypesCache = null;
+		public static IEnumerable<ScadenzaRecurrencyTypeDescriptor> GetAllScadenzaRecurrencyTypes()
+		{
+			if (_scadenzaRecurrencyTypesCache == null)
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
+
+				_scadenzaRecurrencyTypesCache = from rt in assembly.GetTypes()
+												let attr = rt.GetCustomAttributes(typeof(ScadenzaRecurrencyTypeAttribute), true)?.ElementAtOrDefault(0) as ScadenzaRecurrencyTypeAttribute
+												where rt.IsSubclassOf(typeof(ScadenzaRecurrencyType)) && !rt.IsAbstract && attr != null
+												orderby attr.Order
+												select new ScadenzaRecurrencyTypeDescriptor(Activator.CreateInstance(rt, true) as ScadenzaRecurrencyType, attr);
+			}
+
+			return _scadenzaRecurrencyTypesCache;
+		}
 	}
 }

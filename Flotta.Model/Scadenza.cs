@@ -30,10 +30,13 @@ namespace Flotta.Model
 	public abstract class Scadenza : ICloneable
 	{
 		public abstract bool HasDate { get; }
-		public abstract bool HasRecurrentPeriod { get; }
+		public abstract bool HasRecurrencyPeriod { get; }
 
 		private DateTime _date;
 		private ScadenzaFormat _formatter;
+
+		private uint _recInterval;
+		private ScadenzaRecurrencyType _recType;
 
 		public DateTime Date
 		{
@@ -45,7 +48,7 @@ namespace Flotta.Model
 				if (value.Date < DateTime.Now.Date)
 					throw new ArgumentException("La scadenza non può essere nel passato");
 
-				_date = value.Date;
+				_date = _formatter?.UpdateDate(value) ?? value.Date;
 			}
 		}
 
@@ -64,6 +67,34 @@ namespace Flotta.Model
 			}
 		}
 
+		public uint RecurrencyInterval
+		{
+			get => _recInterval;
+			set
+			{
+				if (!HasRecurrencyPeriod)
+					throw new InvalidOperationException("Scadenza is not recurrent");
+				if (value < 1)
+					throw new ArgumentException("L'intervallo di ricorrenza deve essere positivo");
+
+				_recInterval = value;
+			}
+		}
+
+		public ScadenzaRecurrencyType RecurrencyType
+		{
+			get => _recType;
+			set
+			{
+				if (!HasRecurrencyPeriod)
+					throw new InvalidOperationException("Scadenza is not recurrent");
+				if (value == null)
+					throw new ArgumentNullException("No recurrency type");
+
+				_recType = value;
+			}
+		}
+
 		public string DateDescription => HasDate ? _formatter.Format(_date) : "Illimitata";
 
 		public object Clone()
@@ -75,9 +106,10 @@ namespace Flotta.Model
 				scad._date = this._date;
 				scad._formatter = this._formatter;
 			}
-			if (HasRecurrentPeriod)
+			if (HasRecurrencyPeriod)
 			{
-				// Period should be defined as a value type
+				scad._recInterval = this._recInterval;
+				scad._recType = this._recType;
 			}
 
 			return scad;

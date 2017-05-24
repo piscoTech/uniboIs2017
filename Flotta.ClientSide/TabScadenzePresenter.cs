@@ -66,8 +66,11 @@ namespace Flotta.ClientSide
 					Reload();
 					return;
 				}
-				IScadenzaListItem item = _scadenzeItem[index];
-				item.Date = scadOwner.Scadenza?.DateDescription;
+				IScadenzaListItem item = _scadenzeItem.ElementAtOrDefault(index);
+				if (item != null)
+					item.Date = scadOwner.Scadenza?.DateDescription;
+				else
+					Reload();
 			}
 			else
 			{

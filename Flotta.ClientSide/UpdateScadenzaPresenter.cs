@@ -14,6 +14,7 @@ namespace Flotta.ClientSide
 
 		private List<ScadenzaTypeDescriptor> _scadTypes;
 		private List<ScadenzaFormatDescriptor> _scadFormats;
+		private List<ScadenzaRecurrencyTypeDescriptor> _scadRecurrency;
 
 		private Scadenza _scad;
 
@@ -23,6 +24,7 @@ namespace Flotta.ClientSide
 
 			_scadTypes = ModelFactory.GetAllScadenzaTypes().ToList();
 			_scadFormats = ModelFactory.GetAllScadenzaFormats().ToList();
+			_scadRecurrency = ModelFactory.GetAllScadenzaRecurrencyTypes().ToList();
 
 			if (scadOwner.Scadenza == null)
 			{
@@ -32,7 +34,11 @@ namespace Flotta.ClientSide
 					_scad.Date = DateTime.Now;
 					_scad.Formatter = _scadFormats[0].Formatter;
 				}
-				// Setup other fields
+				if (_scad.HasRecurrencyPeriod)
+				{
+					_scad.RecurrencyInterval = 1;
+					_scad.RecurrencyType = _scadRecurrency[0].RecurrencyType;
+				}
 			}
 			else
 				_scad = scadOwner.Scadenza.Clone() as Scadenza;
@@ -41,6 +47,7 @@ namespace Flotta.ClientSide
 
 			_view.Types = (from t in _scadTypes select t.Name).ToList();
 			_view.Formats = (from f in _scadFormats select f.Name).ToList();
+			_view.RecurTypes = (from rt in _scadRecurrency select rt.Name).ToList();
 			_view.SelectedType = _scadTypes.FindIndex((ScadenzaTypeDescriptor desc) => desc.IsType(_scad));
 
 			UpdateUI();
@@ -50,8 +57,16 @@ namespace Flotta.ClientSide
 			{
 				try
 				{
-					_scad.Date = _view.Date;
-					_scad.Formatter = _scadFormats[_view.SelectedFormat].Formatter;
+					if (_scad.HasDate)
+					{
+						_scad.Date = _view.Date;
+						_scad.Formatter = _scadFormats[_view.SelectedFormat].Formatter;
+					}
+					if (_scad.HasRecurrencyPeriod)
+					{
+						_scad.RecurrencyInterval = _view.RecurCount;
+						_scad.RecurrencyType = _scadRecurrency[_view.SelectedRecurType].RecurrencyType;
+					}
 
 					return true;
 				}
@@ -76,8 +91,13 @@ namespace Flotta.ClientSide
 			if (newScad.HasDate)
 			{
 				newScad.Date = _scad.HasDate ? _scad.Date : DateTime.Now;
+				newScad.Formatter = _scad.HasDate ? _scad.Formatter : _scadFormats[0].Formatter;
 			}
-			// do the same for format and recurrent
+			if (newScad.HasRecurrencyPeriod)
+			{
+				newScad.RecurrencyInterval = _scad.HasRecurrencyPeriod ? _scad.RecurrencyInterval : 1;
+				newScad.RecurrencyType = _scad.HasRecurrencyPeriod ? _scad.RecurrencyType : _scadRecurrency[0].RecurrencyType;
+			}
 
 			_scad = newScad;
 			UpdateUI();
@@ -91,11 +111,11 @@ namespace Flotta.ClientSide
 				_view.Date = _scad.Date;
 				_view.SelectedFormat = _scadFormats.FindIndex((ScadenzaFormatDescriptor desc) => desc.IsFormat(_scad));
 			}
-			_view.RecurFieldVisible = _scad.HasRecurrentPeriod;
-			if (_scad.HasRecurrentPeriod)
+			_view.RecurFieldVisible = _scad.HasRecurrencyPeriod;
+			if (_scad.HasRecurrencyPeriod)
 			{
-				_view.RecurCount = 1;
-				_view.RecurSelectedType = 0;
+				_view.RecurCount = _scad.RecurrencyInterval;
+				_view.SelectedRecurType = _scadRecurrency.FindIndex((ScadenzaRecurrencyTypeDescriptor desc) => desc.IsRecurrencyType(_scad));
 			}
 		}
 

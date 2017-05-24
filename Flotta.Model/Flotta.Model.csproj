@@ -67,6 +67,9 @@
     <Compile Include="IScadenzaAdapter.cs" />
     <Compile Include="ScadenzaFormat.cs" />
     <Compile Include="ScadenzaFormatDescriptor.cs" />
+    <Compile Include="ScadenzaRecurrencyType.cs" />
+    <Compile Include="ScadenzaRecurrencyTypeDescriptor.cs" />
+    <Compile Include="ScadenzaRicorrente.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

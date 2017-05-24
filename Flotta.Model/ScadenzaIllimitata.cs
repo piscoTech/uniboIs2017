@@ -5,6 +5,6 @@ namespace Flotta.Model
 	class ScadenzaIllimitata : Scadenza
 	{
 		public override bool HasDate => false;
-		public override bool HasRecurrentPeriod => false;
+		public override bool HasRecurrencyPeriod => false;
 	}
 }

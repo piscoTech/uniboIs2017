@@ -23,8 +23,9 @@ namespace Flotta.ClientSide.Interface
 		IList<string> Formats { set; }
 		int SelectedFormat { get; set; }
 
-		int RecurCount { get; set; }
-		int RecurSelectedType { get; set; }
+		uint RecurCount { get; set; }
+		IList<string> RecurTypes { set; }
+		int SelectedRecurType { get; set; }
 
 		bool DateFieldsVisible { set; }
 		bool RecurFieldVisible { set; }
@@ -75,13 +76,13 @@ namespace Flotta.ClientSide.Interface
 			set => format.SelectedIndex = value;
 		}
 
-		public int RecurCount
+		public uint RecurCount
 		{
 			get
 			{
 				try
 				{
-					return Convert.ToInt32(recurNum.Text);
+					return Convert.ToUInt32(recurNum.Text);
 				}
 				catch (Exception)
 				{
@@ -91,7 +92,12 @@ namespace Flotta.ClientSide.Interface
 			set => recurNum.Text = Convert.ToString(value);
 		}
 
-		public int RecurSelectedType
+		public IList<string> RecurTypes
+		{
+			set => recurType.DataSource = value;
+		}
+
+		public int SelectedRecurType
 		{
 			get => recurType.SelectedIndex;
 			set => recurType.SelectedIndex = value;
