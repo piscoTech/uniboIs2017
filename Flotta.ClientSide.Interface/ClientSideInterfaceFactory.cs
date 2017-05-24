@@ -8,7 +8,6 @@ namespace Flotta.ClientSide.Interface
 {
 	public static class ClientSideInterfaceFactory
 	{
-
 		public static IClientWindow NewClientWindow()
 		{
 			return new ClientWindow();
@@ -24,34 +23,54 @@ namespace Flotta.ClientSide.Interface
 			return new NewMezzoDialog();
 		}
 
-		public static ILinkedObjectManagerWindow NewLinkedObjectManagerWindow()
+		public static ILinkedTypeManagerWindow NewLinkedTypeManagerWindow()
 		{
-			return new LinkedObjectManagerWindow();
+			return new LinkedTypeManagerWindow();
 		}
 
-		public static ILinkedObjectListItem NewLinkedObjectListItem(string name, bool disabled)
+		public static ILinkedTypeListItem NewLinkedTypeListItem(string name, bool disabled)
 		{
-			return new LinkedObjectListItem(name, disabled);
+			return new LinkedTypeListItem(name, disabled);
 		}
 
-		public static IUpdateLinkedObjectDialog NewUpdateLinkedObjectDialog()
+		public static IUpdateLinkedTypeDialog NewUpdateLinkedTypeDialog()
 		{
-			return new UpdateLinkedObjectDialog();
+			return new UpdateLinkedTypeDialog();
 		}
 
-		public static INewManutenzioneDialog NewNewManutenzioneDialog(){
+		public static ITesseraListItem NewTesseraListItem(bool inUse, string type, string codice, string pin)
+		{
+			return new TesseraListItem(inUse, type, codice, pin);
+		}
+
+		public static IDispositivoPermessoListItem NewDispositivoPermessoListItem(bool inUse, string type, string allegatoPath)
+		{
+			return new DispositivoPermessoListItem(inUse, type, allegatoPath);
+		}
+
+		public static IUpdateTesseraDialog NewUpdateTesseraDialog()
+		{
+			return new UpdateTesseraDialog();
+		}
+
+		public static IUpdateDispositivoPermessoDialog NewUpdateDispositivoPermessoDialog()
+		{
+			return new UpdateDispositivoPermessoDialog();
+		}
+
+		public static INewManutenzioneDialog NewNewManutenzioneDialog()
+		{
 			return new NewManutenzioneDialog();
 		}
 
 		public static INewManutenzioneDialog NewNewManutenzioneDialog(DateTime d, string n, float c)
 		{
-			return new NewManutenzioneDialog(d,n,c);
+			return new NewManutenzioneDialog(d, n, c);
 		}
 
 		public static IManutenzioneListItem NewManutenzioneListItem(DateTime date, string note, string tipo, float costo)
 		{
-			return new ManutenzioneListItem(date,note,tipo, costo);
+			return new ManutenzioneListItem(date, note, tipo, costo);
 		}
-
 	}
 }

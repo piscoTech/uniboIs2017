@@ -44,19 +44,18 @@
 			this.tabGeneraleView.NumeroTelaio = "";
 			this.tabGeneraleView.Portata = 0F;
 			this.tabGeneraleView.Profondita = 0F;
-			this.tabGeneraleView.Size = new System.Drawing.Size(344, 461);
+			this.tabGeneraleView.Size = new System.Drawing.Size(744, 461);
 			this.tabGeneraleView.TabIndex = 0;
 			this.tabGeneraleView.Targa = "";
 			this.tabGeneraleView.VolumeCarico = 0F;
-			this.tabGeneraleView.Load += new System.EventHandler(this.tabGeneraleView_Load);
 			// 
 			// NewMezzoDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(344, 461);
+			this.ClientSize = new System.Drawing.Size(744, 461);
 			this.Controls.Add(this.tabGeneraleView);
-			this.MinimumSize = new System.Drawing.Size(360, 500);
+			this.MinimumSize = new System.Drawing.Size(760, 500);
 			this.Name = "NewMezzoDialog";
 			this.Text = "Nuovo mezzo – Flotta";
 			this.ResumeLayout(false);

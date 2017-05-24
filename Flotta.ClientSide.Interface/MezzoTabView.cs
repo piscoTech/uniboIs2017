@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -15,8 +15,8 @@ namespace Flotta.ClientSide.Interface
 
 	public interface IMezzoTabView
 	{
-		event GenericAction ExitEdit;
-		event MezzoTabAction TabChanged;
+		event Action ExitEdit;
+		event Action<int> TabChanged;
 
 		int CurrentTab { get; set; }
 
@@ -53,17 +53,12 @@ namespace Flotta.ClientSide.Interface
 			get => tabManutenzioniView;
 		}
 
-		public event GenericAction ExitEdit;
-		public event MezzoTabAction TabChanged;
+		public event Action ExitEdit;
+		public event Action<int> TabChanged;
 		private void OnTabChange(object sender, TabControlEventArgs e)
 		{
 			ExitEdit?.Invoke();
 			TabChanged?.Invoke(tabControl.SelectedIndex);
 		}
-
-		//private void tabManutenzioniView1_Load(object sender, EventArgs e)
-		//{
-
-		//}
 	}
 }

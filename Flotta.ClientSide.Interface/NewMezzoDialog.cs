@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,16 +10,15 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface INewMezzoDialog
+	public interface INewMezzoDialog : ICloseableDisposable
 	{
 		DialogResult ShowDialog();
-		void Close();
 
 		ITabGeneraleView TabGenerale { get; }
 
 		bool ConfirmBeforeClosing { set; }
 		event FormClosedEventHandler FormClosed;
-		event GenericAction SaveMezzo;
+		event Action SaveMezzo;
 	}
 
 	public partial class NewMezzoDialog : Form, INewMezzoDialog
@@ -46,7 +45,7 @@ namespace Flotta.ClientSide.Interface
 			get => tabGeneraleView;
 		}
 
-		public event GenericAction SaveMezzo;
+		public event Action SaveMezzo;
 		private void OnSaveEdit()
 		{
 			SaveMezzo?.Invoke();
@@ -62,11 +61,6 @@ namespace Flotta.ClientSide.Interface
 					e.Cancel = true;
 				}
 			}
-		}
-
-		private void tabGeneraleView_Load(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

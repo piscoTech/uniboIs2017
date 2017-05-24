@@ -43,18 +43,23 @@
     <Compile Include="AssicurazioneType.cs" />
     <Compile Include="Dispositivo.cs" />
     <Compile Include="DispositivoType.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="IDBObject.cs" />
-    <Compile Include="LinkedObject.cs" />
+    <Compile Include="ILinkedObject.cs" />
+    <Compile Include="Immagine.cs" />
+    <Compile Include="LinkedType.cs" />
     <Compile Include="Manutenzione.cs" />
     <Compile Include="ManutenzioneType.cs" />
     <Compile Include="Mezzo.cs" />
     <Compile Include="ModelFactory.cs" />
     <Compile Include="Officina.cs" />
+    <Compile Include="PDF.cs" />
     <Compile Include="Permesso.cs" />
     <Compile Include="PermessoType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tessera.cs" />
     <Compile Include="TesseraType.cs" />
+    <Compile Include="LinkedTypeDescriptor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

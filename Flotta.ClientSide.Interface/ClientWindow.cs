@@ -11,9 +11,6 @@ using Flotta.ClientSide;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate void GenericAction();
-	public delegate void MezzoListAction(int index);
-
 	public interface IClientWindow
 	{
 		void Show();
@@ -21,15 +18,11 @@ namespace Flotta.ClientSide.Interface
 		IMezzoTabView MezzoTabControl { get; }
 		bool HasMezzo { set; }
 
-		event GenericAction WindowClose;
-		event MezzoListAction MezzoSelected;
-		event GenericAction CreateNewMezzo;
+		event Action WindowClose;
+		event Action<int> MezzoSelected;
+		event Action CreateNewMezzo;
 
-		event GenericAction OpenTesseraTypes;
-		event GenericAction OpenDispositivoTypes;
-		event GenericAction OpenPermessoTypes;
-		event GenericAction OpenManutenzioneTypes;
-		event GenericAction OpenAssicurazioneTypes;
+		void AddNewLinkedType(string title, Action handler);
 	}
 
 	internal partial class ClientWindow : Form, IClientWindow
@@ -60,6 +53,7 @@ namespace Flotta.ClientSide.Interface
 			};
 			mezziList.Columns.Add(colMezziName);
 
+			mezziList.DisableSort();
 			mezziList.DataSource = _mezziList;
 		}
 
@@ -85,13 +79,13 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public event GenericAction WindowClose;
+		public event Action WindowClose;
 		private void CloseClient(object sender, FormClosedEventArgs e)
 		{
 			WindowClose();
 		}
 
-		public event MezzoListAction MezzoSelected;
+		public event Action<int> MezzoSelected;
 		private void MezzoClicked(object sender, DataGridViewCellEventArgs e)
 		{
 			// Exclude click on header
@@ -101,41 +95,22 @@ namespace Flotta.ClientSide.Interface
 			MezzoSelected?.Invoke(e.RowIndex);
 		}
 
-		public event GenericAction CreateNewMezzo;
+		public event Action CreateNewMezzo;
 		private void NewMezzo(object sender, EventArgs e)
 		{
 			CreateNewMezzo?.Invoke();
 		}
 
-		public event GenericAction OpenTesseraTypes;
-		private void OnOpenTesseraTypes(object sender, EventArgs e)
+		public void AddNewLinkedType(string title, Action handler)
 		{
-			OpenTesseraTypes?.Invoke();
-		}
+			ToolStripMenuItem item = new ToolStripMenuItem()
+			{
+				Name = title + "MenuItem",
+				Text = title
+			};
+			item.Click += (object sender, EventArgs e) => handler();
 
-		public event GenericAction OpenDispositivoTypes;
-		private void OnOpenDispositivoTypes(object sender, EventArgs e)
-		{
-			OpenDispositivoTypes?.Invoke();
-		}
-
-		public event GenericAction OpenPermessoTypes;
-		private void OnOpenPermessoTypes(object sender, EventArgs e)
-		{
-			OpenPermessoTypes?.Invoke();
-		}
-
-
-		public event GenericAction OpenManutenzioneTypes;
-		private void OnOpenManutenzioneTypes(object sender, EventArgs e)
-		{
-			OpenManutenzioneTypes?.Invoke();
-		}
-
-		public event GenericAction OpenAssicurazioneTypes;
-		private void OnOpenAssicurazioneTypes(object sender, EventArgs e)
-		{
-			OpenAssicurazioneTypes?.Invoke();
+			tipiToolStripMenuItem.DropDownItems.Add(item);
 		}
 	}
 }

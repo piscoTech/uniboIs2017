@@ -12,11 +12,11 @@ namespace Flotta.ClientSide.Interface
 {
 	public interface ITabManutenzioniView
 	{
-		event GenericAction EnterEdit;
-		event GenericAction CancelEdit;
-		event GenericAction SaveEdit;
-		event Action <int> ModifyManutenzione;
-		event Action <int> DeleteManutenzione;
+		event Action EnterEdit;
+		event Action CancelEdit;
+		event Action SaveEdit;
+		event Action<int> ModifyManutenzione;
+		event Action<int> DeleteManutenzione;
 		event Action NuovaManutenzione;
 		IEnumerable<IManutenzioneListItem> Manutenzioni { get; set; }
 		void RefreshManutenzioni();
@@ -50,24 +50,24 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public void RefreshManutenzioni ()
+		public void RefreshManutenzioni()
 		{
 			manutenzioniList.Refresh();
 		}
 
-		public event GenericAction EnterEdit;
+		public event Action EnterEdit;
 		private void OnEnterEdit(object sender, EventArgs e)
 		{
 			EnterEdit?.Invoke();
 		}
 
-		public event GenericAction CancelEdit;
+		public event Action CancelEdit;
 		private void OnCancelEdit(object sender, EventArgs e)
 		{
 			CancelEdit?.Invoke();
 		}
 
-		public event GenericAction SaveEdit;
+		public event Action SaveEdit;
 		private void OnSaveEdit(object sender, EventArgs e)
 		{
 			SaveEdit?.Invoke();
@@ -79,10 +79,10 @@ namespace Flotta.ClientSide.Interface
 			NuovaManutenzione?.Invoke();
 		}
 
-		
 
-		public event Action <int>ModifyManutenzione;
-		public event Action <int>DeleteManutenzione;
+
+		public event Action<int> ModifyManutenzione;
+		public event Action<int> DeleteManutenzione;
 		private void OnCellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			// Exclude click on header
@@ -95,7 +95,7 @@ namespace Flotta.ClientSide.Interface
 				DeleteManutenzione?.Invoke(e.RowIndex);
 		}
 
-		
+
 
 	}
 }

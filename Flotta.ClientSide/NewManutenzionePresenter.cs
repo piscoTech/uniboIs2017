@@ -13,11 +13,10 @@ namespace Flotta.ClientSide
 	class NewManutenzionePresenter
 	{
 		private IServer _server;
-		private bool _saved = false;
 		private IManutenzione _manutenzione;
 
 		private INewManutenzioneDialog _window;
-		
+
 		internal NewManutenzionePresenter(IServer server, IManutenzione manut, INewManutenzioneDialog window)
 		{
 			_server = server;
@@ -25,16 +24,9 @@ namespace Flotta.ClientSide
 
 			_manutenzione = manut;
 
-			_window.FormClosed += OnCompletion;
 			_window.SaveManutenzione += OnSave;
 			_window.CancelManutenzione += OnCancel;
-			_window.Types = (from m in _server.ManutenzioneTypes select m.Name).ToList();
-		}
-
-		internal event StatusReportAction CreationCompleted;
-		private void OnCompletion(object sender, FormClosedEventArgs e)
-		{
-			CreationCompleted?.Invoke(_saved);
+			_window.Types = (from m in _server.GetLinkedTypes<IManutenzioneType>() select m.Name).ToList();
 		}
 
 		private void OnCancel()
@@ -44,17 +36,17 @@ namespace Flotta.ClientSide
 
 		private void OnSave()
 		{
-			var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note, _server.ManutenzioneTypes.ElementAtOrDefault(_window.Tipo), _window.Costo);
+			var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,
+													_server.GetLinkedTypes<IManutenzioneType>().ElementAtOrDefault(_window.Tipo),
+													_window.Costo);
 
 			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
 
 			else
 			{
-				_saved = true;
 				_window.ConfirmBeforeClosing = false;
 				_window.Close();
 			}
-
 		}
 	}
 }

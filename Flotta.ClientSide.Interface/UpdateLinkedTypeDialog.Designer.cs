@@ -1,6 +1,6 @@
 ﻿namespace Flotta.ClientSide.Interface
 {
-	partial class UpdateLinkedObjectDialog
+	partial class UpdateLinkedTypeDialog
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -41,15 +41,16 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(241, 10);
+			this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.button1.Location = new System.Drawing.Point(241, 11);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 1;
 			this.button1.Text = "Salva";
 			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.OnSaveType);
+			this.button1.Click += new System.EventHandler(this.OnSave);
 			// 
-			// UpdateLinkedObjectDialog
+			// UpdateLinkedTypeDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -58,8 +59,8 @@
 			this.Controls.Add(this.name);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
-			this.Name = "UpdateLinkedObjectDialog";
-			this.Text = "NewLinkedObjectDialog";
+			this.Name = "UpdateLinkedTypeDialog";
+			this.Text = "NewLinkedTypeDialog";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

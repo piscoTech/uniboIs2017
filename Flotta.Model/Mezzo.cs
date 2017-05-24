@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +9,12 @@ namespace Flotta.Model
 {
 	public interface IMezzo : IDBObject
 	{
+		IImmagine Foto { get; }
 		string Modello { get; }
 		string Targa { get; }
 		uint Numero { get; }
+		string NumeroCartaCircolazione { get; }
+		IPDF CartaCircolazione { get; }
 		string NumeroTelaio { get; }
 		uint AnnoImmatricolazione { get; }
 		float Portata { get; }
@@ -24,7 +27,11 @@ namespace Flotta.Model
 		IEnumerable<IPermesso> Permessi { get; }
 		IEnumerable<IManutenzione> Manutenzioni { get; }
 
-		IEnumerable<string> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
+		IEnumerable<string> Update(IImmagine foto, string modello, string targa, uint numero, string numCartaCircolazione,
+								   IPDF cartaCircolazione, string numeroTelaio, uint annoImmatricolazione,
+								   float portata, float altezza, float lunghezza, float profondita, float volumeCarico,
+								   IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi,
+								   IEnumerable<IPermesso> permessi);
 
 		void AddManutenzione(IManutenzione m);
 		void RemoveManutenzione(IManutenzione m);
@@ -32,11 +39,13 @@ namespace Flotta.Model
 
 	internal class Mezzo : IMezzo
 	{
-
+		private IImmagine _foto;
 		private string _modello;
 		private string _targa;
 		private uint _numero;
 		private string _numeroTelaio;
+		private string _numeroCartaCircolazione;
+		private IPDF _cartaCircolazione;
 		private uint _annoImmatricolazione;
 		private float _portata;
 		private float _altezza;
@@ -48,105 +57,23 @@ namespace Flotta.Model
 		private HashSet<IPermesso> _permessi = new HashSet<IPermesso>();
 		private HashSet<IManutenzione> _manutenzioni = new HashSet<IManutenzione>();
 
-		public string Modello
-		{
-			get
-			{
-				return _modello;
-			}
-		}
-		public string Targa
-		{
-			get
-			{
-				return _targa;
-			}
-		}
-		public uint Numero
-		{
-			get
-			{
-				return _numero;
-			}
-		}
-		public string NumeroTelaio
-		{
-			get
-			{
-				return _numeroTelaio;
-			}
-		}
-		public uint AnnoImmatricolazione
-		{
-			get
-			{
-				return _annoImmatricolazione;
-			}
-		}
-		public float Portata
-		{
-			get
-			{
-				return _portata;
-			}
-		}
-		public float Altezza
-		{
-			get
-			{
-				return _altezza;
-			}
-		}
-		public float Lunghezza
-		{
-			get
-			{
-				return _lunghezza;
-			}
-		}
-		public float Profondita
-		{
-			get
-			{
-				return _profondita;
-			}
-		}
-		public float VolumeCarico
-		{
-			get
-			{
-				return _volumeCarico;
-			}
-		}
-		public IEnumerable<ITessera> Tessere
-		{
-			get
-			{
-				return _tessere;
-			}
-		}
-		public IEnumerable<IDispositivo> Dispositivi
-		{
-			get
-			{
-				return _dispositivi;
-			}
-		}
-		public IEnumerable<IPermesso> Permessi
-		{
-			get
-			{
-				return _permessi;
-			}
-		}
-
-		public IEnumerable<IManutenzione> Manutenzioni
-		{
-			get
-			{
-				return _manutenzioni;
-			}
-		}
+		public IImmagine Foto => _foto;
+		public string Modello => _modello;
+		public string Targa => _targa;
+		public uint Numero => _numero;
+		public string NumeroCartaCircolazione => _numeroCartaCircolazione;
+		public IPDF CartaCircolazione => _cartaCircolazione;
+		public string NumeroTelaio => _numeroTelaio;
+		public uint AnnoImmatricolazione => _annoImmatricolazione;
+		public float Portata => _portata;
+		public float Altezza => _altezza;
+		public float Lunghezza => _lunghezza;
+		public float Profondita => _profondita;
+		public float VolumeCarico => _volumeCarico;
+		public IEnumerable<ITessera> Tessere => _tessere;
+		public IEnumerable<IDispositivo> Dispositivi => _dispositivi;
+		public IEnumerable<IPermesso> Permessi => _permessi;
+		public IEnumerable<IManutenzione> Manutenzioni => _manutenzioni;
 
 		public void AddManutenzione(IManutenzione m)
 		{
@@ -159,11 +86,11 @@ namespace Flotta.Model
 			_manutenzioni.Remove(m);
 		}
 
-		private bool CheckType(IEnumerable<LinkedObject> array)
+		private bool CheckType(IEnumerable<LinkedType> array)
 		{
-			List<LinkedObject> o = new List<LinkedObject>();
+			List<LinkedType> o = new List<LinkedType>();
 
-			foreach (LinkedObject l in array)
+			foreach (LinkedType l in array)
 			{
 				if (!o.Contains(l))
 					o.Add(l);
@@ -174,14 +101,24 @@ namespace Flotta.Model
 			return true;
 		}
 
-		public IEnumerable<String> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
+		public IEnumerable<string> Update(IImmagine foto, string modello, string targa, uint numero,
+										  string numCartaCircolazione, IPDF cartaCircolazione,
+										  string numeroTelaio, uint annoImmatricolazione, float portata,
+										  float altezza, float lunghezza, float profondita, float volumeCarico,
+										  IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi,
+										  IEnumerable<IPermesso> permessi)
 		{
 			List<String> errors = new List<string>();
 			Regex alphaNum = new Regex(@"^[A-Z0-9]+$");
 
 			modello = modello?.Trim();
 			targa = targa?.Trim()?.ToUpper();
+			numCartaCircolazione = numCartaCircolazione?.Trim()?.ToUpper();
 			numeroTelaio = numeroTelaio?.Trim()?.ToUpper();
+
+			if (!(foto?.IsValid ?? true))
+				errors.Add("Foto non valida");
+
 			if (String.IsNullOrEmpty(modello))
 				errors.Add("Modello non specificato");
 
@@ -192,6 +129,14 @@ namespace Flotta.Model
 
 			if (numero <= 0)
 				errors.Add("Il numero deve essere positivo");
+
+			if (String.IsNullOrEmpty(numCartaCircolazione))
+				errors.Add("Numero di carta di circolazione non specificato");
+			else if (!alphaNum.IsMatch(numCartaCircolazione))
+				errors.Add("Numero di carta di circolazione non valido, usa solo A-Z e 0-9");
+
+			if (!(cartaCircolazione?.IsValid ?? true))
+				errors.Add("Carta di circolazione non valida");
 
 			if (String.IsNullOrEmpty(numeroTelaio))
 				errors.Add("Numero di telaio non specificato");
@@ -218,19 +163,28 @@ namespace Flotta.Model
 
 			if (!CheckType(from t in tessere select t.Type))
 				errors.Add("Una o più tipi di tessera sono stati usati più di una volta");
+			else if ((from t in tessere select t.IsValid).Contains(false))
+				errors.Add("Una o più tessere non sono valide");
 
 			if (!CheckType(from d in dispositivi select d.Type))
 				errors.Add("Una o più tipi di dispositivo sono stati usati più di una volta");
+			else if ((from d in dispositivi select d.IsValid).Contains(false))
+				errors.Add("Una o più dispositivi non sono validi");
 
 			if (!CheckType(from p in permessi select p.Type))
 				errors.Add("Una o più tipi di permesso sono stati usati più di una volta");
+			else if ((from p in permessi select p.IsValid).Contains(false))
+				errors.Add("Una o più permessi non sono validi");
 
 			if (errors.Count > 0)
 				return errors;
 
+			_foto = foto;
 			_modello = modello;
 			_targa = targa;
 			_numero = numero;
+			_numeroCartaCircolazione = numCartaCircolazione;
+			_cartaCircolazione = cartaCircolazione;
 			_numeroTelaio = numeroTelaio;
 			_annoImmatricolazione = annoImmatricolazione;
 			_portata = portata;
@@ -239,16 +193,50 @@ namespace Flotta.Model
 			_profondita = profondita;
 			_volumeCarico = volumeCarico;
 
-			_tessere.Clear();
-			_tessere.Concat(tessere);
-			_dispositivi.Clear();
-			_dispositivi.Concat(dispositivi);
-			_permessi.Clear();
-			_permessi.Concat(permessi);
+			// We cannot create a new set from the passed collections as it contains clones of the originals and the reference to scadenze may have changed
+
+			// Drop removed items, we clone Linq result to break any dependecy to the modified collections
+			foreach (ITessera tess in (from t in _tessere where !(from nt in tessere select nt.Type).Contains(t.Type) select t).ToArray())
+			{
+				_tessere.Remove(tess);
+			}
+			foreach (IDispositivo disp in (from d in _dispositivi where !(from nd in dispositivi select nd.Type).Contains(d.Type) select d).ToArray())
+			{
+				_dispositivi.Remove(disp);
+			}
+			foreach (IPermesso perm in (from p in _permessi where !(from np in permessi select np.Type).Contains(p.Type) select p).ToArray())
+			{
+				_permessi.Remove(perm);
+			}
+			// Update kept items
+			foreach (ITessera tess in tessere)
+			{
+				(from t in _tessere where t.Type == tess.Type select t).ElementAtOrDefault(0)?.Update(tess.Codice, tess.Pin);
+			}
+			foreach (IDispositivo disp in dispositivi)
+			{
+				(from d in _dispositivi where d.Type == disp.Type select d).ElementAtOrDefault(0)?.Update(disp.Allegato);
+			}
+			foreach (IPermesso perm in permessi)
+			{
+				(from p in _permessi where p.Type == perm.Type select p).ElementAtOrDefault(0)?.Update(perm.Allegato);
+			}
+			// Add new items, we clone Linq result to break any dependecy to the modified collections
+			foreach (ITessera tess in (from t in tessere where !(from ot in _tessere select ot.Type).Contains(t.Type) select t).ToArray())
+			{
+				_tessere.Add(tess);
+			}
+			foreach (IDispositivo disp in (from d in dispositivi where !(from od in _dispositivi select od.Type).Contains(d.Type) select d).ToArray())
+			{
+				_dispositivi.Add(disp);
+			}
+			foreach (IPermesso perm in (from p in permessi where !(from op in _permessi select op.Type).Contains(p.Type) select p).ToArray())
+			{
+				_permessi.Add(perm);
+			}
 
 			return errors;
 		}
-
-
 	}
 }
+

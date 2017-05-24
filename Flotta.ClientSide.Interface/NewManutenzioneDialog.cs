@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-
 	public interface INewManutenzioneDialog : IDisposable
 	{
 		DialogResult ShowDialog();
@@ -18,9 +17,8 @@ namespace Flotta.ClientSide.Interface
 
 		bool ConfirmBeforeClosing { set; }
 		event FormClosedEventHandler FormClosed;
-		event GenericAction SaveManutenzione;
-		event GenericAction CancelManutenzione;
-
+		event Action SaveManutenzione;
+		event Action CancelManutenzione;
 
 		DateTime Data { get; set; }
 		string Note { get; set; }
@@ -35,7 +33,7 @@ namespace Flotta.ClientSide.Interface
 		internal NewManutenzioneDialog()
 		{
 			InitializeComponent();
-			
+
 		}
 
 		internal NewManutenzioneDialog(DateTime d, string n, float c) : this()
@@ -51,13 +49,13 @@ namespace Flotta.ClientSide.Interface
 			set => _confirmClose = value;
 		}
 
-		public event GenericAction SaveManutenzione;
+		public event Action SaveManutenzione;
 		private void OnSaveManutenzione(object sender, EventArgs e)
 		{
 			SaveManutenzione?.Invoke();
 		}
 
-		public event GenericAction CancelManutenzione;
+		public event Action CancelManutenzione;
 		private void OnCancelManutenzione(object sender, EventArgs e)
 		{
 			CancelManutenzione?.Invoke();
@@ -74,8 +72,6 @@ namespace Flotta.ClientSide.Interface
 				}
 			}
 		}
-
-
 
 		public DateTime Data
 		{
@@ -100,8 +96,6 @@ namespace Flotta.ClientSide.Interface
 			set => types.DataSource = value;
 		}
 
-
-
 		public float Costo
 		{
 			get
@@ -115,13 +109,7 @@ namespace Flotta.ClientSide.Interface
 					return 0;
 				}
 			}
-
-			set
-			{
-				costo.Text = Convert.ToString(value);
-			}
+			set => costo.Text = Convert.ToString(value);
 		}
-
-
 	}
 }
