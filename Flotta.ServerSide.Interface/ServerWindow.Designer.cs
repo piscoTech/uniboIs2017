@@ -13,7 +13,7 @@
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if(disposing && (components != null))
+			if (disposing && (components != null))
 			{
 				components.Dispose();
 			}
@@ -31,7 +31,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.clientCountLbl = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
-			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+			this.logConsole = new System.Windows.Forms.RichTextBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -62,21 +62,21 @@
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.NewClient);
 			// 
-			// richTextBox1
+			// logConsole
 			// 
-			this.richTextBox1.Enabled = false;
-			this.richTextBox1.Location = new System.Drawing.Point(12, 41);
-			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(260, 208);
-			this.richTextBox1.TabIndex = 3;
-			this.richTextBox1.Text = "";
+			this.logConsole.ReadOnly = true;
+			this.logConsole.Location = new System.Drawing.Point(12, 41);
+			this.logConsole.Name = "logConsole";
+			this.logConsole.Size = new System.Drawing.Size(260, 208);
+			this.logConsole.TabIndex = 3;
+			this.logConsole.Text = "";
 			// 
 			// ServerWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Controls.Add(this.richTextBox1);
+			this.Controls.Add(this.logConsole);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.clientCountLbl);
 			this.Controls.Add(this.label1);
@@ -94,6 +94,6 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label clientCountLbl;
 		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.RichTextBox richTextBox1;
+		private System.Windows.Forms.RichTextBox logConsole;
 	}
 }

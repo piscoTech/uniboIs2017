@@ -16,6 +16,7 @@ namespace Flotta.ServerSide.Interface
 		bool CanTerminate { set; }
 		event Action CreateClient;
 		void UpdateCounter(int activeConnections);
+		void Log(string line);
 
 		void Run();
 	}
@@ -53,6 +54,11 @@ namespace Flotta.ServerSide.Interface
 				e.Cancel = true;
 				MessageBox.Show("Impossibile uscire con client aperti!");
 			}
+		}
+
+		public void Log(string line)
+		{
+			logConsole.AppendText(line + "\r\n");
 		}
 
 		public void Run()

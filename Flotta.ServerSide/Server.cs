@@ -117,6 +117,8 @@ namespace Flotta.ServerSide
 				_window.UpdateCounter(++_activeConnections);
 				_window.CanTerminate = CanTerminate;
 			}
+
+			Log("Un client si è connesso");
 		}
 
 		public void ClientDisconnected()
@@ -126,11 +128,18 @@ namespace Flotta.ServerSide
 				_window.UpdateCounter(--_activeConnections);
 				_window.CanTerminate = CanTerminate;
 			}
+
+			Log("Un client si è disconnesso");
 		}
 
 		private void OnCreateClient()
 		{
 			_createClient?.Invoke();
+		}
+
+		private void Log(string line)
+		{
+			_window.Log(line);
 		}
 
 		private HashSet<T> GetLinkedTypesSet<T>() where T : LinkedType
@@ -187,7 +196,13 @@ namespace Flotta.ServerSide
 				if (errors.Count == 0)
 				{
 					if (!_mezzi.Contains(mezzo))
+					{
 						_mezzi.Add(mezzo);
+						Log("Mezzo " + mezzo.Numero + " è stato creato");
+					}
+					else
+						Log("Mezzo " + mezzo.Numero + " è stato modificato");
+
 					ObjectChanged(mezzo);
 				}
 
@@ -202,6 +217,7 @@ namespace Flotta.ServerSide
 			if (_mezzi.Contains(mezzo) && _mezzi.Remove(mezzo))
 			{
 				ObjectRemoved(mezzo);
+				Log("Mezzo " + mezzo.Numero + " è stato eliminato");
 				return true;
 			}
 
@@ -235,7 +251,13 @@ namespace Flotta.ServerSide
 				if (errors.Count == 0)
 				{
 					if (!list.Contains(obj))
+					{
 						list.Add(obj);
+						Log("Il tipo (" + typeof(T).Name + ") '" + obj.Name + "' è stato creato");
+					}
+					else
+						Log("Il tipo (" + typeof(T).Name + ") '" + obj.Name + "' è stato modificato");
+
 					ObjectChanged(obj);
 				}
 
@@ -258,6 +280,7 @@ namespace Flotta.ServerSide
 				if (list.Contains(obj) && list.Remove(obj))
 				{
 					ObjectRemoved(obj);
+					Log("Il tipo (" + typeof(T).Name + ") '" + obj.Name + "' è stato eliminato");
 					return true;
 				}
 
