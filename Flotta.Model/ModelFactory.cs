@@ -117,5 +117,14 @@ namespace Flotta.Model
 
 			return _scadenzaRecurrencyTypesCache;
 		}
+
+		public static IEnumerable<IScadenzaAdapter> GetScadenzeForMezzo(IMezzo mezzo)
+		{
+			return from p in typeof(IMezzo).GetProperties()
+				   let attr = p.GetCustomAttributes(typeof(MezzoScadenzaAttribute), true).ElementAtOrDefault(0) as MezzoScadenzaAttribute
+				   where attr != null && typeof(Scadenza).IsAssignableFrom(p.PropertyType)
+				   orderby attr.Order
+				   select new ScadenzaAdapter(mezzo, p, attr.Name);
+		}
 	}
 }

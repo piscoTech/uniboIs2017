@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IPermesso : ICloneable, ILinkedObjectWithPDF<IPermessoType>
+	public interface IPermesso : ICloneable, ILinkedObjectWithPDF<IPermessoType>, IScadenzaAdapter
 	{
 		bool IsValid { get; }
 	}
@@ -15,6 +15,7 @@ namespace Flotta.Model
 	{
 		private IPermessoType _type;
 		private IPDF _allegato;
+		private Scadenza _scadenza;
 
 		internal Permesso(IPermessoType type)
 		{
@@ -29,6 +30,13 @@ namespace Flotta.Model
 
 		public IPermessoType Type => _type;
 		public IPDF Allegato => _allegato;
+
+		public Scadenza Scadenza
+		{
+			get => _scadenza;
+			set => _scadenza = value;
+		}
+		public string ScadenzaName => "Permesso: " + _type.Name;
 
 		public IEnumerable<string> Update(IPDF allegato)
 		{

@@ -32,7 +32,7 @@ namespace Flotta.Model
 		public abstract DateTime NextDate(int interval);
 	}
 
-	[ScadenzaRecurrencyTypeAttribute("settimane", 0)]
+	[ScadenzaRecurrencyType("settimane", 0)]
 	class WeekScadenzaRecurrencyType : ScadenzaRecurrencyType
 	{
 		public override DateTime NextDate(int interval)
@@ -41,7 +41,7 @@ namespace Flotta.Model
 		}
 	}
 
-	[ScadenzaRecurrencyTypeAttribute("mesi", 1)]
+	[ScadenzaRecurrencyType("mesi", 1)]
 	class MonthScadenzaRecurrencyType : ScadenzaRecurrencyType
 	{
 		public override DateTime NextDate(int interval)
@@ -50,7 +50,7 @@ namespace Flotta.Model
 		}
 	}
 
-	[ScadenzaRecurrencyTypeAttribute("anni", 2)]
+	[ScadenzaRecurrencyType("anni", 2)]
 	class YearScadenzaRecurrencyType : ScadenzaRecurrencyType
 	{
 		public override DateTime NextDate(int interval)

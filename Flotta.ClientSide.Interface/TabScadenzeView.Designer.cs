@@ -49,6 +49,7 @@
 			this.scadenzeList.Size = new System.Drawing.Size(259, 325);
 			this.scadenzeList.TabIndex = 3;
 			this.scadenzeList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnScadenzaClick);
+			this.scadenzeList.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.OnScadenzaRowPaint);
 			// 
 			// TabScadenzeView
 			// 

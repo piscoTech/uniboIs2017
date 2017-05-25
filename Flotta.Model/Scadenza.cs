@@ -48,9 +48,11 @@ namespace Flotta.Model
 				if (value.Date < DateTime.Now.Date)
 					throw new ArgumentException("La scadenza non può essere nel passato");
 
-				_date = _formatter?.UpdateDate(value) ?? value.Date;
+				_date = _formatter?.UpdateDate(value).Date ?? value.Date;
 			}
 		}
+
+		public bool Expired => HasDate ? Date <= DateTime.Now.Date : false;
 
 		public ScadenzaFormat Formatter
 		{
@@ -63,7 +65,7 @@ namespace Flotta.Model
 					throw new ArgumentNullException("Formatter is null");
 
 				_formatter = value;
-				Date = value.UpdateDate(_date);
+				Date = value.UpdateDate(_date).Date;
 			}
 		}
 

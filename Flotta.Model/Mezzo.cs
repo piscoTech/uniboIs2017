@@ -23,13 +23,16 @@ namespace Flotta.Model
 		IDispositivo[] Dispositivi { get; }
 		IPermesso[] Permessi { get; }
 
-		IEnumerable<string> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
+		[MezzoScadenza("Carta di circolazione", 0)]
+		Scadenza ScadenzaCartaCircolazione { get; set; }
+		[MezzoScadenza("Tagliando", 1)]
+		Scadenza ScadenzaTagliando { get; set; }
 
+		IEnumerable<string> Update(string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 	}
 
 	internal class Mezzo : IMezzo
 	{
-
 		private string _modello;
 		private string _targa;
 		private uint _numero;
@@ -43,6 +46,8 @@ namespace Flotta.Model
 		private HashSet<ITessera> _tessere = new HashSet<ITessera>();
 		private HashSet<IDispositivo> _dispositivi = new HashSet<IDispositivo>();
 		private HashSet<IPermesso> _permessi = new HashSet<IPermesso>();
+
+		private Scadenza _scadCartaCircolazione, _scadTagliando;
 
 		public string Modello
 		{
@@ -136,6 +141,17 @@ namespace Flotta.Model
 			}
 		}
 
+		public Scadenza ScadenzaCartaCircolazione
+		{
+			get => _scadCartaCircolazione;
+			set => _scadCartaCircolazione = value;
+		}
+		public Scadenza ScadenzaTagliando
+		{
+			get => _scadTagliando;
+			set => _scadTagliando = value;
+		}
+
 		private bool CheckType(IEnumerable<LinkedType> array)
 		{
 			List<LinkedType> o = new List<LinkedType>();
@@ -225,7 +241,7 @@ namespace Flotta.Model
 			// We cannot create a new set from the passed collections as it contains clones of the originals and the reference to scadenze may have changed
 
 			// Drop removed items, we clone Linq result to break any dependecy to the modified collections
-			foreach(ITessera tess in (from t in _tessere where !(from nt in tessere select nt.Type).Contains(t.Type) select t).ToArray())
+			foreach (ITessera tess in (from t in _tessere where !(from nt in tessere select nt.Type).Contains(t.Type) select t).ToArray())
 			{
 				_tessere.Remove(tess);
 			}
@@ -263,7 +279,7 @@ namespace Flotta.Model
 			{
 				_permessi.Add(perm);
 			}
-			
+
 			return errors;
 		}
 	}

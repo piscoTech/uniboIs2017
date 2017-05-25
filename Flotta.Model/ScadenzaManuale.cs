@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Flotta.Model
 {
-	[ScadenzaTypeAttribute("Manuale", 0)]
+	[ScadenzaType("Manuale", 0)]
 	class ScadenzaManuale : ScadenzaConData
 	{
 		public override bool HasRecurrencyPeriod => false;

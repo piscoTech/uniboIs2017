@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	[LinkedTypeAttribute("Dispositivi")]
+	[LinkedType("Dispositivi")]
 	public abstract class IDispositivoType : LinkedType
 	{
 	}

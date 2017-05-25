@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IDispositivo : ICloneable, ILinkedObjectWithPDF<IDispositivoType>
+	public interface IDispositivo : ICloneable, ILinkedObjectWithPDF<IDispositivoType>, IScadenzaAdapter
 	{
 		bool IsValid { get; }
 	}
@@ -15,6 +15,7 @@ namespace Flotta.Model
 	{
 		private IDispositivoType _type;
 		private IPDF _allegato;
+		private Scadenza _scadenza;
 
 		internal Dispositivo(IDispositivoType type)
 		{
@@ -29,6 +30,13 @@ namespace Flotta.Model
 
 		public IDispositivoType Type => _type;
 		public IPDF Allegato => _allegato;
+
+		public Scadenza Scadenza
+		{
+			get => _scadenza;
+			set => _scadenza = value;
+		}
+		public string ScadenzaName => "Dispositivo: " + _type.Name;
 
 		public IEnumerable<string> Update(IPDF allegato)
 		{

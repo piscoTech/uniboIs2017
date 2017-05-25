@@ -33,7 +33,7 @@ namespace Flotta.Model
 		public abstract DateTime UpdateDate(DateTime date);
 	}
 
-	[ScadenzaFormatAttribute("gg/mm/aaaa", 0)]
+	[ScadenzaFormat("gg/mm/aaaa", 0)]
 	class FullDateScadenzaFormat : ScadenzaFormat
 	{
 		public override string Format(DateTime date)
@@ -47,7 +47,7 @@ namespace Flotta.Model
 		}
 	}
 
-	[ScadenzaFormatAttribute("mm/aaaa", 0)]
+	[ScadenzaFormat("mm/aaaa", 0)]
 	class NoDayScadenzaFormat : ScadenzaFormat
 	{
 		public override string Format(DateTime date)

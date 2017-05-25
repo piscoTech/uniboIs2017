@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Flotta.Model;
@@ -89,6 +90,32 @@ namespace Flotta.ServerSide
 			p1.Update(null);
 			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
+
+			var scad = ModelFactory.GetAllScadenzaTypes();
+			var scadFormat = ModelFactory.GetAllScadenzaFormats();
+			var scadRecur = ModelFactory.GetAllScadenzaRecurrencyTypes();
+
+			Scadenza ts = scad.ElementAt(0).NewInstance;
+			ts.Date = DateTime.Now;
+			ts.Formatter = scadFormat.ElementAt(0).Formatter;
+			t.Scadenza = ts;
+
+			Scadenza ds = scad.ElementAt(1).NewInstance;
+			ds.Date = new DateTime(2017, 8, 1);
+			ds.Formatter = scadFormat.ElementAt(1).Formatter;
+			ds.RecurrencyInterval = 4;
+			ds.RecurrencyType = scadRecur.ElementAt(1).RecurrencyType;
+			d.Scadenza = ds;
+
+			Scadenza ps = scad.ElementAt(2).NewInstance;
+			p1.Scadenza = ps;
+
+			Scadenza ccircs = scad.ElementAt(1).NewInstance;
+			ccircs.Date = new DateTime(2018, 8, 1);
+			ccircs.Formatter = scadFormat.ElementAt(1).Formatter;
+			ccircs.RecurrencyInterval = 2;
+			ccircs.RecurrencyType = scadRecur.ElementAt(2).RecurrencyType;
+			m.ScadenzaCartaCircolazione = ccircs;
 		}
 
 		private Action _createClient;

@@ -50,7 +50,10 @@ namespace Flotta.ClientSide
 			_scadenze.Clear();
 			_scadenzeItem.Clear();
 
+			_scadenze.AddRange(ModelFactory.GetScadenzeForMezzo(_tabs.Mezzo));
 			_scadenze.AddRange(from t in _tabs.Mezzo.Tessere orderby t.Type.Name select t);
+			_scadenze.AddRange(from d in _tabs.Mezzo.Dispositivi orderby d.Type.Name select d);
+			_scadenze.AddRange(from p in _tabs.Mezzo.Permessi orderby p.Type.Name select p);
 
 			UpdateItems(null);
 			_view.Scadenze = _scadenzeItem;
@@ -68,7 +71,10 @@ namespace Flotta.ClientSide
 				}
 				IScadenzaListItem item = _scadenzeItem.ElementAtOrDefault(index);
 				if (item != null)
+				{
 					item.Date = scadOwner.Scadenza?.DateDescription;
+					item.Expired = scadOwner.Scadenza?.Expired ?? false;
+				}
 				else
 					Reload();
 			}
@@ -76,7 +82,8 @@ namespace Flotta.ClientSide
 			{
 				_scadenzeItem.AddRange(from s in _scadenze
 									   select ClientSideInterfaceFactory.NewScadenzaListItem(s.ScadenzaName,
-																							 s.Scadenza?.DateDescription));
+																							 s.Scadenza?.DateDescription,
+																							 s.Scadenza?.Expired ?? false));
 			}
 		}
 

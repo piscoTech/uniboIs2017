@@ -107,5 +107,14 @@ namespace Flotta.ClientSide.Interface
 			else if (e.ColumnIndex == 3)
 				ScadenzaRenew?.Invoke(e.RowIndex);
 		}
+
+		private void OnScadenzaRowPaint(object sender, DataGridViewRowPrePaintEventArgs e)
+		{
+			if (_scadenzeList[e.RowIndex].Expired)
+			{
+				var rowStyle = scadenzeList.Rows[e.RowIndex].DefaultCellStyle;
+				rowStyle.BackColor = Color.Red;
+			}
+		}
 	}
 }
