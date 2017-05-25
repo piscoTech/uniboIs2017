@@ -76,6 +76,12 @@
       <DependentUpon>TabScadenzeView.cs</DependentUpon>
     </Compile>
     <Compile Include="TesseraListItem.cs" />
+    <Compile Include="RenewScadenzaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RenewScadenzaDialog.Designer.cs">
+      <DependentUpon>RenewScadenzaDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateLinkedTypeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateDispositivoPermessoDialog.resx">
       <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RenewScadenzaDialog.resx">
+      <DependentUpon>RenewScadenzaDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateLinkedTypeDialog.resx">
       <DependentUpon>UpdateLinkedTypeDialog.cs</DependentUpon>

@@ -68,7 +68,7 @@ namespace Flotta.ClientSide.Interface
 			DataGridViewButtonColumn colScadRenew = new DataGridViewButtonColumn()
 			{
 				HeaderText = "",
-				Name = "Rinnova",
+				Name = "Renew",
 				Text = "Rinnova",
 				UseColumnTextForButtonValue = true,
 				AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
@@ -104,17 +104,14 @@ namespace Flotta.ClientSide.Interface
 
 			if (e.ColumnIndex == 2)
 				ScadenzaEdit?.Invoke(e.RowIndex);
-			else if (e.ColumnIndex == 3)
+			else if (e.ColumnIndex == 3 && _scadenzeList[e.RowIndex].CanRenew)
 				ScadenzaRenew?.Invoke(e.RowIndex);
 		}
 
-		private void OnScadenzaRowPaint(object sender, DataGridViewRowPrePaintEventArgs e)
+		protected void OnScadenzaRowPaint(object sender, DataGridViewRowPrePaintEventArgs e)
 		{
-			if (_scadenzeList[e.RowIndex].Expired)
-			{
-				var rowStyle = scadenzeList.Rows[e.RowIndex].DefaultCellStyle;
-				rowStyle.BackColor = Color.Red;
-			}
+			var rowStyle = scadenzeList.Rows[e.RowIndex].DefaultCellStyle;
+			rowStyle.BackColor = _scadenzeList[e.RowIndex].Expired ? Color.Red : Color.Empty;
 		}
 	}
 }

@@ -97,6 +97,14 @@ namespace Flotta.Model
 			}
 		}
 
+		public void SetNextDate()
+		{
+			if (!HasRecurrencyPeriod)
+				throw new InvalidOperationException("Scadenza is not recurrent");
+
+			Date = RecurrencyType.NextDate(RecurrencyInterval);
+		}
+
 		public string DateDescription => HasDate ? _formatter.Format(_date) : "Illimitata";
 
 		public object Clone()

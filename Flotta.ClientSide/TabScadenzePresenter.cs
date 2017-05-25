@@ -23,6 +23,7 @@ namespace Flotta.ClientSide
 
 		private IScadenzaAdapter _activeScad = null;
 		private UpdateScadenzaPresenter _updatePresenter = null;
+		private IRenewScadenzaDialog _renewDialog = null;
 
 		internal TabScadenzePresenter(IServer server, MezzoTabPresenter tabs, ITabScadenzeView view)
 		{
@@ -35,7 +36,7 @@ namespace Flotta.ClientSide
 			_server.ObjectRemoved += OnObjectRemoved;
 
 			_view.ScadenzaEdit += OnScadenzaEdit;
-			//_view.ScadenzaEdit += ;
+			_view.ScadenzaRenew += OnScadenzaRenew;
 		}
 
 		public void Reload()
@@ -44,7 +45,8 @@ namespace Flotta.ClientSide
 				return;
 
 			_updatePresenter?.Close();
-			// Close renew presenter
+			_renewDialog?.Close();
+			_renewDialog?.Dispose();
 			_activeScad = null;
 
 			_scadenze.Clear();
@@ -83,7 +85,9 @@ namespace Flotta.ClientSide
 				_scadenzeItem.AddRange(from s in _scadenze
 									   select ClientSideInterfaceFactory.NewScadenzaListItem(s.ScadenzaName,
 																							 s.Scadenza?.DateDescription,
-																							 s.Scadenza?.Expired ?? false));
+																							 s.Scadenza?.Expired ?? false,
+																							 s.Scadenza?.HasDate ?? false
+																							));
 			}
 		}
 
@@ -125,6 +129,47 @@ namespace Flotta.ClientSide
 			}
 			_updatePresenter = null;
 			_activeScad = null;
+		}
+
+		private void OnScadenzaRenew(int index)
+		{
+			IScadenzaAdapter scad = _scadenze[index];
+			Scadenza newScad = scad.Scadenza.Clone() as Scadenza;
+			if (scad.Scadenza.HasRecurrencyPeriod)
+			{
+				newScad.SetNextDate();
+				_server.UpdateScadenza(scad, newScad);
+			}
+			else
+			{
+				_activeScad = scad;
+
+				using (_renewDialog = ClientSideInterfaceFactory.NewRenewScadenzaDialog())
+				{
+					_renewDialog.Date = newScad.Date;
+					_renewDialog.ScadName = scad.ScadenzaName;
+					_renewDialog.Validation = () =>
+					{
+						try
+						{
+							newScad.Date = _renewDialog.Date;
+							return true;
+						}
+						catch (Exception e)
+						{
+							MessageBox.Show(e.Message, "Errore");
+							return false;
+						}
+					};
+
+					if (_renewDialog.ShowDialog() == DialogResult.OK)
+					{
+						_server.UpdateScadenza(_activeScad, newScad);
+					}
+				}
+				_renewDialog = null;
+				_activeScad = null;
+			}
 		}
 	}
 }

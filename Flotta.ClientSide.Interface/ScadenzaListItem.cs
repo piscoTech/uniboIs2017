@@ -7,6 +7,7 @@ namespace Flotta.ClientSide.Interface
 		string Date { set; }
 		string DateDescription { get; }
 		bool Expired { get; set; }
+		bool CanRenew { get; set; }
 	}
 
 	class ScadenzaListItem : IScadenzaListItem
@@ -14,12 +15,14 @@ namespace Flotta.ClientSide.Interface
 		private string _name;
 		private string _date;
 		private bool _expired;
+		private bool _canRenew;
 
-		internal ScadenzaListItem(string name, string date, bool expired)
+		internal ScadenzaListItem(string name, string date, bool expired, bool canRenew)
 		{
 			_name = name;
 			_date = date;
 			_expired = expired;
+			_canRenew = canRenew;
 		}
 
 		public string Name
@@ -41,6 +44,12 @@ namespace Flotta.ClientSide.Interface
 		{
 			get => _expired;
 			set => _expired = value;
+		}
+
+		public bool CanRenew
+		{
+			get => _canRenew;
+			set => _canRenew = value;
 		}
 	}
 }
