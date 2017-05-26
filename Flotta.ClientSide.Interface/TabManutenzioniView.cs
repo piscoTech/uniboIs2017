@@ -12,9 +12,6 @@ namespace Flotta.ClientSide.Interface
 {
 	public interface ITabManutenzioniView
 	{
-		event Action EnterEdit;
-		event Action CancelEdit;
-		event Action SaveEdit;
 		event Action<int> ModifyManutenzione;
 		event Action<int> DeleteManutenzione;
 		event Action NuovaManutenzione;
@@ -32,6 +29,7 @@ namespace Flotta.ClientSide.Interface
 
 			manutenzioniList.AutoGenerateColumns = false;
 			manutenzioniList.DataSource = _manutenzioni;
+			manutenzioniList.DisableSort();
 		}
 
 		public IEnumerable<IManutenzioneListItem> Manutenzioni
@@ -55,31 +53,11 @@ namespace Flotta.ClientSide.Interface
 			manutenzioniList.Refresh();
 		}
 
-		public event Action EnterEdit;
-		private void OnEnterEdit(object sender, EventArgs e)
-		{
-			EnterEdit?.Invoke();
-		}
-
-		public event Action CancelEdit;
-		private void OnCancelEdit(object sender, EventArgs e)
-		{
-			CancelEdit?.Invoke();
-		}
-
-		public event Action SaveEdit;
-		private void OnSaveEdit(object sender, EventArgs e)
-		{
-			SaveEdit?.Invoke();
-		}
-
 		public event Action NuovaManutenzione;
 		public void OnNewManutenzione(object sender, EventArgs e)
 		{
 			NuovaManutenzione?.Invoke();
 		}
-
-
 
 		public event Action<int> ModifyManutenzione;
 		public event Action<int> DeleteManutenzione;
@@ -89,13 +67,10 @@ namespace Flotta.ClientSide.Interface
 			if (e.RowIndex < 0)
 				return;
 
-			if (e.ColumnIndex == 4)
+			if (e.ColumnIndex == 6)
 				ModifyManutenzione?.Invoke(e.RowIndex);
-			if (e.ColumnIndex == 5)
+			if (e.ColumnIndex == 7)
 				DeleteManutenzione?.Invoke(e.RowIndex);
 		}
-
-
-
 	}
 }

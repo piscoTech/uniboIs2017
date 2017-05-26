@@ -12,23 +12,14 @@ namespace Flotta.ClientSide
 {
 	class TabManutenzioniPresenter : ITabPresenter
 	{
-
 		private IServer _server;
 		private MezzoTabPresenter _tabs;
 		private ITabManutenzioniView _view;
 		private List<IManutenzione> _manutenzioniList;
 		private List<IManutenzioneListItem> _manutenzioneListItem;
 
-		private bool _editMode;
-		private bool EditMode
-		{
-			get => _editMode;
-			set
-			{
-				_editMode = value;
-				Reload();
-			}
-		}
+		private IManutenzione _curManut = null;
+		private UpdateManutenzionePresenter _curPresenter = null;
 
 		internal TabManutenzioniPresenter(IServer server, MezzoTabPresenter tabs, ITabManutenzioniView view)
 		{
@@ -36,11 +27,6 @@ namespace Flotta.ClientSide
 			_tabs = tabs;
 			_view = view;
 
-			EditMode = false;
-
-			_view.CancelEdit += OnCancelEdit;
-			_view.EnterEdit += OnEnterEdit;
-			_view.SaveEdit += OnSaveEdit;
 			_view.ModifyManutenzione += OnModifyManutenzione;
 			_view.DeleteManutenzione += OnDeleteManutenzione;
 			_view.NuovaManutenzione += OnNuovaManutenzione;
@@ -54,74 +40,63 @@ namespace Flotta.ClientSide
 				return;
 
 			_manutenzioniList = _tabs.Mezzo.Manutenzioni.ToList();
-			_manutenzioneListItem= (from m in _manutenzioniList select ClientSideInterfaceFactory.NewManutenzioneListItem(m.Data, m.Note, m.Type.Name, m.Costo)).ToList(); 
+			_manutenzioneListItem = (from m in _manutenzioniList
+									 select ClientSideInterfaceFactory.NewManutenzioneListItem(m.Data.ToString("dd/MM/yyyy"),
+																							   m.Note,
+																							   m.Type.Name,
+																							   m.Costo,
+																							   m.Allegato?.Path)).ToList();
 			_view.Manutenzioni = _manutenzioneListItem;
-		}
-
-
-
-		private void UpdateTypeList()
-		{
-
-		}
-
-		private void OnEnterEdit()
-		{
-			if (EditMode)
-				return;
-
-			EditMode = true;
 		}
 
 		public void OnCancelEdit()
 		{
-			if (!EditMode)
-				return;
-
-			EditMode = false;
-		}
-
-		private void OnSaveEdit()
-		{
-			if (!EditMode)
-				return;
 		}
 
 		private void OnNuovaManutenzione()
 		{
-			using (INewManutenzioneDialog dialog = ClientSideInterfaceFactory.NewNewManutenzioneDialog())
-			{
-				var presenter = new NewManutenzionePresenter(_server, ModelFactory.NewManutenzione(_tabs.Mezzo), dialog);
-
-				dialog.ShowDialog();
-			}
+			DoEdit(ModelFactory.NewManutenzione(_tabs.Mezzo));
 		}
 
 		public void OnModifyManutenzione(int row)
 		{
-			var dialog = ClientSideInterfaceFactory.NewNewManutenzioneDialog(_view.Manutenzioni.ElementAt(row).Date, _view.Manutenzioni.ElementAt(row).Note, _view.Manutenzioni.ElementAt(row).Costo);
-			var presenter = new NewManutenzionePresenter(_server, _manutenzioniList[row], dialog);
-			dialog.ShowDialog();
+			DoEdit(_manutenzioniList[row]);
+		}
 
+		private void DoEdit(IManutenzione m)
+		{
+			using (IUpdateManutenzioneDialog dialog = ClientSideInterfaceFactory.NewUpdateManutenzioneDialog())
+			{
+				_curManut = m;
+				_curPresenter = new UpdateManutenzionePresenter(_server, _curManut, dialog);
+
+				dialog.ShowDialog();
+			}
+			_curManut = null;
+			_curPresenter = null;
 		}
 
 		public void OnDeleteManutenzione(int row)
 		{
-
-			if (MessageBox.Show("Sei sicuro di voler eliminare la manutenzione in data" + _manutenzioniList[row].Data.ToString("dd/MM/yyyy") + "?", "Elimina", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			if (MessageBox.Show("Sei sicuro di voler eliminare la manutenzione in data " + _manutenzioniList[row].Data.ToString("dd/MM/yyyy") + "?", "Elimina", MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				_server.DeleteManutenzione(_manutenzioniList[row]);
 			}
-			
 		}
 
 		private void OnObjectChanged(IDBObject o)
 		{
 			if (o is IManutenzioneType)
 				Reload();
-
-			else if (o is IManutenzione m)
+			else if (o is IManutenzione m && m.Mezzo == _tabs.Mezzo)
 			{
+				if (m == _curManut)
+				{
+					_curPresenter.Close();
+					_curPresenter = null;
+					_curManut = null;
+				}
+
 				int index = _manutenzioniList.IndexOf(m);
 				if (index < 0)
 				{
@@ -132,23 +107,30 @@ namespace Flotta.ClientSide
 				IManutenzioneListItem item = _manutenzioneListItem.ElementAtOrDefault(index);
 				if (item != null)
 				{
-					item.Date = m.Data;
+					item.Date = m.Data.ToString("dd/MM/yyyy");
+					item.Tipo = m.Type.Name;
 					item.Note = m.Note;
 					item.Costo = m.Costo;
+					item.AllegatoPath = m.Allegato?.Path;
 
 					_view.RefreshManutenzioni();
 				}
 			}
-
 		}
 
 		private void OnObjectRemoved(IDBObject o)
 		{
-			if (o is IManutenzione m && _manutenzioniList.Contains(m))
+			if (o is IManutenzione m && m.Mezzo == _tabs.Mezzo && _manutenzioniList.Contains(m))
 			{
+				if (m == _curManut)
+				{
+					_curPresenter.Close();
+					_curPresenter = null;
+					_curManut = null;
+				}
+
 				Reload();
 			}
 		}
-		
 	}
 }

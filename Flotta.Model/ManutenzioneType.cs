@@ -15,7 +15,7 @@ namespace Flotta.Model
 	{
 		public override bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi)
 		{
-			return false;
+			return mezzi.Any((IMezzo m) => m.Manutenzioni.Any((IManutenzione manut) => manut.Type == this));
 		}
 	}
 }

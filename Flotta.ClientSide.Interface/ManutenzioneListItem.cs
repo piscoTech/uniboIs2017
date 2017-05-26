@@ -8,33 +8,36 @@ namespace Flotta.ClientSide.Interface
 {
 	public interface IManutenzioneListItem
 	{
-		DateTime Date { get; set; }
+		string Date { get; set; }
 		string Note { get; set; }
 		string Tipo { get; set; }
 		float Costo { get; set; }
+		string AllegatoPath { get; set; }
 	}
 
 	internal class ManutenzioneListItem : IManutenzioneListItem
 	{
-		private DateTime _date;
+		private string _date;
 		private string _note;
 		private string _tipo;
 		private float _costo;
+		private string _allegatoPath;
 
-		public ManutenzioneListItem(DateTime date, string note, string tipo, float costo)
+		public ManutenzioneListItem(string date, string note, string tipo, float costo, string allegatoPath)
 		{
 			_date = date;
 			_note = note;
 			_tipo = tipo;
 			_costo = costo;
+			_allegatoPath = allegatoPath;
 		}
 
-		public DateTime Date
+		public string Date
 		{
 			get => _date;
 			set => _date = value;
 		}
-		
+
 		public string Note
 		{
 			get => _note;
@@ -53,5 +56,10 @@ namespace Flotta.ClientSide.Interface
 			set => _costo = value;
 		}
 
+		public string AllegatoPath
+		{
+			get => _allegatoPath ?? "Non presente";
+			set => _allegatoPath = value;
+		}
 	}
 }

@@ -58,19 +58,14 @@ namespace Flotta.ClientSide.Interface
 			return new UpdateDispositivoPermessoDialog();
 		}
 
-		public static INewManutenzioneDialog NewNewManutenzioneDialog()
+		public static IUpdateManutenzioneDialog NewUpdateManutenzioneDialog()
 		{
-			return new NewManutenzioneDialog();
+			return new UpdateManutenzioneDialog();
 		}
 
-		public static INewManutenzioneDialog NewNewManutenzioneDialog(DateTime d, string n, float c)
+		public static IManutenzioneListItem NewManutenzioneListItem(string date, string note, string tipo, float costo, string allegatoPath)
 		{
-			return new NewManutenzioneDialog(d, n, c);
-		}
-
-		public static IManutenzioneListItem NewManutenzioneListItem(DateTime date, string note, string tipo, float costo)
-		{
-			return new ManutenzioneListItem(date, note, tipo, costo);
+			return new ManutenzioneListItem(date, note, tipo, costo, allegatoPath);
 		}
 	}
 }

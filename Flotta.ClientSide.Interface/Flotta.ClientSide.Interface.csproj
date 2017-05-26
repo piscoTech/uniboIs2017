@@ -67,11 +67,11 @@
     <Compile Include="MezzoTabView.Designer.cs">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewManutenzioneDialog.cs">
+    <Compile Include="UpdateManutenzioneDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewManutenzioneDialog.Designer.cs">
-      <DependentUpon>NewManutenzioneDialog.cs</DependentUpon>
+    <Compile Include="UpdateManutenzioneDialog.Designer.cs">
+      <DependentUpon>UpdateManutenzioneDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="NewMezzoDialog.cs">
       <SubType>Form</SubType>
@@ -119,8 +119,8 @@
     <EmbeddedResource Include="MezzoTabView.resx">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewManutenzioneDialog.resx">
-      <DependentUpon>NewManutenzioneDialog.cs</DependentUpon>
+    <EmbeddedResource Include="UpdateManutenzioneDialog.resx">
+      <DependentUpon>UpdateManutenzioneDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewMezzoDialog.resx">
       <DependentUpon>NewMezzoDialog.cs</DependentUpon>

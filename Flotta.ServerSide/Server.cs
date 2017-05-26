@@ -27,7 +27,7 @@ namespace Flotta.ServerSide
 		bool DeleteMezzo(IMezzo mezzo);
 
 		void DeleteManutenzione(IManutenzione m);
-		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo);
+		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato);
 
 		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
 		bool DeleteLinkedType<T>(T obj) where T : LinkedType;
@@ -83,6 +83,10 @@ namespace Flotta.ServerSide
 			var manut = GetLinkedTypesSet<IManutenzioneType>();
 			IManutenzioneType mt = ModelFactory.NewLinkedType<IManutenzioneType>();
 			mt.Update("Manutenzione 1");
+			mt.Disable();
+			manut.Add(mt);
+			mt = ModelFactory.NewLinkedType<IManutenzioneType>();
+			mt.Update("Manutenzione 2");
 			manut.Add(mt);
 
 			IMezzo m = ModelFactory.NewMezzo();
@@ -97,6 +101,10 @@ namespace Flotta.ServerSide
 			p1.Update(null);
 			m.Update(null, "Mezzo 1", "aa000aa", 100, "CRTCIRC123", null, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
+
+			IManutenzione man = ModelFactory.NewManutenzione(m);
+			man.Update(DateTime.Now, manut.ElementAt(0), "Note", 10, null);
+			m.AddManutenzione(man);
 		}
 
 		private Action _createClient;
@@ -273,21 +281,17 @@ namespace Flotta.ServerSide
 			}
 		}
 
-		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo)
+		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato)
 		{
 			List<String> errors = new List<string>();
 
-
-			if (tipo == null || !GetLinkedTypes<IManutenzioneType>().Contains(tipo))
-				errors.Add("non esiste il tipo di manutenzione: " + tipo);
-
-			if (data.Date > DateTime.Now.Date)
-				errors.Add("data senza senso");
+			if (tipo != null && !GetLinkedTypes<IManutenzioneType>().Contains(tipo))
+				errors.Add("Il tipo di manutenzione non esiste");
 
 			if (errors.Count() > 0)
 				return errors;
 
-			errors.AddRange(manutenzione.Update(data, tipo, note, costo));
+			errors.AddRange(manutenzione.Update(data, tipo, note, costo, allegato));
 
 			if (errors.Count() > 0)
 				return errors;

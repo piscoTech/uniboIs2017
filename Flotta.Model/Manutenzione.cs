@@ -8,21 +8,24 @@ namespace Flotta.Model
 {
 	public interface IManutenzione : ILinkedObject<IManutenzioneType>
 	{
-		DateTime Data { get; set; }
-		string Note { get; set; }
-		float Costo { get; set; }
 		IMezzo Mezzo { get; }
-		IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float costo);
+		DateTime Data { get; }
+		string Note { get; }
+		float Costo { get; }
+		IPDF Allegato { get; }
+
+		IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float costo, IPDF allegato);
 	}
 
 	internal class Manutenzione : IManutenzione
-    {
-        private DateTime _data;
-        private string _note;
-        private float _costo;
-        private IManutenzioneType _type;
+	{
 		private IMezzo _mezzo;
-         
+		private DateTime _data = DateTime.Now;
+		private IManutenzioneType _type;
+		private string _note;
+		private float _costo;
+		private IPDF _allegato;
+
 		internal Manutenzione(IMezzo mezzo)
 		{
 			if (mezzo == null)
@@ -31,43 +34,37 @@ namespace Flotta.Model
 			_mezzo = mezzo;
 		}
 
-        public DateTime Data
-        {
-            get { return _data;  }
-            set { _data = value; }
-        }
+		public DateTime Data => _data;
+		public string Note => _note;
+		public float Costo => _costo;
+		public IManutenzioneType Type => _type;
+		public IPDF Allegato => _allegato;
+		public IMezzo Mezzo => _mezzo;
 
-        public string Note
-        {
-            get { return _note;  }
-            set { _note = value; }
-        }
-
-        public float Costo
-        {
-            get { return _costo;  }
-            set { _costo = value; }
-        }
-
-        public IManutenzioneType Type
-        {
-            get { return _type; }
-            set { _type = value; }
-        }
-
-		public IMezzo Mezzo
+		public IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float c, IPDF allegato)
 		{
-			get { return _mezzo;  }
-		}
+			List<string> errors = new List<string>();
+			if (t == null)
+				errors.Add("Tipo non valido");
 
-		public IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float c)
-		{
+			if (d.Date > DateTime.Now.Date)
+				errors.Add("La data non può essere nel futuro");
+
+			n = n?.Trim() ?? "";
+
+			if (c <= 0)
+				errors.Add("Il costo deve essere positivo");
+
+			if (!(allegato?.IsValid ?? true))
+				errors.Add("Allegato non valido");
+
 			_data = d;
 			_type = t;
 			_note = n;
 			_costo = c;
+			_allegato = allegato;
 
-			return new string[0];
+			return errors;
 		}
 	}
 }
