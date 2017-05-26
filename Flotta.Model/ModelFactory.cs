@@ -52,19 +52,19 @@ namespace Flotta.Model
 			return Activator.CreateInstance(concreteType, true) as T;
 		}
 
-		public static ITessera NewTessera(ITesseraType type)
+		public static ITessera NewTessera(IMezzo mezzo, ITesseraType type)
 		{
-			return new Tessera(type);
+			return new Tessera(mezzo, type);
 		}
 
-		public static IDispositivo NewDispositivo(IDispositivoType type)
+		public static IDispositivo NewDispositivo(IMezzo mezzo, IDispositivoType type)
 		{
-			return new Dispositivo(type);
+			return new Dispositivo(mezzo, type);
 		}
 
-		public static IPermesso NewPermesso(IPermessoType type)
+		public static IPermesso NewPermesso(IMezzo mezzo, IPermessoType type)
 		{
-			return new Permesso(type);
+			return new Permesso(mezzo, type);
 		}
 
 		private static IEnumerable<ScadenzaTypeDescriptor> _scadenzaTypesCache = null;
@@ -124,7 +124,7 @@ namespace Flotta.Model
 				   let attr = p.GetCustomAttributes(typeof(MezzoScadenzaAttribute), true).ElementAtOrDefault(0) as MezzoScadenzaAttribute
 				   where attr != null && typeof(Scadenza).IsAssignableFrom(p.PropertyType)
 				   orderby attr.Order
-				   select new ScadenzaAdapter(mezzo, p, attr.Name);
+				   select new MezzoScadenzaAdapter(mezzo, p, attr.Name);
 		}
 	}
 }

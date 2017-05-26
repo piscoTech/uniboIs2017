@@ -209,17 +209,23 @@ namespace Flotta.Model
 			if (volumeCarico < 0)
 				errors.Add("Il volume di carico deve essere positivo o 0 per non specificato");
 
-			if (!CheckType(from t in tessere select t.Type))
+			if (tessere.Any((ITessera t) => t.Mezzo != this))
+				errors.Add("Una o più tessere non appartengono al mezzo corrente");
+			else if (!CheckType(from t in tessere select t.Type))
 				errors.Add("Una o più tipi di tessera sono stati usati più di una volta");
 			else if ((from t in tessere select t.IsValid).Contains(false))
 				errors.Add("Una o più tessere non sono valide");
 
-			if (!CheckType(from d in dispositivi select d.Type))
+			if (dispositivi.Any((IDispositivo d) => d.Mezzo != this))
+				errors.Add("Uno o più dispositivi non appartengono al mezzo corrente");
+			else if (!CheckType(from d in dispositivi select d.Type))
 				errors.Add("Una o più tipi di dispositivo sono stati usati più di una volta");
 			else if ((from d in dispositivi select d.IsValid).Contains(false))
 				errors.Add("Una o più dispositivi non sono validi");
 
-			if (!CheckType(from p in permessi select p.Type))
+			if (permessi.Any((IPermesso p) => p.Mezzo != this))
+				errors.Add("Uno o più permessi non appartengono al mezzo corrente");
+			else if (!CheckType(from p in permessi select p.Type))
 				errors.Add("Una o più tipi di permesso sono stati usati più di una volta");
 			else if ((from p in permessi select p.IsValid).Contains(false))
 				errors.Add("Una o più permessi non sono validi");

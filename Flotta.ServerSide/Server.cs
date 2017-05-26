@@ -79,14 +79,14 @@ namespace Flotta.ServerSide
 			perm.Add(pt);
 
 			IMezzo m = ModelFactory.NewMezzo();
-			ITessera t = ModelFactory.NewTessera(tess.ElementAt(1));
+			ITessera t = ModelFactory.NewTessera(m, tess.ElementAt(1));
 			t.Update("123", "7654");
-			IDispositivo d = ModelFactory.NewDispositivo(disp.ElementAt(0));
+			IDispositivo d = ModelFactory.NewDispositivo(m, disp.ElementAt(0));
 			d.Update(null);
 			IPermesso p1, p2;
-			p1 = ModelFactory.NewPermesso(perm.ElementAt(0));
+			p1 = ModelFactory.NewPermesso(m, perm.ElementAt(0));
 			p1.Update(null);
-			p2 = ModelFactory.NewPermesso(perm.ElementAt(1));
+			p2 = ModelFactory.NewPermesso(m, perm.ElementAt(1));
 			p1.Update(null);
 			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
@@ -190,11 +190,12 @@ namespace Flotta.ServerSide
 			if (numMatch.Count() > 0)
 				errors.Add("Il numero è già utilizzato");
 
-			if (!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in GetLinkedTypesSet<ITesseraType>() select t))
+
+			if ((from t in tessere select t.Type).Any((ITesseraType t) => !GetLinkedTypes<ITesseraType>().Contains(t)))
 				errors.Add("Uno o più tipi di tessere non esistono");
-			if (!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in GetLinkedTypesSet<IDispositivoType>() select d))
+			if ((from d in dispositivi select d.Type).Any((IDispositivoType d) => !GetLinkedTypes<IDispositivoType>().Contains(d)))
 				errors.Add("Uno o più tipi di dispositivi non esistono");
-			if (!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in GetLinkedTypesSet<IPermessoType>() select p))
+			if ((from p in permessi select p.Type).Any((IPermessoType p) => !GetLinkedTypesSet<IPermessoType>().Contains(p)))
 				errors.Add("Uno o più tipi di permessi non esistono");
 
 			if (errors.Count > 0)

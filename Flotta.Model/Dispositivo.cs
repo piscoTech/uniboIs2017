@@ -13,21 +13,25 @@ namespace Flotta.Model
 
 	internal class Dispositivo : IDispositivo
 	{
+		private IMezzo _mezzo;
 		private IDispositivoType _type;
 		private IPDF _allegato;
 		private Scadenza _scadenza;
 
-		internal Dispositivo(IDispositivoType type)
+		internal Dispositivo(IMezzo mezzo, IDispositivoType type)
 		{
+			_mezzo = mezzo;
 			_type = type;
 		}
 
-		private Dispositivo(IDispositivoType type, IPDF allegato)
+		private Dispositivo(IMezzo mezzo, IDispositivoType type, IPDF allegato)
 		{
+			_mezzo = mezzo;
 			_type = type;
 			_allegato = allegato;
 		}
 
+		public IMezzo Mezzo => _mezzo;
 		public IDispositivoType Type => _type;
 		public IPDF Allegato => _allegato;
 
@@ -51,8 +55,7 @@ namespace Flotta.Model
 
 		public object Clone()
 		{
-			// Also copy the reference to scadenza
-			return new Dispositivo(_type, _allegato);
+			return new Dispositivo(_mezzo, _type, _allegato) { Scadenza = _scadenza };
 		}
 	}
 }

@@ -93,17 +93,22 @@ namespace Flotta.ClientSide
 
 		private void OnObjectChanged(IDBObject obj)
 		{
-			if (obj is IScadenzaAdapter scadOwner && _scadenze.Contains(scadOwner))
+			if (obj is IScadenzaAdapter scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
 			{
-				UpdateItems(scadOwner);
-				_view.RefreshScadenze();
+				if (_scadenze.Contains(scadOwner))
+				{
+					UpdateItems(scadOwner);
+					_view.RefreshScadenze();
+				}
+				else
+					Reload();
 			}
-			else if (obj is IScadenzaAdapter)
+			else if (obj is ITesseraType || obj is IDispositivoType || obj is IPermessoType)
 				Reload();
 		}
 		private void OnObjectRemoved(IDBObject obj)
 		{
-			if (obj is IScadenzaAdapter scadOwner)
+			if (obj is IScadenzaAdapter scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
 			{
 				if (scadOwner == _activeScad)
 					_updatePresenter.Close();

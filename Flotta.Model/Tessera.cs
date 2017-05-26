@@ -18,24 +18,27 @@ namespace Flotta.Model
 
 	internal class Tessera : ITessera
 	{
+		private IMezzo _mezzo;
 		private ITesseraType _type;
 		private string _codice;
 		private string _pin;
 		private Scadenza _scadenza;
 
-		internal Tessera(ITesseraType type)
+		internal Tessera(IMezzo mezzo, ITesseraType type)
 		{
+			_mezzo = mezzo;
 			_type = type;
 		}
 
-		private Tessera(ITesseraType type, string codice, string pin, Scadenza scadenza)
+		private Tessera(IMezzo mezzo, ITesseraType type, string codice, string pin)
 		{
+			_mezzo = mezzo;
 			_type = type;
 			_codice = codice;
 			_pin = pin;
-			_scadenza = scadenza;
 		}
 
+		public IMezzo Mezzo => _mezzo;
 		public ITesseraType Type => _type;
 		public string Codice => _codice;
 		public string Pin => _pin;
@@ -77,7 +80,7 @@ namespace Flotta.Model
 
 		public object Clone()
 		{
-			return new Tessera(_type, _codice, _pin, _scadenza);
+			return new Tessera(_mezzo, _type, _codice, _pin) { Scadenza = _scadenza };
 		}
 	}
 }

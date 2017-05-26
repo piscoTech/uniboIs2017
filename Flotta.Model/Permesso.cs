@@ -13,21 +13,25 @@ namespace Flotta.Model
 
 	internal class Permesso : IPermesso
 	{
+		private IMezzo _mezzo;
 		private IPermessoType _type;
 		private IPDF _allegato;
 		private Scadenza _scadenza;
 
-		internal Permesso(IPermessoType type)
+		internal Permesso(IMezzo mezzo, IPermessoType type)
 		{
+			_mezzo = mezzo;
 			_type = type;
 		}
 
-		private Permesso(IPermessoType type, IPDF allegato)
+		private Permesso(IMezzo mezzo, IPermessoType type, IPDF allegato)
 		{
+			_mezzo = mezzo;
 			_type = type;
 			_allegato = allegato;
 		}
 
+		public IMezzo Mezzo => _mezzo;
 		public IPermessoType Type => _type;
 		public IPDF Allegato => _allegato;
 
@@ -51,8 +55,7 @@ namespace Flotta.Model
 
 		public object Clone()
 		{
-			// Also copy the reference to scadenza
-			return new Permesso(_type, _allegato);
+			return new Permesso(_mezzo, _type, _allegato) { Scadenza = _scadenza };
 		}
 	}
 }

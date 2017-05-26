@@ -28,34 +28,30 @@ namespace Flotta.Model
 		internal int Order => _order;
 	}
 
-	public interface IScadenzaAdapter : IDBObject
+	internal class MezzoScadenzaAdapter : IScadenzaAdapter
 	{
-		Scadenza Scadenza { get; set; }
-		string ScadenzaName { get; }
-	}
-
-	internal class ScadenzaAdapter : IScadenzaAdapter
-	{
-		private object _object;
+		private IMezzo _mezzo;
 		private PropertyInfo _scadProperty;
 		private string _name;
 
-		internal ScadenzaAdapter(object scadenzaOwner, PropertyInfo property, string name)
+		internal MezzoScadenzaAdapter(IMezzo mezzo, PropertyInfo property, string name)
 		{
-			if (scadenzaOwner == null || property == null || String.IsNullOrEmpty(name))
+			if (mezzo == null || property == null || String.IsNullOrEmpty(name))
 				throw new ArgumentNullException();
 			if (!typeof(Scadenza).IsAssignableFrom(property.PropertyType))
 				throw new ArgumentException("Invalid property");
 
-			_object = scadenzaOwner;
+			_mezzo = mezzo;
 			_scadProperty = property;
 			_name = name;
 		}
 
+		public IMezzo Mezzo => _mezzo;
+
 		public Scadenza Scadenza
 		{
-			get => _scadProperty.GetValue(_object, null) as Scadenza;
-			set => _scadProperty.SetValue(_object, value, null);
+			get => _scadProperty.GetValue(_mezzo, null) as Scadenza;
+			set => _scadProperty.SetValue(_mezzo, value, null);
 		}
 
 		public string ScadenzaName => _name;
