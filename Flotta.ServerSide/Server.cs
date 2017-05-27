@@ -121,7 +121,7 @@ namespace Flotta.ServerSide
 		}
 
 		private Action _createClient;
-		public Action ClientCreator
+		internal Action ClientCreator
 		{
 			set
 			{
@@ -129,7 +129,6 @@ namespace Flotta.ServerSide
 			}
 		}
 
-		private readonly object _syncLock = new object();
 		private int _activeConnections = 0;
 		private bool CanTerminate
 		{
@@ -141,22 +140,16 @@ namespace Flotta.ServerSide
 
 		public void ClientConnected()
 		{
-			lock (_syncLock)
-			{
-				_window.UpdateCounter(++_activeConnections);
-				_window.CanTerminate = CanTerminate;
-			}
+			_window.UpdateCounter(++_activeConnections);
+			_window.CanTerminate = CanTerminate;
 
 			Log("Un client si è connesso");
 		}
 
 		public void ClientDisconnected()
 		{
-			lock (_syncLock)
-			{
-				_window.UpdateCounter(--_activeConnections);
-				_window.CanTerminate = CanTerminate;
-			}
+			_window.UpdateCounter(--_activeConnections);
+			_window.CanTerminate = CanTerminate;
 
 			Log("Un client si è disconnesso");
 		}
