@@ -31,6 +31,11 @@ namespace Flotta.Model
 								   float portata, float altezza, float lunghezza, float profondita, float volumeCarico,
 								   IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi,
 								   IEnumerable<IPermesso> permessi);
+
+		[MezzoScadenza("Carta di circolazione", 0)]
+		Scadenza ScadenzaCartaCircolazione { get; set; }
+		[MezzoScadenza("Tagliando", 1)]
+		Scadenza ScadenzaTagliando { get; set; }
 	}
 
 	internal class Mezzo : IMezzo
@@ -39,9 +44,9 @@ namespace Flotta.Model
 		private string _modello;
 		private string _targa;
 		private uint _numero;
-		private string _numeroTelaio;
 		private string _numeroCartaCircolazione;
 		private IPDF _cartaCircolazione;
+		private string _numeroTelaio;
 		private uint _annoImmatricolazione;
 		private float _portata;
 		private float _altezza;
@@ -51,6 +56,8 @@ namespace Flotta.Model
 		private HashSet<ITessera> _tessere = new HashSet<ITessera>();
 		private HashSet<IDispositivo> _dispositivi = new HashSet<IDispositivo>();
 		private HashSet<IPermesso> _permessi = new HashSet<IPermesso>();
+
+		private Scadenza _scadCartaCircolazione, _scadTagliando;
 
 		public IImmagine Foto => _foto;
 		public string Modello => _modello;
@@ -68,6 +75,17 @@ namespace Flotta.Model
 		public ITessera[] Tessere => _tessere.ToArray();
 		public IDispositivo[] Dispositivi => _dispositivi.ToArray();
 		public IPermesso[] Permessi => _permessi.ToArray();
+
+		public Scadenza ScadenzaCartaCircolazione
+		{
+			get => _scadCartaCircolazione;
+			set => _scadCartaCircolazione = value;
+		}
+		public Scadenza ScadenzaTagliando
+		{
+			get => _scadTagliando;
+			set => _scadTagliando = value;
+		}
 
 		private bool CheckType(IEnumerable<LinkedType> array)
 		{
@@ -144,17 +162,24 @@ namespace Flotta.Model
 			if (volumeCarico < 0)
 				errors.Add("Il volume di carico deve essere positivo o 0 per non specificato");
 
-			if (!CheckType(from t in tessere select t.Type))
+
+			if (tessere.Any((ITessera t) => t.Mezzo != this))
+				errors.Add("Una o più tessere non appartengono al mezzo corrente");
+			else if (!CheckType(from t in tessere select t.Type))
 				errors.Add("Una o più tipi di tessera sono stati usati più di una volta");
 			else if ((from t in tessere select t.IsValid).Contains(false))
 				errors.Add("Una o più tessere non sono valide");
 
-			if (!CheckType(from d in dispositivi select d.Type))
+			if (dispositivi.Any((IDispositivo d) => d.Mezzo != this))
+				errors.Add("Uno o più dispositivi non appartengono al mezzo corrente");
+			else if (!CheckType(from d in dispositivi select d.Type))
 				errors.Add("Una o più tipi di dispositivo sono stati usati più di una volta");
 			else if ((from d in dispositivi select d.IsValid).Contains(false))
 				errors.Add("Una o più dispositivi non sono validi");
 
-			if (!CheckType(from p in permessi select p.Type))
+			if (permessi.Any((IPermesso p) => p.Mezzo != this))
+				errors.Add("Uno o più permessi non appartengono al mezzo corrente");
+			else if (!CheckType(from p in permessi select p.Type))
 				errors.Add("Una o più tipi di permesso sono stati usati più di una volta");
 			else if ((from p in permessi select p.IsValid).Contains(false))
 				errors.Add("Una o più permessi non sono validi");

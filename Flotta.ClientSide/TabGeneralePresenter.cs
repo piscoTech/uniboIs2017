@@ -229,7 +229,7 @@ namespace Flotta.ClientSide
 				tesseraDialog.Pin = t?.Pin ?? "";
 				tesseraDialog.Validation = () =>
 				{
-					var tess = t ?? ModelFactory.NewTessera(tt);
+					var tess = t ?? ModelFactory.NewTessera(Mezzo, tt);
 					var errors = tess.Update(tesseraDialog.Codice, tesseraDialog.Pin);
 					if (errors.Count() > 0)
 					{
@@ -271,7 +271,7 @@ namespace Flotta.ClientSide
 			_view.RefreshTessere();
 		}
 
-		private bool OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item, List<O> list, Func<T, O> createNew) where T : LinkedType where O : class, ILinkedObjectWithPDF<T>
+		private bool OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item, List<O> list, Func<IMezzo, T, O> createNew) where T : LinkedType where O : class, ILinkedObjectWithPDF<T>
 		{
 			if (!_editMode)
 				return false;
@@ -286,7 +286,7 @@ namespace Flotta.ClientSide
 				objDialog.Path = o?.Allegato?.Path ?? "";
 				objDialog.Validation = () =>
 				{
-					var obj = o ?? createNew(type);
+					var obj = o ?? createNew(Mezzo, type);
 					// Files are not supported, all attachment will be null
 					var errors = obj.Update(null);
 					if (errors.Count() > 0)
@@ -353,7 +353,7 @@ namespace Flotta.ClientSide
 			if (!EditMode)
 				return;
 
-			var errors = _server.UpdateMezzo(null, Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroCartaCircolazione,
+			var errors = _server.UpdateMezzo(Mezzo, null, _view.Modello, _view.Targa, _view.Numero, _view.NumeroCartaCircolazione,
 											 null, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata,
 											 _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico,
 											 _tessereTmp, _dispositiviTmp, _permessiTmp);

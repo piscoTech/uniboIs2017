@@ -60,6 +60,17 @@
     <Compile Include="Tessera.cs" />
     <Compile Include="TesseraType.cs" />
     <Compile Include="LinkedTypeDescriptor.cs" />
+    <Compile Include="Scadenza.cs" />
+    <Compile Include="ScadenzaIllimitata.cs" />
+    <Compile Include="ScadenzaManuale.cs" />
+    <Compile Include="ScadenzaTypeDescriptor.cs" />
+    <Compile Include="ScadenzaFormat.cs" />
+    <Compile Include="ScadenzaFormatDescriptor.cs" />
+    <Compile Include="ScadenzaRecurrencyType.cs" />
+    <Compile Include="ScadenzaRecurrencyTypeDescriptor.cs" />
+    <Compile Include="ScadenzaRicorrente.cs" />
+    <Compile Include="MezzoScadenzaAdapter.cs" />
+    <Compile Include="IScadenzaAdapter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -69,7 +69,19 @@
     <Compile Include="NewMezzoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TabScadenzeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabScadenzeView.Designer.cs">
+      <DependentUpon>TabScadenzeView.cs</DependentUpon>
+    </Compile>
     <Compile Include="TesseraListItem.cs" />
+    <Compile Include="RenewScadenzaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RenewScadenzaDialog.Designer.cs">
+      <DependentUpon>RenewScadenzaDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateLinkedTypeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,12 +104,19 @@
     <Compile Include="UpdateDispositivoPermessoDialog.Designer.cs">
       <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateScadenzaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateScadenzaDialog.Designer.cs">
+      <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateTesseraDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UpdateTesseraDialog.Designer.cs">
       <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScadenzaListItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientWindow.resx">
@@ -112,14 +131,23 @@
     <EmbeddedResource Include="LinkedTypeManagerWindow.resx">
       <DependentUpon>LinkedTypeManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TabScadenzeView.resx">
+      <DependentUpon>TabScadenzeView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateDispositivoPermessoDialog.resx">
       <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RenewScadenzaDialog.resx">
+      <DependentUpon>RenewScadenzaDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateLinkedTypeDialog.resx">
       <DependentUpon>UpdateLinkedTypeDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabGeneraleView.resx">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateScadenzaDialog.resx">
+      <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateTesseraDialog.resx">
       <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>

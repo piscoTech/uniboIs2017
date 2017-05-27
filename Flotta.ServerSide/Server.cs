@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Flotta.Model;
@@ -18,7 +19,10 @@ namespace Flotta.ServerSide
 		IEnumerable<IMezzo> Mezzi { get; }
 		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
 
-		IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
+		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
+		bool DeleteLinkedType<T>(T obj) where T : LinkedType;
+
+		IEnumerable<string> UpdateMezzo(IMezzo mezzo, IImmagine foto, string modello, string targa, uint numero,
 										string numCartaCircolazione, IPDF cartaCircolazione,
 										string numeroTelaio, uint annoImmatricolazione, float portata,
 										float altezza, float lunghezza, float profondita,
@@ -26,8 +30,7 @@ namespace Flotta.ServerSide
 										IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
 
-		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
-		bool DeleteLinkedType<T>(T obj) where T : LinkedType;
+		void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad);
 	}
 
 	public class Server : IServer
@@ -78,17 +81,43 @@ namespace Flotta.ServerSide
 			perm.Add(pt);
 
 			IMezzo m = ModelFactory.NewMezzo();
-			ITessera t = ModelFactory.NewTessera(tess.ElementAt(1));
+			ITessera t = ModelFactory.NewTessera(m, tess.ElementAt(1));
 			t.Update("123", "7654");
-			IDispositivo d = ModelFactory.NewDispositivo(disp.ElementAt(0));
+			IDispositivo d = ModelFactory.NewDispositivo(m, disp.ElementAt(0));
 			d.Update(null);
 			IPermesso p1, p2;
-			p1 = ModelFactory.NewPermesso(perm.ElementAt(0));
+			p1 = ModelFactory.NewPermesso(m, perm.ElementAt(0));
 			p1.Update(null);
-			p2 = ModelFactory.NewPermesso(perm.ElementAt(1));
+			p2 = ModelFactory.NewPermesso(m, perm.ElementAt(1));
 			p1.Update(null);
 			m.Update(null, "Mezzo 1", "aa000aa", 100, "CRTCIRC123", null, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
+
+			var scad = ModelFactory.GetAllScadenzaTypes();
+			var scadFormat = ModelFactory.GetAllScadenzaFormats();
+			var scadRecur = ModelFactory.GetAllScadenzaRecurrencyTypes();
+
+			Scadenza ts = scad.ElementAt(0).NewInstance;
+			ts.Date = DateTime.Now;
+			ts.Formatter = scadFormat.ElementAt(0).Formatter;
+			t.Scadenza = ts;
+
+			Scadenza ds = scad.ElementAt(1).NewInstance;
+			ds.Date = new DateTime(2017, 8, 1);
+			ds.Formatter = scadFormat.ElementAt(1).Formatter;
+			ds.RecurrencyInterval = 4;
+			ds.RecurrencyType = scadRecur.ElementAt(1).RecurrencyType;
+			d.Scadenza = ds;
+
+			Scadenza ps = scad.ElementAt(2).NewInstance;
+			p1.Scadenza = ps;
+
+			Scadenza ccircs = scad.ElementAt(1).NewInstance;
+			ccircs.Date = new DateTime(2018, 8, 1);
+			ccircs.Formatter = scadFormat.ElementAt(1).Formatter;
+			ccircs.RecurrencyInterval = 2;
+			ccircs.RecurrencyType = scadRecur.ElementAt(2).RecurrencyType;
+			m.ScadenzaCartaCircolazione = ccircs;
 		}
 
 		private Action _createClient;
@@ -160,12 +189,12 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
 
-		public IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
-											   string numCartaCircolazione, IPDF cartaCircolazione,
-											   string numeroTelaio, uint annoImmatricolazione, float portata,
-											   float altezza, float lunghezza, float profondita,
-											   float volumeCarico, IEnumerable<ITessera> tessere,
-											   IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
+		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, IImmagine foto, string modello, string targa, uint numero,
+												string numCartaCircolazione, IPDF cartaCircolazione,
+												string numeroTelaio, uint annoImmatricolazione, float portata,
+												float altezza, float lunghezza, float profondita,
+												float volumeCarico, IEnumerable<ITessera> tessere,
+												IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
 		{
 			if (mezzo == null) throw new ArgumentNullException();
 			List<String> errors = new List<string>();
@@ -178,11 +207,11 @@ namespace Flotta.ServerSide
 			if (targa != null && (from m in _mezzi where m.Targa == targa && m != mezzo select m).Count() > 0)
 				errors.Add("La targa è già utilizzata");
 
-			if (!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in GetLinkedTypesSet<ITesseraType>() select t))
+			if ((from t in tessere select t.Type).Any((ITesseraType t) => !GetLinkedTypes<ITesseraType>().Contains(t)))
 				errors.Add("Uno o più tipi di tessere non esistono");
-			if (!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in GetLinkedTypesSet<IDispositivoType>() select d))
+			if ((from d in dispositivi select d.Type).Any((IDispositivoType d) => !GetLinkedTypes<IDispositivoType>().Contains(d)))
 				errors.Add("Uno o più tipi di dispositivi non esistono");
-			if (!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in GetLinkedTypesSet<IPermessoType>() select p))
+			if ((from p in permessi select p.Type).Any((IPermessoType p) => !GetLinkedTypesSet<IPermessoType>().Contains(p)))
 				errors.Add("Uno o più tipi di permessi non esistono");
 
 			if (errors.Count > 0)
@@ -286,6 +315,13 @@ namespace Flotta.ServerSide
 
 				return false;
 			}
+		}
+
+		public void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad)
+		{
+			scadOwner.Scadenza = scad;
+			ObjectChanged(scadOwner);
+			Log("La scadenza " + scadOwner.ScadenzaName + " del mezzo " + scadOwner.Mezzo.Numero + " è stata modificata");
 		}
 	}
 }

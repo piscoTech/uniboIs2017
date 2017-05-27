@@ -57,5 +57,20 @@ namespace Flotta.ClientSide.Interface
 		{
 			return new UpdateDispositivoPermessoDialog();
 		}
+
+		public static IScadenzaListItem NewScadenzaListItem(string name, string date, bool expired, bool canRenew)
+		{
+			return new ScadenzaListItem(name, date, expired, canRenew);
+		}
+
+		public static IUpdateScadenzaDialog NewUpdateScadenzaDialog()
+		{
+			return new UpdateScadenzaDialog();
+		}
+
+		public static IRenewScadenzaDialog NewRenewScadenzaDialog()
+		{
+			return new RenewScadenzaDialog();
+		}
 	}
 }

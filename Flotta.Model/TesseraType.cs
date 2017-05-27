@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	[LinkedTypeAttribute("Tessere")]
+	[LinkedType("Tessere")]
 	public abstract class ITesseraType : LinkedType
 	{
 	}

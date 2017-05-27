@@ -6,29 +6,41 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IDispositivo : ICloneable, ILinkedObjectWithPDF<IDispositivoType>
+	public interface IDispositivo : ICloneable, ILinkedObjectWithPDF<IDispositivoType>, IScadenzaAdapter
 	{
 		bool IsValid { get; }
 	}
 
 	internal class Dispositivo : IDispositivo
 	{
+		private IMezzo _mezzo;
 		private IDispositivoType _type;
 		private IPDF _allegato;
+		private Scadenza _scadenza;
 
-		internal Dispositivo(IDispositivoType type)
+		internal Dispositivo(IMezzo mezzo, IDispositivoType type)
 		{
+			_mezzo = mezzo;
 			_type = type;
 		}
 
-		private Dispositivo(IDispositivoType type, IPDF allegato)
+		private Dispositivo(IMezzo mezzo, IDispositivoType type, IPDF allegato)
 		{
+			_mezzo = mezzo;
 			_type = type;
 			_allegato = allegato;
 		}
 
+		public IMezzo Mezzo => _mezzo;
 		public IDispositivoType Type => _type;
 		public IPDF Allegato => _allegato;
+
+		public Scadenza Scadenza
+		{
+			get => _scadenza;
+			set => _scadenza = value;
+		}
+		public string ScadenzaName => "Dispositivo: " + _type.Name;
 
 		public IEnumerable<string> Update(IPDF allegato)
 		{
@@ -43,8 +55,7 @@ namespace Flotta.Model
 
 		public object Clone()
 		{
-			// Also copy the reference to scadenza
-			return new Dispositivo(_type, _allegato);
+			return new Dispositivo(_mezzo, _type, _allegato) { Scadenza = _scadenza };
 		}
 	}
 }

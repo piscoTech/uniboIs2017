@@ -50,6 +50,8 @@
     <Compile Include="NewMezzoPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabGeneralePresenter.cs" />
+    <Compile Include="TabScadenzePresenter.cs" />
+    <Compile Include="UpdateScadenzaPresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj">
