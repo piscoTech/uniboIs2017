@@ -12,9 +12,10 @@ namespace Flotta.Model
 		DateTime Data { get; }
 		string Note { get; }
 		float Costo { get; }
+		IOfficina Officina { get; }
 		IPDF Allegato { get; }
 
-		IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float costo, IPDF allegato);
+		IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float costo, IPDF allegato, IOfficina officina);
 	}
 
 	internal class Manutenzione : IManutenzione
@@ -24,6 +25,7 @@ namespace Flotta.Model
 		private IManutenzioneType _type;
 		private string _note;
 		private float _costo;
+		private IOfficina _officina;
 		private IPDF _allegato;
 
 		internal Manutenzione(IMezzo mezzo)
@@ -40,8 +42,9 @@ namespace Flotta.Model
 		public IManutenzioneType Type => _type;
 		public IPDF Allegato => _allegato;
 		public IMezzo Mezzo => _mezzo;
+		public IOfficina Officina => _officina;
 
-		public IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float c, IPDF allegato)
+		public IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float c, IPDF allegato, IOfficina officina)
 		{
 			List<string> errors = new List<string>();
 			if (t == null)
@@ -63,6 +66,7 @@ namespace Flotta.Model
 			_note = n;
 			_costo = c;
 			_allegato = allegato;
+			_officina = officina;
 
 			return errors;
 		}

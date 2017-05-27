@@ -15,6 +15,7 @@ namespace Flotta.ClientSide
 		private IServer _server;
 		private IManutenzione _manutenzione;
 		private List<IManutenzioneType> _types;
+		private List<IOfficina> _officine;
 
 		private IUpdateManutenzioneDialog _window;
 
@@ -31,7 +32,7 @@ namespace Flotta.ClientSide
 			{
 				var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,
 													_types.ElementAtOrDefault(_window.Tipo),
-													_window.Costo, null);
+													_window.Costo, null, _officine.ElementAt(_window.Officina));
 
 				if (errors.Count() > 0)
 				{
@@ -53,15 +54,20 @@ namespace Flotta.ClientSide
 			_types = (from m in _server.GetLinkedTypes<IManutenzioneType>()
 					  where !m.IsDisabled || (_manutenzione.Type != null && m == _manutenzione.Type)
 					  select m).ToList();
-			// save list of officine
+			
+			_officine = (from o in _server.Officine select o).ToList();
 
 			_window.Types = (from t in _types select t.Name).ToList();
-			// set list of officine
+			
+			_window.Officine = (from o in _officine select o.Nome).ToList();
 
-			int index = _types.IndexOf(_manutenzione.Type);
-			if (index >= 0)
-				_window.Tipo = index;
-			// select appropriate officina
+			int indexTipo = _types.IndexOf(_manutenzione.Type);
+			if (indexTipo >= 0)
+				_window.Tipo = indexTipo;
+
+			int indexOfficina = _officine.IndexOf(_manutenzione.Officina);
+			if (indexOfficina >= 0)
+				_window.Officina = indexOfficina;
 		}
 
 		private void OnObjectChangedRemoved(IDBObject obj)

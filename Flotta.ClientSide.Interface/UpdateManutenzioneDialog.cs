@@ -17,7 +17,9 @@ namespace Flotta.ClientSide.Interface
 		DateTime Data { get; set; }
 		string Note { get; set; }
 		int Tipo { get; set; }
+		int Officina { get; set; }
 		IList<string> Types { set; }
+		IList<string> Officine { set; }
 		float Costo { get; set; }
 
 		Func<bool> Validation { set; }
@@ -51,9 +53,20 @@ namespace Flotta.ClientSide.Interface
 			set => type.SelectedIndex = value;
 		}
 
+		public int Officina
+		{
+			get => officina.SelectedIndex;
+			set => officina.SelectedIndex = value;
+		}
+
 		public IList<string> Types
 		{
 			set => type.DataSource = value;
+		}
+
+		public IList<string> Officine
+		{
+			set => officina.DataSource = value;
 		}
 
 		public float Costo

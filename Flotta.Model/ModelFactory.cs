@@ -70,5 +70,10 @@ namespace Flotta.Model
 		{
 			return new Manutenzione(mezzo);
 		}
+	
+	public static IOfficina NewOfficina(string nome, string telefono, string via, string cap, string citta, string provincia, string nazione)
+		{
+			return new Officina(nome, telefono, via, cap, citta, provincia, nazione);
+		}
 	}
 }

@@ -29,6 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.manutenzioniList = new System.Windows.Forms.DataGridView();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.button1 = new System.Windows.Forms.Button();
 			this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Note = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,8 +39,6 @@
 			this.Allegato = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Modifica = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.Elimina = new System.Windows.Forms.DataGridViewButtonColumn();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.button1 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.manutenzioniList)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
@@ -52,14 +52,14 @@
 			this.manutenzioniList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.manutenzioniList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.manutenzioniList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.Data,
-			this.Tipo,
-			this.Note,
-			this.Officina,
-			this.Costo,
-			this.Allegato,
-			this.Modifica,
-			this.Elimina});
+            this.Data,
+            this.Tipo,
+            this.Note,
+            this.Officina,
+            this.Costo,
+            this.Allegato,
+            this.Modifica,
+            this.Elimina});
 			this.manutenzioniList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.manutenzioniList.Location = new System.Drawing.Point(0, 0);
 			this.manutenzioniList.MultiSelect = false;
@@ -69,6 +69,26 @@
 			this.manutenzioniList.Size = new System.Drawing.Size(444, 509);
 			this.manutenzioniList.TabIndex = 0;
 			this.manutenzioniList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnCellClick);
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.button1);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panel1.Location = new System.Drawing.Point(0, 484);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(444, 25);
+			this.panel1.TabIndex = 1;
+			// 
+			// button1
+			// 
+			this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+			this.button1.Location = new System.Drawing.Point(369, 0);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 25);
+			this.button1.TabIndex = 2;
+			this.button1.Text = "Nuovo";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.OnNewManutenzione);
 			// 
 			// Data
 			// 
@@ -97,6 +117,7 @@
 			// 
 			// Officina
 			// 
+			this.Officina.DataPropertyName = "Officina";
 			this.Officina.HeaderText = "Officina";
 			this.Officina.Name = "Officina";
 			this.Officina.ReadOnly = true;
@@ -144,26 +165,6 @@
 			this.Elimina.Text = "Elimina";
 			this.Elimina.UseColumnTextForButtonValue = true;
 			this.Elimina.Width = 60;
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.button1);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 484);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(444, 25);
-			this.panel1.TabIndex = 1;
-			// 
-			// button1
-			// 
-			this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.button1.Location = new System.Drawing.Point(369, 0);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 25);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "Nuovo";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.OnNewManutenzione);
 			// 
 			// TabManutenzioniView
 			// 

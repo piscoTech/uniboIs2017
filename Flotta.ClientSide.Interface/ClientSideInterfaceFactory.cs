@@ -63,9 +63,9 @@ namespace Flotta.ClientSide.Interface
 			return new UpdateManutenzioneDialog();
 		}
 
-		public static IManutenzioneListItem NewManutenzioneListItem(string date, string note, string tipo, float costo, string allegatoPath)
+		public static IManutenzioneListItem NewManutenzioneListItem(string date, string note, string tipo, float costo, string allegatoPath, string officina)
 		{
-			return new ManutenzioneListItem(date, note, tipo, costo, allegatoPath);
+			return new ManutenzioneListItem(date, note, tipo, costo, allegatoPath, officina);
 		}
 	}
 }

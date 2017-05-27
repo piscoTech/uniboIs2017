@@ -16,6 +16,7 @@ namespace Flotta.ServerSide
 		event Action<IDBObject> ObjectRemoved;
 
 		IEnumerable<IMezzo> Mezzi { get; }
+		IEnumerable<IOfficina> Officine { get; }
 		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
 
 		IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
@@ -27,7 +28,7 @@ namespace Flotta.ServerSide
 		bool DeleteMezzo(IMezzo mezzo);
 
 		void DeleteManutenzione(IManutenzione m);
-		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato);
+		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato, IOfficina officina);
 
 		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
 		bool DeleteLinkedType<T>(T obj) where T : LinkedType;
@@ -38,6 +39,7 @@ namespace Flotta.ServerSide
 
 		private IServerWindow _window;
 		private HashSet<IMezzo> _mezzi = new HashSet<IMezzo>();
+		private List<IOfficina> _officine = new List<IOfficina>();
 
 		private Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
 
@@ -102,8 +104,11 @@ namespace Flotta.ServerSide
 			m.Update(null, "Mezzo 1", "aa000aa", 100, "CRTCIRC123", null, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
 
+			IOfficina off = ModelFactory.NewOfficina("aggiustaStaMinchia", "0541243657", "via culo", "47865", "san porcaccio", "DP", "Italia");
+			_officine.Add(off);
+
 			IManutenzione man = ModelFactory.NewManutenzione(m);
-			man.Update(DateTime.Now, manut.ElementAt(0), "Note", 10, null);
+			man.Update(DateTime.Now, manut.ElementAt(0), "Note", 10, null, off);
 			m.AddManutenzione(man);
 		}
 
@@ -166,6 +171,7 @@ namespace Flotta.ServerSide
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
+		public IEnumerable<IOfficina> Officine => from o in _officine select o; 
 
 		public IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
 											   string numCartaCircolazione, IPDF cartaCircolazione,
@@ -281,7 +287,7 @@ namespace Flotta.ServerSide
 			}
 		}
 
-		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato)
+		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato, IOfficina officina)
 		{
 			List<String> errors = new List<string>();
 
@@ -291,7 +297,7 @@ namespace Flotta.ServerSide
 			if (errors.Count() > 0)
 				return errors;
 
-			errors.AddRange(manutenzione.Update(data, tipo, note, costo, allegato));
+			errors.AddRange(manutenzione.Update(data, tipo, note, costo, allegato, officina));
 
 			if (errors.Count() > 0)
 				return errors;

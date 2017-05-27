@@ -27,6 +27,16 @@ namespace Flotta.Model
 		private string _provincia;
 		private string _nazione;
 
+		public Officina(string nome, string telefono, string via, string cap, string citta, string provincia, string nazione)
+		{
+			_nome = nome;
+			_telefono = telefono;
+			_via = via;
+			_cap = cap;
+			_citta = citta;
+			_provincia = provincia;
+			_nazione = nazione;
+	}
 
 		public string Nome
 		{

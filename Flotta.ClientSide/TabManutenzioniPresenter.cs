@@ -45,7 +45,8 @@ namespace Flotta.ClientSide
 																							   m.Note,
 																							   m.Type.Name,
 																							   m.Costo,
-																							   m.Allegato?.Path)).ToList();
+																							   m.Allegato?.Path,
+																							   m.Officina.Nome)).ToList();
 			_view.Manutenzioni = _manutenzioneListItem;
 		}
 
@@ -112,6 +113,7 @@ namespace Flotta.ClientSide
 					item.Note = m.Note;
 					item.Costo = m.Costo;
 					item.AllegatoPath = m.Allegato?.Path;
+					item.Officina = m.Officina.Nome;
 
 					_view.RefreshManutenzioni();
 				}
