@@ -21,6 +21,7 @@ namespace Flotta.ClientSide.Interface
 		event Action WindowClose;
 		event Action<int> MezzoSelected;
 		event Action CreateNewMezzo;
+		event Action ManageOfficine;
 
 		void AddNewLinkedType(string title, Action handler);
 	}
@@ -111,6 +112,12 @@ namespace Flotta.ClientSide.Interface
 			item.Click += (object sender, EventArgs e) => handler();
 
 			tipiToolStripMenuItem.DropDownItems.Add(item);
+		}
+
+		public event Action ManageOfficine;
+		private void OnManageOfficine(object sender, EventArgs e)
+		{
+			ManageOfficine?.Invoke();
 		}
 	}
 }

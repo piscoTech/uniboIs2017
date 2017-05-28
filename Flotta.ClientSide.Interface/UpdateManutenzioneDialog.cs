@@ -90,7 +90,7 @@ namespace Flotta.ClientSide.Interface
 			set => _validation = value;
 		}
 
-		private void OnSaveManutenzione(object sender, EventArgs e)
+		private void OnSave(object sender, EventArgs e)
 		{
 			this.DialogResult = (_validation?.Invoke() ?? false) ? DialogResult.OK : DialogResult.None;
 		}

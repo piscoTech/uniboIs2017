@@ -23,10 +23,10 @@ namespace Flotta.ClientSide
 		private IClientWindow _mainWindow;
 
 		private MezzoTabPresenter _mezzoPresenter;
-		private IClosablePresenter _typesPresenter;
+		private IPresenter _typesPresenter;
+		private IWindowPresenter _officinePresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
-		
 
 		internal Client(IServer server)
 		{
@@ -41,6 +41,7 @@ namespace Flotta.ClientSide
 			_mainWindow.WindowClose += Exit;
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
+			_mainWindow.ManageOfficine += OnManageOfficine;
 
 			foreach (var type in ModelFactory.GetAllLinkedTypes())
 			{
@@ -56,7 +57,7 @@ namespace Flotta.ClientSide
 															 null,
 															 new Object[] { _server, window, type.Description },
 															 null
-															) as IClosablePresenter;
+															) as IPresenter;
 					_typesPresenter = presenter;
 
 					window.Show();
@@ -75,8 +76,6 @@ namespace Flotta.ClientSide
 			_mezziList = _server.Mezzi.ToList();
 			_mainWindow.MezziList = from m in _mezziList select ClientSideInterfaceFactory.NewMezzoListItem(m.Numero, m.Modello, m.Targa);
 		}
-
-	
 
 		private void OnObjectChanged(IDBObject obj)
 		{
@@ -123,6 +122,12 @@ namespace Flotta.ClientSide
 			}
 		}
 
+		private void OnManageOfficine()
+		{
+			_officinePresenter = new OfficinaManagerPresenter(_server);
+			_officinePresenter.PresenterClosed += () => _officinePresenter = null;
+			_officinePresenter.Show();
+		}
 
 		private void OnNewMezzoCreated(bool created)
 		{

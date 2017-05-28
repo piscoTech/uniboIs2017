@@ -123,7 +123,7 @@
 			this.saveBtn.Text = "Salva";
 			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.saveBtn.UseVisualStyleBackColor = true;
-			this.saveBtn.Click += new System.EventHandler(this.OnSaveManutenzione);
+			this.saveBtn.Click += new System.EventHandler(this.OnSave);
 			// 
 			// cancelBtn
 			// 
@@ -191,6 +191,7 @@
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.btnPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
 			this.Name = "NewManutenzioneDialog";
 			this.Text = "Modifica manutenzione – Flotta";
 			this.btnPanel.ResumeLayout(false);

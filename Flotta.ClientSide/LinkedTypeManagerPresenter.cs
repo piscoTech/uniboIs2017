@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class LinkedTypeManagerPresenter<T> : IClosablePresenter where T : LinkedType
+	class LinkedTypeManagerPresenter<T> : IPresenter where T : LinkedType
 	{
 		private IServer _server;
 		private ILinkedTypeManagerWindow _window;
@@ -110,6 +110,7 @@ namespace Flotta.ClientSide
 			}
 		}
 
+		public event Action PresenterClosed;
 		public void Close()
 		{
 			_updateDialog?.Close();

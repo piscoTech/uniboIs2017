@@ -16,8 +16,8 @@ namespace Flotta.ServerSide
 		event Action<IDBObject> ObjectRemoved;
 
 		IEnumerable<IMezzo> Mezzi { get; }
-		IEnumerable<IOfficina> Officine { get; }
 		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
+		IEnumerable<IOfficina> Officine { get; }
 
 		IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
 										string numCartaCircolazione, IPDF cartaCircolazione,
@@ -32,13 +32,16 @@ namespace Flotta.ServerSide
 
 		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
 		bool DeleteLinkedType<T>(T obj) where T : LinkedType;
+
+		IEnumerable<string> UpdateOfficina(IOfficina officina, string nome, string telefono, string via, string cap, string citta, string provincia, string nazione);
+		bool DeleteOfficina(IOfficina off);
 	}
 
 	public class Server : IServer
 	{
 
 		private IServerWindow _window;
-		private HashSet<IMezzo> _mezzi = new HashSet<IMezzo>();
+		private List<IMezzo> _mezzi = new List<IMezzo>();
 		private List<IOfficina> _officine = new List<IOfficina>();
 
 		private Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
@@ -55,7 +58,7 @@ namespace Flotta.ServerSide
 
 		private void FillDatabase()
 		{
-			var tess = GetLinkedTypesSet<ITesseraType>();
+			var tess = GetLinkedTypesList<ITesseraType>();
 			ITesseraType tt = ModelFactory.NewLinkedType<ITesseraType>();
 			tt.Update("Tessera 1");
 			tess.Add(tt);
@@ -64,7 +67,7 @@ namespace Flotta.ServerSide
 			tt.Disable();
 			tess.Add(tt);
 
-			var disp = GetLinkedTypesSet<IDispositivoType>();
+			var disp = GetLinkedTypesList<IDispositivoType>();
 			IDispositivoType dt = ModelFactory.NewLinkedType<IDispositivoType>();
 			dt.Update("Dispositivo 1");
 			dt.Disable();
@@ -73,7 +76,7 @@ namespace Flotta.ServerSide
 			dt.Update("Dispositivo 2");
 			disp.Add(dt);
 
-			var perm = GetLinkedTypesSet<IPermessoType>();
+			var perm = GetLinkedTypesList<IPermessoType>();
 			IPermessoType pt = ModelFactory.NewLinkedType<IPermessoType>();
 			pt.Update("Permesso 1");
 			perm.Add(pt);
@@ -82,7 +85,7 @@ namespace Flotta.ServerSide
 			pt.Disable();
 			perm.Add(pt);
 
-			var manut = GetLinkedTypesSet<IManutenzioneType>();
+			var manut = GetLinkedTypesList<IManutenzioneType>();
 			IManutenzioneType mt = ModelFactory.NewLinkedType<IManutenzioneType>();
 			mt.Update("Manutenzione 1");
 			mt.Disable();
@@ -104,7 +107,8 @@ namespace Flotta.ServerSide
 			m.Update(null, "Mezzo 1", "aa000aa", 100, "CRTCIRC123", null, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
 
-			IOfficina off = ModelFactory.NewOfficina("aggiustaStaMinchia", "0541243657", "via culo", "47865", "san porcaccio", "DP", "Italia");
+			IOfficina off = ModelFactory.NewOfficina();
+			off.Update("Officina 1", "051123456", "Via Prova 1", "01234", "Bologna", "Bo", "Italia");
 			_officine.Add(off);
 
 			IManutenzione man = ModelFactory.NewManutenzione(m);
@@ -154,24 +158,25 @@ namespace Flotta.ServerSide
 			_createClient?.Invoke();
 		}
 
-		private HashSet<T> GetLinkedTypesSet<T>() where T : LinkedType
+		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
+
+		private List<T> GetLinkedTypesList<T>() where T : LinkedType
 		{
 			Type t = typeof(T);
 			if (!t.IsAbstract)
 				throw new ArgumentException("Type is not an abstract LinkedType");
 
 			if (!_linkedTypesList.ContainsKey(t))
-				_linkedTypesList.Add(t, new HashSet<T>());
+				_linkedTypesList.Add(t, new List<T>());
 
-			return _linkedTypesList[t] as HashSet<T>;
+			return _linkedTypesList[t] as List<T>;
 		}
 		public IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType
 		{
-			return GetLinkedTypesSet<T>();
+			return from t in GetLinkedTypesList<T>() orderby t.Name select t;
 		}
 
-		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
-		public IEnumerable<IOfficina> Officine => from o in _officine select o; 
+		public IEnumerable<IOfficina> Officine => from o in _officine orderby o.Nome select o;
 
 		public IEnumerable<string> UpdateMezzo(IImmagine foto, IMezzo mezzo, string modello, string targa, uint numero,
 											   string numCartaCircolazione, IPDF cartaCircolazione,
@@ -191,11 +196,11 @@ namespace Flotta.ServerSide
 			if (targa != null && (from m in _mezzi where m.Targa == targa && m != mezzo select m).Count() > 0)
 				errors.Add("La targa è già utilizzata");
 
-			if (!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in GetLinkedTypesSet<ITesseraType>() select t))
+			if (!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in GetLinkedTypesList<ITesseraType>() select t))
 				errors.Add("Uno o più tipi di tessere non esistono");
-			if (!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in GetLinkedTypesSet<IDispositivoType>() select d))
+			if (!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in GetLinkedTypesList<IDispositivoType>() select d))
 				errors.Add("Uno o più tipi di dispositivi non esistono");
-			if (!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in GetLinkedTypesSet<IPermessoType>() select p))
+			if (!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in GetLinkedTypesList<IPermessoType>() select p))
 				errors.Add("Uno o più tipi di permessi non esistono");
 
 			if (errors.Count > 0)
@@ -234,7 +239,7 @@ namespace Flotta.ServerSide
 		{
 			if (obj == null)
 				throw new ArgumentNullException();
-			var list = GetLinkedTypesSet<T>();
+			var list = GetLinkedTypesList<T>();
 
 			List<string> errors = new List<string>();
 			name = name?.Trim();
@@ -267,7 +272,7 @@ namespace Flotta.ServerSide
 
 		public bool DeleteLinkedType<T>(T obj) where T : LinkedType
 		{
-			var list = GetLinkedTypesSet<T>();
+			var list = GetLinkedTypesList<T>();
 
 			if (obj.ShouldDisableInsteadOfDelete(_mezzi))
 			{
@@ -294,6 +299,9 @@ namespace Flotta.ServerSide
 			if (tipo != null && !GetLinkedTypes<IManutenzioneType>().Contains(tipo))
 				errors.Add("Il tipo di manutenzione non esiste");
 
+			if (officina != null && !_officine.Contains(officina))
+				errors.Add("L'officina non esiste");
+
 			if (errors.Count() > 0)
 				return errors;
 
@@ -313,6 +321,50 @@ namespace Flotta.ServerSide
 		{
 			m.Mezzo.RemoveManutenzione(m);
 			ObjectRemoved(m);
+		}
+
+		public IEnumerable<string> UpdateOfficina(IOfficina officina, string nome, string telefono, string via, string cap, string citta, string provincia, string nazione)
+		{
+			List<string> errors = new List<string>();
+			nome = nome?.Trim();
+			if (nome != null && (from o in _officine where o.Nome == nome && o != officina select o).Count() > 0)
+				errors.Add("Il nome è già utilizzato");
+
+			if (errors.Count > 0)
+				return errors;
+
+			errors.AddRange(officina.Update(nome, telefono, via, cap, citta, provincia, nazione));
+			if (errors.Count > 0)
+				return errors;
+			else
+			{
+				if (!_officine.Contains(officina))
+					_officine.Add(officina);
+
+				ObjectChanged(officina);
+			}
+
+			return errors;
+		}
+
+		public bool DeleteOfficina(IOfficina off)
+		{
+			if (off.ShouldDisableInsteadOfDelete(_mezzi))
+			{
+				off.Disable();
+				ObjectChanged(off);
+				return true;
+			}
+			else
+			{
+				if (_officine.Contains(off) && _officine.Remove(off))
+				{
+					ObjectRemoved(off);
+					return true;
+				}
+
+				return false;
+			}
 		}
 	}
 }

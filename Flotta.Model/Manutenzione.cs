@@ -55,6 +55,9 @@ namespace Flotta.Model
 
 			n = n?.Trim() ?? "";
 
+			if (officina == null)
+				errors.Add("Officina non valida");
+
 			if (c <= 0)
 				errors.Add("Il costo deve essere positivo");
 

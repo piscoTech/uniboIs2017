@@ -67,5 +67,15 @@ namespace Flotta.ClientSide.Interface
 		{
 			return new ManutenzioneListItem(date, note, tipo, costo, allegatoPath, officina);
 		}
+
+		public static IOfficinaManagerWindow NewOfficinaManagerWindow()
+		{
+			return new OfficinaManagerWindow();
+		}
+
+		public static IUpdateOfficinaDialog NewUpdateOfficinaDialog()
+		{
+			return new UpdateOfficinaDialog();
+		}
 	}
 }

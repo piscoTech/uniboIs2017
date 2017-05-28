@@ -53,6 +53,12 @@
     <Compile Include="DispositivoPermessoListItem.cs" />
     <Compile Include="ICloseableDisposable.cs" />
     <Compile Include="LinkedTypeListItem.cs" />
+    <Compile Include="OfficinaManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OfficinaManagerWindow.Designer.cs">
+      <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="LinkedTypeManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +111,12 @@
     <Compile Include="UpdateDispositivoPermessoDialog.Designer.cs">
       <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateOfficinaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateOfficinaDialog.Designer.cs">
+      <DependentUpon>UpdateOfficinaDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateTesseraDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +127,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ClientWindow.resx">
       <DependentUpon>ClientWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OfficinaManagerWindow.resx">
+      <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MezzoTabView.resx">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
@@ -139,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TabGeneraleView.resx">
       <DependentUpon>TabGeneraleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateOfficinaDialog.resx">
+      <DependentUpon>UpdateOfficinaDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateTesseraDialog.resx">
       <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>

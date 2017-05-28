@@ -75,17 +75,6 @@ namespace Flotta.Model
 		public IEnumerable<IPermesso> Permessi => _permessi;
 		public IEnumerable<IManutenzione> Manutenzioni => _manutenzioni;
 
-		public void AddManutenzione(IManutenzione m)
-		{
-			if (!_manutenzioni.Contains(m))
-				_manutenzioni.Add(m);
-		}
-
-		public void RemoveManutenzione(IManutenzione m)
-		{
-			_manutenzioni.Remove(m);
-		}
-
 		private bool CheckType(IEnumerable<LinkedType> array)
 		{
 			List<LinkedType> o = new List<LinkedType>();
@@ -236,6 +225,27 @@ namespace Flotta.Model
 			}
 
 			return errors;
+		}
+
+		public void AddManutenzione(IManutenzione m)
+		{
+			if (m == null || m.Mezzo == null)
+				throw new ArgumentException("Null manutenzione or not linked to mezzo");
+			else if (m.Mezzo != this)
+				throw new ArgumentException("Manutenzione linked to different mezzo");
+
+			if (!_manutenzioni.Contains(m))
+				_manutenzioni.Add(m);
+		}
+
+		public void RemoveManutenzione(IManutenzione m)
+		{
+			if (m == null || m.Mezzo == null)
+				throw new ArgumentException("Null manutenzione or not linked to mezzo");
+			else if (m.Mezzo != this)
+				throw new ArgumentException("Manutenzione linked to different mezzo");
+
+			_manutenzioni.Remove(m);
 		}
 	}
 }

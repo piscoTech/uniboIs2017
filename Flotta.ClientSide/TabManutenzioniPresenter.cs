@@ -87,7 +87,7 @@ namespace Flotta.ClientSide
 
 		private void OnObjectChanged(IDBObject o)
 		{
-			if (o is IManutenzioneType)
+			if (o is IManutenzioneType || o is IOfficina)
 				Reload();
 			else if (o is IManutenzione m && m.Mezzo == _tabs.Mezzo)
 			{

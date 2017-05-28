@@ -31,8 +31,8 @@ namespace Flotta.ClientSide
 			_window.Validation = () =>
 			{
 				var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,
-													_types.ElementAtOrDefault(_window.Tipo),
-													_window.Costo, null, _officine.ElementAt(_window.Officina));
+														_types.ElementAtOrDefault(_window.Tipo), _window.Costo,
+														null, _officine.ElementAtOrDefault(_window.Officina));
 
 				if (errors.Count() > 0)
 				{
@@ -54,11 +54,13 @@ namespace Flotta.ClientSide
 			_types = (from m in _server.GetLinkedTypes<IManutenzioneType>()
 					  where !m.IsDisabled || (_manutenzione.Type != null && m == _manutenzione.Type)
 					  select m).ToList();
-			
-			_officine = (from o in _server.Officine select o).ToList();
+
+			_officine = (from o in _server.Officine
+						 where !o.IsDisabled || (_manutenzione.Officina != null && o == _manutenzione.Officina)
+						 select o).ToList();
 
 			_window.Types = (from t in _types select t.Name).ToList();
-			
+
 			_window.Officine = (from o in _officine select o.Nome).ToList();
 
 			int indexTipo = _types.IndexOf(_manutenzione.Type);
@@ -72,7 +74,7 @@ namespace Flotta.ClientSide
 
 		private void OnObjectChangedRemoved(IDBObject obj)
 		{
-			if (obj is IManutenzioneType)
+			if (obj is IManutenzioneType || obj is IOfficina)
 				ReloadLists();
 		}
 
