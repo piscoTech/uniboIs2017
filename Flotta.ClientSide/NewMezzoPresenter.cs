@@ -10,10 +10,9 @@ using Flotta.ServerSide;
 
 namespace Flotta.ClientSide
 {
-	class NewMezzoPresenter
+	class NewMezzoPresenter : IDialogPresenter
 	{
 		private IServer _server;
-		private bool _saved = false;
 		private IMezzo _mezzo = ModelFactory.NewMezzo();
 
 		private List<ITessera> _tessere = new List<ITessera>();
@@ -22,32 +21,43 @@ namespace Flotta.ClientSide
 		private INewMezzoDialog _window;
 		private TabGeneralePresenter _presenter;
 
-		internal NewMezzoPresenter(IServer server, INewMezzoDialog window)
+		internal NewMezzoPresenter(IServer server)
 		{
 			_server = server;
-			_window = window;
-			_presenter = new TabGeneralePresenter(_server, _mezzo, _window.TabGenerale)
-			{
-				EditMode = true
-			};
-
-			_window.FormClosed += OnCompletion;
-			_presenter.MezzoSaved += OnSave;
 		}
 
-		internal event Action<bool> CreationCompleted;
-		private void OnCompletion(object sender, FormClosedEventArgs e)
+		public void ShowDialog()
 		{
-			CreationCompleted?.Invoke(_saved);
-			_window.Dispose();
+			using (_window = ClientSideInterfaceFactory.NewNewMezzoDialog())
+			{
+				_presenter = new TabGeneralePresenter(_server, _mezzo, _window.TabGenerale)
+				{
+					EditMode = true
+				};
+
+				_window.FormClosed += (object sender, FormClosedEventArgs e) => Close();
+				_presenter.MezzoSaved += OnSave;
+
+				_window.ShowDialog();
+			}
+			Close();
 		}
 
 		private void OnSave()
 		{
-			_saved = true;
 			_window.ConfirmBeforeClosing = false;
-			_window.Close();
+			Close();
 		}
 
+		public event Action PresenterClosed;
+		public void Close()
+		{
+			var win = _window;
+			_window = null;
+
+			win?.Close();
+			win?.Dispose();
+			PresenterClosed?.Invoke();
+		}
 	}
 }

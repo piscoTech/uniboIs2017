@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using Flotta.ServerSide;
 using Flotta.ServerSide.Interface;
 using Flotta.ClientSide;
-using Flotta.ClientSide.Interface;
 
 namespace Flotta
 {
@@ -37,7 +36,8 @@ namespace Flotta
 			IClient client = ClientSideFactory.NewClientPresenter(_server);
 			_clients.Add(client);
 
-			client.ExitClient += (c) => _clients.Remove(c);
+			client.PresenterClosed += () => _clients.Remove(client);
+			client.Show();
 		}
 	}
 }

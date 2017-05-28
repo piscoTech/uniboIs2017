@@ -10,10 +10,9 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface ILinkedTypeManagerWindow
+	public interface ILinkedTypeManagerWindow : ICloseableDisposable
 	{
 		void Show();
-		void Close();
 		event FormClosedEventHandler FormClosed;
 		IEnumerable<ILinkedTypeListItem> TypeList { set; }
 		string TypeName { set; }

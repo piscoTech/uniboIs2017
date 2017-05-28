@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class UpdateManutenzionePresenter
+	class UpdateManutenzionePresenter : IDialogPresenter
 	{
 		private IServer _server;
 		private IManutenzione _manutenzione;
@@ -19,34 +19,42 @@ namespace Flotta.ClientSide
 
 		private IUpdateManutenzioneDialog _window;
 
-		internal UpdateManutenzionePresenter(IServer server, IManutenzione manut, IUpdateManutenzioneDialog window)
+		internal UpdateManutenzionePresenter(IServer server, IManutenzione manut)
 		{
 			_server = server;
-			_window = window;
 			_manutenzione = manut;
 
 			_server.ObjectChanged += OnObjectChangedRemoved;
 			_server.ObjectRemoved += OnObjectChangedRemoved;
+			_server.ObjectRemoved += OnObjectRemoved;
+		}
 
-			_window.Validation = () =>
+		public void ShowDialog()
+		{
+			using (_window = ClientSideInterfaceFactory.NewUpdateManutenzioneDialog())
 			{
-				var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,
-														_types.ElementAtOrDefault(_window.Tipo), _window.Costo,
-														null, _officine.ElementAtOrDefault(_window.Officina));
-
-				if (errors.Count() > 0)
+				_window.Validation = () =>
 				{
-					MessageBox.Show(String.Join("\r\n", errors), "Errore");
-					return false;
-				}
-				else
-					return true;
-			};
-			_window.Data = manut.Data;
-			_window.Note = manut.Note ?? "";
-			_window.Costo = manut.Costo;
+					var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,
+															_types.ElementAtOrDefault(_window.Tipo), _window.Costo,
+															null, _officine.ElementAtOrDefault(_window.Officina));
 
-			ReloadLists();
+					if (errors.Count() > 0)
+					{
+						MessageBox.Show(String.Join("\r\n", errors), "Errore");
+						return false;
+					}
+					else
+						return true;
+				};
+				_window.Data = _manutenzione.Data;
+				_window.Note = _manutenzione.Note ?? "";
+				_window.Costo = _manutenzione.Costo;
+
+				ReloadLists();
+				_window.ShowDialog();
+			}
+			Close();
 		}
 
 		private void ReloadLists()
@@ -78,10 +86,21 @@ namespace Flotta.ClientSide
 				ReloadLists();
 		}
 
-		internal void Close()
+		private void OnObjectRemoved(IDBObject obj)
 		{
-			_window.Close();
-			_window.Dispose();
+			if (obj is IManutenzione m && m == _manutenzione)
+				Close();
+		}
+
+		public event Action PresenterClosed;
+		public void Close()
+		{
+			var win = _window;
+			_window = null;
+
+			win?.Close();
+			win?.Dispose();
+			PresenterClosed?.Invoke();
 		}
 	}
 }

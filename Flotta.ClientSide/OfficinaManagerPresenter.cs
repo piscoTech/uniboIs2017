@@ -97,6 +97,7 @@ namespace Flotta.ClientSide
 
 			_activePresenter?.Close();
 			win?.Close();
+			win?.Dispose();
 			PresenterClosed?.Invoke();
 		}
 	}

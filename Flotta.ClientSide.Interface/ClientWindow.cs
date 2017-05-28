@@ -11,7 +11,7 @@ using Flotta.ClientSide;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface IClientWindow
+	public interface IClientWindow : ICloseableDisposable
 	{
 		void Show();
 		IEnumerable<IMezzoListItem> MezziList { set; }

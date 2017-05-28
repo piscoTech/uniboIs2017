@@ -18,8 +18,7 @@ namespace Flotta.ClientSide
 		private List<IManutenzione> _manutenzioniList;
 		private List<IManutenzioneListItem> _manutenzioneListItem;
 
-		private IManutenzione _curManut = null;
-		private UpdateManutenzionePresenter _curPresenter = null;
+		private IDialogPresenter _curPresenter = null;
 
 		internal TabManutenzioniPresenter(IServer server, MezzoTabPresenter tabs, ITabManutenzioniView view)
 		{
@@ -29,6 +28,7 @@ namespace Flotta.ClientSide
 
 			_view.ModifyManutenzione += OnModifyManutenzione;
 			_view.DeleteManutenzione += OnDeleteManutenzione;
+			_view.ViewOfficina += OnViewOfficina;
 			_view.NuovaManutenzione += OnNuovaManutenzione;
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;
@@ -54,6 +54,13 @@ namespace Flotta.ClientSide
 		{
 		}
 
+		private void OnViewOfficina(int index)
+		{
+			_curPresenter = new UpdateOfficinaPresenter(_server, _manutenzioniList[index].Officina);
+			_curPresenter.PresenterClosed += () => _curPresenter = null;
+			_curPresenter.ShowDialog();
+		}
+
 		private void OnNuovaManutenzione()
 		{
 			DoEdit(ModelFactory.NewManutenzione(_tabs.Mezzo));
@@ -66,15 +73,9 @@ namespace Flotta.ClientSide
 
 		private void DoEdit(IManutenzione m)
 		{
-			using (IUpdateManutenzioneDialog dialog = ClientSideInterfaceFactory.NewUpdateManutenzioneDialog())
-			{
-				_curManut = m;
-				_curPresenter = new UpdateManutenzionePresenter(_server, _curManut, dialog);
-
-				dialog.ShowDialog();
-			}
-			_curManut = null;
-			_curPresenter = null;
+			_curPresenter = new UpdateManutenzionePresenter(_server, m);
+			_curPresenter.PresenterClosed += () => _curPresenter = null;
+			_curPresenter.ShowDialog();
 		}
 
 		public void OnDeleteManutenzione(int row)
@@ -91,13 +92,6 @@ namespace Flotta.ClientSide
 				Reload();
 			else if (o is IManutenzione m && m.Mezzo == _tabs.Mezzo)
 			{
-				if (m == _curManut)
-				{
-					_curPresenter.Close();
-					_curPresenter = null;
-					_curManut = null;
-				}
-
 				int index = _manutenzioniList.IndexOf(m);
 				if (index < 0)
 				{
@@ -123,16 +117,7 @@ namespace Flotta.ClientSide
 		private void OnObjectRemoved(IDBObject o)
 		{
 			if (o is IManutenzione m && m.Mezzo == _tabs.Mezzo && _manutenzioniList.Contains(m))
-			{
-				if (m == _curManut)
-				{
-					_curPresenter.Close();
-					_curPresenter = null;
-					_curManut = null;
-				}
-
 				Reload();
-			}
 		}
 	}
 }

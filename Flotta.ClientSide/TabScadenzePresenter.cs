@@ -111,7 +111,10 @@ namespace Flotta.ClientSide
 			if (obj is IScadenzaAdapter scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
 			{
 				if (scadOwner == _activeScad)
-					_updatePresenter.Close();
+				{
+					_renewDialog?.Close();
+					_renewDialog?.Dispose();
+				}
 				Reload();
 			}
 		}
@@ -122,18 +125,9 @@ namespace Flotta.ClientSide
 
 		private void OnScadenzaEdit(int index)
 		{
-			_activeScad = _scadenze[index];
-
-			using (var updateDialog = ClientSideInterfaceFactory.NewUpdateScadenzaDialog())
-			{
-				_updatePresenter = new UpdateScadenzaPresenter(updateDialog, _activeScad);
-				if (updateDialog.ShowDialog() == DialogResult.OK)
-				{
-					_server.UpdateScadenza(_activeScad, _updatePresenter.Scadenza);
-				}
-			}
-			_updatePresenter = null;
-			_activeScad = null;
+			_updatePresenter = new UpdateScadenzaPresenter(_server, _scadenze[index]);
+			_updatePresenter.PresenterClosed += () => _updatePresenter = null;
+			_updatePresenter.ShowDialog();
 		}
 
 		private void OnScadenzaRenew(int index)

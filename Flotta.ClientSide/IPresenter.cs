@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.ClientSide
 {
-	interface IPresenter
+	public interface IPresenter
 	{
 		void Close();
 
@@ -18,7 +18,7 @@ namespace Flotta.ClientSide
 		void ShowDialog();
 	}
 
-	interface IWindowPresenter : IPresenter
+	public interface IWindowPresenter : IPresenter
 	{
 		void Show();
 	}

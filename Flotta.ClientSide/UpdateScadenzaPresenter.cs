@@ -8,19 +8,23 @@ using System.Linq;
 
 namespace Flotta.ClientSide
 {
-	internal class UpdateScadenzaPresenter : IPresenter
+	internal class UpdateScadenzaPresenter : IDialogPresenter
 	{
+		private IServer _server;
 		private IUpdateScadenzaDialog _view;
 
 		private List<ScadenzaTypeDescriptor> _scadTypes;
 		private List<ScadenzaFormatDescriptor> _scadFormats;
 		private List<ScadenzaRecurrencyTypeDescriptor> _scadRecurrency;
 
+		private IScadenzaAdapter _scadOwner;
 		private Scadenza _scad;
 
-		internal UpdateScadenzaPresenter(IUpdateScadenzaDialog view, IScadenzaAdapter scadOwner)
+		internal UpdateScadenzaPresenter(IServer server, IScadenzaAdapter scadOwner)
 		{
-			_view = view;
+			_server = server;
+			_server.ObjectRemoved += OnObjectRemoved;
+			_scadOwner = scadOwner;
 
 			_scadTypes = ModelFactory.GetAllScadenzaTypes().ToList();
 			_scadFormats = ModelFactory.GetAllScadenzaFormats().ToList();
@@ -42,44 +46,59 @@ namespace Flotta.ClientSide
 			}
 			else
 				_scad = scadOwner.Scadenza.Clone() as Scadenza;
-
-			_view.ScadenzaName = scadOwner.ScadenzaName;
-
-			_view.Types = (from t in _scadTypes select t.Name).ToList();
-			_view.Formats = (from f in _scadFormats select f.Name).ToList();
-			_view.RecurTypes = (from rt in _scadRecurrency select rt.Name).ToList();
-			_view.SelectedType = _scadTypes.FindIndex((ScadenzaTypeDescriptor desc) => desc.IsType(_scad));
-
-			UpdateUI();
-
-			_view.TypeChanged += OnTypeChanged;
-			_view.Validation = () =>
-			{
-				try
-				{
-					if (_scad.HasDate)
-					{
-						_scad.Date = _view.Date;
-						_scad.Formatter = _scadFormats[_view.SelectedFormat].Formatter;
-					}
-					if (_scad.HasRecurrencyPeriod)
-					{
-						_scad.RecurrencyInterval = _view.RecurCount;
-						_scad.RecurrencyType = _scadRecurrency[_view.SelectedRecurType].RecurrencyType;
-					}
-
-					return true;
-				}
-				catch (Exception e)
-				{
-					MessageBox.Show(e.Message, "Errore");
-					return false;
-				}
-
-			};
 		}
 
-		internal Scadenza Scadenza => _scad;
+		public void ShowDialog()
+		{
+			using (_view = ClientSideInterfaceFactory.NewUpdateScadenzaDialog())
+			{
+				_view.ScadenzaName = _scadOwner.ScadenzaName;
+
+				_view.Types = (from t in _scadTypes select t.Name).ToList();
+				_view.Formats = (from f in _scadFormats select f.Name).ToList();
+				_view.RecurTypes = (from rt in _scadRecurrency select rt.Name).ToList();
+				_view.SelectedType = _scadTypes.FindIndex((ScadenzaTypeDescriptor desc) => desc.IsType(_scad));
+
+				UpdateUI();
+
+				_view.TypeChanged += OnTypeChanged;
+				_view.Validation = () =>
+				{
+					try
+					{
+						if (_scad.HasDate)
+						{
+							_scad.Date = _view.Date;
+							_scad.Formatter = _scadFormats[_view.SelectedFormat].Formatter;
+						}
+						if (_scad.HasRecurrencyPeriod)
+						{
+							_scad.RecurrencyInterval = _view.RecurCount;
+							_scad.RecurrencyType = _scadRecurrency[_view.SelectedRecurType].RecurrencyType;
+						}
+
+						return true;
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(e.Message, "Errore");
+						return false;
+					}
+				};
+
+				if (_view.ShowDialog() == DialogResult.OK)
+				{
+					_server.UpdateScadenza(_scadOwner, _scad);
+				}
+			}
+			Close();
+		}
+
+		private void OnObjectRemoved(IDBObject obj)
+		{
+			if (obj is IScadenzaAdapter scadOwner && scadOwner == _scadOwner)
+				Close();
+		}
 
 		private void OnTypeChanged()
 		{
@@ -122,8 +141,12 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
-			_view.Close();
-			_view.Dispose();
+			var win = _view;
+			_view = null;
+
+			win?.Close();
+			win?.Dispose();
+			PresenterClosed?.Invoke();
 		}
 	}
 }

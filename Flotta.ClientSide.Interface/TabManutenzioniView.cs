@@ -12,11 +12,13 @@ namespace Flotta.ClientSide.Interface
 {
 	public interface ITabManutenzioniView
 	{
-		event Action<int> ModifyManutenzione;
-		event Action<int> DeleteManutenzione;
 		event Action NuovaManutenzione;
 		IEnumerable<IManutenzioneListItem> Manutenzioni { get; set; }
 		void RefreshManutenzioni();
+
+		event Action<int> ViewOfficina;
+		event Action<int> ModifyManutenzione;
+		event Action<int> DeleteManutenzione;
 	}
 
 	internal partial class TabManutenzioniView : UserControl, ITabManutenzioniView
@@ -59,6 +61,7 @@ namespace Flotta.ClientSide.Interface
 			NuovaManutenzione?.Invoke();
 		}
 
+		public event Action<int> ViewOfficina;
 		public event Action<int> ModifyManutenzione;
 		public event Action<int> DeleteManutenzione;
 		private void OnCellClick(object sender, DataGridViewCellEventArgs e)
@@ -67,9 +70,11 @@ namespace Flotta.ClientSide.Interface
 			if (e.RowIndex < 0)
 				return;
 
-			if (e.ColumnIndex == 6)
+			if (e.ColumnIndex == 3)
+				ViewOfficina?.Invoke(e.RowIndex);
+			else if (e.ColumnIndex == 6)
 				ModifyManutenzione?.Invoke(e.RowIndex);
-			if (e.ColumnIndex == 7)
+			else if (e.ColumnIndex == 7)
 				DeleteManutenzione?.Invoke(e.RowIndex);
 		}
 	}

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class LinkedTypeManagerPresenter<T> : IPresenter where T : LinkedType
+	class LinkedTypeManagerPresenter<T> : IWindowPresenter where T : LinkedType
 	{
 		private IServer _server;
 		private ILinkedTypeManagerWindow _window;
@@ -18,21 +18,28 @@ namespace Flotta.ClientSide
 		private List<T> _typeList;
 		private string _typeName;
 
-		internal LinkedTypeManagerPresenter(IServer server, ILinkedTypeManagerWindow window, string typeName)
+		internal LinkedTypeManagerPresenter(IServer server, string typeName)
 		{
 			_server = server;
-			_window = window;
-
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;
+
+			_typeName = typeName;
+		}
+
+		public void Show()
+		{
+			_window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
+			_window.FormClosed += (object s, FormClosedEventArgs e) => Close();
+
 			_window.CreateNewType += OnCreateNewType;
 			_window.EditType += OnEditType;
 			_window.DeleteType += OnDeleteType;
-
-			_typeName = typeName;
 			_window.TypeName = _typeName;
 
 			UpdateTypeList();
+
+			_window.Show();
 		}
 
 		private void OnObjectChanged(IDBObject obj)
@@ -58,6 +65,9 @@ namespace Flotta.ClientSide
 
 		private void UpdateTypeList()
 		{
+			if (_window == null)
+				return;
+
 			_typeList = (from t in _server.GetLinkedTypes<T>() orderby t.IsDisabled, t.Name select t).ToList();
 			_window.TypeList = from t in _typeList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Name, t.IsDisabled);
 		}
@@ -113,9 +123,14 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			var win = _window;
+			_window = null;
+
 			_updateDialog?.Close();
 			_updateDialog?.Dispose();
-			_window.Close();
+			win?.Close();
+			win?.Dispose();
+			PresenterClosed?.Invoke();
 		}
 	}
 }

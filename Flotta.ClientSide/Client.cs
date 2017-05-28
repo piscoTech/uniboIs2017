@@ -11,19 +11,17 @@ using System.Reflection;
 
 namespace Flotta.ClientSide
 {
-	public interface IClient
+	public interface IClient : IWindowPresenter
 	{
-		event Action<IClient> ExitClient;
 	}
 
-	class Client : IClient
+	internal class Client : IClient
 	{
-
 		private IServer _server;
 		private IClientWindow _mainWindow;
 
 		private MezzoTabPresenter _mezzoPresenter;
-		private IPresenter _typesPresenter;
+		private IWindowPresenter _typesPresenter;
 		private IWindowPresenter _officinePresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
@@ -35,10 +33,13 @@ namespace Flotta.ClientSide
 			_server.ClientConnected();
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;
+		}
 
+		public void Show()
+		{
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
 			_mainWindow.Show();
-			_mainWindow.WindowClose += Exit;
+			_mainWindow.WindowClose += Close;
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 			_mainWindow.ManageOfficine += OnManageOfficine;
@@ -48,22 +49,16 @@ namespace Flotta.ClientSide
 				_mainWindow.AddNewLinkedType(type.Description, () =>
 				{
 					_typesPresenter?.Close();
-					ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
-					window.FormClosed += (object s, FormClosedEventArgs e) => _typesPresenter = null;
-
 					var presenterType = typeof(LinkedTypeManagerPresenter<>).MakeGenericType(type.Type);
-					var presenter = Activator.CreateInstance(presenterType,
+					_typesPresenter = Activator.CreateInstance(presenterType,
 															 BindingFlags.NonPublic | BindingFlags.Instance,
 															 null,
-															 new Object[] { _server, window, type.Description },
+															 new Object[] { _server, type.Description },
 															 null
-															) as IPresenter;
-					_typesPresenter = presenter;
-
-					window.Show();
+															) as IWindowPresenter;
+					_typesPresenter.PresenterClosed += () => _typesPresenter = null;
+					_typesPresenter.Show();
 				});
-
-				Console.WriteLine("Found " + type.Description + "(" + type.Type + "), created menu strip item to edit list");
 			}
 
 			_mezzoPresenter = new MezzoTabPresenter(_server, this, _mainWindow.MezzoTabControl);
@@ -113,13 +108,9 @@ namespace Flotta.ClientSide
 
 		private void OnCreateNewMezzo()
 		{
-			using (INewMezzoDialog newMezzoDialog = ClientSideInterfaceFactory.NewNewMezzoDialog())
-			{
-				_newMezzo = new NewMezzoPresenter(_server, newMezzoDialog);
-				_newMezzo.CreationCompleted += OnNewMezzoCreated;
-
-				newMezzoDialog.ShowDialog();
-			}
+			_newMezzo = new NewMezzoPresenter(_server);
+			_newMezzo.PresenterClosed += () => _newMezzo = null;
+			_newMezzo.ShowDialog();
 		}
 
 		private void OnManageOfficine()
@@ -129,17 +120,16 @@ namespace Flotta.ClientSide
 			_officinePresenter.Show();
 		}
 
-		private void OnNewMezzoCreated(bool created)
+		public event Action PresenterClosed;
+		public void Close()
 		{
-			_newMezzo = null;
-		}
+			var win = _mainWindow;
+			_mainWindow = null;
 
-		public event Action<IClient> ExitClient;
-		private void Exit()
-		{
+			win?.Close();
 			_typesPresenter?.Close();
 			_server.ClientDisconnected();
-			ExitClient(this);
+			PresenterClosed?.Invoke();
 		}
 
 	}
