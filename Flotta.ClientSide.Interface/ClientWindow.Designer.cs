@@ -13,7 +13,7 @@
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if(disposing && (components != null))
+			if (disposing && (components != null))
 			{
 				components.Dispose();
 			}
@@ -35,11 +35,7 @@
 			this.flottaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.nuovoMezzoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tipiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tessereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.dispositiviToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.permessiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.manutenzioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.assicurazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.officineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.mezziList)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -84,7 +80,7 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.flottaToolStripMenuItem});
+			this.flottaToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(984, 24);
@@ -94,8 +90,9 @@
 			// flottaToolStripMenuItem
 			// 
 			this.flottaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuovoMezzoToolStripMenuItem,
-            this.tipiToolStripMenuItem});
+			this.nuovoMezzoToolStripMenuItem,
+			this.tipiToolStripMenuItem,
+			this.officineToolStripMenuItem});
 			this.flottaToolStripMenuItem.Name = "flottaToolStripMenuItem";
 			this.flottaToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
 			this.flottaToolStripMenuItem.Text = "Flotta";
@@ -110,50 +107,16 @@
 			// 
 			// tipiToolStripMenuItem
 			// 
-			this.tipiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tessereToolStripMenuItem,
-            this.dispositiviToolStripMenuItem,
-            this.permessiToolStripMenuItem,
-            this.manutenzioniToolStripMenuItem,
-            this.assicurazioniToolStripMenuItem});
 			this.tipiToolStripMenuItem.Name = "tipiToolStripMenuItem";
 			this.tipiToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.tipiToolStripMenuItem.Text = "Tipi";
 			// 
-			// tessereToolStripMenuItem
+			// officineToolStripMenuItem
 			// 
-			this.tessereToolStripMenuItem.Name = "tessereToolStripMenuItem";
-			this.tessereToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-			this.tessereToolStripMenuItem.Text = "Tessere";
-			this.tessereToolStripMenuItem.Click += new System.EventHandler(this.OnOpenTesseraTypes);
-			// 
-			// dispositiviToolStripMenuItem
-			// 
-			this.dispositiviToolStripMenuItem.Name = "dispositiviToolStripMenuItem";
-			this.dispositiviToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-			this.dispositiviToolStripMenuItem.Text = "Dispositivi";
-			this.dispositiviToolStripMenuItem.Click += new System.EventHandler(this.OnOpenDispositivoTypes);
-			// 
-			// permessiToolStripMenuItem
-			// 
-			this.permessiToolStripMenuItem.Name = "permessiToolStripMenuItem";
-			this.permessiToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-			this.permessiToolStripMenuItem.Text = "Permessi";
-			this.permessiToolStripMenuItem.Click += new System.EventHandler(this.OnOpenPermessoTypes);
-			// 
-			// manutenzioniToolStripMenuItem
-			// 
-			this.manutenzioniToolStripMenuItem.Name = "manutenzioniToolStripMenuItem";
-			this.manutenzioniToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-			this.manutenzioniToolStripMenuItem.Text = "Manutenzioni";
-			this.manutenzioniToolStripMenuItem.Click += new System.EventHandler(this.OnOpenManutenzioneTypes);
-			// 
-			// assicurazioniToolStripMenuItem
-			// 
-			this.assicurazioniToolStripMenuItem.Name = "assicurazioniToolStripMenuItem";
-			this.assicurazioniToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-			this.assicurazioniToolStripMenuItem.Text = "Assicurazioni";
-			this.assicurazioniToolStripMenuItem.Click += new System.EventHandler(this.OnOpenAssicurazioneTypes);
+			this.officineToolStripMenuItem.Name = "officineToolStripMenuItem";
+			this.officineToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.officineToolStripMenuItem.Text = "Officine";
+			this.officineToolStripMenuItem.Click += new System.EventHandler(OnManageOfficine);
 			// 
 			// ClientWindow
 			// 
@@ -177,19 +140,15 @@
 
 		}
 
-        #endregion
+		#endregion
 
-        private System.Windows.Forms.DataGridView mezziList;
+		private System.Windows.Forms.DataGridView mezziList;
 		private System.Windows.Forms.Label noSelectionLbl;
 		private MezzoTabView mezzoTabView;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem flottaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem nuovoMezzoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tipiToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem tessereToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem dispositiviToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem permessiToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem manutenzioniToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem assicurazioniToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem officineToolStripMenuItem;
 	}
 }

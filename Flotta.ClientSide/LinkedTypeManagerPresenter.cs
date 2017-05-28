@@ -10,44 +10,36 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class LinkedTypeManagerPresenter<T> : IClosablePresenter where T : LinkedType
+	class LinkedTypeManagerPresenter<T> : IWindowPresenter where T : LinkedType
 	{
 		private IServer _server;
 		private ILinkedTypeManagerWindow _window;
 
-		private Func<IEnumerable<T>> _getList;
-		private Func<T, string, IEnumerable<string>> _updateType;
-		private Func<T, bool> _deleteType;
-		private Func<T> _newType;
-
 		private List<T> _typeList;
 		private string _typeName;
-		internal string TypeName
-		{
-			set
-			{
-				_typeName = value;
-				_window.TypeName = value;
-			}
-		}
 
-		internal LinkedTypeManagerPresenter(IServer server, ILinkedTypeManagerWindow window, Func<IEnumerable<T>> getList, Func<T, string, IEnumerable<string>> updateType, Func<T, bool> deleteType, Func<T> newType)
+		internal LinkedTypeManagerPresenter(IServer server, string typeName)
 		{
 			_server = server;
-			_window = window;
-
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;
+
+			_typeName = typeName;
+		}
+
+		public void Show()
+		{
+			_window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
+			_window.FormClosed += (object s, FormClosedEventArgs e) => Close();
+
 			_window.CreateNewType += OnCreateNewType;
 			_window.EditType += OnEditType;
 			_window.DeleteType += OnDeleteType;
-
-			_getList = getList;
-			_updateType = updateType;
-			_deleteType = deleteType;
-			_newType = newType;
+			_window.TypeName = _typeName;
 
 			UpdateTypeList();
+
+			_window.Show();
 		}
 
 		private void OnObjectChanged(IDBObject obj)
@@ -73,7 +65,10 @@ namespace Flotta.ClientSide
 
 		private void UpdateTypeList()
 		{
-			_typeList = (from t in _getList() orderby t.IsDisabled, t.Name select t).ToList();
+			if (_window == null)
+				return;
+
+			_typeList = (from t in _server.GetLinkedTypes<T>() orderby t.IsDisabled, t.Name select t).ToList();
 			_window.TypeList = from t in _typeList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Name, t.IsDisabled);
 		}
 
@@ -100,8 +95,8 @@ namespace Flotta.ClientSide
 				_updateDialog.TypeName = _typeName;
 				_updateDialog.Validation = () =>
 				{
-					T type = activeType ?? _newType();
-					var errors = _updateType(type, _updateDialog.NameText);
+					T type = activeType ?? ModelFactory.NewLinkedType<T>();
+					var errors = _server.UpdateLinkedType(type, _updateDialog.NameText);
 					if (errors.Count() > 0)
 					{
 						MessageBox.Show(String.Join("\r\n", errors), "Errore");
@@ -120,16 +115,22 @@ namespace Flotta.ClientSide
 		{
 			if (MessageBox.Show("Sei sicuro di voler eliminare " + _typeList[index].Name + "?", "Elimina", MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
-				if (!_deleteType(_typeList[index]))
+				if (!_server.DeleteLinkedType(_typeList[index]))
 					MessageBox.Show("Errore durante l'eliminazione");
 			}
 		}
 
+		public event Action PresenterClosed;
 		public void Close()
 		{
+			var win = _window;
+			_window = null;
+
 			_updateDialog?.Close();
 			_updateDialog?.Dispose();
-			_window.Close();
+			win?.Close();
+			win?.Dispose();
+			PresenterClosed?.Invoke();
 		}
 	}
 }

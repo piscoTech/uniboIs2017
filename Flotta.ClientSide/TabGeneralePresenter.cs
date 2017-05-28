@@ -102,13 +102,13 @@ namespace Flotta.ClientSide
 			if (EditMode)
 			{
 				_tessereTmp = (from t in Mezzo.Tessere select t.Clone() as ITessera).ToList();
-				_tessereTypes = (from t in _server.TesseraTypes where !t.IsDisabled || (from tt in Mezzo.Tessere select tt.Type).Contains(t) select t).ToList();
+				_tessereTypes = (from t in _server.GetLinkedTypes<ITesseraType>() where !t.IsDisabled || (from tt in Mezzo.Tessere select tt.Type).Contains(t) select t).ToList();
 
 				_dispositiviTmp = (from d in Mezzo.Dispositivi select d.Clone() as IDispositivo).ToList();
-				_dispositiviTypes = (from d in _server.DispositivoTypes where !d.IsDisabled || (from dt in Mezzo.Dispositivi select dt.Type).Contains(d) select d).ToList();
+				_dispositiviTypes = (from d in _server.GetLinkedTypes<IDispositivoType>() where !d.IsDisabled || (from dt in Mezzo.Dispositivi select dt.Type).Contains(d) select d).ToList();
 
 				_permessiTmp = (from p in Mezzo.Permessi select p.Clone() as IPermesso).ToList();
-				_permessiTypes = (from p in _server.PermessoTypes where !p.IsDisabled || (from pt in Mezzo.Permessi select pt.Type).Contains(p) select p).ToList();
+				_permessiTypes = (from p in _server.GetLinkedTypes<IPermessoType>() where !p.IsDisabled || (from pt in Mezzo.Permessi select pt.Type).Contains(p) select p).ToList();
 			}
 			else
 			{
@@ -130,6 +130,7 @@ namespace Flotta.ClientSide
 			_view.Modello = Mezzo.Modello;
 			_view.Targa = Mezzo.Targa;
 			_view.Numero = Mezzo.Numero;
+			_view.NumeroCartaCircolazione = Mezzo.NumeroCartaCircolazione;
 			_view.NumeroTelaio = Mezzo.NumeroTelaio;
 			_view.AnnoImmatricolazione = Mezzo.AnnoImmatricolazione;
 			_view.Portata = Mezzo.Portata;
@@ -228,7 +229,7 @@ namespace Flotta.ClientSide
 				tesseraDialog.Pin = t?.Pin ?? "";
 				tesseraDialog.Validation = () =>
 				{
-					var tess = t ?? ModelFactory.NewTessera(tt);
+					var tess = t ?? ModelFactory.NewTessera(Mezzo, tt);
 					var errors = tess.Update(tesseraDialog.Codice, tesseraDialog.Pin);
 					if (errors.Count() > 0)
 					{
@@ -250,7 +251,7 @@ namespace Flotta.ClientSide
 
 				if (tesseraDialog.ShowDialog() == DialogResult.OK)
 				{
-					_view.Tessere = _tessereItems;
+					_view.RefreshTessere();
 				}
 				_editingTypeDialog = null;
 				_editingType = null;
@@ -267,10 +268,10 @@ namespace Flotta.ClientSide
 			ti.Codice = "";
 			ti.Pin = "";
 			_tessereTmp.Remove((from t in _tessereTmp where t.Type == tt select t).ElementAtOrDefault(0));
-			_view.Tessere = _tessereItems;
+			_view.RefreshTessere();
 		}
 
-		private bool OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item, List<O> list, Func<T, O> createNew) where T : LinkedType where O : class, ILinkedObjectWithPDF<T>
+		private bool OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item, List<O> list, Func<IMezzo, T, O> createNew) where T : LinkedType where O : class, ILinkedObjectWithPDF<T>
 		{
 			if (!_editMode)
 				return false;
@@ -285,7 +286,7 @@ namespace Flotta.ClientSide
 				objDialog.Path = o?.Allegato?.Path ?? "";
 				objDialog.Validation = () =>
 				{
-					var obj = o ?? createNew(type);
+					var obj = o ?? createNew(Mezzo, type);
 					// Files are not supported, all attachment will be null
 					var errors = obj.Update(null);
 					if (errors.Count() > 0)
@@ -327,23 +328,23 @@ namespace Flotta.ClientSide
 		private void OnDispositivoEdit(int index)
 		{
 			if (OnDispositivoPermessoEdit("Dispositivo", _dispositiviTypes[index], _dispositiviItems[index], _dispositiviTmp, ModelFactory.NewDispositivo))
-				_view.Dispositivi = _dispositiviItems;
+				_view.RefreshDispositivi();
 		}
 		private void OnDispositivoRemove(int index)
 		{
 			if (OnDispositivoPermessoRemove(_dispositiviTypes[index], _dispositiviItems[index], _dispositiviTmp))
-				_view.Dispositivi = _dispositiviItems;
+				_view.RefreshDispositivi();
 		}
 
 		private void OnPermessoEdit(int index)
 		{
 			if (OnDispositivoPermessoEdit("Permesso", _permessiTypes[index], _permessiItems[index], _permessiTmp, ModelFactory.NewPermesso))
-				_view.Permessi = _permessiItems;
+				_view.RefreshPermessi();
 		}
 		private void OnPermessoRemove(int index)
 		{
 			if (OnDispositivoPermessoRemove(_permessiTypes[index], _permessiItems[index], _permessiTmp))
-				_view.Permessi = _permessiItems;
+				_view.RefreshPermessi();
 		}
 
 		internal event Action MezzoSaved;
@@ -352,12 +353,18 @@ namespace Flotta.ClientSide
 			if (!EditMode)
 				return;
 
-			var errors = _server.UpdateMezzo(Mezzo, _view.Modello, _view.Targa, _view.Numero, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata, _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico, _tessereTmp, _dispositiviTmp, _permessiTmp);
+			var errors = _server.UpdateMezzo(Mezzo, null, _view.Modello, _view.Targa, _view.Numero, _view.NumeroCartaCircolazione,
+											 null, _view.NumeroTelaio, _view.AnnoImmatricolazione, _view.Portata,
+											 _view.Altezza, _view.Lunghezza, _view.Profondita, _view.VolumeCarico,
+											 _tessereTmp, _dispositiviTmp, _permessiTmp);
 
-			if (errors.Count() > 0) MessageBox.Show(String.Join("\r\n", errors), "Errore");
-
-			// The tab will be automatically reloaded exiting edit mode automatically with the notification from the server
-			MezzoSaved?.Invoke();
+			if (errors.Count() > 0)
+				MessageBox.Show(String.Join("\r\n", errors), "Errore");
+			else
+			{
+				// The tab will be automatically reloaded exiting edit mode automatically with the notification from the server
+				MezzoSaved?.Invoke();
+			}
 		}
 
 		private void OnDeleteMezzo()

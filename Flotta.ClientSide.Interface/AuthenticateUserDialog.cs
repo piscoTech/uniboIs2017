@@ -11,50 +11,43 @@ using System.Windows.Forms;
 namespace Flotta.ClientSide.Interface
 {
 
-    public delegate void ValidatedHandler();
-    public delegate bool SubmitHandler(string username, string password);
+	public delegate void ValidatedHandler();
+	public delegate bool SubmitHandler(string username, string password);
 
-    public interface IAuthenticateUserDialog : ICloseableDisposable
-    {
-        void Show();
-        string Username { get; set; }
-        string Password { get; set; }
-        event ValidatedHandler OnValidated;
-        event SubmitHandler OnSubmit;
-    }
+	public interface IAuthenticateUserDialog : ICloseableDisposable
+	{
+		DialogResult ShowDialog();
 
-    public partial class AuthenticateUserDialog : Form, IAuthenticateUserDialog
-    {
-        public event ValidatedHandler OnValidated;
-        public event SubmitHandler OnSubmit;
+		string Username { get; }
+		string Password { get; }
+		void Clear();
+	}
 
-        public AuthenticateUserDialog()
-        {
-            InitializeComponent();
-        }
+	public partial class AuthenticateUserDialog : Form, IAuthenticateUserDialog
+	{
+		public AuthenticateUserDialog()
+		{
+			InitializeComponent();
+		}
 
-        public string Username
-        {
-            get => username.Text;
-            set => username.Text = value;
-        }
+		public string Username => username.Text;
+		public string Password => password.Text;
 
-        public string Password
-        {
-            get => password.Text;
-            set => password.Text = value;
-        }
+		public void Clear()
+		{
+			username.Text = password.Text = "";
+			this.DialogResult = DialogResult.None;
+		}
 
+		//private void submitButton_Click(object sender, EventArgs e)
+		//{
 
-        private void submitButton_Click(object sender, EventArgs e)
-        {
-
-            if (OnSubmit(Username, Password))
-                OnValidated();
-            else
-            {
-                MessageBox.Show("Username o Password errati...");
-            }
-        }
-    }
+		//	if (OnSubmit(Username, Password))
+		//		OnValidated();
+		//	else
+		//	{
+		//		MessageBox.Show("Username o Password errati...");
+		//	}
+		//}
+	}
 }

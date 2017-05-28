@@ -43,13 +43,19 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="ClientSideFactory.cs" />
-    <Compile Include="IClosablePresenter.cs" />
+    <Compile Include="IPresenter.cs" />
     <Compile Include="ITabPresenter.cs" />
     <Compile Include="LinkedTypeManagerPresenter.cs" />
     <Compile Include="MezzoTabPresenter.cs" />
+    <Compile Include="UpdateManutenzionePresenter.cs" />
     <Compile Include="NewMezzoPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabGeneralePresenter.cs" />
+    <Compile Include="TabScadenzePresenter.cs" />
+    <Compile Include="UpdateScadenzaPresenter.cs" />
+    <Compile Include="TabManutenzioniPresenter.cs" />
+    <Compile Include="OfficinaManagerPresenter.cs" />
+    <Compile Include="UpdateOfficinaPresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj">

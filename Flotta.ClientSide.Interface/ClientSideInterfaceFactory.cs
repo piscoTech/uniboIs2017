@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate bool ConfirmAction();
-
 	public static class ClientSideInterfaceFactory
 	{
+		public static IAuthenticateUserDialog NewAuthenticateUserDialog()
+		{
+			return new AuthenticateUserDialog();
+		}
 
 		public static IClientWindow NewClientWindow()
 		{
@@ -61,9 +63,39 @@ namespace Flotta.ClientSide.Interface
 			return new UpdateDispositivoPermessoDialog();
 		}
 
-        public static IAuthenticateUserDialog NewAuthenticateUserDialog()
-        {
-            return new AuthenticateUserDialog();
-        }
+		public static IScadenzaListItem NewScadenzaListItem(string name, string date, bool expired, bool canRenew)
+		{
+			return new ScadenzaListItem(name, date, expired, canRenew);
+		}
+
+		public static IUpdateScadenzaDialog NewUpdateScadenzaDialog()
+		{
+			return new UpdateScadenzaDialog();
+		}
+
+		public static IRenewScadenzaDialog NewRenewScadenzaDialog()
+		{
+			return new RenewScadenzaDialog();
+		}
+
+		public static IUpdateManutenzioneDialog NewUpdateManutenzioneDialog()
+		{
+			return new UpdateManutenzioneDialog();
+		}
+
+		public static IManutenzioneListItem NewManutenzioneListItem(string date, string note, string tipo, float costo, string allegatoPath, string officina)
+		{
+			return new ManutenzioneListItem(date, note, tipo, costo, allegatoPath, officina);
+		}
+
+		public static IOfficinaManagerWindow NewOfficinaManagerWindow()
+		{
+			return new OfficinaManagerWindow();
+		}
+
+		public static IUpdateOfficinaDialog NewUpdateOfficinaDialog()
+		{
+			return new UpdateOfficinaDialog();
+		}
 	}
 }

@@ -7,26 +7,23 @@ using Flotta.Model;
 using Flotta.ServerSide;
 using Flotta.ClientSide.Interface;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace Flotta.ClientSide
 {
-	public delegate void ClientAction(IClient client);
-	public delegate void StatusReportAction(bool status);
-
-	public interface IClient
+	public interface IClient : IWindowPresenter
 	{
-		event ClientAction ExitClient;
 	}
 
-	class Client : IClient
+	internal class Client : IClient
 	{
-
 		private IServer _server;
 		private IClientWindow _mainWindow;
-        private IUser _user;
+		private IUser _user;
 
 		private MezzoTabPresenter _mezzoPresenter;
-		private IClosablePresenter _typesPresenter;
+		private IWindowPresenter _typesPresenter;
+		private IWindowPresenter _officinePresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -37,78 +34,55 @@ namespace Flotta.ClientSide
 			_server.ClientConnected();
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;
+		}
+
+		public void Show()
+		{
+			using (IAuthenticateUserDialog authDialog = ClientSideInterfaceFactory.NewAuthenticateUserDialog())
+			{
+				do
+				{
+					if (authDialog.ShowDialog() == DialogResult.OK)
+					{
+						_user = _server.ValidateUser(authDialog.Username, authDialog.Password);
+						if (_user == null)
+							MessageBox.Show("Nome utente o password errati");
+
+						authDialog.Clear();
+					}
+					else
+						break;
+				} while (_user == null);
+			}
+			if (_user == null)
+			{
+				Close();
+				return;
+			}
 
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
 			_mainWindow.Show();
-			_mainWindow.WindowClose += Exit;
+			_mainWindow.WindowClose += Close;
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
+			_mainWindow.ManageOfficine += OnManageOfficine;
 
-			_mainWindow.OpenTesseraTypes += () => {
-				_typesPresenter?.Close();
-				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
-				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-
-				var presenter = new LinkedTypeManagerPresenter<ITesseraType>(_server, window, () => _server.TesseraTypes, _server.UpdateTesseraType, _server.DeleteTesseraType, ModelFactory.NewTesseraType)
+			foreach (var type in ModelFactory.GetAllLinkedTypes())
+			{
+				_mainWindow.AddNewLinkedType(type.Description, () =>
 				{
-					TypeName = "Tessere"
-				};
-				_typesPresenter = presenter;
-
-				window.Show();
-			};
-			_mainWindow.OpenDispositivoTypes += () => {
-				_typesPresenter?.Close();
-				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
-				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-
-				var presenter = new LinkedTypeManagerPresenter<IDispositivoType>(_server, window, () => _server.DispositivoTypes, _server.UpdateDispositivoType, _server.DeleteDispositivoType, ModelFactory.NewDispositivoType)
-				{
-					TypeName = "Dispositivi"
-				};
-				_typesPresenter = presenter;
-
-				window.Show();
-			};
-			_mainWindow.OpenPermessoTypes += () => {
-				_typesPresenter?.Close();
-				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
-				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-
-				var presenter = new LinkedTypeManagerPresenter<IPermessoType>(_server, window, () => _server.PermessoTypes, _server.UpdatePermessoType, _server.DeletePermessoType, ModelFactory.NewPermessoType)
-				{
-					TypeName = "Permessi"
-				};
-				_typesPresenter = presenter;
-
-				window.Show();
-			};
-			_mainWindow.OpenManutenzioneTypes += () => {
-				_typesPresenter?.Close();
-				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
-				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-
-				var presenter = new LinkedTypeManagerPresenter<IManutenzioneType>(_server, window, () => _server.ManutenzioneTypes, _server.UpdateManutenzioneType, _server.DeleteManutenzioneType, ModelFactory.NewManutenzioneType)
-				{
-					TypeName = "Manutenzioni"
-				};
-				_typesPresenter = presenter;
-
-				window.Show();
-			};
-			_mainWindow.OpenAssicurazioneTypes += () => {
-				_typesPresenter?.Close();
-				ILinkedTypeManagerWindow window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
-				window.FormClosed += (object sender, FormClosedEventArgs e) => _typesPresenter = null;
-
-				var presenter = new LinkedTypeManagerPresenter<IAssicurazioneType>(_server, window, () => _server.AssicurazioneTypes, _server.UpdateAssicurazioneType, _server.DeleteAssicurazioneType, ModelFactory.NewAssicurazioneType)
-				{
-					TypeName = "Assicurazioni"
-				};
-				_typesPresenter = presenter;
-
-				window.Show();
-			};
+					_typesPresenter?.Close();
+					var presenterType = typeof(LinkedTypeManagerPresenter<>).MakeGenericType(type.Type);
+					_typesPresenter = Activator.CreateInstance(presenterType,
+															 BindingFlags.NonPublic | BindingFlags.Instance,
+															 null,
+															 new Object[] { _server, type.Description },
+															 null
+															) as IWindowPresenter;
+					_typesPresenter.PresenterClosed += () => _typesPresenter = null;
+					_typesPresenter.Show();
+				});
+			}
 
 			_mezzoPresenter = new MezzoTabPresenter(_server, this, _mainWindow.MezzoTabControl);
 
@@ -123,10 +97,10 @@ namespace Flotta.ClientSide
 
 		private void OnObjectChanged(IDBObject obj)
 		{
-			if(obj is IMezzo)
+			if (obj is IMezzo)
 			{
 				UpdateMezziList();
-				if(_mezzoPresenter.Mezzo == obj)
+				if (_mezzoPresenter.Mezzo == obj)
 				{
 					_mezzoPresenter.ReloadTab();
 				}
@@ -157,26 +131,28 @@ namespace Flotta.ClientSide
 
 		private void OnCreateNewMezzo()
 		{
-			using (INewMezzoDialog newMezzoDialog = ClientSideInterfaceFactory.NewNewMezzoDialog())
-			{
-				_newMezzo = new NewMezzoPresenter(_server, newMezzoDialog);
-				_newMezzo.CreationCompleted += OnNewMezzoCreated;
-
-				newMezzoDialog.ShowDialog();
-			}
+			_newMezzo = new NewMezzoPresenter(_server);
+			_newMezzo.PresenterClosed += () => _newMezzo = null;
+			_newMezzo.ShowDialog();
 		}
 
-		private void OnNewMezzoCreated(bool created)
+		private void OnManageOfficine()
 		{
-			_newMezzo = null;
+			_officinePresenter = new OfficinaManagerPresenter(_server);
+			_officinePresenter.PresenterClosed += () => _officinePresenter = null;
+			_officinePresenter.Show();
 		}
 
-		public event ClientAction ExitClient;
-		private void Exit()
+		public event Action PresenterClosed;
+		public void Close()
 		{
+			var win = _mainWindow;
+			_mainWindow = null;
+
+			win?.Close();
 			_typesPresenter?.Close();
 			_server.ClientDisconnected();
-			ExitClient(this);
+			PresenterClosed?.Invoke();
 		}
 
 	}

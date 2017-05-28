@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Flotta.Model;
@@ -8,52 +9,51 @@ using Flotta.ServerSide.Interface;
 
 namespace Flotta.ServerSide
 {
-	public delegate void ObjectChangedHandler(IDBObject obj);
-
 	public interface IServer
 	{
 		void ClientDisconnected();
 		void ClientConnected();
-		event ObjectChangedHandler ObjectChanged;
-		event ObjectChangedHandler ObjectRemoved;
+		event Action<IDBObject> ObjectChanged;
+		event Action<IDBObject> ObjectRemoved;
+
+		IEnumerable<IUser> Utenti { get; }
+		IUser ValidateUser(string username, string password);
 
 		IEnumerable<IMezzo> Mezzi { get; }
-        IEnumerable<IUser> Utenti { get; }
-		IEnumerable<ITesseraType> TesseraTypes { get; }
-		IEnumerable<IDispositivoType> DispositivoTypes { get; }
-		IEnumerable<IPermessoType> PermessoTypes { get; }
-		IEnumerable<IManutenzioneType> ManutenzioneTypes { get; }
-		IEnumerable<IAssicurazioneType> AssicurazioneTypes { get; }
 
-		IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
+		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
+		IEnumerable<IOfficina> Officine { get; }
+
+		IEnumerable<string> UpdateMezzo(IMezzo mezzo, IImmagine foto, string modello, string targa, uint numero,
+										string numCartaCircolazione, IPDF cartaCircolazione,
+										string numeroTelaio, uint annoImmatricolazione, float portata,
+										float altezza, float lunghezza, float profondita,
+										float volumeCarico, IEnumerable<ITessera> tessere,
+										IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
 
-		IEnumerable<string> UpdateTesseraType(ITesseraType tessera, string name);
-		IEnumerable<string> UpdateDispositivoType(IDispositivoType dispositivo, string name);
-		IEnumerable<string> UpdatePermessoType(IPermessoType permesso, string name);
-		IEnumerable<string> UpdateManutenzioneType(IManutenzioneType manutenzione, string name);
-		IEnumerable<string> UpdateAssicurazioneType(IAssicurazioneType assicurazione, string name);
-		bool DeleteTesseraType(ITesseraType tessera);
-		bool DeleteDispositivoType(IDispositivoType dispositivo);
-		bool DeletePermessoType(IPermessoType permesso);
-		bool DeleteManutenzioneType(IManutenzioneType manutenzione);
-		bool DeleteAssicurazioneType(IAssicurazioneType manutenzione);
+		void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad);
 
-        bool ValidateUser(string username, string password);
+		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato, IOfficina officina);
+		void DeleteManutenzione(IManutenzione m);
+
+		IEnumerable<string> UpdateLinkedType<T>(T tessera, string name) where T : LinkedType;
+		bool DeleteLinkedType<T>(T obj) where T : LinkedType;
+
+		IEnumerable<string> UpdateOfficina(IOfficina officina, string nome, string telefono, string via, string cap, string citta, string provincia, string nazione);
+		bool DeleteOfficina(IOfficina off);
+
 	}
 
 	public class Server : IServer
 	{
-
 		private IServerWindow _window;
-		private HashSet<IMezzo> _mezzi = new HashSet<IMezzo>();
-        private HashSet<IUser> _utenti = new HashSet<IUser>();
 
-        private HashSet<ITesseraType> _tesseraTypes = new HashSet<ITesseraType>();
-		private HashSet<IDispositivoType> _dispositivoTypes = new HashSet<IDispositivoType>();
-		private HashSet<IPermessoType> _permessoTypes = new HashSet<IPermessoType>();
-		private HashSet<IManutenzioneType> _manutenzioneTypes = new HashSet<IManutenzioneType>();
-		private HashSet<IAssicurazioneType> _assicurazioneTypes = new HashSet<IAssicurazioneType>();
+		private HashSet<IUser> _utenti = new HashSet<IUser>();
+
+		private List<IMezzo> _mezzi = new List<IMezzo>();
+		private Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
+		private List<IOfficina> _officine = new List<IOfficina>();
 
 		internal Server(IServerWindow window)
 		{
@@ -67,51 +67,95 @@ namespace Flotta.ServerSide
 
 		private void FillDatabase()
 		{
+			IUser u = ModelFactory.NewUtente("admin", "password");
+			_utenti.Add(u);
 
-            IUser u = ModelFactory.NewUtente("admin", "password");
-            _utenti.Add(u);
-
-
-			ITesseraType tt = ModelFactory.NewTesseraType();
+			var tess = GetLinkedTypesList<ITesseraType>();
+			ITesseraType tt = ModelFactory.NewLinkedType<ITesseraType>();
 			tt.Update("Tessera 1");
-			_tesseraTypes.Add(tt);
-			tt = ModelFactory.NewTesseraType();
+			tess.Add(tt);
+			tt = ModelFactory.NewLinkedType<ITesseraType>();
 			tt.Update("Tessera 2");
 			tt.Disable();
-			_tesseraTypes.Add(tt);
+			tess.Add(tt);
 
-			IDispositivoType dt = ModelFactory.NewDispositivoType();
+			var disp = GetLinkedTypesList<IDispositivoType>();
+			IDispositivoType dt = ModelFactory.NewLinkedType<IDispositivoType>();
 			dt.Update("Dispositivo 1");
 			dt.Disable();
-			_dispositivoTypes.Add(dt);
-			dt = ModelFactory.NewDispositivoType();
+			disp.Add(dt);
+			dt = ModelFactory.NewLinkedType<IDispositivoType>();
 			dt.Update("Dispositivo 2");
-			_dispositivoTypes.Add(dt);
+			disp.Add(dt);
 
-			IPermessoType pt = ModelFactory.NewPermessoType();
+			var perm = GetLinkedTypesList<IPermessoType>();
+			IPermessoType pt = ModelFactory.NewLinkedType<IPermessoType>();
 			pt.Update("Permesso 1");
-			_permessoTypes.Add(pt);
-			pt = ModelFactory.NewPermessoType();
+			perm.Add(pt);
+			pt = ModelFactory.NewLinkedType<IPermessoType>();
 			pt.Update("Permesso 2");
 			pt.Disable();
-			_permessoTypes.Add(pt);
+			perm.Add(pt);
+
+			var manut = GetLinkedTypesList<IManutenzioneType>();
+			IManutenzioneType mt = ModelFactory.NewLinkedType<IManutenzioneType>();
+			mt.Update("Manutenzione 1");
+			mt.Disable();
+			manut.Add(mt);
+			mt = ModelFactory.NewLinkedType<IManutenzioneType>();
+			mt.Update("Manutenzione 2");
+			manut.Add(mt);
 
 			IMezzo m = ModelFactory.NewMezzo();
-			ITessera t = ModelFactory.NewTessera(_tesseraTypes.ElementAt(1));
+			ITessera t = ModelFactory.NewTessera(m, tess.ElementAt(1));
 			t.Update("123", "7654");
-			IDispositivo d = ModelFactory.NewDispositivo(_dispositivoTypes.ElementAt(0));
+			IDispositivo d = ModelFactory.NewDispositivo(m, disp.ElementAt(0));
 			d.Update(null);
 			IPermesso p1, p2;
-			p1 = ModelFactory.NewPermesso(_permessoTypes.ElementAt(0));
+			p1 = ModelFactory.NewPermesso(m, perm.ElementAt(0));
 			p1.Update(null);
-			p2 = ModelFactory.NewPermesso(_permessoTypes.ElementAt(1));
+			p2 = ModelFactory.NewPermesso(m, perm.ElementAt(1));
 			p1.Update(null);
-			m.Update("Mezzo 1", "aa000aa", 100, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
+			m.Update(null, "Mezzo 1", "aa000aa", 100, "CRTCIRC123", null, "ABC12345", 2017, 1, 5.4F, 9, 10, 5, new ITessera[] { t }, new IDispositivo[] { d }, new IPermesso[] { p1, p2 });
 			_mezzi.Add(m);
+
+			var scad = ModelFactory.GetAllScadenzaTypes();
+			var scadFormat = ModelFactory.GetAllScadenzaFormats();
+			var scadRecur = ModelFactory.GetAllScadenzaRecurrencyTypes();
+
+			Scadenza ts = scad.ElementAt(0).NewInstance;
+			ts.Date = DateTime.Now;
+			ts.Formatter = scadFormat.ElementAt(0).Formatter;
+			t.Scadenza = ts;
+
+			Scadenza ds = scad.ElementAt(1).NewInstance;
+			ds.Date = new DateTime(2017, 8, 1);
+			ds.Formatter = scadFormat.ElementAt(1).Formatter;
+			ds.RecurrencyInterval = 4;
+			ds.RecurrencyType = scadRecur.ElementAt(1).RecurrencyType;
+			d.Scadenza = ds;
+
+			Scadenza ps = scad.ElementAt(2).NewInstance;
+			p1.Scadenza = ps;
+
+			Scadenza ccircs = scad.ElementAt(1).NewInstance;
+			ccircs.Date = new DateTime(2018, 8, 1);
+			ccircs.Formatter = scadFormat.ElementAt(1).Formatter;
+			ccircs.RecurrencyInterval = 2;
+			ccircs.RecurrencyType = scadRecur.ElementAt(2).RecurrencyType;
+			m.ScadenzaCartaCircolazione = ccircs;
+
+			IOfficina off = ModelFactory.NewOfficina();
+			off.Update("Officina 1", "051123456", "Via Prova 1", "01234", "Bologna", "Bo", "Italia");
+			_officine.Add(off);
+
+			IManutenzione man = ModelFactory.NewManutenzione(m);
+			man.Update(DateTime.Now, manut.ElementAt(0), "Note", 10, null, off);
+			m.AddManutenzione(man);
 		}
 
-		private CreateClientHandler _createClient;
-		public CreateClientHandler ClientCreator
+		private Action _createClient;
+		internal Action ClientCreator
 		{
 			set
 			{
@@ -119,48 +163,74 @@ namespace Flotta.ServerSide
 			}
 		}
 
-		private readonly object _syncLock = new object();
 		private int _activeConnections = 0;
 		private bool CanTerminate
 		{
 			get => _activeConnections == 0;
 		}
 
-		public event ObjectChangedHandler ObjectChanged;
-		public event ObjectChangedHandler ObjectRemoved;
+		public event Action<IDBObject> ObjectChanged;
+		public event Action<IDBObject> ObjectRemoved;
 
 		public void ClientConnected()
 		{
-			lock (_syncLock)
-			{
-				_window.UpdateCounter(++_activeConnections);
-				_window.CanTerminate = CanTerminate;
-			}
+			_window.UpdateCounter(++_activeConnections);
+			_window.CanTerminate = CanTerminate;
+
+			Log("Un client si è connesso");
 		}
 
 		public void ClientDisconnected()
 		{
-			lock (_syncLock)
-			{
-				_window.UpdateCounter(--_activeConnections);
-				_window.CanTerminate = CanTerminate;
-			}
+			_window.UpdateCounter(--_activeConnections);
+			_window.CanTerminate = CanTerminate;
+
+			Log("Un client si è disconnesso");
 		}
 
 		private void OnCreateClient()
 		{
-			_createClient();
+			_createClient?.Invoke();
+		}
+
+		private void Log(string line)
+		{
+			_window.Log(line);
+		}
+
+		public IEnumerable<IUser> Utenti => from u in _utenti orderby u.Username select u;
+
+		public IUser ValidateUser(string username, string password)
+		{
+			return _utenti.FirstOrDefault((IUser u) => u.Username == username && u.Password == password);
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
-        public IEnumerable<IUser> Utenti => from u in _utenti orderby u.Username select u;
-		public IEnumerable<ITesseraType> TesseraTypes => from t in _tesseraTypes orderby t.Name select t;
-		public IEnumerable<IDispositivoType> DispositivoTypes => from t in _dispositivoTypes orderby t.Name select t;
-		public IEnumerable<IPermessoType> PermessoTypes => from t in _permessoTypes orderby t.Name select t;
-		public IEnumerable<IManutenzioneType> ManutenzioneTypes => from t in _manutenzioneTypes orderby t.Name select t;
-		public IEnumerable<IAssicurazioneType> AssicurazioneTypes => from t in _assicurazioneTypes orderby t.Name select t;
 
-		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, string modello, string targa, uint numero, string numeroTelaio, uint annoImmatricolazione, float portata, float altezza, float lunghezza, float profondita, float volumeCarico, IEnumerable<ITessera> tessere, IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
+		private List<T> GetLinkedTypesList<T>() where T : LinkedType
+		{
+			Type t = typeof(T);
+			if (!t.IsAbstract)
+				throw new ArgumentException("Type is not an abstract LinkedType");
+
+			if (!_linkedTypesList.ContainsKey(t))
+				_linkedTypesList.Add(t, new List<T>());
+
+			return _linkedTypesList[t] as List<T>;
+		}
+		public IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType
+		{
+			return from t in GetLinkedTypesList<T>() orderby t.Name select t;
+		}
+
+		public IEnumerable<IOfficina> Officine => from o in _officine orderby o.Nome select o;
+
+		public IEnumerable<string> UpdateMezzo(IMezzo mezzo, IImmagine foto, string modello, string targa, uint numero,
+												string numCartaCircolazione, IPDF cartaCircolazione,
+												string numeroTelaio, uint annoImmatricolazione, float portata,
+												float altezza, float lunghezza, float profondita,
+												float volumeCarico, IEnumerable<ITessera> tessere,
+												IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
 		{
 			if (mezzo == null) throw new ArgumentNullException();
 			List<String> errors = new List<string>();
@@ -169,23 +239,35 @@ namespace Flotta.ServerSide
 			if (numMatch.Count() > 0)
 				errors.Add("Il numero è già utilizzato");
 
-			if (!(new HashSet<ITesseraType>(from t in tessere select t.Type)).IsSubsetOf(from t in _tesseraTypes select t))
+			targa = targa?.Trim()?.ToUpper();
+			if (targa != null && (from m in _mezzi where m.Targa == targa && m != mezzo select m).Count() > 0)
+				errors.Add("La targa è già utilizzata");
+
+			if ((from t in tessere select t.Type).Any((ITesseraType t) => !GetLinkedTypes<ITesseraType>().Contains(t)))
 				errors.Add("Uno o più tipi di tessere non esistono");
-			if (!(new HashSet<IDispositivoType>(from d in dispositivi select d.Type)).IsSubsetOf(from d in _dispositivoTypes select d))
+			if ((from d in dispositivi select d.Type).Any((IDispositivoType d) => !GetLinkedTypes<IDispositivoType>().Contains(d)))
 				errors.Add("Uno o più tipi di dispositivi non esistono");
-			if (!(new HashSet<IPermessoType>(from p in permessi select p.Type)).IsSubsetOf(from p in _permessoTypes select p))
+			if ((from p in permessi select p.Type).Any((IPermessoType p) => !GetLinkedTypes<IPermessoType>().Contains(p)))
 				errors.Add("Uno o più tipi di permessi non esistono");
 
 			if (errors.Count > 0)
 				return errors;
 			else
 			{
-				errors = mezzo.Update(modello, targa, numero, numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza, profondita, volumeCarico, tessere, dispositivi, permessi).ToList();
+				errors = mezzo.Update(foto, modello, targa, numero, numCartaCircolazione, cartaCircolazione,
+									  numeroTelaio, annoImmatricolazione, portata, altezza, lunghezza,
+									  profondita, volumeCarico, tessere, dispositivi, permessi).ToList();
 
 				if (errors.Count == 0)
 				{
 					if (!_mezzi.Contains(mezzo))
+					{
 						_mezzi.Add(mezzo);
+						Log("Mezzo " + mezzo.Numero + " è stato creato");
+					}
+					else
+						Log("Mezzo " + mezzo.Numero + " è stato modificato");
+
 					ObjectChanged(mezzo);
 				}
 
@@ -200,15 +282,18 @@ namespace Flotta.ServerSide
 			if (_mezzi.Contains(mezzo) && _mezzi.Remove(mezzo))
 			{
 				ObjectRemoved(mezzo);
+				Log("Mezzo " + mezzo.Numero + " è stato eliminato");
 				return true;
 			}
 
 			return false;
 		}
 
-		private IEnumerable<string> UpdateLinkedType<T>(HashSet<T> list, T obj, string name) where T : LinkedType
+		public IEnumerable<string> UpdateLinkedType<T>(T obj, string name) where T : LinkedType
 		{
-			if (obj == null) throw new ArgumentNullException();
+			if (obj == null)
+				throw new ArgumentNullException();
+			var list = GetLinkedTypesList<T>();
 
 			List<string> errors = new List<string>();
 			name = name?.Trim();
@@ -231,7 +316,13 @@ namespace Flotta.ServerSide
 				if (errors.Count == 0)
 				{
 					if (!list.Contains(obj))
+					{
 						list.Add(obj);
+						Log("Il tipo (" + typeof(T).Name + ") '" + obj.Name + "' è stato creato");
+					}
+					else
+						Log("Il tipo (" + typeof(T).Name + ") '" + obj.Name + "' è stato modificato");
+
 					ObjectChanged(obj);
 				}
 
@@ -239,37 +330,15 @@ namespace Flotta.ServerSide
 			}
 		}
 
-		public IEnumerable<string> UpdateTesseraType(ITesseraType tessera, string name)
+		public bool DeleteLinkedType<T>(T obj) where T : LinkedType
 		{
-			return UpdateLinkedType(_tesseraTypes, tessera, name);
-		}
+			var list = GetLinkedTypesList<T>();
 
-		public IEnumerable<string> UpdateDispositivoType(IDispositivoType dispositivo, string name)
-		{
-			return UpdateLinkedType(_dispositivoTypes, dispositivo, name);
-		}
-
-		public IEnumerable<string> UpdatePermessoType(IPermessoType permesso, string name)
-		{
-			return UpdateLinkedType(_permessoTypes, permesso, name);
-		}
-
-		public IEnumerable<string> UpdateManutenzioneType(IManutenzioneType manutenzione, string name)
-		{
-			return UpdateLinkedType(_manutenzioneTypes, manutenzione, name);
-		}
-
-		public IEnumerable<string> UpdateAssicurazioneType(IAssicurazioneType assicurazione, string name)
-		{
-			return UpdateLinkedType(_assicurazioneTypes, assicurazione, name);
-		}
-
-		private bool DeleteLinkedType<T>(HashSet<T> list, T obj, bool disable) where T : LinkedType
-		{
-			if (disable)
+			if (obj.ShouldDisableInsteadOfDelete(_mezzi))
 			{
 				obj.Disable();
 				ObjectChanged(obj);
+				Log("Il tipo (" + typeof(T).Name + ") '" + obj.Name + "' è stato disabilitato");
 				return true;
 			}
 			else
@@ -277,6 +346,7 @@ namespace Flotta.ServerSide
 				if (list.Contains(obj) && list.Remove(obj))
 				{
 					ObjectRemoved(obj);
+					Log("Il tipo (" + typeof(T).Name + ") '" + obj.Name + "' è stato eliminato");
 					return true;
 				}
 
@@ -284,94 +354,95 @@ namespace Flotta.ServerSide
 			}
 		}
 
-		public bool DeleteTesseraType(ITesseraType tessera)
+		public void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad)
 		{
-			if (tessera == null) throw new ArgumentNullException();
-
-			var res = from t in (
-						from m in _mezzi
-						select (
-							from t in m.Tessere
-							where t.Type == tessera
-							select t.Type
-						)
-					  )
-					  where t.Count() > 0
-					  select t;
-
-			return DeleteLinkedType(_tesseraTypes, tessera, res.Count() > 0);
+			scadOwner.Scadenza = scad;
+			ObjectChanged(scadOwner);
+			Log("La scadenza " + scadOwner.ScadenzaName + " del mezzo " + scadOwner.Mezzo.Numero + " è stata modificata");
 		}
 
-		public bool DeleteDispositivoType(IDispositivoType dispositivo)
+		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato, IOfficina officina)
 		{
-			if (dispositivo == null) throw new ArgumentNullException();
+			List<String> errors = new List<string>();
 
-			var res = from t in (
-						from m in _mezzi
-						select (
-							from t in m.Dispositivi
-							where t.Type == dispositivo
-							select t.Type
-						)
-					  )
-					  where t.Count() > 0
-					  select t;
+			if (tipo != null && !GetLinkedTypes<IManutenzioneType>().Contains(tipo))
+				errors.Add("Il tipo di manutenzione non esiste");
 
-			return DeleteLinkedType(_dispositivoTypes, dispositivo, res.Count() > 0);
+			if (officina != null && !_officine.Contains(officina))
+				errors.Add("L'officina non esiste");
+
+			if (errors.Count() > 0)
+				return errors;
+
+			errors.AddRange(manutenzione.Update(data, tipo, note, costo, allegato, officina));
+
+			if (errors.Count() > 0)
+				return errors;
+
+			manutenzione.Mezzo.AddManutenzione(manutenzione);
+
+			ObjectChanged(manutenzione);
+			Log("La manutenzione del " + data.ToString("dd/MM/yyyy") + " del mezzo " + manutenzione.Mezzo.Numero + " è stata modificata");
+
+			return errors;
 		}
 
-		public bool DeletePermessoType(IPermessoType permesso)
+		public void DeleteManutenzione(IManutenzione m)
 		{
-			if (permesso == null) throw new ArgumentNullException();
-
-			var res = from t in (
-						from m in _mezzi
-						select (
-							from t in m.Permessi
-							where t.Type == permesso
-							select t.Type
-						)
-					  )
-					  where t.Count() > 0
-					  select t;
-
-			return DeleteLinkedType(_permessoTypes, permesso, res.Count() > 0);
+			m.Mezzo.RemoveManutenzione(m);
+			ObjectRemoved(m);
+			Log("La manutenzione del " + m.Data.ToString("dd/MM/yyyy") + " del mezzo " + m.Mezzo.Numero + " è stata eliminata");
 		}
 
-		public bool DeleteManutenzioneType(IManutenzioneType manutenzione)
+		public IEnumerable<string> UpdateOfficina(IOfficina officina, string nome, string telefono, string via, string cap, string citta, string provincia, string nazione)
 		{
-			if (manutenzione == null) throw new ArgumentNullException();
+			List<string> errors = new List<string>();
+			nome = nome?.Trim();
+			if (nome != null && (from o in _officine where o.Nome == nome && o != officina select o).Count() > 0)
+				errors.Add("Il nome è già utilizzato");
 
-			// Check if no manutenzione uses the type
+			if (errors.Count > 0)
+				return errors;
 
-			return DeleteLinkedType(_manutenzioneTypes, manutenzione, false);
+			errors.AddRange(officina.Update(nome, telefono, via, cap, citta, provincia, nazione));
+			if (errors.Count > 0)
+				return errors;
+			else
+			{
+				if (!_officine.Contains(officina))
+				{
+					_officine.Add(officina);
+					Log("L'officina " + nome + " è stata creata");
+				}
+				else
+					Log("L'officina " + nome + " è stata modificata");
+
+				ObjectChanged(officina);
+			}
+
+			return errors;
 		}
 
-		public bool DeleteAssicurazioneType(IAssicurazioneType assicurazione)
+		public bool DeleteOfficina(IOfficina off)
 		{
-			if (assicurazione == null) throw new ArgumentNullException();
+			if (off.ShouldDisableInsteadOfDelete(_mezzi))
+			{
+				off.Disable();
+				ObjectChanged(off);
+				Log("L'officina " + off.Nome + " è stata disabilitata");
+				return true;
+			}
+			else
+			{
+				if (_officine.Contains(off) && _officine.Remove(off))
+				{
+					ObjectRemoved(off);
+					Log("L'officina " + off.Nome + " è stata eliminata");
+					return true;
+				}
 
-			// Check if no incidents uses the type
-
-			return DeleteLinkedType(_assicurazioneTypes, assicurazione, false);
+				return false;
+			}
 		}
-
-
-        public bool ValidateUser(string username, string password)
-        {
-            bool valid = false;
-            foreach(IUser u in Utenti)
-            {
-                if (u.Username.Equals(username))
-                {
-                    if (u.Password.Equals(password))
-                        valid = true;
-                    break;
-                }
-            }
-            return valid;
-        }
-
-
 	}
 }

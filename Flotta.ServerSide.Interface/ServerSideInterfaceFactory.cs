@@ -8,11 +8,9 @@ namespace Flotta.ServerSide.Interface
 {
 	public static class ServerSideInterfaceFactory
 	{
-
 		public static IServerWindow NewServerWindow()
 		{
 			return new ServerWindow();
 		}
-
 	}
 }

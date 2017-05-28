@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,29 +6,41 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IPermesso : ICloneable, ILinkedObjectWithPDF<IPermessoType>
+	public interface IPermesso : ICloneable, ILinkedObjectWithPDF<IPermessoType>, IScadenzaAdapter
 	{
 		bool IsValid { get; }
 	}
 
 	internal class Permesso : IPermesso
 	{
+		private IMezzo _mezzo;
 		private IPermessoType _type;
 		private IPDF _allegato;
+		private Scadenza _scadenza;
 
-		internal Permesso(IPermessoType type)
+		internal Permesso(IMezzo mezzo, IPermessoType type)
 		{
+			_mezzo = mezzo;
 			_type = type;
 		}
 
-		private Permesso(IPermessoType type, IPDF allegato)
+		private Permesso(IMezzo mezzo, IPermessoType type, IPDF allegato)
 		{
+			_mezzo = mezzo;
 			_type = type;
 			_allegato = allegato;
 		}
 
+		public IMezzo Mezzo => _mezzo;
 		public IPermessoType Type => _type;
 		public IPDF Allegato => _allegato;
+
+		public Scadenza Scadenza
+		{
+			get => _scadenza;
+			set => _scadenza = value;
+		}
+		public string ScadenzaName => "Permesso: " + _type.Name;
 
 		public IEnumerable<string> Update(IPDF allegato)
 		{
@@ -43,8 +55,7 @@ namespace Flotta.Model
 
 		public object Clone()
 		{
-			// Also copy the reference to scadenza
-			return new Permesso(_type, _allegato);
+			return new Permesso(_mezzo, _type, _allegato) { Scadenza = _scadenza };
 		}
 	}
 }

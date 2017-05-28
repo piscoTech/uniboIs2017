@@ -16,12 +16,12 @@ namespace Flotta.ClientSide.Interface
 		string Codice { get; set; }
 		string Pin { get; set; }
 
-		ConfirmAction Validation { set; }
+		Func<bool> Validation { set; }
 	}
 
 	internal partial class UpdateTesseraDialog : Form, IUpdateTesseraDialog
 	{
-		private ConfirmAction _validation;
+		private Func<bool> _validation;
 
 		internal UpdateTesseraDialog()
 		{
@@ -40,7 +40,7 @@ namespace Flotta.ClientSide.Interface
 			set => pin.Text = value;
 		}
 
-		public ConfirmAction Validation
+		public Func<bool> Validation
 		{
 			set => _validation = value;
 		}

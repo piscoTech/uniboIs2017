@@ -10,8 +10,6 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public delegate void LinkedObjectAction(int index);
-
 	public interface ITabGeneraleView
 	{
 		event Action DeleteMezzo;
@@ -22,6 +20,7 @@ namespace Flotta.ClientSide.Interface
 		string Modello { get; set; }
 		string Targa { get; set; }
 		uint Numero { get; set; }
+		string NumeroCartaCircolazione { get; set; }
 		string NumeroTelaio { get; set; }
 		uint AnnoImmatricolazione { get; set; }
 		float Portata { get; set; }
@@ -34,14 +33,18 @@ namespace Flotta.ClientSide.Interface
 		IEnumerable<IDispositivoPermessoListItem> Dispositivi { set; }
 		IEnumerable<IDispositivoPermessoListItem> Permessi { set; }
 
-		event LinkedObjectAction TesseraEdit;
-		event LinkedObjectAction TesseraRemove;
+		void RefreshTessere();
+		void RefreshDispositivi();
+		void RefreshPermessi();
 
-		event LinkedObjectAction DispositivoEdit;
-		event LinkedObjectAction DispositivoRemove;
+		event Action<int> TesseraEdit;
+		event Action<int> TesseraRemove;
 
-		event LinkedObjectAction PermessoEdit;
-		event LinkedObjectAction PermessoRemove;
+		event Action<int> DispositivoEdit;
+		event Action<int> DispositivoRemove;
+
+		event Action<int> PermessoEdit;
+		event Action<int> PermessoRemove;
 
 		bool EditMode { set; }
 	}
@@ -116,6 +119,12 @@ namespace Flotta.ClientSide.Interface
 				}
 			}
 			set => numero.Text = value > 0 ? Convert.ToString(value) : "";
+		}
+
+		public string NumeroCartaCircolazione
+		{
+			get => numCartaCircolazione.Text;
+			set => numCartaCircolazione.Text = value;
 		}
 
 		public string NumeroTelaio
@@ -266,6 +275,21 @@ namespace Flotta.ClientSide.Interface
 				foreach (var t in value)
 					_permessi.Add(t);
 			}
+		}
+
+		public void RefreshTessere()
+		{
+			tessereList.Refresh();
+		}
+
+		public void RefreshDispositivi()
+		{
+			dispositiviList.Refresh();
+		}
+
+		public void RefreshPermessi()
+		{
+			permessiList.Refresh();
 		}
 
 		public bool EditMode
@@ -434,8 +458,8 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public event LinkedObjectAction TesseraEdit;
-		public event LinkedObjectAction TesseraRemove;
+		public event Action<int> TesseraEdit;
+		public event Action<int> TesseraRemove;
 		private void OnTesseraClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex < 0 || !_editMode)
@@ -447,8 +471,8 @@ namespace Flotta.ClientSide.Interface
 				TesseraRemove?.Invoke(e.RowIndex);
 		}
 
-		public event LinkedObjectAction DispositivoEdit;
-		public event LinkedObjectAction DispositivoRemove;
+		public event Action<int> DispositivoEdit;
+		public event Action<int> DispositivoRemove;
 		private void OnDispositivoClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex < 0 || !_editMode)
@@ -460,8 +484,8 @@ namespace Flotta.ClientSide.Interface
 				DispositivoRemove?.Invoke(e.RowIndex);
 		}
 
-		public event LinkedObjectAction PermessoEdit;
-		public event LinkedObjectAction PermessoRemove;
+		public event Action<int> PermessoEdit;
+		public event Action<int> PermessoRemove;
 		private void OnPermessoClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex < 0 || !_editMode)
