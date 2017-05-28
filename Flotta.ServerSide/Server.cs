@@ -18,6 +18,7 @@ namespace Flotta.ServerSide
 		event ObjectChangedHandler ObjectRemoved;
 
 		IEnumerable<IMezzo> Mezzi { get; }
+        IEnumerable<IUser> Utenti { get; }
 		IEnumerable<ITesseraType> TesseraTypes { get; }
 		IEnumerable<IDispositivoType> DispositivoTypes { get; }
 		IEnumerable<IPermessoType> PermessoTypes { get; }
@@ -37,6 +38,8 @@ namespace Flotta.ServerSide
 		bool DeletePermessoType(IPermessoType permesso);
 		bool DeleteManutenzioneType(IManutenzioneType manutenzione);
 		bool DeleteAssicurazioneType(IAssicurazioneType manutenzione);
+
+        bool ValidateUser(string username, string password);
 	}
 
 	public class Server : IServer
@@ -44,8 +47,9 @@ namespace Flotta.ServerSide
 
 		private IServerWindow _window;
 		private HashSet<IMezzo> _mezzi = new HashSet<IMezzo>();
+        private HashSet<IUser> _utenti = new HashSet<IUser>();
 
-		private HashSet<ITesseraType> _tesseraTypes = new HashSet<ITesseraType>();
+        private HashSet<ITesseraType> _tesseraTypes = new HashSet<ITesseraType>();
 		private HashSet<IDispositivoType> _dispositivoTypes = new HashSet<IDispositivoType>();
 		private HashSet<IPermessoType> _permessoTypes = new HashSet<IPermessoType>();
 		private HashSet<IManutenzioneType> _manutenzioneTypes = new HashSet<IManutenzioneType>();
@@ -63,6 +67,11 @@ namespace Flotta.ServerSide
 
 		private void FillDatabase()
 		{
+
+            IUser u = ModelFactory.NewUtente("admin", "password");
+            _utenti.Add(u);
+
+
 			ITesseraType tt = ModelFactory.NewTesseraType();
 			tt.Update("Tessera 1");
 			_tesseraTypes.Add(tt);
@@ -144,6 +153,7 @@ namespace Flotta.ServerSide
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
+        public IEnumerable<IUser> Utenti => from u in _utenti orderby u.Username select u;
 		public IEnumerable<ITesseraType> TesseraTypes => from t in _tesseraTypes orderby t.Name select t;
 		public IEnumerable<IDispositivoType> DispositivoTypes => from t in _dispositivoTypes orderby t.Name select t;
 		public IEnumerable<IPermessoType> PermessoTypes => from t in _permessoTypes orderby t.Name select t;
@@ -345,5 +355,23 @@ namespace Flotta.ServerSide
 
 			return DeleteLinkedType(_assicurazioneTypes, assicurazione, false);
 		}
+
+
+        public bool ValidateUser(string username, string password)
+        {
+            bool valid = false;
+            foreach(IUser u in Utenti)
+            {
+                if (u.Username.Equals(username))
+                {
+                    if (u.Password.Equals(password))
+                        valid = true;
+                    break;
+                }
+            }
+            return valid;
+        }
+
+
 	}
 }

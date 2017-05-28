@@ -23,6 +23,7 @@ namespace Flotta.ClientSide
 
 		private IServer _server;
 		private IClientWindow _mainWindow;
+        private IUser _user;
 
 		private MezzoTabPresenter _mezzoPresenter;
 		private IClosablePresenter _typesPresenter;

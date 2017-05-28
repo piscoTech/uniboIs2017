@@ -60,5 +60,10 @@ namespace Flotta.ClientSide.Interface
 		{
 			return new UpdateDispositivoPermessoDialog();
 		}
+
+        public static IAuthenticateUserDialog NewAuthenticateUserDialog()
+        {
+            return new AuthenticateUserDialog();
+        }
 	}
 }

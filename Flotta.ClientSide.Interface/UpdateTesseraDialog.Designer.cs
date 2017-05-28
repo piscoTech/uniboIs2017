@@ -28,72 +28,78 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.button1 = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.pin = new System.Windows.Forms.TextBox();
-			this.codice = new System.Windows.Forms.TextBox();
-			this.SuspendLayout();
-			// 
-			// button1
-			// 
-			this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.button1.Location = new System.Drawing.Point(198, 93);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 3;
-			this.button1.Text = "Salva";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.OnSave);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 48);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(25, 13);
-			this.label1.TabIndex = 3;
-			this.label1.Text = "PIN";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 9);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(40, 13);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "Codice";
-			// 
-			// pin
-			// 
-			this.pin.Location = new System.Drawing.Point(15, 64);
-			this.pin.Name = "pin";
-			this.pin.Size = new System.Drawing.Size(258, 20);
-			this.pin.TabIndex = 2;
-			// 
-			// codice
-			// 
-			this.codice.Location = new System.Drawing.Point(15, 25);
-			this.codice.Name = "codice";
-			this.codice.Size = new System.Drawing.Size(258, 20);
-			this.codice.TabIndex = 1;
-			// 
-			// UpdateTesseraDialog
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(285, 125);
-			this.Controls.Add(this.codice);
-			this.Controls.Add(this.pin);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.button1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.Name = "UpdateTesseraDialog";
-			this.Text = "Modifica – Tessera – Flotta";
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.pin = new System.Windows.Forms.TextBox();
+            this.codice = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // button1
+            // 
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button1.Location = new System.Drawing.Point(264, 114);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 28);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Salva";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.OnSave);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 59);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 17);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "PIN";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(51, 17);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Codice";
+            // 
+            // pin
+            // 
+            this.pin.Location = new System.Drawing.Point(20, 79);
+            this.pin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pin.Name = "pin";
+            this.pin.Size = new System.Drawing.Size(343, 22);
+            this.pin.TabIndex = 2;
+            // 
+            // codice
+            // 
+            this.codice.Location = new System.Drawing.Point(20, 31);
+            this.codice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.codice.Name = "codice";
+            this.codice.Size = new System.Drawing.Size(343, 22);
+            this.codice.TabIndex = 1;
+            // 
+            // UpdateTesseraDialog
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(380, 154);
+            this.Controls.Add(this.codice);
+            this.Controls.Add(this.pin);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximizeBox = false;
+            this.Name = "UpdateTesseraDialog";
+            this.Text = "Modifica – Tessera – Flotta";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 

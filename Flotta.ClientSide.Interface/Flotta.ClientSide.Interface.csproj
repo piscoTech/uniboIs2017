@@ -42,6 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticateUserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthenticateUserDialog.Designer.cs">
+      <DependentUpon>AuthenticateUserDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClientSideInterfaceFactory.cs" />
     <Compile Include="ClientWindow.cs">
       <SubType>Form</SubType>
@@ -100,6 +106,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AuthenticateUserDialog.resx">
+      <DependentUpon>AuthenticateUserDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClientWindow.resx">
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </EmbeddedResource>

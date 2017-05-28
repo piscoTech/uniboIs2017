@@ -52,5 +52,10 @@ namespace Flotta.Model
 		{
 			return new Permesso(type);
 		}
+
+        public static IUser NewUtente(string username, string password)
+        {
+            return new User(username, password);
+        }
 	}
 }
