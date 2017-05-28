@@ -53,18 +53,31 @@
     <Compile Include="DispositivoPermessoListItem.cs" />
     <Compile Include="ICloseableDisposable.cs" />
     <Compile Include="LinkedTypeListItem.cs" />
+    <Compile Include="OfficinaManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OfficinaManagerWindow.Designer.cs">
+      <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="LinkedTypeManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LinkedTypeManagerWindow.Designer.cs">
       <DependentUpon>LinkedTypeManagerWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManutenzioneListItem.cs" />
     <Compile Include="MezzoListItem.cs" />
     <Compile Include="MezzoTabView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MezzoTabView.Designer.cs">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateManutenzioneDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateManutenzioneDialog.Designer.cs">
+      <DependentUpon>UpdateManutenzioneDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="NewMezzoDialog.cs">
       <SubType>Form</SubType>
@@ -74,6 +87,12 @@
     </Compile>
     <Compile Include="TabScadenzeView.Designer.cs">
       <DependentUpon>TabScadenzeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TabManutenzioniView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabManutenzioniView.Designer.cs">
+      <DependentUpon>TabManutenzioniView.cs</DependentUpon>
     </Compile>
     <Compile Include="TesseraListItem.cs" />
     <Compile Include="RenewScadenzaDialog.cs">
@@ -110,6 +129,12 @@
     <Compile Include="UpdateScadenzaDialog.Designer.cs">
       <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateOfficinaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateOfficinaDialog.Designer.cs">
+      <DependentUpon>UpdateOfficinaDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateTesseraDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,8 +147,14 @@
     <EmbeddedResource Include="ClientWindow.resx">
       <DependentUpon>ClientWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OfficinaManagerWindow.resx">
+      <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MezzoTabView.resx">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateManutenzioneDialog.resx">
+      <DependentUpon>UpdateManutenzioneDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewMezzoDialog.resx">
       <DependentUpon>NewMezzoDialog.cs</DependentUpon>
@@ -133,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TabScadenzeView.resx">
       <DependentUpon>TabScadenzeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabManutenzioniView.resx">
+      <DependentUpon>TabManutenzioniView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateDispositivoPermessoDialog.resx">
       <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
@@ -148,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateScadenzaDialog.resx">
       <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateOfficinaDialog.resx">
+      <DependentUpon>UpdateOfficinaDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateTesseraDialog.resx">
       <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>

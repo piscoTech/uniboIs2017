@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -19,6 +19,7 @@ namespace Flotta.ClientSide.Interface
 
 		ITabGeneraleView GeneraleTab { get; }
 		ITabScadenzeView ScadenzeTab { get; }
+		ITabManutenzioniView ManutenzioniTab { get; }
 	}
 
 	internal partial class MezzoTabView : UserControl, IMezzoTabView
@@ -42,6 +43,7 @@ namespace Flotta.ClientSide.Interface
 
 		public ITabGeneraleView GeneraleTab => tabGeneraleView;
 		public ITabScadenzeView ScadenzeTab => tabScadenzeView;
+		public ITabManutenzioniView ManutenzioniTab => tabManutenzioniView;
 
 		public event Action ExitEdit;
 		public event Action<int> TabChanged;

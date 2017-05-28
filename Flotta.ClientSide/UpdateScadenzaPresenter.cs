@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Flotta.ClientSide
 {
-	internal class UpdateScadenzaPresenter : IClosablePresenter
+	internal class UpdateScadenzaPresenter : IPresenter
 	{
 		private IUpdateScadenzaDialog _view;
 
@@ -119,6 +119,7 @@ namespace Flotta.ClientSide
 			}
 		}
 
+		public event Action PresenterClosed;
 		public void Close()
 		{
 			_view.Close();

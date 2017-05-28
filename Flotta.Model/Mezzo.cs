@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,9 +22,11 @@ namespace Flotta.Model
 		float Lunghezza { get; }
 		float Profondita { get; }
 		float VolumeCarico { get; }
-		ITessera[] Tessere { get; }
-		IDispositivo[] Dispositivi { get; }
-		IPermesso[] Permessi { get; }
+
+		IEnumerable<ITessera> Tessere { get; }
+		IEnumerable<IDispositivo> Dispositivi { get; }
+		IEnumerable<IPermesso> Permessi { get; }
+		IEnumerable<IManutenzione> Manutenzioni { get; }
 
 		IEnumerable<string> Update(IImmagine foto, string modello, string targa, uint numero, string numCartaCircolazione,
 								   IPDF cartaCircolazione, string numeroTelaio, uint annoImmatricolazione,
@@ -36,6 +38,9 @@ namespace Flotta.Model
 		Scadenza ScadenzaCartaCircolazione { get; set; }
 		[MezzoScadenza("Tagliando", 1)]
 		Scadenza ScadenzaTagliando { get; set; }
+
+		void AddManutenzione(IManutenzione m);
+		void RemoveManutenzione(IManutenzione m);
 	}
 
 	internal class Mezzo : IMezzo
@@ -53,9 +58,10 @@ namespace Flotta.Model
 		private float _lunghezza;
 		private float _profondita;
 		private float _volumeCarico;
-		private HashSet<ITessera> _tessere = new HashSet<ITessera>();
-		private HashSet<IDispositivo> _dispositivi = new HashSet<IDispositivo>();
-		private HashSet<IPermesso> _permessi = new HashSet<IPermesso>();
+		private List<ITessera> _tessere = new List<ITessera>();
+		private List<IDispositivo> _dispositivi = new List<IDispositivo>();
+		private List<IPermesso> _permessi = new List<IPermesso>();
+		private List<IManutenzione> _manutenzioni = new List<IManutenzione>();
 
 		private Scadenza _scadCartaCircolazione, _scadTagliando;
 
@@ -72,9 +78,9 @@ namespace Flotta.Model
 		public float Lunghezza => _lunghezza;
 		public float Profondita => _profondita;
 		public float VolumeCarico => _volumeCarico;
-		public ITessera[] Tessere => _tessere.ToArray();
-		public IDispositivo[] Dispositivi => _dispositivi.ToArray();
-		public IPermesso[] Permessi => _permessi.ToArray();
+		public IEnumerable<ITessera> Tessere => _tessere;
+		public IEnumerable<IDispositivo> Dispositivi => _dispositivi;
+		public IEnumerable<IPermesso> Permessi => _permessi;
 
 		public Scadenza ScadenzaCartaCircolazione
 		{
@@ -86,6 +92,8 @@ namespace Flotta.Model
 			get => _scadTagliando;
 			set => _scadTagliando = value;
 		}
+
+		public IEnumerable<IManutenzione> Manutenzioni => _manutenzioni;
 
 		private bool CheckType(IEnumerable<LinkedType> array)
 		{
@@ -245,5 +253,27 @@ namespace Flotta.Model
 
 			return errors;
 		}
+
+		public void AddManutenzione(IManutenzione m)
+		{
+			if (m == null || m.Mezzo == null)
+				throw new ArgumentException("Null manutenzione or not linked to mezzo");
+			else if (m.Mezzo != this)
+				throw new ArgumentException("Manutenzione linked to different mezzo");
+
+			if (!_manutenzioni.Contains(m))
+				_manutenzioni.Add(m);
+		}
+
+		public void RemoveManutenzione(IManutenzione m)
+		{
+			if (m == null || m.Mezzo == null)
+				throw new ArgumentException("Null manutenzione or not linked to mezzo");
+			else if (m.Mezzo != this)
+				throw new ArgumentException("Manutenzione linked to different mezzo");
+
+			_manutenzioni.Remove(m);
+		}
 	}
 }
+

@@ -15,16 +15,7 @@ namespace Flotta.Model
 	{
 		public override bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi)
 		{
-			return (from t in (
-						from m in mezzi
-						select (
-							from t in m.Tessere
-							where t.Type == this
-							select t.Type
-						)
-					  )
-					where t.Count() > 0
-					select t).Count() > 0;
+			return mezzi.Any((IMezzo m) => m.Tessere.Any((ITessera tess) => tess.Type == this));
 		}
 	}
 }

@@ -72,5 +72,25 @@ namespace Flotta.ClientSide.Interface
 		{
 			return new RenewScadenzaDialog();
 		}
+
+		public static IUpdateManutenzioneDialog NewUpdateManutenzioneDialog()
+		{
+			return new UpdateManutenzioneDialog();
+		}
+
+		public static IManutenzioneListItem NewManutenzioneListItem(string date, string note, string tipo, float costo, string allegatoPath, string officina)
+		{
+			return new ManutenzioneListItem(date, note, tipo, costo, allegatoPath, officina);
+		}
+
+		public static IOfficinaManagerWindow NewOfficinaManagerWindow()
+		{
+			return new OfficinaManagerWindow();
+		}
+
+		public static IUpdateOfficinaDialog NewUpdateOfficinaDialog()
+		{
+			return new UpdateOfficinaDialog();
+		}
 	}
 }

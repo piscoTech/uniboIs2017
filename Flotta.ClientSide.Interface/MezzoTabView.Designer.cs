@@ -1,4 +1,4 @@
-﻿namespace Flotta.ClientSide.Interface
+namespace Flotta.ClientSide.Interface
 {
 	partial class MezzoTabView
 	{
@@ -32,13 +32,13 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.label3 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.label4 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.label5 = new System.Windows.Forms.Label();
-			this.tabGeneraleView = new TabGeneraleView();
-			this.tabScadenzeView = new TabScadenzeView();
+			this.tabGeneraleView = new Flotta.ClientSide.Interface.TabGeneraleView();
+			this.tabScadenzeView = new Flotta.ClientSide.Interface.TabScadenzeView();
+			this.tabManutenzioniView = new Flotta.ClientSide.Interface.TabManutenzioniView();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
@@ -112,7 +112,7 @@
 			// 
 			// tabPage3
 			// 
-			this.tabPage3.Controls.Add(this.label3);
+			this.tabPage3.Controls.Add(this.tabManutenzioniView);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Size = new System.Drawing.Size(356, 393);
@@ -120,15 +120,13 @@
 			this.tabPage3.Text = "Manutenzioni";
 			this.tabPage3.UseVisualStyleBackColor = true;
 			// 
-			// label3
+			// tabManutenzioniView
 			// 
-			this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label3.Location = new System.Drawing.Point(0, 0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(356, 393);
-			this.label3.TabIndex = 1;
-			this.label3.Text = "Non implementato";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.tabManutenzioniView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabManutenzioniView.Location = new System.Drawing.Point(0, 0);
+			this.tabManutenzioniView.Name = "tabManutenzioniView";
+			this.tabManutenzioniView.Size = new System.Drawing.Size(356, 393);
+			this.tabManutenzioniView.TabIndex = 2;
 			// 
 			// tabPage4
 			// 
@@ -193,12 +191,12 @@
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.TabPage tabPage3;
-		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TabPage tabPage4;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.Label label5;
 		private TabGeneraleView tabGeneraleView;
 		private TabScadenzeView tabScadenzeView;
+		private TabManutenzioniView tabManutenzioniView;
 	}
 }
