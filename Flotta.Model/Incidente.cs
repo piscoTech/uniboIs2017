@@ -41,13 +41,14 @@ namespace Flotta.Model
 			_mezzo = mezzo;
 		}
 
+		public IMezzo Mezzo => _mezzo;
 		public DateTime Data => _data;
 		public IAssicurazioneType Assicurazione => _assicurazione;
 		public IPDF Cid => _cid;
 		public float RimborsoAssicurativo => _rimborsoAssicurativo;
 		public float DannoTotale => _dannoTotale;
-		IEnumerable<IManutenzione> Riparazioni => _riparazioni;
-		IEnumerable<IImmagine> Foto => _foto;
+		public IEnumerable<IManutenzione> Riparazioni => _riparazioni;
+		public IEnumerable<IImmagine> Foto => _foto;
 
 		public IEnumerable<string> Update(DateTime d, IAssicurazioneType a, IPDF cid, float rimbass,
 								   float dannotot, IOfficina officina, IEnumerable<IManutenzione> riparazioni,

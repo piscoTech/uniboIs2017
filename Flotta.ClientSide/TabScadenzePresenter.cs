@@ -21,9 +21,8 @@ namespace Flotta.ClientSide
 		private List<IScadenzaAdapter> _scadenze = new List<IScadenzaAdapter>();
 		private List<IScadenzaListItem> _scadenzeItem = new List<IScadenzaListItem>();
 
-		private IScadenzaAdapter _activeScad = null;
 		private UpdateScadenzaPresenter _updatePresenter = null;
-		private IRenewScadenzaDialog _renewDialog = null;
+		private RenewScadenzaPresenter _renewPresenter = null;
 
 		internal TabScadenzePresenter(IServer server, MezzoTabPresenter tabs, ITabScadenzeView view)
 		{
@@ -45,9 +44,7 @@ namespace Flotta.ClientSide
 				return;
 
 			_updatePresenter?.Close();
-			_renewDialog?.Close();
-			_renewDialog?.Dispose();
-			_activeScad = null;
+			_renewPresenter?.Close();
 
 			_scadenze.Clear();
 			_scadenzeItem.Clear();
@@ -109,14 +106,7 @@ namespace Flotta.ClientSide
 		private void OnObjectRemoved(IDBObject obj)
 		{
 			if (obj is IScadenzaAdapter scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
-			{
-				if (scadOwner == _activeScad)
-				{
-					_renewDialog?.Close();
-					_renewDialog?.Dispose();
-				}
 				Reload();
-			}
 		}
 
 		public void OnCancelEdit()
@@ -132,43 +122,9 @@ namespace Flotta.ClientSide
 
 		private void OnScadenzaRenew(int index)
 		{
-			IScadenzaAdapter scad = _scadenze[index];
-			Scadenza newScad = scad.Scadenza.Clone() as Scadenza;
-			if (scad.Scadenza.HasRecurrencyPeriod)
-			{
-				newScad.SetNextDate();
-				_server.UpdateScadenza(scad, newScad);
-			}
-			else
-			{
-				_activeScad = scad;
-
-				using (_renewDialog = ClientSideInterfaceFactory.NewRenewScadenzaDialog())
-				{
-					_renewDialog.Date = newScad.Date;
-					_renewDialog.ScadName = scad.ScadenzaName;
-					_renewDialog.Validation = () =>
-					{
-						try
-						{
-							newScad.Date = _renewDialog.Date;
-							return true;
-						}
-						catch (Exception e)
-						{
-							MessageBox.Show(e.Message, "Errore");
-							return false;
-						}
-					};
-
-					if (_renewDialog.ShowDialog() == DialogResult.OK)
-					{
-						_server.UpdateScadenza(_activeScad, newScad);
-					}
-				}
-				_renewDialog = null;
-				_activeScad = null;
-			}
+			_renewPresenter = new RenewScadenzaPresenter(_server, _scadenze[index]);
+			_renewPresenter.PresenterClosed += () => _renewPresenter = null;
+			_renewPresenter.ShowDialog();
 		}
 	}
 }

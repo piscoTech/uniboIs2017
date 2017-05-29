@@ -18,11 +18,13 @@ namespace Flotta.ClientSide
 		private List<T> _typeList;
 		private string _typeName;
 
+		private UpdateLinkedTypePresenter<T> _updatePresenter;
+
 		internal LinkedTypeManagerPresenter(IServer server, string typeName)
 		{
 			_server = server;
-			_server.ObjectChanged += OnObjectChanged;
-			_server.ObjectRemoved += OnObjectRemoved;
+			_server.ObjectChanged += OnObjectChangedRemoved;
+			_server.ObjectRemoved += OnObjectChangedRemoved;
 
 			_typeName = typeName;
 		}
@@ -42,24 +44,11 @@ namespace Flotta.ClientSide
 			_window.Show();
 		}
 
-		private void OnObjectChanged(IDBObject obj)
+		private void OnObjectChangedRemoved(IDBObject obj)
 		{
 			if (obj is T)
 			{
 				UpdateTypeList();
-			}
-		}
-
-		private void OnObjectRemoved(IDBObject obj)
-		{
-			if (obj is T)
-			{
-				UpdateTypeList();
-				if ((obj as T) == _activeType)
-				{
-					_updateDialog?.Close();
-					_updateDialog?.Dispose();
-				}
 			}
 		}
 
@@ -72,12 +61,9 @@ namespace Flotta.ClientSide
 			_window.TypeList = from t in _typeList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Name, t.IsDisabled);
 		}
 
-		private T _activeType = null;
-		private IUpdateLinkedTypeDialog _updateDialog;
-
 		private void OnCreateNewType()
 		{
-			DoEdit(null);
+			DoEdit(ModelFactory.NewLinkedType<T>());
 		}
 
 		private void OnEditType(int index)
@@ -87,28 +73,9 @@ namespace Flotta.ClientSide
 
 		private void DoEdit(T activeType)
 		{
-			_activeType = activeType;
-
-			using (_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedTypeDialog())
-			{
-				_updateDialog.NameText = activeType?.Name ?? "";
-				_updateDialog.TypeName = _typeName;
-				_updateDialog.Validation = () =>
-				{
-					T type = activeType ?? ModelFactory.NewLinkedType<T>();
-					var errors = _server.UpdateLinkedType(type, _updateDialog.NameText);
-					if (errors.Count() > 0)
-					{
-						MessageBox.Show(String.Join("\r\n", errors), "Errore");
-						return false;
-					}
-					else
-						return true;
-				};
-
-				_updateDialog.ShowDialog();
-				_updateDialog = null;
-			}
+			_updatePresenter = new UpdateLinkedTypePresenter<T>(_server, activeType, _typeName);
+			_updatePresenter.PresenterClosed += () => _updatePresenter = null;
+			_updatePresenter.ShowDialog();
 		}
 
 		private void OnDeleteType(int index)
@@ -126,8 +93,7 @@ namespace Flotta.ClientSide
 			var win = _window;
 			_window = null;
 
-			_updateDialog?.Close();
-			_updateDialog?.Dispose();
+			_updatePresenter?.Close();
 			win?.Close();
 			win?.Dispose();
 			PresenterClosed?.Invoke();
