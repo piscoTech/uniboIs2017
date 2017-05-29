@@ -27,6 +27,8 @@ namespace Flotta.Model
 		IEnumerable<IDispositivo> Dispositivi { get; }
 		IEnumerable<IPermesso> Permessi { get; }
 		IEnumerable<IManutenzione> Manutenzioni { get; }
+		IEnumerable<IImmagine> Galleria { get; }
+		IEnumerable<IIncidente> RegistroIncidenti { get; }
 
 		IEnumerable<string> Update(IImmagine foto, string modello, string targa, uint numero, string numCartaCircolazione,
 								   IPDF cartaCircolazione, string numeroTelaio, uint annoImmatricolazione,
@@ -41,6 +43,12 @@ namespace Flotta.Model
 
 		void AddManutenzione(IManutenzione m);
 		void RemoveManutenzione(IManutenzione m);
+
+		void AddImmagine(IImmagine foto);
+		void RemoveImmagine(IImmagine foto);
+
+		void AddIncidente(IIncidente i);
+		void RemoveIncidente(IIncidente i);
 	}
 
 	internal class Mezzo : IMezzo
@@ -62,6 +70,8 @@ namespace Flotta.Model
 		private List<IDispositivo> _dispositivi = new List<IDispositivo>();
 		private List<IPermesso> _permessi = new List<IPermesso>();
 		private List<IManutenzione> _manutenzioni = new List<IManutenzione>();
+		private List<IImmagine> _galleria = new List<IImmagine>();
+		private List<IIncidente> _incidenti = new List<IIncidente>();
 
 		private Scadenza _scadCartaCircolazione, _scadTagliando;
 
@@ -93,7 +103,9 @@ namespace Flotta.Model
 			set => _scadTagliando = value;
 		}
 
-		public IEnumerable<IManutenzione> Manutenzioni => _manutenzioni;
+		public IEnumerable<IManutenzione> Manutenzioni => from m in _manutenzioni orderby m.Data descending select m;
+		public IEnumerable<IImmagine> Galleria => from i in _galleria orderby i.DataCaricamento descending select i;
+		public IEnumerable<IIncidente> RegistroIncidenti => from i in _incidenti orderby i.Data descending select i;
 
 		private bool CheckType(IEnumerable<LinkedType> array)
 		{
@@ -273,6 +285,41 @@ namespace Flotta.Model
 				throw new ArgumentException("Manutenzione linked to different mezzo");
 
 			_manutenzioni.Remove(m);
+		}
+
+		public void AddImmagine(IImmagine foto)
+		{
+			if (!(foto?.IsValid ?? true))
+				throw new ArgumentException("Foto non valida");
+
+			if (!_galleria.Contains(foto))
+				_galleria.Add(foto);
+		}
+
+		public void RemoveImmagine(IImmagine foto)
+		{
+			_galleria.Remove(foto);
+		}
+
+		public void AddIncidente(IIncidente i)
+		{
+			if (i == null || i.Mezzo == null)
+				throw new ArgumentException("Null incidente or not linked to mezzo");
+			else if (i.Mezzo != this)
+				throw new ArgumentException("Incidente linked to different mezzo");
+
+			if (!_incidenti.Contains(i))
+				_incidenti.Add(i);
+		}
+
+		public void RemoveIncidente(IIncidente i)
+		{
+			if (i == null || i.Mezzo == null)
+				throw new ArgumentException("Null incidente or not linked to mezzo");
+			else if (i.Mezzo != this)
+				throw new ArgumentException("Incidente linked to different mezzo");
+
+			_incidenti.Remove(i);
 		}
 	}
 }

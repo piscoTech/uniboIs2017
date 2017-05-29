@@ -64,7 +64,7 @@ namespace Flotta.Model
 			if (!(allegato?.IsValid ?? true))
 				errors.Add("Allegato non valido");
 
-			_data = d;
+			_data = d.Date;
 			_type = t;
 			_note = n;
 			_costo = c;

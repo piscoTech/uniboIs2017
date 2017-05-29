@@ -135,5 +135,20 @@ namespace Flotta.Model
 		{
 			return new Officina();
 		}
+
+		public static IIncidente NewIncidente(IMezzo mezzo)
+		{
+			return new Incidente(mezzo);
+		}
+
+		public static IPDF NewPDF()
+		{
+			return new PDF();
+		}
+
+		public static IImmagine NewImmagine()
+		{
+			return new Immagine();
+		}
 	}
 }
