@@ -166,6 +166,8 @@ namespace Flotta.Model
 
 			if (annoImmatricolazione <= 0)
 				errors.Add("Anno di immatricolazione non valido");
+			else if (annoImmatricolazione > DateTime.Now.Year)
+				errors.Add("L'anno di immatricolazione non può essere nel futuro");
 
 			if (portata < 0)
 				errors.Add("La portata deve essere positiva o 0 per non specificata");

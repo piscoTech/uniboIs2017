@@ -2,8 +2,9 @@
 namespace Flotta.Model
 {
 	[ScadenzaType("Manuale", 0)]
-	class ScadenzaManuale : ScadenzaConData
+	class ScadenzaManuale : Scadenza
 	{
+		public override bool HasDate => true;
 		public override bool HasRecurrencyPeriod => false;
 	}
 }

@@ -125,9 +125,4 @@ namespace Flotta.Model
 			return scad;
 		}
 	}
-
-	abstract class ScadenzaConData : Scadenza
-	{
-		public sealed override bool HasDate => true;
-	}
 }

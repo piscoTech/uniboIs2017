@@ -47,7 +47,7 @@ namespace Flotta.Model
 		}
 	}
 
-	[ScadenzaFormat("mm/aaaa", 0)]
+	[ScadenzaFormat("mm/aaaa", 1)]
 	class NoDayScadenzaFormat : ScadenzaFormat
 	{
 		public override string Format(DateTime date)

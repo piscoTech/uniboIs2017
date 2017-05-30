@@ -18,7 +18,7 @@ namespace Flotta.Model
 		IEnumerable<IImmagine> Foto { get; }
 
 		IEnumerable<string> Update(DateTime d, IAssicurazioneType a, IPDF cid, float rimbass,
-								   float dannotot, IOfficina officina, IEnumerable<IManutenzione> riparazioni,
+								   float dannotot, IEnumerable<IManutenzione> riparazioni,
 								   IEnumerable<IImmagine> foto);
 	}
 
@@ -51,7 +51,7 @@ namespace Flotta.Model
 		public IEnumerable<IImmagine> Foto => _foto;
 
 		public IEnumerable<string> Update(DateTime d, IAssicurazioneType a, IPDF cid, float rimbass,
-								   float dannotot, IOfficina officina, IEnumerable<IManutenzione> riparazioni,
+								   float dannotot, IEnumerable<IManutenzione> riparazioni,
 								   IEnumerable<IImmagine> foto)
 		{
 			List<string> errors = new List<string>();
