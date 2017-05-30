@@ -11,6 +11,8 @@ namespace Flotta.ServerSide
 {
 	public interface IServer
 	{
+		void Run();
+
 		void ClientDisconnected();
 		void ClientConnected();
 		event Action<IDBObject> ObjectChanged;
@@ -49,14 +51,19 @@ namespace Flotta.ServerSide
 
 		private Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
 
-		internal Server(IServerWindow window)
+		internal Server()
 		{
-			_window = window;
+			_window = ServerSideInterfaceFactory.NewServerWindow();
 
 			_window.CreateClient += OnCreateClient;
 			_window.CanTerminate = true;
 
 			FillDatabase();
+		}
+
+		public void Run()
+		{
+			_window.Run();
 		}
 
 		private void FillDatabase()

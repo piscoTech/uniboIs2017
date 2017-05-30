@@ -75,10 +75,6 @@
       <Project>{276363b5-e2a2-47bd-b689-a45615c2242a}</Project>
       <Name>Flotta.ClientSide</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Flotta.ServerSide.Interface\Flotta.ServerSide.Interface.csproj">
-      <Project>{6848b119-df0d-45da-8db5-5edf9dbece36}</Project>
-      <Name>Flotta.ServerSide.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Flotta.ServerSide\Flotta.ServerSide.csproj">
       <Project>{d530e61c-f616-435d-8aaf-874443d05991}</Project>
       <Name>Flotta.ServerSide</Name>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Flotta.ServerSide;
-using Flotta.ServerSide.Interface;
 using Flotta.ClientSide;
 
 namespace Flotta
@@ -25,10 +24,8 @@ namespace Flotta
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			IServerWindow serverWindow = ServerSideInterfaceFactory.NewServerWindow();
-			_server = ServerSideFactory.NewServer(serverWindow, SpawnClient);
-
-			serverWindow.Run();
+			_server = ServerSideFactory.NewServer(SpawnClient);
+			_server.Run();
 		}
 
 		private static void SpawnClient()

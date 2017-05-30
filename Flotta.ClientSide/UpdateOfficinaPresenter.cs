@@ -56,7 +56,7 @@ namespace Flotta.ClientSide
 
 				_window.ShowDialog();
 			}
-			PresenterClosed?.Invoke();
+			Close();
 		}
 
 		private void Reload()

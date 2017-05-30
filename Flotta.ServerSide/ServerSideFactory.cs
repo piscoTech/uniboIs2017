@@ -9,9 +9,9 @@ namespace Flotta.ServerSide
 {
 	public static class ServerSideFactory
 	{
-		public static IServer NewServer(IServerWindow window, Action clientCreator)
+		public static IServer NewServer(Action clientCreator)
 		{
-			return new Server(window) { ClientCreator = clientCreator };
+			return new Server() { ClientCreator = clientCreator };
 		}
 	}
 }
