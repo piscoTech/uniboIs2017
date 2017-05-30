@@ -17,11 +17,15 @@ namespace Flotta.ClientSide.Interface
 		IEnumerable<IMezzoListItem> MezziList { set; }
 		IMezzoTabView MezzoTabControl { get; }
 		bool HasMezzo { set; }
+		void SetUserMode(string username, bool isAdmin);
 
 		event Action WindowClose;
 		event Action<int> MezzoSelected;
 		event Action CreateNewMezzo;
 		event Action ManageOfficine;
+
+		event Action ChangePassword;
+		event Action ManageUsers;
 
 		void AddNewLinkedType(string title, Action handler);
 	}
@@ -56,6 +60,12 @@ namespace Flotta.ClientSide.Interface
 
 			mezziList.DisableSort();
 			mezziList.DataSource = _mezziList;
+		}
+
+		public void SetUserMode(string username, bool isAdmin)
+		{
+			currentUserItem.Text = "Benvenuto " + username;
+			userAdminActionSeparator.Visible = manageUserItem.Visible = isAdmin;
 		}
 
 		public IEnumerable<IMezzoListItem> MezziList
@@ -118,6 +128,18 @@ namespace Flotta.ClientSide.Interface
 		private void OnManageOfficine(object sender, EventArgs e)
 		{
 			ManageOfficine?.Invoke();
+		}
+
+		public event Action ChangePassword;
+		private void OnChangePassword(object sender, EventArgs e)
+		{
+			ChangePassword?.Invoke();
+		}
+
+		public event Action ManageUsers;
+		private void OnManageUsers(object sender, EventArgs e)
+		{
+			ManageUsers?.Invoke();
 		}
 	}
 }

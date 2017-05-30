@@ -17,6 +17,8 @@ namespace Flotta.ClientSide
 
 	internal class Client : IClient
 	{
+		private bool _closed = false;
+
 		private IServer _server;
 		private IClientWindow _mainWindow;
 		private IUser _user;
@@ -61,6 +63,7 @@ namespace Flotta.ClientSide
 			}
 
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
+			_mainWindow.SetUserMode(_user.Username, _user.IsAdmin);
 			_mainWindow.Show();
 			_mainWindow.WindowClose += Close;
 			_mainWindow.MezzoSelected += OnMezzoSelected;
@@ -151,8 +154,11 @@ namespace Flotta.ClientSide
 
 			win?.Close();
 			_typesPresenter?.Close();
-			_server.ClientDisconnected();
+			if(!_closed)
+				_server.ClientDisconnected(_user);
 			PresenterClosed?.Invoke();
+
+			_closed = true;
 		}
 
 	}

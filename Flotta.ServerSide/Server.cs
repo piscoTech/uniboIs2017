@@ -11,7 +11,7 @@ namespace Flotta.ServerSide
 {
 	public interface IServer
 	{
-		void ClientDisconnected();
+		void ClientDisconnected(IUser user);
 		void ClientConnected();
 		event Action<IDBObject> ObjectChanged;
 		event Action<IDBObject> ObjectRemoved;
@@ -49,7 +49,8 @@ namespace Flotta.ServerSide
 	{
 		private IServerWindow _window;
 
-		private HashSet<IUser> _utenti = new HashSet<IUser>();
+		private List<IUser> _utenti = new List<IUser>();
+		private HashSet<IUser> _loggedUser = new HashSet<IUser>();
 
 		private List<IMezzo> _mezzi = new List<IMezzo>();
 		private Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
@@ -67,7 +68,14 @@ namespace Flotta.ServerSide
 
 		private void FillDatabase()
 		{
-			IUser u = ModelFactory.NewUtente("admin", "password");
+			IUser u = ModelFactory.NewUtente();
+			u.Update("admin", true);
+			u.ChangePassword("password", null);
+			_utenti.Add(u);
+
+			u = ModelFactory.NewUtente();
+			u.Update("user", false);
+			u.ChangePassword("user", null);
 			_utenti.Add(u);
 
 			var tess = GetLinkedTypesList<ITesseraType>();
@@ -180,8 +188,10 @@ namespace Flotta.ServerSide
 			Log("Un client si è connesso");
 		}
 
-		public void ClientDisconnected()
+		public void ClientDisconnected(IUser user)
 		{
+			_loggedUser.Remove(user);
+
 			_window.UpdateCounter(--_activeConnections);
 			_window.CanTerminate = CanTerminate;
 
@@ -202,7 +212,11 @@ namespace Flotta.ServerSide
 
 		public IUser ValidateUser(string username, string password)
 		{
-			return _utenti.FirstOrDefault((IUser u) => u.Username == username && u.Password == password);
+			IUser user = _utenti.FirstOrDefault((IUser u) => u.Match(username, password));
+			if (user != null)
+				_loggedUser.Add(user);
+
+			return user;
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;
