@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface ITessera : ICloneable, ILinkedObject<ITesseraType>, IScadenzaAdapter
+	public interface ITessera : ICloneable, ILinkedObject<ITesseraType>, IScadenzaOwner
 	{
 		String Codice { get; }
 		String Pin { get; }

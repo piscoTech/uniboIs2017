@@ -35,8 +35,8 @@ namespace Flotta.ClientSide
 			}
 		}
 
-		private LinkedType _editingType;
-		private ICloseableDisposable _editingTypeDialog;
+		private UpdateTesseraPresenter _tesseraPresenter;
+		private IDialogPresenter _dispositivoPermessoPresenter;
 
 		///<summary>During editing keeps a local copy of tessere linked to mezzo to edit freely.</summary>
 		private List<ITessera> _tessereTmp = null;
@@ -76,8 +76,8 @@ namespace Flotta.ClientSide
 
 			EditMode = false;
 
-			_server.ObjectChanged += OnObjectChanged;
-			_server.ObjectRemoved += OnObjectRemoved;
+			_server.ObjectChanged += OnObjectChangedRemoved;
+			_server.ObjectRemoved += OnObjectChangedRemoved;
 
 			_view.DeleteMezzo += OnDeleteMezzo;
 			_view.CancelEdit += OnCancelEdit;
@@ -175,26 +175,11 @@ namespace Flotta.ClientSide
 			}
 		}
 
-		private void OnObjectChanged(IDBObject obj)
+		private void OnObjectChangedRemoved(IDBObject obj)
 		{
 			// Change in mezzo, and so tessere, dispositivi and permessi, are handled by parent presenters
 			if (obj is ITesseraType || obj is IDispositivoType || obj is IPermessoType)
 				Reload();
-		}
-		private void OnObjectRemoved(IDBObject obj)
-		{
-			// Change in mezzo, and so tessere, dispositivi and permessi, are handled by parent presenters
-			if (obj is ITesseraType || obj is IDispositivoType || obj is IPermessoType)
-			{
-				Reload();
-				if (obj == _editingType)
-				{
-					_editingTypeDialog.Close();
-					_editingTypeDialog.Dispose();
-					_editingType = null;
-					_editingTypeDialog = null;
-				}
-			}
 		}
 
 		private void OnEnterEdit()
@@ -219,43 +204,24 @@ namespace Flotta.ClientSide
 				return;
 
 			ITesseraType tt = _tessereTypes[index];
-			_editingType = tt;
-			var ti = _tessereItems[index];
-			var t = (from tess in _tessereTmp where tess.Type == tt select tess).ElementAtOrDefault(0);
-			using (var tesseraDialog = ClientSideInterfaceFactory.NewUpdateTesseraDialog())
+			ITesseraListItem ti = _tessereItems[index];
+			ITessera t = (from tess in _tessereTmp where tess.Type == tt select tess).ElementAtOrDefault(0)
+																				?? ModelFactory.NewTessera(Mezzo, tt);
+
+			_tesseraPresenter = new UpdateTesseraPresenter(_server, t);
+			_tesseraPresenter.PresenterClosed += () => _tesseraPresenter = null;
+			_tesseraPresenter.TesseraUpdated += () =>
 			{
-				_editingTypeDialog = tesseraDialog;
-				tesseraDialog.Codice = t?.Codice ?? "";
-				tesseraDialog.Pin = t?.Pin ?? "";
-				tesseraDialog.Validation = () =>
-				{
-					var tess = t ?? ModelFactory.NewTessera(Mezzo, tt);
-					var errors = tess.Update(tesseraDialog.Codice, tesseraDialog.Pin);
-					if (errors.Count() > 0)
-					{
-						MessageBox.Show(String.Join("\r\n", errors), "Errore");
-						return false;
-					}
-					else
-					{
-						if (t == null)
-							_tessereTmp.Add(tess);
+				if (!_tessereTmp.Contains(t))
+					_tessereTmp.Add(t);
 
-						ti.InUse = true;
-						ti.Codice = tess.Codice;
-						ti.Pin = tess.Pin;
+				ti.InUse = true;
+				ti.Codice = t.Codice;
+				ti.Pin = t.Pin;
 
-						return true;
-					}
-				};
-
-				if (tesseraDialog.ShowDialog() == DialogResult.OK)
-				{
-					_view.RefreshTessere();
-				}
-				_editingTypeDialog = null;
-				_editingType = null;
-			}
+				_view.RefreshTessere();
+			};
+			_tesseraPresenter.ShowDialog();
 		}
 		private void OnTesseraRemove(int index)
 		{
@@ -271,47 +237,32 @@ namespace Flotta.ClientSide
 			_view.RefreshTessere();
 		}
 
-		private bool OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item, List<O> list, Func<IMezzo, T, O> createNew) where T : LinkedType where O : class, ILinkedObjectWithPDF<T>
+		private void OnDispositivoPermessoEdit<T, O>(string desc, T type, IDispositivoPermessoListItem item,
+													 List<O> list, Func<IMezzo, T, O> createNew, Action refresh)
+			where T : LinkedType
+			where O : class, ILinkedObjectWithPDF<T>
 		{
+			_dispositivoPermessoPresenter?.Close();
 			if (!_editMode)
-				return false;
+				return;
 
-			bool res;
-			_editingType = type;
-			var o = (from obj in list where obj.Type == type select obj).ElementAtOrDefault(0);
-			using (var objDialog = ClientSideInterfaceFactory.NewUpdateDispositivoPermessoDialog())
+			var o = (from obj in list where obj.Type == type select obj).ElementAtOrDefault(0)
+																		?? createNew(Mezzo, type);
+
+			var presenter = new UpdateDispositivoPermessoPresenter<T, O>(_server, o, desc);
+			_dispositivoPermessoPresenter = presenter;
+			presenter.PresenterClosed += () => _dispositivoPermessoPresenter = null;
+			presenter.DispositivoPermessoUpdated += () =>
 			{
-				_editingTypeDialog = objDialog;
-				objDialog.Type = desc;
-				objDialog.Path = o?.Allegato?.Path ?? "";
-				objDialog.Validation = () =>
-				{
-					var obj = o ?? createNew(Mezzo, type);
-					// Files are not supported, all attachment will be null
-					var errors = obj.Update(null);
-					if (errors.Count() > 0)
-					{
-						MessageBox.Show(String.Join("\r\n", errors), "Errore");
-						return false;
-					}
-					else
-					{
-						if (o == null)
-							list.Add(obj);
+				if (!list.Contains(o))
+					list.Add(o);
 
-						item.InUse = true;
-						item.AllegatoPath = obj.Allegato?.Path;
+				item.InUse = true;
+				item.AllegatoPath = o.Allegato?.Path;
 
-						return true;
-					}
-				};
-
-				res = objDialog.ShowDialog() == DialogResult.OK;
-				_editingTypeDialog = null;
-				_editingType = null;
-			}
-
-			return res;
+				refresh();
+			};
+			presenter.ShowDialog();
 		}
 		private bool OnDispositivoPermessoRemove<T, O>(T type, IDispositivoPermessoListItem item, List<O> list) where T : LinkedType where O : ILinkedObject<T>
 		{
@@ -327,8 +278,8 @@ namespace Flotta.ClientSide
 
 		private void OnDispositivoEdit(int index)
 		{
-			if (OnDispositivoPermessoEdit("Dispositivo", _dispositiviTypes[index], _dispositiviItems[index], _dispositiviTmp, ModelFactory.NewDispositivo))
-				_view.RefreshDispositivi();
+			OnDispositivoPermessoEdit("Dispositivo", _dispositiviTypes[index], _dispositiviItems[index],
+									  _dispositiviTmp, ModelFactory.NewDispositivo, _view.RefreshDispositivi);
 		}
 		private void OnDispositivoRemove(int index)
 		{
@@ -338,8 +289,8 @@ namespace Flotta.ClientSide
 
 		private void OnPermessoEdit(int index)
 		{
-			if (OnDispositivoPermessoEdit("Permesso", _permessiTypes[index], _permessiItems[index], _permessiTmp, ModelFactory.NewPermesso))
-				_view.RefreshPermessi();
+			OnDispositivoPermessoEdit("Permesso", _permessiTypes[index], _permessiItems[index],
+									  _permessiTmp, ModelFactory.NewPermesso, _view.RefreshPermessi);
 		}
 		private void OnPermessoRemove(int index)
 		{

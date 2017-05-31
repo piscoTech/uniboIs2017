@@ -70,7 +70,7 @@
     <Compile Include="ScadenzaRecurrencyTypeDescriptor.cs" />
     <Compile Include="ScadenzaRicorrente.cs" />
     <Compile Include="MezzoScadenzaAdapter.cs" />
-    <Compile Include="IScadenzaAdapter.cs" />
+    <Compile Include="IScadenzaOwner.cs" />
     <Compile Include="Incidente.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,9 +10,9 @@ namespace Flotta.ClientSide
 	{
 		private IServer _server;
 		private IRenewScadenzaDialog _window;
-		private IScadenzaAdapter _scadOwner;
+		private IScadenzaOwner _scadOwner;
 
-		internal RenewScadenzaPresenter(IServer server, IScadenzaAdapter scadOwner)
+		internal RenewScadenzaPresenter(IServer server, IScadenzaOwner scadOwner)
 		{
 			_server = server;
 			_scadOwner = scadOwner;
@@ -58,7 +58,7 @@ namespace Flotta.ClientSide
 
 		private void OnObjectRemoved(IDBObject obj)
 		{
-			if (obj is IScadenzaAdapter scadOwner && scadOwner == _scadOwner)
+			if (obj is IScadenzaOwner scadOwner && scadOwner == _scadOwner)
 				Close();
 		}
 

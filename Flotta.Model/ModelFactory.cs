@@ -117,7 +117,7 @@ namespace Flotta.Model
 			return _scadenzaRecurrencyTypesCache;
 		}
 
-		public static IEnumerable<IScadenzaAdapter> GetScadenzeForMezzo(IMezzo mezzo)
+		public static IEnumerable<IScadenzaOwner> GetScadenzeForMezzo(IMezzo mezzo)
 		{
 			return from p in typeof(IMezzo).GetProperties()
 				   let attr = p.GetCustomAttributes(typeof(MezzoScadenzaAttribute), true).ElementAtOrDefault(0) as MezzoScadenzaAttribute

@@ -58,6 +58,8 @@
     <Compile Include="UpdateOfficinaPresenter.cs" />
     <Compile Include="UpdateLinkedTypePresenter.cs" />
     <Compile Include="RenewScadenzaPresenter.cs" />
+    <Compile Include="UpdateTesseraPresenter.cs" />
+    <Compile Include="UpdateDispositivoPermessoPresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj">

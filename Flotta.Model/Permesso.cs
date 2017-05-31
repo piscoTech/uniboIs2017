@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IPermesso : ICloneable, ILinkedObjectWithPDF<IPermessoType>, IScadenzaAdapter
+	public interface IPermesso : ICloneable, ILinkedObjectWithPDF<IPermessoType>, IScadenzaOwner
 	{
 		bool IsValid { get; }
 	}

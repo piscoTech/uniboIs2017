@@ -30,7 +30,7 @@ namespace Flotta.ServerSide
 										IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi);
 		bool DeleteMezzo(IMezzo mezzo);
 
-		void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad);
+		void UpdateScadenza(IScadenzaOwner scadOwner, Scadenza scad);
 
 		IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato, IOfficina officina);
 		void DeleteManutenzione(IManutenzione m);
@@ -345,7 +345,7 @@ namespace Flotta.ServerSide
 			}
 		}
 
-		public void UpdateScadenza(IScadenzaAdapter scadOwner, Scadenza scad)
+		public void UpdateScadenza(IScadenzaOwner scadOwner, Scadenza scad)
 		{
 			scadOwner.Scadenza = scad;
 			ObjectChanged(scadOwner);

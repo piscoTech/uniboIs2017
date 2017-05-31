@@ -10,7 +10,6 @@ namespace Flotta
 {
 	static class Program
 	{
-
 		private static IServer _server;
 		private static List<IClient> _clients = new List<IClient>();
 
@@ -20,7 +19,6 @@ namespace Flotta
 		[STAThread]
 		static void Main()
 		{
-
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 

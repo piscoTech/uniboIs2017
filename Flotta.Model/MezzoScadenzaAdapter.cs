@@ -28,7 +28,7 @@ namespace Flotta.Model
 		internal int Order => _order;
 	}
 
-	internal class MezzoScadenzaAdapter : IScadenzaAdapter
+	internal class MezzoScadenzaAdapter : IScadenzaOwner
 	{
 		private IMezzo _mezzo;
 		private PropertyInfo _scadProperty;

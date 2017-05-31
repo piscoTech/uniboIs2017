@@ -17,10 +17,10 @@ namespace Flotta.ClientSide
 		private List<ScadenzaFormatDescriptor> _scadFormats;
 		private List<ScadenzaRecurrencyTypeDescriptor> _scadRecurrency;
 
-		private IScadenzaAdapter _scadOwner;
+		private IScadenzaOwner _scadOwner;
 		private Scadenza _scad;
 
-		internal UpdateScadenzaPresenter(IServer server, IScadenzaAdapter scadOwner)
+		internal UpdateScadenzaPresenter(IServer server, IScadenzaOwner scadOwner)
 		{
 			_server = server;
 			_server.ObjectRemoved += OnObjectRemoved;
@@ -96,7 +96,7 @@ namespace Flotta.ClientSide
 
 		private void OnObjectRemoved(IDBObject obj)
 		{
-			if (obj is IScadenzaAdapter scadOwner && scadOwner == _scadOwner)
+			if (obj is IScadenzaOwner scadOwner && scadOwner == _scadOwner)
 				Close();
 		}
 

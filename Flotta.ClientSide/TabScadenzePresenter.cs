@@ -18,7 +18,7 @@ namespace Flotta.ClientSide
 
 		private MezzoTabPresenter _tabs;
 
-		private List<IScadenzaAdapter> _scadenze = new List<IScadenzaAdapter>();
+		private List<IScadenzaOwner> _scadenze = new List<IScadenzaOwner>();
 		private List<IScadenzaListItem> _scadenzeItem = new List<IScadenzaListItem>();
 
 		private UpdateScadenzaPresenter _updatePresenter = null;
@@ -58,7 +58,7 @@ namespace Flotta.ClientSide
 			_view.Scadenze = _scadenzeItem;
 		}
 
-		private void UpdateItems(IScadenzaAdapter scadOwner)
+		private void UpdateItems(IScadenzaOwner scadOwner)
 		{
 			if (scadOwner != null)
 			{
@@ -90,7 +90,7 @@ namespace Flotta.ClientSide
 
 		private void OnObjectChanged(IDBObject obj)
 		{
-			if (obj is IScadenzaAdapter scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
+			if (obj is IScadenzaOwner scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
 			{
 				if (_scadenze.Contains(scadOwner))
 				{
@@ -105,7 +105,7 @@ namespace Flotta.ClientSide
 		}
 		private void OnObjectRemoved(IDBObject obj)
 		{
-			if (obj is IScadenzaAdapter scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
+			if (obj is IScadenzaOwner scadOwner && scadOwner.Mezzo == _tabs.Mezzo)
 				Reload();
 		}
 
