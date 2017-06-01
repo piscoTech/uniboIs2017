@@ -16,7 +16,7 @@ namespace Flotta.ServerSide
 		event Action<IDBObject> ObjectChanged;
 		event Action<IDBObject> ObjectRemoved;
 
-		IEnumerable<IUser> Utenti { get; }
+		IEnumerable<IUser> Users { get; }
 		IUser ValidateUser(string username, string password);
 
 		IEnumerable<IMezzo> Mezzi { get; }
@@ -49,7 +49,7 @@ namespace Flotta.ServerSide
 	{
 		private IServerWindow _window;
 
-		private List<IUser> _utenti = new List<IUser>();
+		private List<IUser> _users = new List<IUser>();
 		private HashSet<IUser> _loggedUser = new HashSet<IUser>();
 
 		private List<IMezzo> _mezzi = new List<IMezzo>();
@@ -71,12 +71,12 @@ namespace Flotta.ServerSide
 			IUser u = ModelFactory.NewUtente();
 			u.Update("admin", true);
 			u.ChangePassword("password", null);
-			_utenti.Add(u);
+			_users.Add(u);
 
 			u = ModelFactory.NewUtente();
 			u.Update("user", false);
 			u.ChangePassword("user", null);
-			_utenti.Add(u);
+			_users.Add(u);
 
 			var tess = GetLinkedTypesList<ITesseraType>();
 			ITesseraType tt = ModelFactory.NewLinkedType<ITesseraType>();
@@ -208,11 +208,11 @@ namespace Flotta.ServerSide
 			_window.Log(line);
 		}
 
-		public IEnumerable<IUser> Utenti => from u in _utenti orderby u.Username select u;
+		public IEnumerable<IUser> Users => from u in _users orderby u.Username select u;
 
 		public IUser ValidateUser(string username, string password)
 		{
-			IUser user = _utenti.FirstOrDefault((IUser u) => u.Match(username, password));
+			IUser user = _users.FirstOrDefault((IUser u) => u.Match(username, password));
 			if (user != null)
 				_loggedUser.Add(user);
 

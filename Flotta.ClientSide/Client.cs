@@ -26,6 +26,7 @@ namespace Flotta.ClientSide
 		private MezzoTabPresenter _mezzoPresenter;
 		private IWindowPresenter _typesPresenter;
 		private IWindowPresenter _officinePresenter;
+		private UsersManagerPresenter _userPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -69,6 +70,7 @@ namespace Flotta.ClientSide
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 			_mainWindow.ManageOfficine += OnManageOfficine;
+			_mainWindow.ManageUsers += OnManageUsers;
 
 			foreach (var type in ModelFactory.GetAllLinkedTypes())
 			{
@@ -144,6 +146,13 @@ namespace Flotta.ClientSide
 			_officinePresenter = new OfficinaManagerPresenter(_server);
 			_officinePresenter.PresenterClosed += () => _officinePresenter = null;
 			_officinePresenter.Show();
+		}
+
+		private void OnManageUsers()
+		{
+			_userPresenter = new UsersManagerPresenter(_server, _user);
+			_userPresenter.PresenterClosed += () => _userPresenter = null;
+			_userPresenter.Show();
 		}
 
 		public event Action PresenterClosed;

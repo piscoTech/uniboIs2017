@@ -58,7 +58,14 @@
     <Compile Include="DatatGridViewExtensions.cs" />
     <Compile Include="DispositivoPermessoListItem.cs" />
     <Compile Include="ICloseableDisposable.cs" />
+    <Compile Include="UserListItem.cs" />
     <Compile Include="LinkedTypeListItem.cs" />
+    <Compile Include="UsersManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UsersManagerWindow.Designer.cs">
+      <DependentUpon>UsersManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="OfficinaManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClientWindow.resx">
       <DependentUpon>ClientWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UsersManagerWindow.resx">
+      <DependentUpon>UsersManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OfficinaManagerWindow.resx">
       <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>
