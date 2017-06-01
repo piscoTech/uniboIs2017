@@ -170,9 +170,6 @@
 			// 
 			this.format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.format.FormattingEnabled = true;
-			this.format.Items.AddRange(new object[] {
-			"gg/mm/aaaa",
-			"mm/aaaa"});
 			this.format.Location = new System.Drawing.Point(3, 55);
 			this.format.Name = "format";
 			this.format.Size = new System.Drawing.Size(147, 21);
@@ -214,9 +211,6 @@
 			// 
 			this.recurType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.recurType.FormattingEnabled = true;
-			this.recurType.Items.AddRange(new object[] {
-			"mesi",
-			"anni"});
 			this.recurType.Location = new System.Drawing.Point(54, 3);
 			this.recurType.Name = "recurType";
 			this.recurType.Size = new System.Drawing.Size(147, 21);
