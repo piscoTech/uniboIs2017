@@ -15,6 +15,8 @@ namespace Flotta.ClientSide
 		internal RenewScadenzaPresenter(IServer server, IScadenzaOwner scadOwner)
 		{
 			_server = server;
+			// Scadenza cannot be removed directly, an update on their mezzo will result in this 
+			// presenter being automaticcaly closed by TabScadenzePresenter.
 			_scadOwner = scadOwner;
 		}
 
@@ -54,12 +56,6 @@ namespace Flotta.ClientSide
 			}
 
 			Close();
-		}
-
-		private void OnObjectRemoved(IDBObject obj)
-		{
-			if (obj is IScadenzaOwner scadOwner && scadOwner == _scadOwner)
-				Close();
 		}
 
 		public event Action PresenterClosed;

@@ -47,15 +47,9 @@ namespace Flotta.ClientSide
 			_renewPresenter?.Close();
 
 			_scadenze.Clear();
-			_scadenzeItem.Clear();
-
-			_scadenze.AddRange(ModelFactory.GetScadenzeForMezzo(_tabs.Mezzo));
-			_scadenze.AddRange(from t in _tabs.Mezzo.Tessere orderby t.Type.Name select t);
-			_scadenze.AddRange(from d in _tabs.Mezzo.Dispositivi orderby d.Type.Name select d);
-			_scadenze.AddRange(from p in _tabs.Mezzo.Permessi orderby p.Type.Name select p);
+			_scadenze.AddRange(ModelFactory.GetAllScadenzeForMezzo(_tabs.Mezzo));
 
 			UpdateItems(null);
-			_view.Scadenze = _scadenzeItem;
 		}
 
 		private void UpdateItems(IScadenzaOwner scadOwner)
@@ -75,16 +69,23 @@ namespace Flotta.ClientSide
 					item.Expired = scadOwner.Scadenza?.Expired ?? false;
 				}
 				else
+				{
 					Reload();
+					return;
+				}
+
+				_view.RefreshScadenze();
 			}
 			else
 			{
+				_scadenzeItem.Clear();
 				_scadenzeItem.AddRange(from s in _scadenze
 									   select ClientSideInterfaceFactory.NewScadenzaListItem(s.ScadenzaName,
 																							 s.Scadenza?.DateDescription,
 																							 s.Scadenza?.Expired ?? false,
 																							 s.Scadenza?.HasDate ?? false
 																							));
+				_view.Scadenze = _scadenzeItem;
 			}
 		}
 
@@ -95,12 +96,11 @@ namespace Flotta.ClientSide
 				if (_scadenze.Contains(scadOwner))
 				{
 					UpdateItems(scadOwner);
-					_view.RefreshScadenze();
 				}
 				else
 					Reload();
 			}
-			else if (obj is ITesseraType || obj is IDispositivoType || obj is IPermessoType)
+			else if (obj is LinkedType)
 				Reload();
 		}
 		private void OnObjectRemoved(IDBObject obj)

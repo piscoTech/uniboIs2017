@@ -23,7 +23,8 @@ namespace Flotta.ClientSide
 		internal UpdateScadenzaPresenter(IServer server, IScadenzaOwner scadOwner)
 		{
 			_server = server;
-			_server.ObjectRemoved += OnObjectRemoved;
+			// Scadenza cannot be removed directly, an update on their mezzo will result in this 
+			// presenter being automaticcaly closed by TabScadenzePresenter.
 			_scadOwner = scadOwner;
 
 			_scadTypes = ModelFactory.GetAllScadenzaTypes().ToList();
@@ -92,12 +93,6 @@ namespace Flotta.ClientSide
 				}
 			}
 			Close();
-		}
-
-		private void OnObjectRemoved(IDBObject obj)
-		{
-			if (obj is IScadenzaOwner scadOwner && scadOwner == _scadOwner)
-				Close();
 		}
 
 		private void OnTypeChanged()

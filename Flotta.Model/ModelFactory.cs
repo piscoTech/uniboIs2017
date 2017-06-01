@@ -117,13 +117,19 @@ namespace Flotta.Model
 			return _scadenzaRecurrencyTypesCache;
 		}
 
-		public static IEnumerable<IScadenzaOwner> GetScadenzeForMezzo(IMezzo mezzo)
+		public static IEnumerable<IScadenzaOwner> GetAllScadenzeForMezzo(IMezzo mezzo)
 		{
-			return from p in typeof(IMezzo).GetProperties()
-				   let attr = p.GetCustomAttributes(typeof(MezzoScadenzaAttribute), true).ElementAtOrDefault(0) as MezzoScadenzaAttribute
-				   where attr != null && typeof(Scadenza).IsAssignableFrom(p.PropertyType)
-				   orderby attr.Order
-				   select new MezzoScadenzaAdapter(mezzo, p, attr.Name);
+			var _scadenze = (from p in typeof(IMezzo).GetProperties()
+							 let attr = p.GetCustomAttributes(typeof(MezzoScadenzaAttribute), true).ElementAtOrDefault(0) as MezzoScadenzaAttribute
+							 where attr != null && typeof(Scadenza).IsAssignableFrom(p.PropertyType)
+							 orderby attr.Order
+							 select new MezzoScadenzaAdapter(mezzo, p, attr.Name) as IScadenzaOwner).ToList();
+
+			_scadenze.AddRange(from t in mezzo.Tessere orderby t.Type.Name select t);
+			_scadenze.AddRange(from d in mezzo.Dispositivi orderby d.Type.Name select d);
+			_scadenze.AddRange(from p in mezzo.Permessi orderby p.Type.Name select p);
+
+			return _scadenze;
 		}
 
 		public static IManutenzione NewManutenzione(IMezzo mezzo)
