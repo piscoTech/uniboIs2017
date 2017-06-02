@@ -110,6 +110,10 @@ namespace Flotta.ClientSide
 					_mezzoPresenter.ReloadTab();
 				}
 			}
+			else if (obj is IUser u && u == _user)
+			{
+				_mainWindow?.SetUserMode(_user.Username, _user.IsAdmin);
+			}
 		}
 
 		private void OnObjectRemoved(IDBObject obj)
@@ -163,7 +167,7 @@ namespace Flotta.ClientSide
 
 			win?.Close();
 			_typesPresenter?.Close();
-			if(!_closed)
+			if (!_closed)
 				_server.ClientDisconnected(_user);
 			PresenterClosed?.Invoke();
 

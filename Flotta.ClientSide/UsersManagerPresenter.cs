@@ -17,6 +17,7 @@ namespace Flotta.ClientSide
 		private IUser _user;
 
 		private List<IUser> _usersList;
+		private UpdateUserPresenter _updatePresenter;
 
 		internal UsersManagerPresenter(IServer server, IUser user)
 		{
@@ -64,8 +65,6 @@ namespace Flotta.ClientSide
 			_window.UserList = from u in _usersList select ClientSideInterfaceFactory.NewUserListItem(u.Username, u.IsAdmin);
 		}
 
-		//private IUpdateLinkedTypeDialog _updateDialog;
-
 		private void OnCreateNewType()
 		{
 			DoEdit(null);
@@ -73,33 +72,17 @@ namespace Flotta.ClientSide
 
 		private void OnEditType(int index)
 		{
-			//DoEdit(_typeList[index]);
+			DoEdit(_usersList[index]);
 		}
 
 		private void DoEdit(IUser user)
 		{
-			//_activeType = activeType;
+			if (!_user.IsAdmin)
+				return;
 
-			//using (_updateDialog = ClientSideInterfaceFactory.NewUpdateLinkedTypeDialog())
-			//{
-			//	_updateDialog.NameText = activeType?.Name ?? "";
-			//	_updateDialog.TypeName = _typeName;
-			//	_updateDialog.Validation = () =>
-			//	{
-			//		T type = activeType ?? ModelFactory.NewLinkedType<T>();
-			//		var errors = _server.UpdateLinkedType(type, _updateDialog.NameText);
-			//		if (errors.Count() > 0)
-			//		{
-			//			MessageBox.Show(String.Join("\r\n", errors), "Errore");
-			//			return false;
-			//		}
-			//		else
-			//			return true;
-			//	};
-
-			//	_updateDialog.ShowDialog();
-			//	_updateDialog = null;
-			//}
+			_updatePresenter = new UpdateUserPresenter(_server, user);
+			_updatePresenter.PresenterClosed += () => _updatePresenter = null;
+			_updatePresenter.ShowDialog();
 		}
 
 		private void OnDeleteUser(int index)

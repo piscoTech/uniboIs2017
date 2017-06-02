@@ -57,6 +57,7 @@
     <Compile Include="TabManutenzioniPresenter.cs" />
     <Compile Include="OfficinaManagerPresenter.cs" />
     <Compile Include="UpdateOfficinaPresenter.cs" />
+    <Compile Include="UpdateUserPresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj">

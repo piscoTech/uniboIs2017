@@ -18,6 +18,7 @@ namespace Flotta.ServerSide
 
 		IEnumerable<IUser> Users { get; }
 		IUser ValidateUser(string username, string password);
+		IEnumerable<string> UpdateUser(IUser user, bool isNew, string username, string password, bool isAdmin);
 
 		IEnumerable<IMezzo> Mezzi { get; }
 
@@ -42,7 +43,6 @@ namespace Flotta.ServerSide
 
 		IEnumerable<string> UpdateOfficina(IOfficina officina, string nome, string telefono, string via, string cap, string citta, string provincia, string nazione);
 		bool DeleteOfficina(IOfficina off);
-
 	}
 
 	public class Server : IServer
@@ -217,6 +217,41 @@ namespace Flotta.ServerSide
 				_loggedUser.Add(user);
 
 			return user;
+		}
+
+		public IEnumerable<string> UpdateUser(IUser user, bool isNew, string username, string password, bool isAdmin)
+		{
+			List<string> errors = new List<string>();
+
+			username = username?.Trim();
+			var nameCheck = from u in _users where u != user && u.Username == username select u;
+			if (username != null && nameCheck.Count() > 0)
+				errors.Add("Il nome utente è già utilizzato");
+
+			if (!isNew)
+			{
+				if (user.IsAdmin != isAdmin && _loggedUser.Contains(user))
+					errors.Add("Impossibile modificare lo stato di admin di un utente correntemente loggato");
+
+				// No need to check if we are removing the last admin since a user must be a logged admin
+				// to change admin status and cannot change admin status of a logged user (previous check).
+			}
+
+			if (errors.Count > 0)
+				return errors;
+
+			errors.AddRange(user.Update(username, isAdmin));
+			if (isNew)
+				errors.AddRange(user.ChangePassword(password, null));
+
+			if (errors.Count > 0)
+				return errors;
+
+			if (isNew)
+				_users.Add(user);
+			ObjectChanged(user);
+
+			return errors;
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;

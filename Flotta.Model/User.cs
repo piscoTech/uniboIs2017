@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flotta.Model
 {
-	public interface IUser
+	public interface IUser : IDBObject
 	{
 		string Username { get; }
 		bool IsAdmin { get; }

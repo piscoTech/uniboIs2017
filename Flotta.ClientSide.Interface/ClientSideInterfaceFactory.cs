@@ -108,9 +108,9 @@ namespace Flotta.ClientSide.Interface
 			return new UserListItem(username, isAdmin);
 		}
 
-		//public static IUpdateLinkedTypeDialog NewUpdateLinkedTypeDialog()
-		//{
-		//	return new UpdateLinkedTypeDialog();
-		//}
+		public static IUpdateUserDialog NewUpdateUserDialog()
+		{
+			return new UpdateUserDialog();
+		}
 	}
 }
