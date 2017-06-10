@@ -19,6 +19,7 @@ namespace Flotta.ServerSide
 		IEnumerable<IUser> Users { get; }
 		IUser ValidateUser(string username, string password);
 		IEnumerable<string> UpdateUser(IUser user, bool isNew, string username, string password, bool isAdmin);
+		IEnumerable<string> DeleteUser(IUser user);
 
 		IEnumerable<IMezzo> Mezzi { get; }
 
@@ -250,6 +251,25 @@ namespace Flotta.ServerSide
 			if (isNew)
 				_users.Add(user);
 			ObjectChanged(user);
+
+			return errors;
+		}
+
+		public IEnumerable<string> DeleteUser(IUser user)
+		{
+			List<string> errors = new List<string>();
+
+			if (_loggedUser.Contains(user))
+				errors.Add("Impossibile eliminare un utente correntemente loggato");
+
+			// No need to check if we are removing the last admin since a user must be a logged admin
+			// to delete a user and cannot delete a logged user (previous check).
+
+			if (errors.Count > 0)
+				return errors;
+
+			_users.Remove(user);
+			ObjectRemoved(user);
 
 			return errors;
 		}

@@ -89,8 +89,10 @@ namespace Flotta.ClientSide
 		{
 			if (MessageBox.Show("Sei sicuro di voler eliminare " + _usersList[index].Username + "?", "Elimina", MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
-				//if (!_server.DeleteLinkedType(_typeList[index]))
-				//	MessageBox.Show("Errore durante l'eliminazione");
+				var errors = _server.DeleteUser(_usersList[index]);
+
+				if (errors.Count() > 0)
+					MessageBox.Show(String.Join("\r\n", errors), "Errore");
 			}
 		}
 
@@ -100,7 +102,7 @@ namespace Flotta.ClientSide
 			var win = _window;
 			_window = null;
 
-			// _updateDialog?.Close();
+			_updatePresenter?.Close();
 			win?.Close();
 			win?.Dispose();
 			PresenterClosed?.Invoke();
