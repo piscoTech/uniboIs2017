@@ -42,6 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangePasswordDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordDialog.Designer.cs">
+      <DependentUpon>ChangePasswordDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticateUserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthenticateUserDialog.Designer.cs">
+      <DependentUpon>AuthenticateUserDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClientSideInterfaceFactory.cs" />
     <Compile Include="ClientWindow.cs">
       <SubType>Form</SubType>
@@ -52,7 +64,20 @@
     <Compile Include="DatatGridViewExtensions.cs" />
     <Compile Include="DispositivoPermessoListItem.cs" />
     <Compile Include="ICloseableDisposable.cs" />
+    <Compile Include="UpdateUserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateUserDialog.Designer.cs">
+      <DependentUpon>UpdateUserDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserListItem.cs" />
     <Compile Include="LinkedTypeListItem.cs" />
+    <Compile Include="UsersManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UsersManagerWindow.Designer.cs">
+      <DependentUpon>UsersManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="OfficinaManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,8 +169,20 @@
     <Compile Include="ScadenzaListItem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ChangePasswordDialog.resx">
+      <DependentUpon>ChangePasswordDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthenticateUserDialog.resx">
+      <DependentUpon>AuthenticateUserDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClientWindow.resx">
       <DependentUpon>ClientWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateUserDialog.resx">
+      <DependentUpon>UpdateUserDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UsersManagerWindow.resx">
+      <DependentUpon>UsersManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OfficinaManagerWindow.resx">
       <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>

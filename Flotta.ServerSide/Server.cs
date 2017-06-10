@@ -13,12 +13,19 @@ namespace Flotta.ServerSide
 	{
 		void Run();
 
-		void ClientDisconnected();
+		void ClientDisconnected(IUser user);
 		void ClientConnected();
 		event Action<IDBObject> ObjectChanged;
 		event Action<IDBObject> ObjectRemoved;
 
+		IEnumerable<IUser> Users { get; }
+		IUser ValidateUser(string username, string password);
+		IEnumerable<string> ChangeUserPassword(IUser user, string password, string oldPassword);
+		IEnumerable<string> UpdateUser(IUser user, bool isNew, string username, string password, bool isAdmin);
+		IEnumerable<string> DeleteUser(IUser user);
+
 		IEnumerable<IMezzo> Mezzi { get; }
+
 		IEnumerable<T> GetLinkedTypes<T>() where T : LinkedType;
 		IEnumerable<IOfficina> Officine { get; }
 
@@ -44,12 +51,14 @@ namespace Flotta.ServerSide
 
 	public class Server : IServer
 	{
-
 		private IServerWindow _window;
-		private List<IMezzo> _mezzi = new List<IMezzo>();
-		private List<IOfficina> _officine = new List<IOfficina>();
 
+		private List<IUser> _users = new List<IUser>();
+		private HashSet<IUser> _loggedUser = new HashSet<IUser>();
+
+		private List<IMezzo> _mezzi = new List<IMezzo>();
 		private Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
+		private List<IOfficina> _officine = new List<IOfficina>();
 
 		internal Server()
 		{
@@ -68,6 +77,16 @@ namespace Flotta.ServerSide
 
 		private void FillDatabase()
 		{
+			IUser u = ModelFactory.NewUtente();
+			u.Update("admin", true);
+			u.ChangePassword("password", null);
+			_users.Add(u);
+
+			u = ModelFactory.NewUtente();
+			u.Update("user", false);
+			u.ChangePassword("user", null);
+			_users.Add(u);
+
 			var tess = GetLinkedTypesList<ITesseraType>();
 			ITesseraType tt = ModelFactory.NewLinkedType<ITesseraType>();
 			tt.Update("Tessera 1");
@@ -178,8 +197,10 @@ namespace Flotta.ServerSide
 			Log("Un client si è connesso");
 		}
 
-		public void ClientDisconnected()
+		public void ClientDisconnected(IUser user)
 		{
+			_loggedUser.Remove(user);
+
 			_window.UpdateCounter(--_activeConnections);
 			_window.CanTerminate = CanTerminate;
 
@@ -194,6 +215,80 @@ namespace Flotta.ServerSide
 		private void Log(string line)
 		{
 			_window.Log(line);
+		}
+
+		public IEnumerable<IUser> Users => from u in _users orderby u.Username select u;
+
+		public IUser ValidateUser(string username, string password)
+		{
+			IUser user = _users.FirstOrDefault((IUser u) => u.Match(username, password));
+			if (user != null)
+				_loggedUser.Add(user);
+
+			return user;
+		}
+
+		public IEnumerable<string> ChangeUserPassword(IUser user, string password, string oldPassword)
+		{
+			var errors = user.ChangePassword(password, oldPassword);
+			if (errors.Count() == 0)
+				ObjectChanged(user);
+
+			return errors;
+		}
+
+		public IEnumerable<string> UpdateUser(IUser user, bool isNew, string username, string password, bool isAdmin)
+		{
+			List<string> errors = new List<string>();
+
+			username = username?.Trim();
+			var nameCheck = from u in _users where u != user && u.Username == username select u;
+			if (username != null && nameCheck.Count() > 0)
+				errors.Add("Il nome utente è già utilizzato");
+
+			if (!isNew)
+			{
+				if (user.IsAdmin != isAdmin && _loggedUser.Contains(user))
+					errors.Add("Impossibile modificare lo stato di admin di un utente correntemente loggato");
+
+				// No need to check if we are removing the last admin since a user must be a logged admin
+				// to change admin status and cannot change admin status of a logged user (previous check).
+			}
+
+			if (errors.Count > 0)
+				return errors;
+
+			errors.AddRange(user.Update(username, isAdmin));
+			if (isNew)
+				errors.AddRange(user.ChangePassword(password, null));
+
+			if (errors.Count > 0)
+				return errors;
+
+			if (isNew)
+				_users.Add(user);
+			ObjectChanged(user);
+
+			return errors;
+		}
+
+		public IEnumerable<string> DeleteUser(IUser user)
+		{
+			List<string> errors = new List<string>();
+
+			if (_loggedUser.Contains(user))
+				errors.Add("Impossibile eliminare un utente correntemente loggato");
+
+			// No need to check if we are removing the last admin since a user must be a logged admin
+			// to delete a user and cannot delete a logged user (previous check).
+
+			if (errors.Count > 0)
+				return errors;
+
+			_users.Remove(user);
+			ObjectRemoved(user);
+
+			return errors;
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;

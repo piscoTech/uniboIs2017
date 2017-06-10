@@ -30,12 +30,18 @@
 		{
 			this.mezziList = new System.Windows.Forms.DataGridView();
 			this.noSelectionLbl = new System.Windows.Forms.Label();
-			this.mezzoTabView = new MezzoTabView();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.flottaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.nuovoMezzoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tipiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.officineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.userMenu = new System.Windows.Forms.ToolStripMenuItem();
+			this.currentUserItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.modificaPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.userAdminActionSeparator = new System.Windows.Forms.ToolStripSeparator();
+			this.manageUserItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mezzoTabView = new Flotta.ClientSide.Interface.MezzoTabView();
 			((System.ComponentModel.ISupportInitialize)(this.mezziList)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -68,19 +74,11 @@
 			this.noSelectionLbl.Text = "Seleziona un mezzo";
 			this.noSelectionLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// mezzoTabView
-			// 
-			this.mezzoTabView.CurrentTab = 0;
-			this.mezzoTabView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mezzoTabView.Location = new System.Drawing.Point(240, 24);
-			this.mezzoTabView.Name = "mezzoTabView";
-			this.mezzoTabView.Size = new System.Drawing.Size(744, 537);
-			this.mezzoTabView.TabIndex = 4;
-			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.flottaToolStripMenuItem});
+            this.flottaToolStripMenuItem,
+            this.userMenu});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(984, 24);
@@ -90,9 +88,10 @@
 			// flottaToolStripMenuItem
 			// 
 			this.flottaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.nuovoMezzoToolStripMenuItem,
-			this.tipiToolStripMenuItem,
-			this.officineToolStripMenuItem});
+            this.nuovoMezzoToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.tipiToolStripMenuItem,
+            this.officineToolStripMenuItem});
 			this.flottaToolStripMenuItem.Name = "flottaToolStripMenuItem";
 			this.flottaToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
 			this.flottaToolStripMenuItem.Text = "Flotta";
@@ -105,6 +104,11 @@
 			this.nuovoMezzoToolStripMenuItem.Text = "Nuovo mezzo";
 			this.nuovoMezzoToolStripMenuItem.Click += new System.EventHandler(this.NewMezzo);
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(187, 6);
+			// 
 			// tipiToolStripMenuItem
 			// 
 			this.tipiToolStripMenuItem.Name = "tipiToolStripMenuItem";
@@ -116,7 +120,53 @@
 			this.officineToolStripMenuItem.Name = "officineToolStripMenuItem";
 			this.officineToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.officineToolStripMenuItem.Text = "Officine";
-			this.officineToolStripMenuItem.Click += new System.EventHandler(OnManageOfficine);
+			this.officineToolStripMenuItem.Click += new System.EventHandler(this.OnManageOfficine);
+			// 
+			// userMenu
+			// 
+			this.userMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentUserItem,
+            this.modificaPasswordToolStripMenuItem,
+            this.userAdminActionSeparator,
+            this.manageUserItem});
+			this.userMenu.Name = "userMenu";
+			this.userMenu.Size = new System.Drawing.Size(54, 20);
+			this.userMenu.Text = "Utente";
+			// 
+			// currentUserItem
+			// 
+			this.currentUserItem.Enabled = false;
+			this.currentUserItem.Name = "currentUserItem";
+			this.currentUserItem.Size = new System.Drawing.Size(174, 22);
+			this.currentUserItem.Text = "[Current user]";
+			// 
+			// modificaPasswordToolStripMenuItem
+			// 
+			this.modificaPasswordToolStripMenuItem.Name = "modificaPasswordToolStripMenuItem";
+			this.modificaPasswordToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+			this.modificaPasswordToolStripMenuItem.Text = "Modifica password";
+			this.modificaPasswordToolStripMenuItem.Click += new System.EventHandler(this.OnChangePassword);
+			// 
+			// userAdminActionSeparator
+			// 
+			this.userAdminActionSeparator.Name = "userAdminActionSeparator";
+			this.userAdminActionSeparator.Size = new System.Drawing.Size(171, 6);
+			// 
+			// manageUserItem
+			// 
+			this.manageUserItem.Name = "manageUserItem";
+			this.manageUserItem.Size = new System.Drawing.Size(174, 22);
+			this.manageUserItem.Text = "Gestisci utenti";
+			this.manageUserItem.Click += new System.EventHandler(this.OnManageUsers);
+			// 
+			// mezzoTabView
+			// 
+			this.mezzoTabView.CurrentTab = 0;
+			this.mezzoTabView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mezzoTabView.Location = new System.Drawing.Point(240, 24);
+			this.mezzoTabView.Name = "mezzoTabView";
+			this.mezzoTabView.Size = new System.Drawing.Size(744, 537);
+			this.mezzoTabView.TabIndex = 6;
 			// 
 			// ClientWindow
 			// 
@@ -144,11 +194,17 @@
 
 		private System.Windows.Forms.DataGridView mezziList;
 		private System.Windows.Forms.Label noSelectionLbl;
-		private MezzoTabView mezzoTabView;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem flottaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem nuovoMezzoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tipiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem officineToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem userMenu;
+		private System.Windows.Forms.ToolStripMenuItem currentUserItem;
+		private System.Windows.Forms.ToolStripMenuItem modificaPasswordToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator userAdminActionSeparator;
+		private System.Windows.Forms.ToolStripMenuItem manageUserItem;
+		private MezzoTabView mezzoTabView;
 	}
 }

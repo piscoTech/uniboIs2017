@@ -9,6 +9,11 @@ namespace Flotta.Model
 {
 	public static class ModelFactory
 	{
+		public static IUser NewUtente()
+		{
+			return new User();
+		}
+
 		public static IMezzo NewMezzo()
 		{
 			return new Mezzo();

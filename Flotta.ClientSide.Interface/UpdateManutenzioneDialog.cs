@@ -29,7 +29,6 @@ namespace Flotta.ClientSide.Interface
 	{
 		private Func<bool> _validation;
 
-
 		internal UpdateManutenzioneDialog()
 		{
 			InitializeComponent();

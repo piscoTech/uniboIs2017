@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tessera.cs" />
     <Compile Include="TesseraType.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="LinkedTypeDescriptor.cs" />
     <Compile Include="Scadenza.cs" />
     <Compile Include="ScadenzaIllimitata.cs" />

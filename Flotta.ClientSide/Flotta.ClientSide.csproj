@@ -45,6 +45,7 @@
     <Compile Include="ClientSideFactory.cs" />
     <Compile Include="IPresenter.cs" />
     <Compile Include="ITabPresenter.cs" />
+    <Compile Include="UsersManagerPresenter.cs" />
     <Compile Include="LinkedTypeManagerPresenter.cs" />
     <Compile Include="MezzoTabPresenter.cs" />
     <Compile Include="UpdateManutenzionePresenter.cs" />
@@ -60,6 +61,8 @@
     <Compile Include="RenewScadenzaPresenter.cs" />
     <Compile Include="UpdateTesseraPresenter.cs" />
     <Compile Include="UpdateDispositivoPermessoPresenter.cs" />
+    <Compile Include="ChangePasswordPresenter.cs" />
+    <Compile Include="UpdateUserPresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj">

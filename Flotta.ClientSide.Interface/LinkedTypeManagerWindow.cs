@@ -31,10 +31,10 @@ namespace Flotta.ClientSide.Interface
 		{
 			InitializeComponent();
 
-			BindMezziList();
+			BindTypesList();
 		}
 
-		private void BindMezziList()
+		private void BindTypesList()
 		{
 			typeList.AutoGenerateColumns = false;
 
@@ -101,7 +101,6 @@ namespace Flotta.ClientSide.Interface
 		public event Action CreateNewType;
 		private void OnCreateNewType(object sender, EventArgs e)
 		{
-			Console.WriteLine(CreateNewType);
 			CreateNewType?.Invoke();
 		}
 

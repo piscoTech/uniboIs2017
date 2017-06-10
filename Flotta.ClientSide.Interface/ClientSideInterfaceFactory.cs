@@ -8,6 +8,16 @@ namespace Flotta.ClientSide.Interface
 {
 	public static class ClientSideInterfaceFactory
 	{
+		public static IAuthenticateUserDialog NewAuthenticateUserDialog()
+		{
+			return new AuthenticateUserDialog();
+		}
+
+		public static IChangePasswordDialog NewChangePasswordDialog()
+		{
+			return new ChangePasswordDialog();
+		}
+
 		public static IClientWindow NewClientWindow()
 		{
 			return new ClientWindow();
@@ -91,6 +101,21 @@ namespace Flotta.ClientSide.Interface
 		public static IUpdateOfficinaDialog NewUpdateOfficinaDialog()
 		{
 			return new UpdateOfficinaDialog();
+		}
+
+		public static IUsersManagerWindow NewUsersManagerWindow()
+		{
+			return new UsersManagerWindow();
+		}
+
+		public static IUserListItem NewUserListItem(string username, bool isAdmin)
+		{
+			return new UserListItem(username, isAdmin);
+		}
+
+		public static IUpdateUserDialog NewUpdateUserDialog()
+		{
+			return new UpdateUserDialog();
 		}
 	}
 }

@@ -17,12 +17,17 @@ namespace Flotta.ClientSide
 
 	internal class Client : IClient
 	{
+		private bool _closed = false;
+
 		private IServer _server;
 		private IClientWindow _mainWindow;
+		private IUser _user;
 
 		private MezzoTabPresenter _mezzoPresenter;
 		private IWindowPresenter _typesPresenter;
 		private IWindowPresenter _officinePresenter;
+		private ChangePasswordPresenter _passwordPresenter;
+		private UsersManagerPresenter _userPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -37,12 +42,37 @@ namespace Flotta.ClientSide
 
 		public void Show()
 		{
+			using (IAuthenticateUserDialog authDialog = ClientSideInterfaceFactory.NewAuthenticateUserDialog())
+			{
+				do
+				{
+					if (authDialog.ShowDialog() == DialogResult.OK)
+					{
+						_user = _server.ValidateUser(authDialog.Username, authDialog.Password);
+						if (_user == null)
+							MessageBox.Show("Nome utente o password errati");
+
+						authDialog.Clear();
+					}
+					else
+						break;
+				} while (_user == null);
+			}
+			if (_user == null)
+			{
+				Close();
+				return;
+			}
+
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
+			_mainWindow.SetUserMode(_user.Username, _user.IsAdmin);
 			_mainWindow.Show();
 			_mainWindow.WindowClose += Close;
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 			_mainWindow.ManageOfficine += OnManageOfficine;
+			_mainWindow.ChangePassword += OnChangePassword;
+			_mainWindow.ManageUsers += OnManageUsers;
 
 			foreach (var type in ModelFactory.GetAllLinkedTypes())
 			{
@@ -82,6 +112,10 @@ namespace Flotta.ClientSide
 					_mezzoPresenter.ReloadTab();
 				}
 			}
+			else if (obj is IUser u && u == _user)
+			{
+				_mainWindow?.SetUserMode(_user.Username, _user.IsAdmin);
+			}
 		}
 
 		private void OnObjectRemoved(IDBObject obj)
@@ -120,6 +154,21 @@ namespace Flotta.ClientSide
 			_officinePresenter.Show();
 		}
 
+
+		private void OnChangePassword()
+		{
+			_passwordPresenter = new ChangePasswordPresenter(_server, _user);
+			_passwordPresenter.PresenterClosed += () => _passwordPresenter = null;
+			_passwordPresenter.ShowDialog();
+		}
+
+		private void OnManageUsers()
+		{
+			_userPresenter = new UsersManagerPresenter(_server, _user);
+			_userPresenter.PresenterClosed += () => _userPresenter = null;
+			_userPresenter.Show();
+		}
+
 		public event Action PresenterClosed;
 		public void Close()
 		{
@@ -128,8 +177,11 @@ namespace Flotta.ClientSide
 
 			win?.Close();
 			_typesPresenter?.Close();
-			_server.ClientDisconnected();
+			if (!_closed)
+				_server.ClientDisconnected(_user);
 			PresenterClosed?.Invoke();
+
+			_closed = true;
 		}
 
 	}
