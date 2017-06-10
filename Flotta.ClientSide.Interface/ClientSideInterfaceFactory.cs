@@ -102,5 +102,20 @@ namespace Flotta.ClientSide.Interface
 		{
 			return new UpdateOfficinaDialog();
 		}
+
+		public static IUsersManagerWindow NewUsersManagerWindow()
+		{
+			return new UsersManagerWindow();
+		}
+
+		public static IUserListItem NewUserListItem(string username, bool isAdmin)
+		{
+			return new UserListItem(username, isAdmin);
+		}
+
+		public static IUpdateUserDialog NewUpdateUserDialog()
+		{
+			return new UpdateUserDialog();
+		}
 	}
 }

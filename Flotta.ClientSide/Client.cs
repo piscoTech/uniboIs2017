@@ -27,6 +27,7 @@ namespace Flotta.ClientSide
 		private IWindowPresenter _typesPresenter;
 		private IWindowPresenter _officinePresenter;
 		private ChangePasswordPresenter _passwordPresenter;
+		private UsersManagerPresenter _userPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -71,6 +72,7 @@ namespace Flotta.ClientSide
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 			_mainWindow.ManageOfficine += OnManageOfficine;
 			_mainWindow.ChangePassword += OnChangePassword;
+			_mainWindow.ManageUsers += OnManageUsers;
 
 			foreach (var type in ModelFactory.GetAllLinkedTypes())
 			{
@@ -110,6 +112,10 @@ namespace Flotta.ClientSide
 					_mezzoPresenter.ReloadTab();
 				}
 			}
+			else if (obj is IUser u && u == _user)
+			{
+				_mainWindow?.SetUserMode(_user.Username, _user.IsAdmin);
+			}
 		}
 
 		private void OnObjectRemoved(IDBObject obj)
@@ -148,11 +154,19 @@ namespace Flotta.ClientSide
 			_officinePresenter.Show();
 		}
 
+
 		private void OnChangePassword()
 		{
 			_passwordPresenter = new ChangePasswordPresenter(_server, _user);
 			_passwordPresenter.PresenterClosed += () => _passwordPresenter = null;
 			_passwordPresenter.ShowDialog();
+		}
+
+		private void OnManageUsers()
+		{
+			_userPresenter = new UsersManagerPresenter(_server, _user);
+			_userPresenter.PresenterClosed += () => _userPresenter = null;
+			_userPresenter.Show();
 		}
 
 		public event Action PresenterClosed;
