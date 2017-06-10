@@ -13,6 +13,11 @@ namespace Flotta.ClientSide.Interface
 			return new AuthenticateUserDialog();
 		}
 
+		public static IChangePasswordDialog NewChangePasswordDialog()
+		{
+			return new ChangePasswordDialog();
+		}
+
 		public static IClientWindow NewClientWindow()
 		{
 			return new ClientWindow();

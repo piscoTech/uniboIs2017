@@ -10,10 +10,6 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-
-	public delegate void ValidatedHandler();
-	public delegate bool SubmitHandler(string username, string password);
-
 	public interface IAuthenticateUserDialog : ICloseableDisposable
 	{
 		DialogResult ShowDialog();
@@ -35,19 +31,8 @@ namespace Flotta.ClientSide.Interface
 
 		public void Clear()
 		{
-			username.Text = password.Text = "";
+			password.Text = "";
 			this.DialogResult = DialogResult.None;
 		}
-
-		//private void submitButton_Click(object sender, EventArgs e)
-		//{
-
-		//	if (OnSubmit(Username, Password))
-		//		OnValidated();
-		//	else
-		//	{
-		//		MessageBox.Show("Username o Password errati...");
-		//	}
-		//}
 	}
 }

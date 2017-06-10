@@ -18,6 +18,7 @@ namespace Flotta.ServerSide
 
 		IEnumerable<IUser> Utenti { get; }
 		IUser ValidateUser(string username, string password);
+		IEnumerable<string> ChangeUserPassword(IUser user, string password, string oldPassword);
 
 		IEnumerable<IMezzo> Mezzi { get; }
 
@@ -217,6 +218,15 @@ namespace Flotta.ServerSide
 				_loggedUser.Add(user);
 
 			return user;
+		}
+
+		public IEnumerable<string> ChangeUserPassword(IUser user, string password, string oldPassword)
+		{
+			var errors = user.ChangePassword(password, oldPassword);
+			if (errors.Count() == 0)
+				ObjectChanged(user);
+
+			return errors;
 		}
 
 		public IEnumerable<IMezzo> Mezzi => from m in _mezzi orderby m.Numero select m;

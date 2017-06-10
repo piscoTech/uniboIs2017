@@ -26,6 +26,7 @@ namespace Flotta.ClientSide
 		private MezzoTabPresenter _mezzoPresenter;
 		private IWindowPresenter _typesPresenter;
 		private IWindowPresenter _officinePresenter;
+		private ChangePasswordPresenter _passwordPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -69,6 +70,7 @@ namespace Flotta.ClientSide
 			_mainWindow.MezzoSelected += OnMezzoSelected;
 			_mainWindow.CreateNewMezzo += OnCreateNewMezzo;
 			_mainWindow.ManageOfficine += OnManageOfficine;
+			_mainWindow.ChangePassword += OnChangePassword;
 
 			foreach (var type in ModelFactory.GetAllLinkedTypes())
 			{
@@ -146,6 +148,13 @@ namespace Flotta.ClientSide
 			_officinePresenter.Show();
 		}
 
+		private void OnChangePassword()
+		{
+			_passwordPresenter = new ChangePasswordPresenter(_server, _user);
+			_passwordPresenter.PresenterClosed += () => _passwordPresenter = null;
+			_passwordPresenter.ShowDialog();
+		}
+
 		public event Action PresenterClosed;
 		public void Close()
 		{
@@ -154,7 +163,7 @@ namespace Flotta.ClientSide
 
 			win?.Close();
 			_typesPresenter?.Close();
-			if(!_closed)
+			if (!_closed)
 				_server.ClientDisconnected(_user);
 			PresenterClosed?.Invoke();
 
