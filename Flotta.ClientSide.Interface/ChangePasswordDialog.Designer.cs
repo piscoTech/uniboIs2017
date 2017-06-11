@@ -33,11 +33,11 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.repeatPassword = new System.Windows.Forms.TextBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.button1 = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
 			this.oldPassword = new System.Windows.Forms.TextBox();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.submitButton = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
@@ -45,7 +45,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(2, 0);
+			this.label1.Location = new System.Drawing.Point(7, 5);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(87, 13);
@@ -54,7 +54,7 @@
 			// 
 			// newPassword
 			// 
-			this.newPassword.Location = new System.Drawing.Point(2, 15);
+			this.newPassword.Location = new System.Drawing.Point(7, 20);
 			this.newPassword.Margin = new System.Windows.Forms.Padding(2);
 			this.newPassword.Name = "newPassword";
 			this.newPassword.PasswordChar = '*';
@@ -64,7 +64,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(2, 37);
+			this.label2.Location = new System.Drawing.Point(7, 42);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(82, 13);
@@ -73,12 +73,12 @@
 			// 
 			// repeatPassword
 			// 
-			this.repeatPassword.Location = new System.Drawing.Point(2, 52);
+			this.repeatPassword.Location = new System.Drawing.Point(7, 57);
 			this.repeatPassword.Margin = new System.Windows.Forms.Padding(2);
 			this.repeatPassword.Name = "repeatPassword";
 			this.repeatPassword.PasswordChar = '*';
 			this.repeatPassword.Size = new System.Drawing.Size(288, 20);
-			this.repeatPassword.TabIndex = 3;
+			this.repeatPassword.TabIndex = 2;
 			// 
 			// flowLayoutPanel1
 			// 
@@ -92,9 +92,29 @@
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(5);
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(310, 152);
 			this.flowLayoutPanel1.TabIndex = 5;
 			this.flowLayoutPanel1.WrapContents = false;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(7, 79);
+			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(94, 13);
+			this.label3.TabIndex = 4;
+			this.label3.Text = "Vecchia password";
+			// 
+			// oldPassword
+			// 
+			this.oldPassword.Location = new System.Drawing.Point(7, 94);
+			this.oldPassword.Margin = new System.Windows.Forms.Padding(2);
+			this.oldPassword.Name = "oldPassword";
+			this.oldPassword.PasswordChar = '*';
+			this.oldPassword.Size = new System.Drawing.Size(288, 20);
+			this.oldPassword.TabIndex = 3;
 			// 
 			// panel1
 			// 
@@ -105,6 +125,20 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(310, 25);
 			this.panel1.TabIndex = 6;
+			// 
+			// submitButton
+			// 
+			this.submitButton.AutoSize = true;
+			this.submitButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.submitButton.Dock = System.Windows.Forms.DockStyle.Right;
+			this.submitButton.Location = new System.Drawing.Point(146, 0);
+			this.submitButton.Margin = new System.Windows.Forms.Padding(2);
+			this.submitButton.Name = "submitButton";
+			this.submitButton.Size = new System.Drawing.Size(100, 25);
+			this.submitButton.TabIndex = 4;
+			this.submitButton.Text = "Cambia password";
+			this.submitButton.UseVisualStyleBackColor = true;
+			this.submitButton.Click += new System.EventHandler(this.OnSave);
 			// 
 			// button1
 			// 
@@ -117,39 +151,6 @@
 			this.button1.TabIndex = 5;
 			this.button1.Text = "Annulla";
 			this.button1.UseVisualStyleBackColor = true;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(2, 74);
-			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(94, 13);
-			this.label3.TabIndex = 4;
-			this.label3.Text = "Vecchia password";
-			// 
-			// oldPassword
-			// 
-			this.oldPassword.Location = new System.Drawing.Point(2, 89);
-			this.oldPassword.Margin = new System.Windows.Forms.Padding(2);
-			this.oldPassword.Name = "oldPassword";
-			this.oldPassword.PasswordChar = '*';
-			this.oldPassword.Size = new System.Drawing.Size(288, 20);
-			this.oldPassword.TabIndex = 5;
-			// 
-			// submitButton
-			// 
-			this.submitButton.AutoSize = true;
-			this.submitButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.submitButton.Dock = System.Windows.Forms.DockStyle.Right;
-			this.submitButton.Location = new System.Drawing.Point(146, 0);
-			this.submitButton.Margin = new System.Windows.Forms.Padding(2);
-			this.submitButton.Name = "submitButton";
-			this.submitButton.Size = new System.Drawing.Size(100, 25);
-			this.submitButton.TabIndex = 6;
-			this.submitButton.Text = "Cambia password";
-			this.submitButton.UseVisualStyleBackColor = true;
-			this.submitButton.Click += new System.EventHandler(this.OnSave);
 			// 
 			// ChangePasswordDialog
 			// 

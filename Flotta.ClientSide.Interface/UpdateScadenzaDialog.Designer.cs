@@ -56,7 +56,7 @@
 			this.date.Location = new System.Drawing.Point(3, 16);
 			this.date.Name = "date";
 			this.date.Size = new System.Drawing.Size(200, 20);
-			this.date.TabIndex = 2;
+			this.date.TabIndex = 1;
 			// 
 			// label1
 			// 
@@ -79,7 +79,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(3, 0);
+			this.label3.Location = new System.Drawing.Point(6, 3);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(28, 13);
 			this.label3.TabIndex = 4;
@@ -102,7 +102,7 @@
 			this.panel1.Location = new System.Drawing.Point(0, 176);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(418, 25);
-			this.panel1.TabIndex = 8;
+			this.panel1.TabIndex = 1;
 			// 
 			// saveBtn
 			// 
@@ -111,10 +111,10 @@
 			this.saveBtn.Location = new System.Drawing.Point(268, 0);
 			this.saveBtn.Name = "saveBtn";
 			this.saveBtn.Size = new System.Drawing.Size(75, 25);
-			this.saveBtn.TabIndex = 6;
+			this.saveBtn.TabIndex = 7;
 			this.saveBtn.Text = "Salva";
 			this.saveBtn.UseVisualStyleBackColor = true;
-			this.saveBtn.Click += new System.EventHandler(OnSave);
+			this.saveBtn.Click += new System.EventHandler(this.OnSave);
 			// 
 			// cancelBtn
 			// 
@@ -123,7 +123,7 @@
 			this.cancelBtn.Location = new System.Drawing.Point(343, 0);
 			this.cancelBtn.Name = "cancelBtn";
 			this.cancelBtn.Size = new System.Drawing.Size(75, 25);
-			this.cancelBtn.TabIndex = 7;
+			this.cancelBtn.TabIndex = 8;
 			this.cancelBtn.Text = "Annulla";
 			this.cancelBtn.UseVisualStyleBackColor = true;
 			// 
@@ -131,10 +131,10 @@
 			// 
 			this.type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.type.FormattingEnabled = true;
-			this.type.Location = new System.Drawing.Point(3, 16);
+			this.type.Location = new System.Drawing.Point(6, 19);
 			this.type.Name = "type";
 			this.type.Size = new System.Drawing.Size(147, 21);
-			this.type.TabIndex = 1;
+			this.type.TabIndex = 0;
 			this.type.SelectedIndexChanged += new System.EventHandler(this.OnTypeChanged);
 			// 
 			// flowLayoutPanel2
@@ -146,8 +146,9 @@
 			this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+			this.flowLayoutPanel2.Padding = new System.Windows.Forms.Padding(3);
 			this.flowLayoutPanel2.Size = new System.Drawing.Size(418, 176);
-			this.flowLayoutPanel2.TabIndex = 10;
+			this.flowLayoutPanel2.TabIndex = 0;
 			this.flowLayoutPanel2.WrapContents = false;
 			// 
 			// dateFields
@@ -159,11 +160,11 @@
 			this.dateFields.Controls.Add(this.format);
 			this.dateFields.Controls.Add(this.recurFields);
 			this.dateFields.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.dateFields.Location = new System.Drawing.Point(0, 43);
+			this.dateFields.Location = new System.Drawing.Point(3, 46);
 			this.dateFields.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this.dateFields.Name = "dateFields";
 			this.dateFields.Size = new System.Drawing.Size(206, 131);
-			this.dateFields.TabIndex = 10;
+			this.dateFields.TabIndex = 1;
 			this.dateFields.WrapContents = false;
 			// 
 			// format
@@ -173,7 +174,7 @@
 			this.format.Location = new System.Drawing.Point(3, 55);
 			this.format.Name = "format";
 			this.format.Size = new System.Drawing.Size(147, 21);
-			this.format.TabIndex = 3;
+			this.format.TabIndex = 2;
 			// 
 			// recurFields
 			// 
@@ -185,7 +186,7 @@
 			this.recurFields.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this.recurFields.Name = "recurFields";
 			this.recurFields.Size = new System.Drawing.Size(204, 46);
-			this.recurFields.TabIndex = 11;
+			this.recurFields.TabIndex = 3;
 			this.recurFields.WrapContents = false;
 			// 
 			// flowLayoutPanel3
@@ -197,7 +198,7 @@
 			this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
 			this.flowLayoutPanel3.Size = new System.Drawing.Size(204, 27);
-			this.flowLayoutPanel3.TabIndex = 12;
+			this.flowLayoutPanel3.TabIndex = 4;
 			this.flowLayoutPanel3.WrapContents = false;
 			// 
 			// recurNum
@@ -205,7 +206,7 @@
 			this.recurNum.Location = new System.Drawing.Point(3, 3);
 			this.recurNum.Name = "recurNum";
 			this.recurNum.Size = new System.Drawing.Size(45, 20);
-			this.recurNum.TabIndex = 4;
+			this.recurNum.TabIndex = 5;
 			// 
 			// recurType
 			// 
@@ -214,7 +215,7 @@
 			this.recurType.Location = new System.Drawing.Point(54, 3);
 			this.recurType.Name = "recurType";
 			this.recurType.Size = new System.Drawing.Size(147, 21);
-			this.recurType.TabIndex = 5;
+			this.recurType.TabIndex = 6;
 			// 
 			// UpdateScadenzaDialog
 			// 

@@ -30,23 +30,23 @@
 		{
 			this.controlContainer = new System.Windows.Forms.FlowLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
+			this.name = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.phone = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.street = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.zipCode = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.city = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.province = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.state = new System.Windows.Forms.TextBox();
 			this.btnPanel = new System.Windows.Forms.Panel();
 			this.saveBtn = new System.Windows.Forms.Button();
 			this.cancelBtn = new System.Windows.Forms.Button();
 			this.editBtn = new System.Windows.Forms.Button();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.name = new System.Windows.Forms.TextBox();
-			this.phone = new System.Windows.Forms.TextBox();
-			this.street = new System.Windows.Forms.TextBox();
-			this.zipCode = new System.Windows.Forms.TextBox();
-			this.city = new System.Windows.Forms.TextBox();
-			this.state = new System.Windows.Forms.TextBox();
-			this.province = new System.Windows.Forms.TextBox();
 			this.controlContainer.SuspendLayout();
 			this.btnPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -71,18 +71,122 @@
 			this.controlContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.controlContainer.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer.Name = "controlContainer";
-			this.controlContainer.Size = new System.Drawing.Size(401, 285);
-			this.controlContainer.TabIndex = 12;
+			this.controlContainer.Padding = new System.Windows.Forms.Padding(3);
+			this.controlContainer.Size = new System.Drawing.Size(401, 315);
+			this.controlContainer.TabIndex = 0;
 			this.controlContainer.WrapContents = false;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 0);
+			this.label1.Location = new System.Drawing.Point(6, 3);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(35, 13);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Nome";
+			// 
+			// name
+			// 
+			this.name.Location = new System.Drawing.Point(6, 19);
+			this.name.Name = "name";
+			this.name.Size = new System.Drawing.Size(244, 20);
+			this.name.TabIndex = 0;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(6, 42);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(49, 13);
+			this.label2.TabIndex = 2;
+			this.label2.Text = "Telefono";
+			// 
+			// phone
+			// 
+			this.phone.Location = new System.Drawing.Point(6, 58);
+			this.phone.Name = "phone";
+			this.phone.Size = new System.Drawing.Size(122, 20);
+			this.phone.TabIndex = 1;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(6, 81);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(22, 13);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "Via";
+			// 
+			// street
+			// 
+			this.street.Location = new System.Drawing.Point(6, 97);
+			this.street.Name = "street";
+			this.street.Size = new System.Drawing.Size(244, 20);
+			this.street.TabIndex = 2;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(6, 120);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(28, 13);
+			this.label4.TabIndex = 4;
+			this.label4.Text = "CAP";
+			// 
+			// zipCode
+			// 
+			this.zipCode.Location = new System.Drawing.Point(6, 136);
+			this.zipCode.Name = "zipCode";
+			this.zipCode.Size = new System.Drawing.Size(62, 20);
+			this.zipCode.TabIndex = 3;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 159);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(28, 13);
+			this.label5.TabIndex = 5;
+			this.label5.Text = "Città";
+			// 
+			// city
+			// 
+			this.city.Location = new System.Drawing.Point(6, 175);
+			this.city.Name = "city";
+			this.city.Size = new System.Drawing.Size(244, 20);
+			this.city.TabIndex = 4;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(6, 198);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(51, 13);
+			this.label6.TabIndex = 6;
+			this.label6.Text = "Provincia";
+			// 
+			// province
+			// 
+			this.province.Location = new System.Drawing.Point(6, 214);
+			this.province.Name = "province";
+			this.province.Size = new System.Drawing.Size(35, 20);
+			this.province.TabIndex = 5;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 237);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(46, 13);
+			this.label7.TabIndex = 7;
+			this.label7.Text = "Nazione";
+			// 
+			// state
+			// 
+			this.state.Location = new System.Drawing.Point(6, 253);
+			this.state.Name = "state";
+			this.state.Size = new System.Drawing.Size(122, 20);
+			this.state.TabIndex = 6;
 			// 
 			// btnPanel
 			// 
@@ -90,32 +194,32 @@
 			this.btnPanel.Controls.Add(this.cancelBtn);
 			this.btnPanel.Controls.Add(this.editBtn);
 			this.btnPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.btnPanel.Location = new System.Drawing.Point(0, 285);
+			this.btnPanel.Location = new System.Drawing.Point(0, 315);
 			this.btnPanel.Name = "btnPanel";
 			this.btnPanel.Size = new System.Drawing.Size(401, 25);
-			this.btnPanel.TabIndex = 11;
+			this.btnPanel.TabIndex = 1;
 			// 
 			// saveBtn
 			// 
 			this.saveBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.saveBtn.Location = new System.Drawing.Point(251, 0);
+			this.saveBtn.Location = new System.Drawing.Point(176, 0);
 			this.saveBtn.Name = "saveBtn";
 			this.saveBtn.Size = new System.Drawing.Size(75, 25);
-			this.saveBtn.TabIndex = 1;
+			this.saveBtn.TabIndex = 7;
 			this.saveBtn.Text = "Salva";
 			this.saveBtn.UseVisualStyleBackColor = true;
-			this.saveBtn.Click += new System.EventHandler(OnSave);
+			this.saveBtn.Click += new System.EventHandler(this.OnSave);
 			// 
 			// cancelBtn
 			// 
 			this.cancelBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.cancelBtn.Location = new System.Drawing.Point(326, 0);
+			this.cancelBtn.Location = new System.Drawing.Point(251, 0);
 			this.cancelBtn.Name = "cancelBtn";
 			this.cancelBtn.Size = new System.Drawing.Size(75, 25);
-			this.cancelBtn.TabIndex = 0;
+			this.cancelBtn.TabIndex = 8;
 			this.cancelBtn.Text = "Annulla";
 			this.cancelBtn.UseVisualStyleBackColor = true;
-			this.cancelBtn.Click += new System.EventHandler(OnCancelEdit);
+			this.cancelBtn.Click += new System.EventHandler(this.OnCancelEdit);
 			// 
 			// editBtn
 			// 
@@ -123,113 +227,10 @@
 			this.editBtn.Location = new System.Drawing.Point(326, 0);
 			this.editBtn.Name = "editBtn";
 			this.editBtn.Size = new System.Drawing.Size(75, 25);
-			this.editBtn.TabIndex = 0;
+			this.editBtn.TabIndex = 9;
 			this.editBtn.Text = "Modifica";
 			this.editBtn.UseVisualStyleBackColor = true;
-			this.editBtn.Click += new System.EventHandler(OnEdit);
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(3, 39);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(49, 13);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "Telefono";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(3, 78);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(22, 13);
-			this.label3.TabIndex = 3;
-			this.label3.Text = "Via";
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(3, 117);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(28, 13);
-			this.label4.TabIndex = 4;
-			this.label4.Text = "CAP";
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(3, 156);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(28, 13);
-			this.label5.TabIndex = 5;
-			this.label5.Text = "Città";
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(3, 195);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(51, 13);
-			this.label6.TabIndex = 6;
-			this.label6.Text = "Provincia";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(3, 234);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(46, 13);
-			this.label7.TabIndex = 7;
-			this.label7.Text = "Nazione";
-			// 
-			// name
-			// 
-			this.name.Location = new System.Drawing.Point(3, 16);
-			this.name.Name = "name";
-			this.name.Size = new System.Drawing.Size(244, 20);
-			this.name.TabIndex = 8;
-			// 
-			// phone
-			// 
-			this.phone.Location = new System.Drawing.Point(3, 55);
-			this.phone.Name = "phone";
-			this.phone.Size = new System.Drawing.Size(122, 20);
-			this.phone.TabIndex = 9;
-			// 
-			// street
-			// 
-			this.street.Location = new System.Drawing.Point(3, 94);
-			this.street.Name = "street";
-			this.street.Size = new System.Drawing.Size(244, 20);
-			this.street.TabIndex = 10;
-			// 
-			// zipCode
-			// 
-			this.zipCode.Location = new System.Drawing.Point(3, 133);
-			this.zipCode.Name = "zipCode";
-			this.zipCode.Size = new System.Drawing.Size(62, 20);
-			this.zipCode.TabIndex = 11;
-			// 
-			// city
-			// 
-			this.city.Location = new System.Drawing.Point(3, 172);
-			this.city.Name = "city";
-			this.city.Size = new System.Drawing.Size(244, 20);
-			this.city.TabIndex = 12;
-			// 
-			// state
-			// 
-			this.state.Location = new System.Drawing.Point(3, 250);
-			this.state.Name = "state";
-			this.state.Size = new System.Drawing.Size(122, 20);
-			this.state.TabIndex = 13;
-			// 
-			// province
-			// 
-			this.province.Location = new System.Drawing.Point(3, 211);
-			this.province.Name = "province";
-			this.province.Size = new System.Drawing.Size(35, 20);
-			this.province.TabIndex = 14;
+			this.editBtn.Click += new System.EventHandler(this.OnEdit);
 			// 
 			// UpdateOfficinaDialog
 			// 

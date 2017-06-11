@@ -23,7 +23,6 @@ namespace Flotta.ClientSide.Interface
 
 	public partial class NewMezzoDialog : Form, INewMezzoDialog
 	{
-
 		private bool _confirmClose = true;
 
 		public NewMezzoDialog()
@@ -56,10 +55,10 @@ namespace Flotta.ClientSide.Interface
 			base.OnFormClosing(e);
 			if (_confirmClose)
 			{
-				if (MessageBox.Show("Sei sicuro di voler annullare la creazione del mezzo?", "Annulla creazione?", MessageBoxButtons.YesNo) != DialogResult.Yes)
-				{
+				if (MessageBox.Show("Sei sicuro di voler annullare la creazione del mezzo?", "Annulla creazione?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+					_confirmClose = false;
+				else
 					e.Cancel = true;
-				}
 			}
 		}
 	}

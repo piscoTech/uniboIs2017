@@ -95,24 +95,12 @@ namespace Flotta.Model
 		public Scadenza ScadenzaCartaCircolazione
 		{
 			get => _scadCartaCircolazione;
-			set
-			{
-				if (value == null)
-					throw new ArgumentNullException("No new scadenza specified");
-
-				_scadCartaCircolazione = value;
-			}
+			set => _scadCartaCircolazione = value;
 		}
 		public Scadenza ScadenzaTagliando
 		{
 			get => _scadTagliando;
-			set
-			{
-				if (value == null)
-					throw new ArgumentNullException("No new scadenza specified");
-
-				_scadTagliando = value;
-			}
+			set => _scadTagliando = value;
 		}
 
 		public IEnumerable<IManutenzione> Manutenzioni => from m in _manutenzioni orderby m.Data descending select m;

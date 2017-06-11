@@ -48,7 +48,7 @@
 			// 
 			// date
 			// 
-			this.date.Location = new System.Drawing.Point(3, 16);
+			this.date.Location = new System.Drawing.Point(6, 19);
 			this.date.Name = "date";
 			this.date.Size = new System.Drawing.Size(200, 20);
 			this.date.TabIndex = 0;
@@ -56,7 +56,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 0);
+			this.label1.Location = new System.Drawing.Point(6, 3);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(30, 13);
 			this.label1.TabIndex = 1;
@@ -65,7 +65,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(3, 79);
+			this.label2.Location = new System.Drawing.Point(6, 82);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(30, 13);
 			this.label2.TabIndex = 2;
@@ -73,15 +73,15 @@
 			// 
 			// notes
 			// 
-			this.notes.Location = new System.Drawing.Point(3, 95);
+			this.notes.Location = new System.Drawing.Point(6, 98);
 			this.notes.Name = "notes";
 			this.notes.Size = new System.Drawing.Size(354, 20);
-			this.notes.TabIndex = 3;
+			this.notes.TabIndex = 2;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(3, 39);
+			this.label3.Location = new System.Drawing.Point(6, 42);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(28, 13);
 			this.label3.TabIndex = 4;
@@ -90,7 +90,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(3, 158);
+			this.label4.Location = new System.Drawing.Point(6, 161);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(43, 13);
 			this.label4.TabIndex = 6;
@@ -98,10 +98,10 @@
 			// 
 			// cost
 			// 
-			this.cost.Location = new System.Drawing.Point(3, 174);
+			this.cost.Location = new System.Drawing.Point(6, 177);
 			this.cost.Name = "cost";
 			this.cost.Size = new System.Drawing.Size(85, 20);
-			this.cost.TabIndex = 7;
+			this.cost.TabIndex = 4;
 			// 
 			// btnPanel
 			// 
@@ -111,7 +111,7 @@
 			this.btnPanel.Location = new System.Drawing.Point(0, 201);
 			this.btnPanel.Name = "btnPanel";
 			this.btnPanel.Size = new System.Drawing.Size(432, 25);
-			this.btnPanel.TabIndex = 8;
+			this.btnPanel.TabIndex = 1;
 			// 
 			// saveBtn
 			// 
@@ -119,31 +119,30 @@
 			this.saveBtn.Location = new System.Drawing.Point(282, 0);
 			this.saveBtn.Name = "saveBtn";
 			this.saveBtn.Size = new System.Drawing.Size(75, 25);
-			this.saveBtn.TabIndex = 1;
+			this.saveBtn.TabIndex = 5;
 			this.saveBtn.Text = "Salva";
-			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.saveBtn.UseVisualStyleBackColor = true;
 			this.saveBtn.Click += new System.EventHandler(this.OnSave);
 			// 
 			// cancelBtn
 			// 
+			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelBtn.Dock = System.Windows.Forms.DockStyle.Right;
 			this.cancelBtn.Location = new System.Drawing.Point(357, 0);
 			this.cancelBtn.Name = "cancelBtn";
 			this.cancelBtn.Size = new System.Drawing.Size(75, 25);
-			this.cancelBtn.TabIndex = 0;
+			this.cancelBtn.TabIndex = 6;
 			this.cancelBtn.Text = "Annulla";
-			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelBtn.UseVisualStyleBackColor = true;
 			// 
 			// type
 			// 
 			this.type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.type.FormattingEnabled = true;
-			this.type.Location = new System.Drawing.Point(3, 55);
+			this.type.Location = new System.Drawing.Point(6, 58);
 			this.type.Name = "type";
 			this.type.Size = new System.Drawing.Size(200, 21);
-			this.type.TabIndex = 9;
+			this.type.TabIndex = 1;
 			// 
 			// flowLayoutPanel1
 			// 
@@ -161,14 +160,15 @@
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(432, 201);
-			this.flowLayoutPanel1.TabIndex = 10;
+			this.flowLayoutPanel1.TabIndex = 0;
 			this.flowLayoutPanel1.WrapContents = false;
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(3, 118);
+			this.label5.Location = new System.Drawing.Point(6, 121);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(43, 13);
 			this.label5.TabIndex = 10;
@@ -178,12 +178,12 @@
 			// 
 			this.officina.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.officina.FormattingEnabled = true;
-			this.officina.Location = new System.Drawing.Point(3, 134);
+			this.officina.Location = new System.Drawing.Point(6, 137);
 			this.officina.Name = "officina";
 			this.officina.Size = new System.Drawing.Size(200, 21);
-			this.officina.TabIndex = 11;
+			this.officina.TabIndex = 3;
 			// 
-			// NewManutenzioneDialog
+			// UpdateManutenzioneDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -192,7 +192,7 @@
 			this.Controls.Add(this.btnPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
-			this.Name = "NewManutenzioneDialog";
+			this.Name = "UpdateManutenzioneDialog";
 			this.Text = "Modifica manutenzione – Flotta";
 			this.btnPanel.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);

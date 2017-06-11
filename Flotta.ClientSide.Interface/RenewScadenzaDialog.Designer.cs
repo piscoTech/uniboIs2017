@@ -38,7 +38,7 @@
 			this.button1.Location = new System.Drawing.Point(241, 12);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 1;
+			this.button1.TabIndex = 2;
 			this.button1.Text = "Salva";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.OnSave);
@@ -48,7 +48,7 @@
 			this.date.Location = new System.Drawing.Point(12, 13);
 			this.date.Name = "date";
 			this.date.Size = new System.Drawing.Size(223, 20);
-			this.date.TabIndex = 3;
+			this.date.TabIndex = 1;
 			// 
 			// RenewScadenzaDialog
 			// 

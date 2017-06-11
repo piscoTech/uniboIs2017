@@ -28,6 +28,7 @@ namespace Flotta.ClientSide.Interface
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MezzoTabView));
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -83,6 +84,7 @@ namespace Flotta.ClientSide.Interface
 			this.tabGeneraleView.Modello = "";
 			this.tabGeneraleView.Name = "tabGeneraleView";
 			this.tabGeneraleView.Numero = ((uint)(0u));
+			this.tabGeneraleView.NumeroCartaCircolazione = "";
 			this.tabGeneraleView.NumeroTelaio = "";
 			this.tabGeneraleView.Portata = 0F;
 			this.tabGeneraleView.Profondita = 0F;
@@ -119,14 +121,6 @@ namespace Flotta.ClientSide.Interface
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Manutenzioni";
 			this.tabPage3.UseVisualStyleBackColor = true;
-			// 
-			// tabManutenzioniView
-			// 
-			this.tabManutenzioniView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabManutenzioniView.Location = new System.Drawing.Point(0, 0);
-			this.tabManutenzioniView.Name = "tabManutenzioniView";
-			this.tabManutenzioniView.Size = new System.Drawing.Size(356, 393);
-			this.tabManutenzioniView.TabIndex = 2;
 			// 
 			// tabPage4
 			// 
@@ -167,6 +161,14 @@ namespace Flotta.ClientSide.Interface
 			this.label5.TabIndex = 1;
 			this.label5.Text = "Non implementato";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// tabManutenzioniView
+			// 
+			this.tabManutenzioniView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabManutenzioniView.Location = new System.Drawing.Point(0, 0);
+			this.tabManutenzioniView.Name = "tabManutenzioniView";
+			this.tabManutenzioniView.Size = new System.Drawing.Size(356, 393);
+			this.tabManutenzioniView.TabIndex = 0;
 			// 
 			// MezzoTabView
 			// 

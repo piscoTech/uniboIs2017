@@ -41,9 +41,14 @@
 			this.modificaPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.userAdminActionSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.manageUserItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.mezzoTabView = new Flotta.ClientSide.Interface.MezzoTabView();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.panel2 = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.mezziList)).BeginInit();
 			this.menuStrip1.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// mezziList
@@ -55,21 +60,21 @@
 			this.mezziList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.mezziList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.mezziList.Dock = System.Windows.Forms.DockStyle.Left;
-			this.mezziList.Location = new System.Drawing.Point(0, 24);
+			this.mezziList.Location = new System.Drawing.Point(0, 0);
 			this.mezziList.MultiSelect = false;
 			this.mezziList.Name = "mezziList";
 			this.mezziList.ReadOnly = true;
 			this.mezziList.RowHeadersVisible = false;
-			this.mezziList.Size = new System.Drawing.Size(240, 537);
-			this.mezziList.TabIndex = 1;
+			this.mezziList.Size = new System.Drawing.Size(240, 515);
+			this.mezziList.TabIndex = 0;
 			this.mezziList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MezzoClicked);
 			// 
 			// noSelectionLbl
 			// 
 			this.noSelectionLbl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.noSelectionLbl.Location = new System.Drawing.Point(240, 24);
+			this.noSelectionLbl.Location = new System.Drawing.Point(0, 0);
 			this.noSelectionLbl.Name = "noSelectionLbl";
-			this.noSelectionLbl.Size = new System.Drawing.Size(744, 537);
+			this.noSelectionLbl.Size = new System.Drawing.Size(744, 515);
 			this.noSelectionLbl.TabIndex = 3;
 			this.noSelectionLbl.Text = "Seleziona un mezzo";
 			this.noSelectionLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -159,23 +164,50 @@
 			this.manageUserItem.Text = "Gestisci utenti";
 			this.manageUserItem.Click += new System.EventHandler(this.OnManageUsers);
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(984, 22);
+			this.statusStrip1.TabIndex = 7;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.panel2);
+			this.panel1.Controls.Add(this.mezziList);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel1.Location = new System.Drawing.Point(0, 24);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(984, 515);
+			this.panel1.TabIndex = 8;
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.mezzoTabView);
+			this.panel2.Controls.Add(this.noSelectionLbl);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel2.Location = new System.Drawing.Point(240, 0);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(744, 515);
+			this.panel2.TabIndex = 5;
+			// 
 			// mezzoTabView
 			// 
 			this.mezzoTabView.CurrentTab = 0;
 			this.mezzoTabView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mezzoTabView.Location = new System.Drawing.Point(240, 24);
+			this.mezzoTabView.Location = new System.Drawing.Point(0, 0);
 			this.mezzoTabView.Name = "mezzoTabView";
-			this.mezzoTabView.Size = new System.Drawing.Size(744, 537);
-			this.mezzoTabView.TabIndex = 6;
+			this.mezzoTabView.Size = new System.Drawing.Size(744, 515);
+			this.mezzoTabView.TabIndex = 4;
 			// 
 			// ClientWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(984, 561);
-			this.Controls.Add(this.mezzoTabView);
-			this.Controls.Add(this.noSelectionLbl);
-			this.Controls.Add(this.mezziList);
+			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.MinimumSize = new System.Drawing.Size(1000, 600);
@@ -185,6 +217,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.mezziList)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -205,6 +239,9 @@
 		private System.Windows.Forms.ToolStripMenuItem modificaPasswordToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator userAdminActionSeparator;
 		private System.Windows.Forms.ToolStripMenuItem manageUserItem;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Panel panel2;
 		private MezzoTabView mezzoTabView;
 	}
 }

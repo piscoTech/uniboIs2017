@@ -30,10 +30,10 @@
 		{
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
-			this.passwordLbl = new System.Windows.Forms.Label();
-			this.repeatPasswordLbl = new System.Windows.Forms.Label();
 			this.username = new System.Windows.Forms.TextBox();
+			this.passwordLbl = new System.Windows.Forms.Label();
 			this.password = new System.Windows.Forms.TextBox();
+			this.repeatPasswordLbl = new System.Windows.Forms.Label();
 			this.repeatPassword = new System.Windows.Forms.TextBox();
 			this.isAdmin = new System.Windows.Forms.CheckBox();
 			this.panel1 = new System.Windows.Forms.Panel();
@@ -69,6 +69,13 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Username";
 			// 
+			// username
+			// 
+			this.username.Location = new System.Drawing.Point(3, 16);
+			this.username.Name = "username";
+			this.username.Size = new System.Drawing.Size(167, 20);
+			this.username.TabIndex = 0;
+			// 
 			// passwordLbl
 			// 
 			this.passwordLbl.AutoSize = true;
@@ -77,6 +84,14 @@
 			this.passwordLbl.Size = new System.Drawing.Size(53, 13);
 			this.passwordLbl.TabIndex = 1;
 			this.passwordLbl.Text = "Password";
+			// 
+			// password
+			// 
+			this.password.Location = new System.Drawing.Point(3, 55);
+			this.password.Name = "password";
+			this.password.PasswordChar = '*';
+			this.password.Size = new System.Drawing.Size(167, 20);
+			this.password.TabIndex = 1;
 			// 
 			// repeatPasswordLbl
 			// 
@@ -87,28 +102,13 @@
 			this.repeatPasswordLbl.TabIndex = 2;
 			this.repeatPasswordLbl.Text = "Ripeti password";
 			// 
-			// username
-			// 
-			this.username.Location = new System.Drawing.Point(3, 16);
-			this.username.Name = "username";
-			this.username.Size = new System.Drawing.Size(167, 20);
-			this.username.TabIndex = 3;
-			// 
-			// password
-			// 
-			this.password.Location = new System.Drawing.Point(3, 55);
-			this.password.Name = "password";
-			this.password.PasswordChar = '*';
-			this.password.Size = new System.Drawing.Size(167, 20);
-			this.password.TabIndex = 4;
-			// 
 			// repeatPassword
 			// 
 			this.repeatPassword.Location = new System.Drawing.Point(3, 94);
 			this.repeatPassword.Name = "repeatPassword";
 			this.repeatPassword.PasswordChar = '*';
 			this.repeatPassword.Size = new System.Drawing.Size(167, 20);
-			this.repeatPassword.TabIndex = 5;
+			this.repeatPassword.TabIndex = 2;
 			// 
 			// isAdmin
 			// 
@@ -116,7 +116,7 @@
 			this.isAdmin.Location = new System.Drawing.Point(3, 120);
 			this.isAdmin.Name = "isAdmin";
 			this.isAdmin.Size = new System.Drawing.Size(55, 17);
-			this.isAdmin.TabIndex = 6;
+			this.isAdmin.TabIndex = 3;
 			this.isAdmin.Text = "Admin";
 			this.isAdmin.UseVisualStyleBackColor = true;
 			// 
@@ -136,7 +136,7 @@
 			this.saveBtn.Location = new System.Drawing.Point(220, 0);
 			this.saveBtn.Name = "saveBtn";
 			this.saveBtn.Size = new System.Drawing.Size(75, 25);
-			this.saveBtn.TabIndex = 3;
+			this.saveBtn.TabIndex = 4;
 			this.saveBtn.Text = "Salva";
 			this.saveBtn.UseVisualStyleBackColor = true;
 			this.saveBtn.Click += new System.EventHandler(this.OnSave);
@@ -148,7 +148,7 @@
 			this.cancelBtn.Location = new System.Drawing.Point(295, 0);
 			this.cancelBtn.Name = "cancelBtn";
 			this.cancelBtn.Size = new System.Drawing.Size(75, 25);
-			this.cancelBtn.TabIndex = 2;
+			this.cancelBtn.TabIndex = 5;
 			this.cancelBtn.Text = "Annulla";
 			this.cancelBtn.UseVisualStyleBackColor = true;
 			// 

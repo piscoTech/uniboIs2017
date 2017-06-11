@@ -79,7 +79,7 @@
 			// label9
 			// 
 			label9.AutoSize = true;
-			label9.Location = new System.Drawing.Point(3, 393);
+			label9.Location = new System.Drawing.Point(6, 393);
 			label9.Name = "label9";
 			label9.Size = new System.Drawing.Size(85, 13);
 			label9.TabIndex = 37;
@@ -88,7 +88,7 @@
 			// label8
 			// 
 			label8.AutoSize = true;
-			label8.Location = new System.Drawing.Point(3, 354);
+			label8.Location = new System.Drawing.Point(6, 354);
 			label8.Name = "label8";
 			label8.Size = new System.Drawing.Size(55, 13);
 			label8.TabIndex = 35;
@@ -97,7 +97,7 @@
 			// label7
 			// 
 			label7.AutoSize = true;
-			label7.Location = new System.Drawing.Point(3, 315);
+			label7.Location = new System.Drawing.Point(6, 315);
 			label7.Name = "label7";
 			label7.Size = new System.Drawing.Size(59, 13);
 			label7.TabIndex = 33;
@@ -106,7 +106,7 @@
 			// label6
 			// 
 			label6.AutoSize = true;
-			label6.Location = new System.Drawing.Point(3, 276);
+			label6.Location = new System.Drawing.Point(6, 276);
 			label6.Name = "label6";
 			label6.Size = new System.Drawing.Size(41, 13);
 			label6.TabIndex = 31;
@@ -115,7 +115,7 @@
 			// label5
 			// 
 			label5.AutoSize = true;
-			label5.Location = new System.Drawing.Point(3, 237);
+			label5.Location = new System.Drawing.Point(6, 237);
 			label5.Name = "label5";
 			label5.Size = new System.Drawing.Size(41, 13);
 			label5.TabIndex = 29;
@@ -124,7 +124,7 @@
 			// label4
 			// 
 			label4.AutoSize = true;
-			label4.Location = new System.Drawing.Point(3, 198);
+			label4.Location = new System.Drawing.Point(6, 198);
 			label4.Name = "label4";
 			label4.Size = new System.Drawing.Size(123, 13);
 			label4.TabIndex = 27;
@@ -133,7 +133,7 @@
 			// label1
 			// 
 			label1.AutoSize = true;
-			label1.Location = new System.Drawing.Point(3, 81);
+			label1.Location = new System.Drawing.Point(6, 81);
 			label1.Name = "label1";
 			label1.Size = new System.Drawing.Size(44, 13);
 			label1.TabIndex = 23;
@@ -142,7 +142,7 @@
 			// label2
 			// 
 			label2.AutoSize = true;
-			label2.Location = new System.Drawing.Point(3, 42);
+			label2.Location = new System.Drawing.Point(6, 42);
 			label2.Name = "label2";
 			label2.Size = new System.Drawing.Size(35, 13);
 			label2.TabIndex = 2;
@@ -151,7 +151,7 @@
 			// label12
 			// 
 			label12.AutoSize = true;
-			label12.Location = new System.Drawing.Point(3, 3);
+			label12.Location = new System.Drawing.Point(6, 3);
 			label12.Name = "label12";
 			label12.Size = new System.Drawing.Size(44, 13);
 			label12.TabIndex = 22;
@@ -160,7 +160,7 @@
 			// label3
 			// 
 			label3.AutoSize = true;
-			label3.Location = new System.Drawing.Point(3, 159);
+			label3.Location = new System.Drawing.Point(6, 159);
 			label3.Name = "label3";
 			label3.Size = new System.Drawing.Size(72, 13);
 			label3.TabIndex = 25;
@@ -185,7 +185,7 @@
 			this.enterEditBtn.Location = new System.Drawing.Point(165, 3);
 			this.enterEditBtn.Name = "enterEditBtn";
 			this.enterEditBtn.Size = new System.Drawing.Size(75, 22);
-			this.enterEditBtn.TabIndex = 5;
+			this.enterEditBtn.TabIndex = 16;
 			this.enterEditBtn.Text = "Modifica";
 			this.enterEditBtn.UseVisualStyleBackColor = true;
 			this.enterEditBtn.Visible = false;
@@ -197,7 +197,7 @@
 			this.saveEditBtn.Location = new System.Drawing.Point(240, 3);
 			this.saveEditBtn.Name = "saveEditBtn";
 			this.saveEditBtn.Size = new System.Drawing.Size(75, 22);
-			this.saveEditBtn.TabIndex = 4;
+			this.saveEditBtn.TabIndex = 14;
 			this.saveEditBtn.Text = "Salva";
 			this.saveEditBtn.UseVisualStyleBackColor = true;
 			this.saveEditBtn.Click += new System.EventHandler(this.OnSaveEdit);
@@ -208,7 +208,7 @@
 			this.deleteBtn.Location = new System.Drawing.Point(0, 3);
 			this.deleteBtn.Name = "deleteBtn";
 			this.deleteBtn.Size = new System.Drawing.Size(75, 22);
-			this.deleteBtn.TabIndex = 3;
+			this.deleteBtn.TabIndex = 17;
 			this.deleteBtn.Text = "Elimina";
 			this.deleteBtn.UseVisualStyleBackColor = true;
 			this.deleteBtn.Visible = false;
@@ -220,7 +220,7 @@
 			this.cancelEditBtn.Location = new System.Drawing.Point(315, 3);
 			this.cancelEditBtn.Name = "cancelEditBtn";
 			this.cancelEditBtn.Size = new System.Drawing.Size(75, 22);
-			this.cancelEditBtn.TabIndex = 1;
+			this.cancelEditBtn.TabIndex = 15;
 			this.cancelEditBtn.Text = "Annulla";
 			this.cancelEditBtn.UseVisualStyleBackColor = true;
 			this.cancelEditBtn.Click += new System.EventHandler(this.OnCancelEdit);
@@ -258,7 +258,7 @@
 			this.controlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.controlContainer.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer.Name = "controlContainer";
-			this.controlContainer.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+			this.controlContainer.Padding = new System.Windows.Forms.Padding(3);
 			this.controlContainer.RowCount = 25;
 			this.controlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.controlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -288,7 +288,7 @@
 			this.controlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.controlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.controlContainer.Size = new System.Drawing.Size(390, 420);
-			this.controlContainer.TabIndex = 8;
+			this.controlContainer.TabIndex = 0;
 			// 
 			// permessiList
 			// 
@@ -299,13 +299,13 @@
 			this.permessiList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.permessiList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.permessiList.Dock = System.Windows.Forms.DockStyle.Top;
-			this.permessiList.Location = new System.Drawing.Point(3, 747);
+			this.permessiList.Location = new System.Drawing.Point(6, 747);
 			this.permessiList.MultiSelect = false;
 			this.permessiList.Name = "permessiList";
 			this.permessiList.ReadOnly = true;
 			this.permessiList.RowHeadersVisible = false;
-			this.permessiList.Size = new System.Drawing.Size(384, 150);
-			this.permessiList.TabIndex = 41;
+			this.permessiList.Size = new System.Drawing.Size(361, 150);
+			this.permessiList.TabIndex = 13;
 			this.permessiList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnPermessoClick);
 			// 
 			// dispositiviList
@@ -317,13 +317,13 @@
 			this.dispositiviList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dispositiviList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dispositiviList.Dock = System.Windows.Forms.DockStyle.Top;
-			this.dispositiviList.Location = new System.Drawing.Point(3, 591);
+			this.dispositiviList.Location = new System.Drawing.Point(6, 591);
 			this.dispositiviList.MultiSelect = false;
 			this.dispositiviList.Name = "dispositiviList";
 			this.dispositiviList.ReadOnly = true;
 			this.dispositiviList.RowHeadersVisible = false;
-			this.dispositiviList.Size = new System.Drawing.Size(384, 150);
-			this.dispositiviList.TabIndex = 40;
+			this.dispositiviList.Size = new System.Drawing.Size(361, 150);
+			this.dispositiviList.TabIndex = 12;
 			this.dispositiviList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnDispositivoClick);
 			// 
 			// tessereList
@@ -335,89 +335,89 @@
 			this.tessereList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.tessereList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.tessereList.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tessereList.Location = new System.Drawing.Point(3, 435);
+			this.tessereList.Location = new System.Drawing.Point(6, 435);
 			this.tessereList.MultiSelect = false;
 			this.tessereList.Name = "tessereList";
 			this.tessereList.ReadOnly = true;
 			this.tessereList.RowHeadersVisible = false;
-			this.tessereList.Size = new System.Drawing.Size(384, 150);
-			this.tessereList.TabIndex = 39;
+			this.tessereList.Size = new System.Drawing.Size(361, 150);
+			this.tessereList.TabIndex = 11;
 			this.tessereList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnTesseraClick);
 			// 
 			// volumeCarico
 			// 
-			this.volumeCarico.Location = new System.Drawing.Point(3, 409);
+			this.volumeCarico.Location = new System.Drawing.Point(6, 409);
 			this.volumeCarico.Name = "volumeCarico";
 			this.volumeCarico.Size = new System.Drawing.Size(89, 20);
-			this.volumeCarico.TabIndex = 38;
+			this.volumeCarico.TabIndex = 10;
 			// 
 			// profondita
 			// 
-			this.profondita.Location = new System.Drawing.Point(3, 370);
+			this.profondita.Location = new System.Drawing.Point(6, 370);
 			this.profondita.Name = "profondita";
 			this.profondita.Size = new System.Drawing.Size(89, 20);
-			this.profondita.TabIndex = 36;
+			this.profondita.TabIndex = 9;
 			// 
 			// lunghezza
 			// 
-			this.lunghezza.Location = new System.Drawing.Point(3, 331);
+			this.lunghezza.Location = new System.Drawing.Point(6, 331);
 			this.lunghezza.Name = "lunghezza";
 			this.lunghezza.Size = new System.Drawing.Size(89, 20);
-			this.lunghezza.TabIndex = 34;
+			this.lunghezza.TabIndex = 8;
 			// 
 			// altezza
 			// 
-			this.altezza.Location = new System.Drawing.Point(3, 292);
+			this.altezza.Location = new System.Drawing.Point(6, 292);
 			this.altezza.Name = "altezza";
 			this.altezza.Size = new System.Drawing.Size(89, 20);
-			this.altezza.TabIndex = 32;
+			this.altezza.TabIndex = 7;
 			// 
 			// portata
 			// 
-			this.portata.Location = new System.Drawing.Point(3, 253);
+			this.portata.Location = new System.Drawing.Point(6, 253);
 			this.portata.Name = "portata";
 			this.portata.Size = new System.Drawing.Size(89, 20);
-			this.portata.TabIndex = 30;
+			this.portata.TabIndex = 6;
 			// 
 			// annoImmatricolazione
 			// 
-			this.annoImmatricolazione.Location = new System.Drawing.Point(3, 214);
+			this.annoImmatricolazione.Location = new System.Drawing.Point(6, 214);
 			this.annoImmatricolazione.Name = "annoImmatricolazione";
 			this.annoImmatricolazione.Size = new System.Drawing.Size(89, 20);
-			this.annoImmatricolazione.TabIndex = 28;
+			this.annoImmatricolazione.TabIndex = 5;
 			// 
 			// numeroTelaio
 			// 
-			this.numeroTelaio.Location = new System.Drawing.Point(3, 175);
+			this.numeroTelaio.Location = new System.Drawing.Point(6, 175);
 			this.numeroTelaio.Name = "numeroTelaio";
 			this.numeroTelaio.Size = new System.Drawing.Size(200, 20);
-			this.numeroTelaio.TabIndex = 26;
+			this.numeroTelaio.TabIndex = 4;
 			// 
 			// numero
 			// 
-			this.numero.Location = new System.Drawing.Point(3, 97);
+			this.numero.Location = new System.Drawing.Point(6, 97);
 			this.numero.Name = "numero";
 			this.numero.Size = new System.Drawing.Size(89, 20);
-			this.numero.TabIndex = 24;
+			this.numero.TabIndex = 2;
 			// 
 			// targa
 			// 
-			this.targa.Location = new System.Drawing.Point(3, 58);
+			this.targa.Location = new System.Drawing.Point(6, 58);
 			this.targa.Name = "targa";
 			this.targa.Size = new System.Drawing.Size(89, 20);
-			this.targa.TabIndex = 3;
+			this.targa.TabIndex = 1;
 			// 
 			// modello
 			// 
-			this.modello.Location = new System.Drawing.Point(3, 19);
+			this.modello.Location = new System.Drawing.Point(6, 19);
 			this.modello.Name = "modello";
 			this.modello.Size = new System.Drawing.Size(200, 20);
-			this.modello.TabIndex = 1;
+			this.modello.TabIndex = 0;
 			// 
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 120);
+			this.label10.Location = new System.Drawing.Point(6, 120);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(141, 13);
 			this.label10.TabIndex = 42;
@@ -425,10 +425,10 @@
 			// 
 			// numCartaCircolazione
 			// 
-			this.numCartaCircolazione.Location = new System.Drawing.Point(3, 136);
+			this.numCartaCircolazione.Location = new System.Drawing.Point(6, 136);
 			this.numCartaCircolazione.Name = "numCartaCircolazione";
 			this.numCartaCircolazione.Size = new System.Drawing.Size(200, 20);
-			this.numCartaCircolazione.TabIndex = 26;
+			this.numCartaCircolazione.TabIndex = 3;
 			// 
 			// TabGeneraleView
 			// 

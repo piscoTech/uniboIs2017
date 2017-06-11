@@ -43,13 +43,7 @@ namespace Flotta.Model
 		public Scadenza Scadenza
 		{
 			get => _scadenza;
-			set
-			{
-				if (value == null)
-					throw new ArgumentNullException("No new scadenza specified");
-
-				_scadenza = value;
-			}
+			set => _scadenza = value;
 		}
 		public string ScadenzaName => "Dispositivo: " + _type.Name;
 
