@@ -22,15 +22,8 @@ namespace Flotta.Model
 		private string _password;
 		private bool _isAdmin;
 
-		public string Username
-		{
-			get { return _username; }
-		}
-
-		public bool IsAdmin
-		{
-			get { return _isAdmin; }
-		}
+		public string Username => _username;
+		public bool IsAdmin => _isAdmin;
 
 		public bool Match(string username, string password)
 		{

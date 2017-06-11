@@ -66,12 +66,12 @@ namespace Flotta.Model
 		private float _lunghezza;
 		private float _profondita;
 		private float _volumeCarico;
-		private List<ITessera> _tessere = new List<ITessera>();
-		private List<IDispositivo> _dispositivi = new List<IDispositivo>();
-		private List<IPermesso> _permessi = new List<IPermesso>();
-		private List<IManutenzione> _manutenzioni = new List<IManutenzione>();
-		private List<IImmagine> _galleria = new List<IImmagine>();
-		private List<IIncidente> _incidenti = new List<IIncidente>();
+		private readonly List<ITessera> _tessere = new List<ITessera>();
+		private readonly List<IDispositivo> _dispositivi = new List<IDispositivo>();
+		private readonly List<IPermesso> _permessi = new List<IPermesso>();
+		private readonly List<IManutenzione> _manutenzioni = new List<IManutenzione>();
+		private readonly List<IImmagine> _galleria = new List<IImmagine>();
+		private readonly List<IIncidente> _incidenti = new List<IIncidente>();
 
 		private Scadenza _scadCartaCircolazione, _scadTagliando;
 
@@ -95,12 +95,24 @@ namespace Flotta.Model
 		public Scadenza ScadenzaCartaCircolazione
 		{
 			get => _scadCartaCircolazione;
-			set => _scadCartaCircolazione = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No new scadenza specified");
+
+				_scadCartaCircolazione = value;
+			}
 		}
 		public Scadenza ScadenzaTagliando
 		{
 			get => _scadTagliando;
-			set => _scadTagliando = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No new scadenza specified");
+
+				_scadTagliando = value;
+			}
 		}
 
 		public IEnumerable<IManutenzione> Manutenzioni => from m in _manutenzioni orderby m.Data descending select m;
@@ -270,8 +282,8 @@ namespace Flotta.Model
 
 		public void AddManutenzione(IManutenzione m)
 		{
-			if (m == null || m.Mezzo == null)
-				throw new ArgumentException("Null manutenzione or not linked to mezzo");
+			if (m == null)
+				throw new ArgumentException("Null manutenzione");
 			else if (m.Mezzo != this)
 				throw new ArgumentException("Manutenzione linked to different mezzo");
 
@@ -281,8 +293,8 @@ namespace Flotta.Model
 
 		public void RemoveManutenzione(IManutenzione m)
 		{
-			if (m == null || m.Mezzo == null)
-				throw new ArgumentException("Null manutenzione or not linked to mezzo");
+			if (m == null)
+				throw new ArgumentException("Null manutenzione");
 			else if (m.Mezzo != this)
 				throw new ArgumentException("Manutenzione linked to different mezzo");
 
@@ -305,8 +317,8 @@ namespace Flotta.Model
 
 		public void AddIncidente(IIncidente i)
 		{
-			if (i == null || i.Mezzo == null)
-				throw new ArgumentException("Null incidente or not linked to mezzo");
+			if (i == null)
+				throw new ArgumentException("Null incidente");
 			else if (i.Mezzo != this)
 				throw new ArgumentException("Incidente linked to different mezzo");
 
@@ -316,8 +328,8 @@ namespace Flotta.Model
 
 		public void RemoveIncidente(IIncidente i)
 		{
-			if (i == null || i.Mezzo == null)
-				throw new ArgumentException("Null incidente or not linked to mezzo");
+			if (i == null)
+				throw new ArgumentException("Null incidente");
 			else if (i.Mezzo != this)
 				throw new ArgumentException("Incidente linked to different mezzo");
 

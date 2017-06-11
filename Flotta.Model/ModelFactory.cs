@@ -51,7 +51,7 @@ namespace Flotta.Model
 		{
 			Type concreteType = (from types in GetAllLinkedTypes() where types.Type == typeof(T) select types.ConcreteType).ElementAtOrDefault(0);
 			if (concreteType == null)
-				throw new NotImplementedException("Passed Type is not correctly implemented");
+				throw new ArgumentException("Passed Type is not correctly implemented");
 
 			return Activator.CreateInstance(concreteType, true) as T;
 		}

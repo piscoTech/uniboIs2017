@@ -18,14 +18,19 @@ namespace Flotta.Model
 
 	internal class Tessera : ITessera
 	{
-		private IMezzo _mezzo;
-		private ITesseraType _type;
+		private readonly IMezzo _mezzo;
+		private readonly ITesseraType _type;
 		private string _codice;
 		private string _pin;
 		private Scadenza _scadenza;
 
 		internal Tessera(IMezzo mezzo, ITesseraType type)
 		{
+			if (mezzo == null)
+				throw new ArgumentNullException("Mezzo not specified");
+			if (type == null)
+				throw new ArgumentNullException("Type not specified");
+
 			_mezzo = mezzo;
 			_type = type;
 		}

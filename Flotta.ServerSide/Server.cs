@@ -19,7 +19,7 @@ namespace Flotta.ServerSide
 		event Action<IDBObject> ObjectRemoved;
 
 		IEnumerable<IUser> Users { get; }
-		IUser ValidateUser(string username, string password);
+		Tuple<IUser, string> ValidateUser(string username, string password);
 		IEnumerable<string> ChangeUserPassword(IUser user, string password, string oldPassword);
 		IEnumerable<string> UpdateUser(IUser user, bool isNew, string username, string password, bool isAdmin);
 		IEnumerable<string> DeleteUser(IUser user);
@@ -49,16 +49,16 @@ namespace Flotta.ServerSide
 		bool DeleteOfficina(IOfficina off);
 	}
 
-	public class Server : IServer
+	internal class Server : IServer
 	{
-		private IServerWindow _window;
+		private readonly IServerWindow _window;
 
-		private List<IUser> _users = new List<IUser>();
-		private HashSet<IUser> _loggedUser = new HashSet<IUser>();
+		private readonly List<IUser> _users = new List<IUser>();
+		private readonly HashSet<IUser> _loggedUser = new HashSet<IUser>();
 
-		private List<IMezzo> _mezzi = new List<IMezzo>();
-		private Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
-		private List<IOfficina> _officine = new List<IOfficina>();
+		private readonly List<IMezzo> _mezzi = new List<IMezzo>();
+		private readonly Dictionary<Type, object> _linkedTypesList = new Dictionary<Type, object>();
+		private readonly List<IOfficina> _officine = new List<IOfficina>();
 
 		internal Server()
 		{
@@ -199,7 +199,11 @@ namespace Flotta.ServerSide
 
 		public void ClientDisconnected(IUser user)
 		{
-			_loggedUser.Remove(user);
+			if (user != null)
+			{
+				_loggedUser.Remove(user);
+				Log("L'utente " + user.Username + " si è scollegato");
+			}
 
 			_window.UpdateCounter(--_activeConnections);
 			_window.CanTerminate = CanTerminate;
@@ -219,26 +223,46 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<IUser> Users => from u in _users orderby u.Username select u;
 
-		public IUser ValidateUser(string username, string password)
+		public Tuple<IUser, string> ValidateUser(string username, string password)
 		{
+			if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+				throw new ArgumentException("No login credential provided");
+
 			IUser user = _users.FirstOrDefault((IUser u) => u.Match(username, password));
 			if (user != null)
-				_loggedUser.Add(user);
-
-			return user;
+			{
+				if (_loggedUser.Add(user))
+				{
+					Log("L'utente " + user.Username + " ha effettuato l'accesso");
+					return new Tuple<IUser, string>(user, null);
+				}
+				else
+					return new Tuple<IUser, string>(null, "Utente già loggato nel sistema");
+			}
+			else
+				return new Tuple<IUser, string>(null, "Nome utente o password errati");
 		}
 
 		public IEnumerable<string> ChangeUserPassword(IUser user, string password, string oldPassword)
 		{
+			if (user == null)
+				throw new ArgumentNullException("No user specified");
+
 			var errors = user.ChangePassword(password, oldPassword);
 			if (errors.Count() == 0)
+			{
 				ObjectChanged(user);
+				Log("L'utente " + user.Username + " ha modificato la sua password");
+			}
 
 			return errors;
 		}
 
 		public IEnumerable<string> UpdateUser(IUser user, bool isNew, string username, string password, bool isAdmin)
 		{
+			if (user == null)
+				throw new ArgumentNullException("No user specified");
+
 			List<string> errors = new List<string>();
 
 			username = username?.Trim();
@@ -268,12 +292,16 @@ namespace Flotta.ServerSide
 			if (isNew)
 				_users.Add(user);
 			ObjectChanged(user);
+			Log("L'utente " + user.Username + " è stato " + (isNew ? "creato" : "modificato"));
 
 			return errors;
 		}
 
 		public IEnumerable<string> DeleteUser(IUser user)
 		{
+			if (user == null)
+				throw new ArgumentNullException("No user specified");
+
 			List<string> errors = new List<string>();
 
 			if (_loggedUser.Contains(user))
@@ -287,6 +315,7 @@ namespace Flotta.ServerSide
 
 			_users.Remove(user);
 			ObjectRemoved(user);
+			Log("L'utente " + user.Username + " è stato eliminato");
 
 			return errors;
 		}
@@ -318,7 +347,9 @@ namespace Flotta.ServerSide
 												float volumeCarico, IEnumerable<ITessera> tessere,
 												IEnumerable<IDispositivo> dispositivi, IEnumerable<IPermesso> permessi)
 		{
-			if (mezzo == null) throw new ArgumentNullException();
+			if (mezzo == null)
+				throw new ArgumentNullException("No mezzo specified");
+
 			List<String> errors = new List<string>();
 
 			var numMatch = from m in _mezzi where m.Numero == numero && m != mezzo select m;
@@ -363,7 +394,8 @@ namespace Flotta.ServerSide
 
 		public bool DeleteMezzo(IMezzo mezzo)
 		{
-			if (mezzo == null) throw new ArgumentNullException();
+			if (mezzo == null)
+				throw new ArgumentNullException("No mezzo specified");
 
 			if (_mezzi.Contains(mezzo) && _mezzi.Remove(mezzo))
 			{
@@ -378,7 +410,8 @@ namespace Flotta.ServerSide
 		public IEnumerable<string> UpdateLinkedType<T>(T obj, string name) where T : LinkedType
 		{
 			if (obj == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("No linked type specified");
+
 			var list = GetLinkedTypesList<T>();
 
 			List<string> errors = new List<string>();
@@ -418,6 +451,9 @@ namespace Flotta.ServerSide
 
 		public bool DeleteLinkedType<T>(T obj) where T : LinkedType
 		{
+			if (obj == null)
+				throw new ArgumentNullException("No linked type specified");
+
 			var list = GetLinkedTypesList<T>();
 
 			if (obj.ShouldDisableInsteadOfDelete(_mezzi))
@@ -442,6 +478,9 @@ namespace Flotta.ServerSide
 
 		public void UpdateScadenza(IScadenzaOwner scadOwner, Scadenza scad)
 		{
+			if (scadOwner == null)
+				throw new ArgumentNullException("No scadenza owner specified");
+
 			scadOwner.Scadenza = scad;
 			ObjectChanged(scadOwner);
 			Log("La scadenza " + scadOwner.ScadenzaName + " del mezzo " + scadOwner.Mezzo.Numero + " è stata modificata");
@@ -449,6 +488,9 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<string> UpdateManutenzione(IManutenzione manutenzione, DateTime data, string note, IManutenzioneType tipo, float costo, IPDF allegato, IOfficina officina)
 		{
+			if (manutenzione == null)
+				throw new ArgumentNullException("No manutenzione specified");
+
 			List<String> errors = new List<string>();
 
 			if (tipo != null && !GetLinkedTypes<IManutenzioneType>().Contains(tipo))
@@ -475,6 +517,9 @@ namespace Flotta.ServerSide
 
 		public void DeleteManutenzione(IManutenzione m)
 		{
+			if (m == null)
+				throw new ArgumentNullException("No manutenzione specified");
+
 			m.Mezzo.RemoveManutenzione(m);
 			ObjectRemoved(m);
 			Log("La manutenzione del " + m.Data.ToString("dd/MM/yyyy") + " del mezzo " + m.Mezzo.Numero + " è stata eliminata");
@@ -482,7 +527,11 @@ namespace Flotta.ServerSide
 
 		public IEnumerable<string> UpdateOfficina(IOfficina officina, string nome, string telefono, string via, string cap, string citta, string provincia, string nazione)
 		{
+			if (officina == null)
+				throw new ArgumentNullException("No officina specified");
+
 			List<string> errors = new List<string>();
+
 			nome = nome?.Trim();
 			if (nome != null && (from o in _officine where o.Nome == nome && o != officina select o).Count() > 0)
 				errors.Add("Il nome è già utilizzato");
@@ -511,6 +560,9 @@ namespace Flotta.ServerSide
 
 		public bool DeleteOfficina(IOfficina off)
 		{
+			if (off == null)
+				throw new ArgumentNullException("No officina specified");
+
 			if (off.ShouldDisableInsteadOfDelete(_mezzi))
 			{
 				off.Disable();

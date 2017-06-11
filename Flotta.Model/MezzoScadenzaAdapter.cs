@@ -30,16 +30,16 @@ namespace Flotta.Model
 
 	internal class MezzoScadenzaAdapter : IScadenzaOwner
 	{
-		private IMezzo _mezzo;
-		private PropertyInfo _scadProperty;
-		private string _name;
+		private readonly IMezzo _mezzo;
+		private readonly PropertyInfo _scadProperty;
+		private readonly string _name;
 
 		internal MezzoScadenzaAdapter(IMezzo mezzo, PropertyInfo property, string name)
 		{
 			if (mezzo == null || property == null || String.IsNullOrEmpty(name))
 				throw new ArgumentNullException();
-			if (!typeof(Scadenza).IsAssignableFrom(property.PropertyType))
-				throw new ArgumentException("Invalid property");
+			if (!typeof(Scadenza).IsAssignableFrom(property.PropertyType) || !property.CanRead || !property.CanWrite)
+				throw new ArgumentException("Property is not a read-write scadenza");
 
 			_mezzo = mezzo;
 			_scadProperty = property;

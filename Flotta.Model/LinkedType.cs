@@ -21,7 +21,7 @@ namespace Flotta.Model
 			set
 			{
 				if (String.IsNullOrEmpty(value))
-					throw new ArgumentException("String.IsNullOrEmpty(value)");
+					throw new ArgumentException("Invalid name");
 				_name = value;
 			}
 		}
@@ -33,19 +33,13 @@ namespace Flotta.Model
 		private string _name;
 		private bool _disabled;
 
-		public string Name
-		{
-			get => _name;
-		}
-
-		public bool IsDisabled
-		{
-			get => _disabled;
-		}
+		public string Name => _name;
+		public bool IsDisabled => _disabled;
 
 		public IEnumerable<string> Update(string name)
 		{
 			List<string> errors = new List<string>();
+
 			name = name?.Trim();
 			if (String.IsNullOrEmpty(name))
 				errors.Add("Nome non specificato");

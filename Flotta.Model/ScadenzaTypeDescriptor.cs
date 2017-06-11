@@ -4,8 +4,8 @@ namespace Flotta.Model
 {
 	public class ScadenzaTypeDescriptor
 	{
-		private Type _type;
-		private ScadenzaTypeAttribute _attr;
+		private readonly Type _type;
+		private readonly ScadenzaTypeAttribute _attr;
 
 		internal ScadenzaTypeDescriptor(Type type, ScadenzaTypeAttribute attr)
 		{

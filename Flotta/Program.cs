@@ -11,7 +11,7 @@ namespace Flotta
 	static class Program
 	{
 		private static IServer _server;
-		private static List<IClient> _clients = new List<IClient>();
+		private readonly static List<IClient> _clients = new List<IClient>();
 
 		/// <summary>
 		/// The main entry point for the application.

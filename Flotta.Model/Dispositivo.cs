@@ -13,13 +13,18 @@ namespace Flotta.Model
 
 	internal class Dispositivo : IDispositivo
 	{
-		private IMezzo _mezzo;
-		private IDispositivoType _type;
+		private readonly IMezzo _mezzo;
+		private readonly IDispositivoType _type;
 		private IPDF _allegato;
 		private Scadenza _scadenza;
 
 		internal Dispositivo(IMezzo mezzo, IDispositivoType type)
 		{
+			if (mezzo == null)
+				throw new ArgumentNullException("Mezzo not specified");
+			if (type == null)
+				throw new ArgumentNullException("Type not specified");
+
 			_mezzo = mezzo;
 			_type = type;
 		}
@@ -38,7 +43,13 @@ namespace Flotta.Model
 		public Scadenza Scadenza
 		{
 			get => _scadenza;
-			set => _scadenza = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No new scadenza specified");
+
+				_scadenza = value;
+			}
 		}
 		public string ScadenzaName => "Dispositivo: " + _type.Name;
 

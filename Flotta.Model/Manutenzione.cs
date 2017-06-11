@@ -20,7 +20,7 @@ namespace Flotta.Model
 
 	internal class Manutenzione : IManutenzione
 	{
-		private IMezzo _mezzo;
+		private readonly IMezzo _mezzo;
 		private DateTime _data = DateTime.Now;
 		private IManutenzioneType _type;
 		private string _note;
@@ -31,7 +31,7 @@ namespace Flotta.Model
 		internal Manutenzione(IMezzo mezzo)
 		{
 			if (mezzo == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("Mezzo not specified");
 
 			_mezzo = mezzo;
 		}
@@ -44,9 +44,11 @@ namespace Flotta.Model
 		public IMezzo Mezzo => _mezzo;
 		public IOfficina Officina => _officina;
 
-		public IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float c, IPDF allegato, IOfficina officina)
+		public IEnumerable<string> Update(DateTime d, IManutenzioneType t, string n, float c, IPDF allegato,
+										  IOfficina officina)
 		{
 			List<string> errors = new List<string>();
+
 			if (t == null)
 				errors.Add("Tipo non valido");
 

@@ -4,8 +4,8 @@ namespace Flotta.Model
 {
 	public class ScadenzaFormatDescriptor
 	{
-		private ScadenzaFormat _formatter;
-		private ScadenzaFormatAttribute _attr;
+		private readonly ScadenzaFormat _formatter;
+		private readonly ScadenzaFormatAttribute _attr;
 
 		internal ScadenzaFormatDescriptor(ScadenzaFormat form, ScadenzaFormatAttribute attr)
 		{

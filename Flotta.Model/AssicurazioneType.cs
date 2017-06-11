@@ -15,7 +15,10 @@ namespace Flotta.Model
 	{
 		public override bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi)
 		{
-			return false;
+			if (mezzi == null)
+				throw new ArgumentNullException("No mezzi specified");
+
+			return mezzi.Any((IMezzo m) => m.RegistroIncidenti.Any((IIncidente inc) => inc.Assicurazione == this));
 		}
 	}
 }

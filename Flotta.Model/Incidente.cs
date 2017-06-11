@@ -24,7 +24,7 @@ namespace Flotta.Model
 
 	internal class Incidente : IIncidente
 	{
-		private IMezzo _mezzo;
+		private readonly IMezzo _mezzo;
 		private DateTime _data = DateTime.Now;
 		private IAssicurazioneType _assicurazione;
 		private IPDF _cid;
@@ -36,7 +36,7 @@ namespace Flotta.Model
 		internal Incidente(IMezzo mezzo)
 		{
 			if (mezzo == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("No mezzo specified");
 
 			_mezzo = mezzo;
 		}

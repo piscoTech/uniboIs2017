@@ -4,8 +4,8 @@ namespace Flotta.Model
 {
 	public class ScadenzaRecurrencyTypeDescriptor
 	{
-		private ScadenzaRecurrencyType _recType;
-		private ScadenzaRecurrencyTypeAttribute _attr;
+		private readonly ScadenzaRecurrencyType _recType;
+		private readonly ScadenzaRecurrencyTypeAttribute _attr;
 
 		internal ScadenzaRecurrencyTypeDescriptor(ScadenzaRecurrencyType recType, ScadenzaRecurrencyTypeAttribute attr)
 		{

@@ -111,6 +111,9 @@ namespace Flotta.Model
 
 		public bool ShouldDisableInsteadOfDelete(IEnumerable<IMezzo> mezzi)
 		{
+			if (mezzi == null)
+				throw new ArgumentNullException("No mezzi specified");
+
 			return mezzi.Any((IMezzo m) => m.Manutenzioni.Any((IManutenzione manut) => manut.Officina == this));
 		}
 	}

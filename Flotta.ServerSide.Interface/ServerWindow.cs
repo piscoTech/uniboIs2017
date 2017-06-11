@@ -21,7 +21,7 @@ namespace Flotta.ServerSide.Interface
 		void Run();
 	}
 
-	public partial class ServerWindow : Form, IServerWindow
+	internal partial class ServerWindow : Form, IServerWindow
 	{
 
 		private bool _canTerminate = false;
@@ -58,7 +58,7 @@ namespace Flotta.ServerSide.Interface
 
 		public void Log(string line)
 		{
-			logConsole.AppendText(line + "\r\n");
+			logConsole.AppendText((line ?? "") + "\r\n");
 		}
 
 		public void Run()

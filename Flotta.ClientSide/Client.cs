@@ -48,9 +48,10 @@ namespace Flotta.ClientSide
 				{
 					if (authDialog.ShowDialog() == DialogResult.OK)
 					{
-						_user = _server.ValidateUser(authDialog.Username, authDialog.Password);
+						var res = _server.ValidateUser(authDialog.Username, authDialog.Password);
+						_user = res.Item1;
 						if (_user == null)
-							MessageBox.Show("Nome utente o password errati");
+							MessageBox.Show(res.Item2);
 
 						authDialog.Clear();
 					}

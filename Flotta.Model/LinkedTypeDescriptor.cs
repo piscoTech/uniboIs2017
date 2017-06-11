@@ -4,9 +4,9 @@ namespace Flotta.Model
 {
 	public class LinkedTypeDescriptor
 	{
-		private Type _type;
-		private string _desc;
-		private Type _concreteType;
+		private readonly Type _type;
+		private readonly string _desc;
+		private readonly Type _concreteType;
 
 		internal LinkedTypeDescriptor(Type type, string description, Type concreteType)
 		{
