@@ -22,6 +22,9 @@ namespace Flotta.ClientSide.Interface
 
 		internal DispositivoPermessoListItem(bool inUse, string type, string allegatoPath)
 		{
+			if (type == null)
+				throw new ArgumentNullException("No type specified");
+
 			_inUse = inUse;
 			_type = type;
 			_allegatoPath = allegatoPath;

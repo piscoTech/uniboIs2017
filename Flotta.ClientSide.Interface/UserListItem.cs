@@ -1,4 +1,6 @@
-﻿namespace Flotta.ClientSide.Interface
+﻿using System;
+
+namespace Flotta.ClientSide.Interface
 {
 	public interface IUserListItem
 	{
@@ -13,6 +15,9 @@
 
 		internal UserListItem(string name, bool admin)
 		{
+			if (name == null)
+				throw new ArgumentNullException("No name specified");
+
 			_name = name;
 			_admin = admin;
 		}

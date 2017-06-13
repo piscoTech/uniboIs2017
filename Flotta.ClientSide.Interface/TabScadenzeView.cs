@@ -80,6 +80,9 @@ namespace Flotta.ClientSide.Interface
 		{
 			set
 			{
+				if (value == null)
+					throw new ArgumentNullException("No scadenze specified");
+
 				_scadenzeList.Clear();
 				foreach (var s in value)
 					_scadenzeList.Add(s);

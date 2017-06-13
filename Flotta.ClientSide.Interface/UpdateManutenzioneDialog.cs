@@ -43,7 +43,13 @@ namespace Flotta.ClientSide.Interface
 		public string Note
 		{
 			get => notes.Text;
-			set => notes.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No note specified");
+
+				notes.Text = value;
+			}
 		}
 
 		public int Tipo
@@ -60,12 +66,24 @@ namespace Flotta.ClientSide.Interface
 
 		public IList<string> Types
 		{
-			set => type.DataSource = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No types specified");
+
+				type.DataSource = value;
+			}
 		}
 
 		public IList<string> Officine
 		{
-			set => officina.DataSource = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No officine specified");
+
+				officina.DataSource = value;
+			}
 		}
 
 		public float Costo

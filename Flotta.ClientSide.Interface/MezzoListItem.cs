@@ -19,6 +19,12 @@ namespace Flotta.ClientSide.Interface
 
 		internal MezzoListItem(uint numero, string modello, string targa)
 		{
+			if (modello == null)
+				throw new ArgumentNullException("No modello specified");
+
+			if (targa == null)
+				throw new ArgumentNullException("No targa specified");
+
 			_numero = numero;
 			_modello = modello;
 			_targa = targa;

@@ -64,13 +64,13 @@ namespace Flotta.ClientSide
 			if (_window == null)
 				return;
 
-			_window.Nome = _officina.Nome;
-			_window.Telefono = _officina.Telefono;
-			_window.Via = _officina.Via;
-			_window.Cap = _officina.Cap;
-			_window.Citta = _officina.Citta;
-			_window.Provincia = _officina.Provincia;
-			_window.Nazione = _officina.Nazione;
+			_window.Nome = _officina.Nome ?? "";
+			_window.Telefono = _officina.Telefono ?? "";
+			_window.Via = _officina.Via ?? "";
+			_window.Cap = _officina.Cap ?? "";
+			_window.Citta = _officina.Citta ?? "";
+			_window.Provincia = _officina.Provincia ?? "";
+			_window.Nazione = _officina.Nazione ?? "";
 		}
 
 		private void OnEnterEdit()

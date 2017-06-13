@@ -26,8 +26,8 @@ namespace Flotta.ClientSide
 		private MezzoTabPresenter _mezzoPresenter;
 		private IWindowPresenter _typesPresenter;
 		private IWindowPresenter _officinePresenter;
-		private ChangePasswordPresenter _passwordPresenter;
-		private UsersManagerPresenter _userPresenter;
+		private IDialogPresenter _passwordPresenter;
+		private IWindowPresenter _usersPresenter;
 
 		private List<IMezzo> _mezziList = new List<IMezzo>();
 
@@ -165,9 +165,9 @@ namespace Flotta.ClientSide
 
 		private void OnManageUsers()
 		{
-			_userPresenter = new UsersManagerPresenter(_server, _user);
-			_userPresenter.PresenterClosed += () => _userPresenter = null;
-			_userPresenter.Show();
+			_usersPresenter = new UsersManagerPresenter(_server, _user);
+			_usersPresenter.PresenterClosed += () => _usersPresenter = null;
+			_usersPresenter.Show();
 		}
 
 		public event Action PresenterClosed;

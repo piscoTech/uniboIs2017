@@ -24,6 +24,12 @@ namespace Flotta.ClientSide.Interface
 
 		internal TesseraListItem(bool inUse, string type, string codice, string pin)
 		{
+			if (codice == null)
+				throw new ArgumentNullException("No codice specified");
+
+			if (pin == null)
+				throw new ArgumentNullException("No pin specified");
+
 			_inUse = inUse;
 			_type = type;
 			_codice = codice;
@@ -44,13 +50,25 @@ namespace Flotta.ClientSide.Interface
 		public string Codice
 		{
 			get => _codice;
-			set => _codice = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No codice specified");
+
+				_codice = value;
+			}
 		}
 
 		public string Pin
 		{
 			get => _pin;
-			set => _pin = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No pin specified");
+
+				_pin = value;
+			}
 		}
 	}
 }

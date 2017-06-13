@@ -33,9 +33,9 @@ namespace Flotta.ClientSide.Interface
 			return new NewMezzoDialog();
 		}
 
-		public static ILinkedTypeManagerWindow NewLinkedTypeManagerWindow()
+		public static ILinkedTypesManagerWindow NewLinkedTypesManagerWindow()
 		{
-			return new LinkedTypeManagerWindow();
+			return new LinkedTypesManagerWindow();
 		}
 
 		public static ILinkedTypeListItem NewLinkedTypeListItem(string name, bool disabled)
@@ -93,9 +93,9 @@ namespace Flotta.ClientSide.Interface
 			return new ManutenzioneListItem(date, note, tipo, costo, allegatoPath, officina);
 		}
 
-		public static IOfficinaManagerWindow NewOfficinaManagerWindow()
+		public static IOfficineManagerWindow NewOfficineManagerWindow()
 		{
-			return new OfficinaManagerWindow();
+			return new OfficineManagerWindow();
 		}
 
 		public static IUpdateOfficinaDialog NewUpdateOfficinaDialog()

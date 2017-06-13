@@ -1,6 +1,6 @@
 ﻿namespace Flotta.ClientSide.Interface
 {
-	partial class LinkedTypeManagerWindow
+	partial class OfficineManagerWindow
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -52,7 +52,7 @@
 			this.typeList.Name = "typeList";
 			this.typeList.ReadOnly = true;
 			this.typeList.RowHeadersVisible = false;
-			this.typeList.Size = new System.Drawing.Size(403, 282);
+			this.typeList.Size = new System.Drawing.Size(403, 307);
 			this.typeList.TabIndex = 1;
 			this.typeList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnCellClick);
 			// 
@@ -72,7 +72,7 @@
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 25);
 			this.button1.TabIndex = 2;
-			this.button1.Text = "Nuovo";
+			this.button1.Text = "Nuova";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.OnCreateNewType);
 			// 
@@ -86,23 +86,23 @@
 			// 
 			// panel2
 			// 
-			this.panel2.Controls.Add(this.typeList);
 			this.panel2.Controls.Add(this.panel1);
+			this.panel2.Controls.Add(this.typeList);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(403, 307);
 			this.panel2.TabIndex = 5;
 			// 
-			// LinkedTypeManagerWindow
+			// OfficinaManagerWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(403, 329);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.statusStrip1);
-			this.Name = "LinkedTypeManagerWindow";
-			this.Text = "LinkedTypeManagerWindow";
+			this.Name = "OfficinaManagerWindow";
+			this.Text = "Officine – Flotta";
 			((System.ComponentModel.ISupportInitialize)(this.typeList)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);

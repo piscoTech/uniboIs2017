@@ -30,13 +30,25 @@ namespace Flotta.ClientSide.Interface
 
 		public string Type
 		{
-			set => this.Text = "Modifica – " + value + " – Flotta";
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No type specified");
+
+				this.Text = "Modifica – " + value + " – Flotta";
+			}
 		}
 
 		public string Path
 		{
 			get => filePath.Text;
-			set => filePath.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No path specified");
+
+				filePath.Text = value;
+			}
 		}
 
 		public Func<bool> Validation

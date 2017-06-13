@@ -14,7 +14,7 @@ namespace Flotta.ClientSide.Interface
 	{
 		void Show();
 		event FormClosedEventHandler FormClosed;
-		IEnumerable<IUserListItem> UserList { set; }
+		IEnumerable<IUserListItem> UsersList { set; }
 
 		event Action CreateNewUser;
 		event Action<int> DeleteUser;
@@ -85,14 +85,17 @@ namespace Flotta.ClientSide.Interface
 			usersList.DataSource = _usersList;
 		}
 
-		public IEnumerable<IUserListItem> UserList
+		public IEnumerable<IUserListItem> UsersList
 		{
 			set
 			{
+				if (value == null)
+					throw new ArgumentNullException("No users specified");
+
 				_usersList.Clear();
 				foreach (IUserListItem u in value)
 				{
-					_usersList.Add(u); 
+					_usersList.Add(u);
 				}
 			}
 		}

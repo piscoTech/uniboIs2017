@@ -13,7 +13,7 @@ namespace Flotta.ClientSide
 	class OfficinaManagerPresenter : IWindowPresenter
 	{
 		private IServer _server;
-		private IOfficinaManagerWindow _window;
+		private IOfficineManagerWindow _window;
 		private UpdateOfficinaPresenter _activePresenter;
 
 		private List<IOfficina> _officinaList;
@@ -27,7 +27,7 @@ namespace Flotta.ClientSide
 
 		public void Show()
 		{
-			_window = ClientSideInterfaceFactory.NewOfficinaManagerWindow();
+			_window = ClientSideInterfaceFactory.NewOfficineManagerWindow();
 			_window.FormClosed += (object sender, FormClosedEventArgs e) => this.Close();
 
 			_window.CreateNewOfficina += OnCreateNewOfficina;
@@ -60,7 +60,7 @@ namespace Flotta.ClientSide
 				return;
 
 			_officinaList = (from o in _server.Officine orderby o.IsDisabled, o.Nome select o).ToList();
-			_window.OfficinaList = from t in _officinaList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Nome, t.IsDisabled);
+			_window.OfficineList = from t in _officinaList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Nome, t.IsDisabled);
 		}
 
 		private void OnCreateNewOfficina()

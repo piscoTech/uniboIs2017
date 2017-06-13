@@ -37,6 +37,9 @@ namespace Flotta.ClientSide.Interface
 			}
 			set
 			{
+				if (value == null)
+					throw new ArgumentNullException("No manutenzioni specified");
+
 				_manutenzioni.Clear();
 				foreach (IManutenzioneListItem m in value)
 				{

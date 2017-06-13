@@ -31,12 +31,24 @@ namespace Flotta.ClientSide.Interface
 		public string NameText
 		{
 			get => name.Text;
-			set => name.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No name specified");
+
+				name.Text = value;
+			}
 		}
 
 		public string TypeName
 		{
-			set => this.Text = "Modifica – Tipo " + value + " – Flotta";
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No type name specified");
+
+				this.Text = "Modifica – Tipo " + value + " – Flotta";
+			}
 		}
 
 		public Func<bool> Validation

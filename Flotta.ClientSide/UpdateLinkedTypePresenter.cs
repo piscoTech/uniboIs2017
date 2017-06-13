@@ -27,7 +27,7 @@ namespace Flotta.ClientSide
 		{
 			using (_window = ClientSideInterfaceFactory.NewUpdateLinkedTypeDialog())
 			{
-				_window.NameText = _type.Name;
+				_window.NameText = _type.Name ?? "";
 				_window.TypeName = _typeName;
 				_window.Validation = () =>
 				{

@@ -39,10 +39,7 @@ namespace Flotta.ClientSide.Interface
 			set => _confirmClose = value;
 		}
 
-		public ITabGeneraleView TabGenerale
-		{
-			get => tabGeneraleView;
-		}
+		public ITabGeneraleView TabGenerale => tabGeneraleView;
 
 		public event Action SaveMezzo;
 		private void OnSaveEdit()

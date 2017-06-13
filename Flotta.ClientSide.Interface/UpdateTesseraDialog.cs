@@ -31,13 +31,25 @@ namespace Flotta.ClientSide.Interface
 		public string Codice
 		{
 			get => codice.Text;
-			set => codice.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No codice specified");
+
+				codice.Text = value;
+			}
 		}
 
 		public string Pin
 		{
 			get => pin.Text;
-			set => pin.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No pin specified");
+
+				pin.Text = value;
+			}
 		}
 
 		public Func<bool> Validation

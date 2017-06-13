@@ -13,7 +13,7 @@ namespace Flotta.ClientSide
 	class LinkedTypeManagerPresenter<T> : IWindowPresenter where T : LinkedType
 	{
 		private IServer _server;
-		private ILinkedTypeManagerWindow _window;
+		private ILinkedTypesManagerWindow _window;
 
 		private List<T> _typeList;
 		private string _typeName;
@@ -31,7 +31,7 @@ namespace Flotta.ClientSide
 
 		public void Show()
 		{
-			_window = ClientSideInterfaceFactory.NewLinkedTypeManagerWindow();
+			_window = ClientSideInterfaceFactory.NewLinkedTypesManagerWindow();
 			_window.FormClosed += (object s, FormClosedEventArgs e) => Close();
 
 			_window.CreateNewType += OnCreateNewType;
@@ -58,7 +58,7 @@ namespace Flotta.ClientSide
 				return;
 
 			_typeList = (from t in _server.GetLinkedTypes<T>() orderby t.IsDisabled, t.Name select t).ToList();
-			_window.TypeList = from t in _typeList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Name, t.IsDisabled);
+			_window.TypesList = from t in _typeList select ClientSideInterfaceFactory.NewLinkedTypeListItem(t.Name, t.IsDisabled);
 		}
 
 		private void OnCreateNewType()

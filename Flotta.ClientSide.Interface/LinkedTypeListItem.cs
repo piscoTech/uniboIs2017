@@ -19,6 +19,9 @@ namespace Flotta.ClientSide.Interface
 
 		internal LinkedTypeListItem(string name, bool disabled)
 		{
+			if (name == null)
+				throw new ArgumentNullException("No name specified");
+
 			_name = name;
 			_disabled = disabled;
 		}

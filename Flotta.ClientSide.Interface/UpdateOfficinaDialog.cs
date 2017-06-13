@@ -36,43 +36,85 @@ namespace Flotta.ClientSide.Interface
 		public string Nome
 		{
 			get => name.Text;
-			set => name.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No name specified");
+
+				name.Text = value;
+			}
 		}
 
 		public string Telefono
 		{
 			get => phone.Text;
-			set => phone.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No phone specified");
+
+				phone.Text = value;
+			}
 		}
 
 		public string Via
 		{
 			get => street.Text;
-			set => street.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No street specified");
+
+				street.Text = value;
+			}
 		}
 
 		public string Cap
 		{
 			get => zipCode.Text;
-			set => zipCode.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No zip code specified");
+
+				zipCode.Text = value;
+			}
 		}
 
 		public string Citta
 		{
 			get => city.Text;
-			set => city.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No city specified");
+
+				city.Text = value;
+			}
 		}
 
 		public string Provincia
 		{
 			get => province.Text;
-			set => province.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No province specified");
+
+				province.Text = value;
+			}
 		}
 
 		public string Nazione
 		{
 			get => state.Text;
-			set => state.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No state specified");
+
+				state.Text = value;
+			}
 		}
 
 		public bool EditMode

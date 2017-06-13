@@ -19,6 +19,9 @@ namespace Flotta.ClientSide.Interface
 
 		internal ScadenzaListItem(string name, string date, bool expired, bool canRenew)
 		{
+			if (name == null)
+				throw new ArgumentNullException("No name specified");
+
 			_name = name;
 			_date = date;
 			_expired = expired;

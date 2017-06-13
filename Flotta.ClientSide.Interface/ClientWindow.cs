@@ -64,6 +64,9 @@ namespace Flotta.ClientSide.Interface
 
 		public void SetUserMode(string username, bool isAdmin)
 		{
+			if (username == null)
+				throw new ArgumentNullException("No username specified");
+
 			currentUserItem.Text = "Benvenuto " + username;
 			userAdminActionSeparator.Visible = manageUserItem.Visible = isAdmin;
 		}
@@ -72,6 +75,9 @@ namespace Flotta.ClientSide.Interface
 		{
 			set
 			{
+				if (value == null)
+					throw new ArgumentNullException("No mezzi specified");
+
 				_mezziList.Clear();
 				foreach (IMezzoListItem m in value)
 				{
@@ -80,7 +86,7 @@ namespace Flotta.ClientSide.Interface
 			}
 		}
 
-		public IMezzoTabView MezzoTabControl { get => mezzoTabView; }
+		public IMezzoTabView MezzoTabControl => mezzoTabView;
 		public bool HasMezzo
 		{
 			set
@@ -114,6 +120,12 @@ namespace Flotta.ClientSide.Interface
 
 		public void AddNewLinkedType(string title, Action handler)
 		{
+			if (String.IsNullOrEmpty(title))
+				throw new ArgumentException("No title specified");
+
+			if (handler == null)
+				throw new ArgumentNullException("No handler specified");
+
 			ToolStripMenuItem item = new ToolStripMenuItem()
 			{
 				Name = title + "MenuItem",

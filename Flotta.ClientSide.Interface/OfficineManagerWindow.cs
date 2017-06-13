@@ -10,31 +10,30 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide.Interface
 {
-	public interface ILinkedTypeManagerWindow : ICloseableDisposable
+	public interface IOfficineManagerWindow : ICloseableDisposable
 	{
 		void Show();
 		event FormClosedEventHandler FormClosed;
-		IEnumerable<ILinkedTypeListItem> TypeList { set; }
-		string TypeName { set; }
+		IEnumerable<ILinkedTypeListItem> OfficineList { set; }
 
-		event Action CreateNewType;
-		event Action<int> DeleteType;
-		event Action<int> EditType;
+		event Action CreateNewOfficina;
+		event Action<int> DeleteOfficina;
+		event Action<int> ViewOfficina;
 	}
 
-	partial class LinkedTypeManagerWindow : Form, ILinkedTypeManagerWindow
+	internal partial class OfficineManagerWindow : Form, IOfficineManagerWindow
 	{
-		private BindingList<ILinkedTypeListItem> _typeList
+		private BindingList<ILinkedTypeListItem> _officinaList
 			= new BindingList<ILinkedTypeListItem>();
 
-		public LinkedTypeManagerWindow()
+		internal OfficineManagerWindow()
 		{
 			InitializeComponent();
 
-			BindTypesList();
+			BindOfficineList();
 		}
 
-		private void BindTypesList()
+		private void BindOfficineList()
 		{
 			typeList.AutoGenerateColumns = false;
 
@@ -63,8 +62,8 @@ namespace Flotta.ClientSide.Interface
 			DataGridViewButtonColumn colTypeEdit = new DataGridViewButtonColumn()
 			{
 				HeaderText = "",
-				Name = "Modifica",
-				Text = "Modifica",
+				Name = "Dettagli",
+				Text = "Dettagli",
 				UseColumnTextForButtonValue = true,
 				AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
 				Width = 60
@@ -83,29 +82,33 @@ namespace Flotta.ClientSide.Interface
 			typeList.Columns.Add(colTypeDelete);
 
 			typeList.DisableSort();
-			typeList.DataSource = _typeList;
+			typeList.DataSource = _officinaList;
 		}
 
-		public IEnumerable<ILinkedTypeListItem> TypeList
+		public IEnumerable<ILinkedTypeListItem> OfficineList
 		{
 			set
 			{
-				_typeList.Clear();
+				if (value == null)
+					throw new ArgumentNullException("No officine specified");
+
+				_officinaList.Clear();
 				foreach (ILinkedTypeListItem m in value)
 				{
-					_typeList.Add(m);
+					_officinaList.Add(m);
 				}
 			}
 		}
 
-		public event Action CreateNewType;
+		public event Action CreateNewOfficina;
 		private void OnCreateNewType(object sender, EventArgs e)
 		{
-			CreateNewType?.Invoke();
+			Console.WriteLine(CreateNewOfficina);
+			CreateNewOfficina?.Invoke();
 		}
 
-		public event Action<int> DeleteType;
-		public event Action<int> EditType;
+		public event Action<int> DeleteOfficina;
+		public event Action<int> ViewOfficina;
 		private void OnCellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			// Exclude click on header
@@ -113,14 +116,9 @@ namespace Flotta.ClientSide.Interface
 				return;
 
 			if (e.ColumnIndex == 2)
-				EditType?.Invoke(e.RowIndex);
+				ViewOfficina?.Invoke(e.RowIndex);
 			if (e.ColumnIndex == 3)
-				DeleteType?.Invoke(e.RowIndex);
-		}
-
-		public string TypeName
-		{
-			set => this.Text = "Tipi " + value + " – Flotta";
+				DeleteOfficina?.Invoke(e.RowIndex);
 		}
 	}
 }

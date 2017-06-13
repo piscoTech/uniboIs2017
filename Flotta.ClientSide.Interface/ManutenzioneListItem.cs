@@ -27,6 +27,15 @@ namespace Flotta.ClientSide.Interface
 
 		public ManutenzioneListItem(string date, string note, string tipo, float costo, string allegatoPath, string officina)
 		{
+			if (note == null)
+				throw new ArgumentNullException("No note specified");
+
+			if (tipo == null)
+				throw new ArgumentNullException("No tipo specified");
+
+			if (officina == null)
+				throw new ArgumentNullException("No officina specified");
+
 			_date = date;
 			_note = note;
 			_tipo = tipo;

@@ -35,19 +35,37 @@ namespace Flotta.ClientSide.Interface
 		public string Username
 		{
 			get => username.Text;
-			set => username.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No username specified");
+
+				username.Text = value;
+			}
 		}
 
 		public string Password
 		{
 			get => password.Text;
-			set => password.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No password specified");
+
+				password.Text = value;
+			}
 		}
 
 		public string RepeatPassword
 		{
 			get => repeatPassword.Text;
-			set => repeatPassword.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No repeat password specified");
+
+				repeatPassword.Text = value;
+			}
 		}
 
 		public bool IsAdmin

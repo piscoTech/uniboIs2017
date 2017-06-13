@@ -78,17 +78,17 @@
     <Compile Include="UsersManagerWindow.Designer.cs">
       <DependentUpon>UsersManagerWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="OfficinaManagerWindow.cs">
+    <Compile Include="OfficineManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OfficinaManagerWindow.Designer.cs">
-      <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>
+    <Compile Include="OfficineManagerWindow.Designer.cs">
+      <DependentUpon>OfficineManagerWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="LinkedTypeManagerWindow.cs">
+    <Compile Include="LinkedTypesManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LinkedTypeManagerWindow.Designer.cs">
-      <DependentUpon>LinkedTypeManagerWindow.cs</DependentUpon>
+    <Compile Include="LinkedTypesManagerWindow.Designer.cs">
+      <DependentUpon>LinkedTypesManagerWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ManutenzioneListItem.cs" />
     <Compile Include="MezzoListItem.cs" />
@@ -184,8 +184,8 @@
     <EmbeddedResource Include="UsersManagerWindow.resx">
       <DependentUpon>UsersManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OfficinaManagerWindow.resx">
-      <DependentUpon>OfficinaManagerWindow.cs</DependentUpon>
+    <EmbeddedResource Include="OfficineManagerWindow.resx">
+      <DependentUpon>OfficineManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MezzoTabView.resx">
       <DependentUpon>MezzoTabView.cs</DependentUpon>
@@ -196,8 +196,8 @@
     <EmbeddedResource Include="NewMezzoDialog.resx">
       <DependentUpon>NewMezzoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LinkedTypeManagerWindow.resx">
-      <DependentUpon>LinkedTypeManagerWindow.cs</DependentUpon>
+    <EmbeddedResource Include="LinkedTypesManagerWindow.resx">
+      <DependentUpon>LinkedTypesManagerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabScadenzeView.resx">
       <DependentUpon>TabScadenzeView.cs</DependentUpon>

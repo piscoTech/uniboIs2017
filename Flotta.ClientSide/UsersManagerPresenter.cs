@@ -62,7 +62,7 @@ namespace Flotta.ClientSide
 				return;
 
 			_usersList = (from u in _server.Users orderby u.IsAdmin, u.Username select u).ToList();
-			_window.UserList = from u in _usersList select ClientSideInterfaceFactory.NewUserListItem(u.Username, u.IsAdmin);
+			_window.UsersList = from u in _usersList select ClientSideInterfaceFactory.NewUserListItem(u.Username, u.IsAdmin);
 		}
 
 		private void OnCreateNewType()

@@ -36,7 +36,13 @@ namespace Flotta.ClientSide.Interface
 
 		public string ScadName
 		{
-			set => this.Text = "Rinnova Scadenza – " + value + " – Flotta";
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No name specified");
+
+				this.Text = "Rinnova Scadenza – " + value + " – Flotta";
+			}
 		}
 
 		public Func<bool> Validation

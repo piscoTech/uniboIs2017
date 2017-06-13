@@ -96,13 +96,25 @@ namespace Flotta.ClientSide.Interface
 		public string Modello
 		{
 			get => modello.Text;
-			set => modello.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No modello specified");
+
+				modello.Text = value;
+			}
 		}
 
 		public string Targa
 		{
 			get => targa.Text;
-			set => targa.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No targa specified");
+
+				targa.Text = value;
+			}
 		}
 
 		public uint Numero
@@ -124,13 +136,25 @@ namespace Flotta.ClientSide.Interface
 		public string NumeroCartaCircolazione
 		{
 			get => numCartaCircolazione.Text;
-			set => numCartaCircolazione.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No numero carta circolazione specified");
+
+				numCartaCircolazione.Text = value;
+			}
 		}
 
 		public string NumeroTelaio
 		{
 			get => numeroTelaio.Text;
-			set => numeroTelaio.Text = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No numero telaio specified");
+
+				numeroTelaio.Text = value;
+			}
 		}
 
 		public uint AnnoImmatricolazione
@@ -248,6 +272,9 @@ namespace Flotta.ClientSide.Interface
 		{
 			set
 			{
+				if (value == null)
+					throw new ArgumentNullException("No tessere specified");
+
 				_tessere.Clear();
 				// As _tessere is the DataSource of the corresponding data grid we must change the existing collection
 				foreach (var t in value)
@@ -259,6 +286,9 @@ namespace Flotta.ClientSide.Interface
 		{
 			set
 			{
+				if (value == null)
+					throw new ArgumentNullException("No dispositivi specified");
+
 				_dispositivi.Clear();
 				// As _tessere is the DataSource of the corresponding data grid we must change the existing collection
 				foreach (var t in value)
@@ -270,6 +300,9 @@ namespace Flotta.ClientSide.Interface
 		{
 			set
 			{
+				if (value == null)
+					throw new ArgumentNullException("No permessi specified");
+
 				_permessi.Clear();
 				// As _tessere is the DataSource of the corresponding data grid we must change the existing collection
 				foreach (var t in value)

@@ -31,14 +31,8 @@ namespace Flotta.ClientSide.Interface
 
 		public int CurrentTab
 		{
-			get
-			{
-				return tabControl.SelectedIndex;
-			}
-			set
-			{
-				tabControl.SelectedIndex = value;
-			}
+			get => tabControl.SelectedIndex;
+			set => tabControl.SelectedIndex = value;
 		}
 
 		public ITabGeneraleView GeneraleTab => tabGeneraleView;

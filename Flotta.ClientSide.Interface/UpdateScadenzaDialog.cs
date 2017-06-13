@@ -45,12 +45,24 @@ namespace Flotta.ClientSide.Interface
 
 		public string ScadenzaName
 		{
-			set => this.Text = "Modifica scadenza – " + value + " – Flotta";
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No name specified");
+
+				this.Text = "Modifica scadenza – " + value + " – Flotta";
+			}
 		}
 
 		public IList<string> Types
 		{
-			set => type.DataSource = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No types specified");
+
+				type.DataSource = value;
+			}
 		}
 
 		public int SelectedType
@@ -67,7 +79,13 @@ namespace Flotta.ClientSide.Interface
 
 		public IList<string> Formats
 		{
-			set => format.DataSource = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No formats specified");
+
+				format.DataSource = value;
+			}
 		}
 
 		public int SelectedFormat
@@ -94,7 +112,13 @@ namespace Flotta.ClientSide.Interface
 
 		public IList<string> RecurTypes
 		{
-			set => recurType.DataSource = value;
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("No recurrency types specified");
+
+				recurType.DataSource = value;
+			}
 		}
 
 		public int SelectedRecurType

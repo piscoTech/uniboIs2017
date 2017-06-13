@@ -127,11 +127,11 @@ namespace Flotta.ClientSide
 
 			_view.EditMode = _editMode;
 
-			_view.Modello = Mezzo.Modello;
-			_view.Targa = Mezzo.Targa;
+			_view.Modello = Mezzo.Modello ?? "";
+			_view.Targa = Mezzo.Targa ?? "";
 			_view.Numero = Mezzo.Numero;
-			_view.NumeroCartaCircolazione = Mezzo.NumeroCartaCircolazione;
-			_view.NumeroTelaio = Mezzo.NumeroTelaio;
+			_view.NumeroCartaCircolazione = Mezzo.NumeroCartaCircolazione ?? "";
+			_view.NumeroTelaio = Mezzo.NumeroTelaio ?? "";
 			_view.AnnoImmatricolazione = Mezzo.AnnoImmatricolazione;
 			_view.Portata = Mezzo.Portata;
 			_view.Altezza = Mezzo.Altezza;
