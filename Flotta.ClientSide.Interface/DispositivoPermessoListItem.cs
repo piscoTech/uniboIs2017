@@ -15,7 +15,6 @@ namespace Flotta.ClientSide.Interface
 
 	class DispositivoPermessoListItem : IDispositivoPermessoListItem
 	{
-
 		private bool _inUse;
 		private string _type;
 		private string _allegatoPath;

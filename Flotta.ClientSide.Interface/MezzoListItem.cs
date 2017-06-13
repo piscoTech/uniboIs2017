@@ -13,9 +13,9 @@ namespace Flotta.ClientSide.Interface
 
 	class MezzoListItem : IMezzoListItem
 	{
-		private uint _numero;
-		private string _modello;
-		private string _targa;
+		private readonly uint _numero;
+		private readonly string _modello;
+		private readonly string _targa;
 
 		internal MezzoListItem(uint numero, string modello, string targa)
 		{

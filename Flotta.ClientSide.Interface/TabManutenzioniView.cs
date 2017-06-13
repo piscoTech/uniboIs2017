@@ -18,7 +18,7 @@ namespace Flotta.ClientSide.Interface
 
 	internal partial class TabManutenzioniView : UserControl, ITabManutenzioniView
 	{
-		private BindingList<IManutenzioneListItem> _manutenzioni = new BindingList<IManutenzioneListItem>();
+		private readonly BindingList<IManutenzioneListItem> _manutenzioni = new BindingList<IManutenzioneListItem>();
 
 		public TabManutenzioniView()
 		{

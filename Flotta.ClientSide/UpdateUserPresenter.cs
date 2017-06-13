@@ -9,13 +9,19 @@ namespace Flotta.ClientSide
 {
 	internal class UpdateUserPresenter : IDialogPresenter
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IUpdateUserDialog _window;
-		private IUser _user;
-		private bool _isNew;
+		private readonly IUser _user;
+		private readonly bool _isNew;
 
 		internal UpdateUserPresenter(IServer server, IUser user)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (user == null)
+				throw new ArgumentNullException("No user specified");
+
 			_server = server;
 			_isNew = user == null;
 			_user = user ?? ModelFactory.NewUtente();

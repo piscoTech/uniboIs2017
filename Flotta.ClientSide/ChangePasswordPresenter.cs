@@ -9,12 +9,18 @@ namespace Flotta.ClientSide
 {
 	internal class ChangePasswordPresenter : IDialogPresenter
 	{
-		private IServer _server;
-		private IUser _user;
+		private readonly IServer _server;
+		private readonly IUser _user;
 		private IChangePasswordDialog _view;
 
 		internal ChangePasswordPresenter(IServer server, IUser user)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (user == null)
+				throw new ArgumentNullException("No user specified");
+
 			_server = server;
 			_user = user;
 		}

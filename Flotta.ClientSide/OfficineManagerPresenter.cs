@@ -10,16 +10,19 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class OfficinaManagerPresenter : IWindowPresenter
+	class OfficineManagerPresenter : IWindowPresenter
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IOfficineManagerWindow _window;
 		private UpdateOfficinaPresenter _activePresenter;
 
 		private List<IOfficina> _officinaList;
 
-		internal OfficinaManagerPresenter(IServer server)
+		internal OfficineManagerPresenter(IServer server)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
 			_server = server;
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectRemoved;

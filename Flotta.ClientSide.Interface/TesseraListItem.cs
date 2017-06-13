@@ -16,9 +16,8 @@ namespace Flotta.ClientSide.Interface
 
 	class TesseraListItem : ITesseraListItem
 	{
-
 		private bool _inUse;
-		private string _type;
+		private readonly string _type;
 		private string _codice;
 		private string _pin;
 

@@ -12,17 +12,17 @@ namespace Flotta.ClientSide
 {
 	class NewMezzoPresenter : IDialogPresenter
 	{
-		private IServer _server;
-		private IMezzo _mezzo = ModelFactory.NewMezzo();
-
-		private List<ITessera> _tessere = new List<ITessera>();
-		private List<ITesseraListItem> _tessereItems = new List<ITesseraListItem>();
+		private readonly IServer _server;
+		private readonly IMezzo _mezzo = ModelFactory.NewMezzo();
 
 		private INewMezzoDialog _window;
 		private TabGeneralePresenter _presenter;
 
 		internal NewMezzoPresenter(IServer server)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
 			_server = server;
 		}
 

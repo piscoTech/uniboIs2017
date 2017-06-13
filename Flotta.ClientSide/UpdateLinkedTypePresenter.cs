@@ -9,14 +9,23 @@ namespace Flotta.ClientSide
 {
 	internal class UpdateLinkedTypePresenter<T> : IDialogPresenter where T : LinkedType
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IUpdateLinkedTypeDialog _window;
-		private T _type;
+		private readonly T _type;
 
-		private string _typeName;
+		private readonly string _typeName;
 
 		internal UpdateLinkedTypePresenter(IServer server, T type, string typeName)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (type == null)
+				throw new ArgumentNullException("No type specified");
+
+			if (typeName == null)
+				throw new ArgumentNullException("No type name specified");
+
 			_server = server;
 			_type = type;
 

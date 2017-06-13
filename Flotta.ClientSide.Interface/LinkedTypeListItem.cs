@@ -14,8 +14,8 @@ namespace Flotta.ClientSide.Interface
 
 	class LinkedTypeListItem : ILinkedTypeListItem
 	{
-		private string _name;
-		private bool _disabled;
+		private readonly string _name;
+		private readonly bool _disabled;
 
 		internal LinkedTypeListItem(string name, bool disabled)
 		{

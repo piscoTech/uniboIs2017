@@ -33,7 +33,7 @@ namespace Flotta.ClientSide.Interface
 	internal partial class ClientWindow : Form, IClientWindow
 	{
 
-		private BindingList<IMezzoListItem> _mezziList = new BindingList<IMezzoListItem>();
+		private readonly BindingList<IMezzoListItem> _mezziList = new BindingList<IMezzoListItem>();
 
 		internal ClientWindow()
 		{

@@ -46,7 +46,7 @@
     <Compile Include="IPresenter.cs" />
     <Compile Include="ITabPresenter.cs" />
     <Compile Include="UsersManagerPresenter.cs" />
-    <Compile Include="LinkedTypeManagerPresenter.cs" />
+    <Compile Include="LinkedTypesManagerPresenter.cs" />
     <Compile Include="MezzoTabPresenter.cs" />
     <Compile Include="UpdateManutenzionePresenter.cs" />
     <Compile Include="NewMezzoPresenter.cs" />
@@ -55,7 +55,7 @@
     <Compile Include="TabScadenzePresenter.cs" />
     <Compile Include="UpdateScadenzaPresenter.cs" />
     <Compile Include="TabManutenzioniPresenter.cs" />
-    <Compile Include="OfficinaManagerPresenter.cs" />
+    <Compile Include="OfficineManagerPresenter.cs" />
     <Compile Include="UpdateOfficinaPresenter.cs" />
     <Compile Include="UpdateLinkedTypePresenter.cs" />
     <Compile Include="RenewScadenzaPresenter.cs" />

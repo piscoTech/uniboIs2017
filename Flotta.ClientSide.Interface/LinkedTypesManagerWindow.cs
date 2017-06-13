@@ -24,8 +24,7 @@ namespace Flotta.ClientSide.Interface
 
 	partial class LinkedTypesManagerWindow : Form, ILinkedTypesManagerWindow
 	{
-		private BindingList<ILinkedTypeListItem> _typeList
-			= new BindingList<ILinkedTypeListItem>();
+		private readonly BindingList<ILinkedTypeListItem> _typeList = new BindingList<ILinkedTypeListItem>();
 
 		public LinkedTypesManagerWindow()
 		{

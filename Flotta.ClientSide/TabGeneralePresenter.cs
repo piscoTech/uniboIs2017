@@ -12,17 +12,12 @@ namespace Flotta.ClientSide
 {
 	internal class TabGeneralePresenter : ITabPresenter
 	{
+		private readonly IServer _server;
+		private readonly ITabGeneraleView _view;
 
-		private IServer _server;
-		private ITabGeneraleView _view;
-
-		private MezzoTabPresenter _tabs;
+		private readonly MezzoTabPresenter _tabs;
 		private IMezzo _mezzo;
-
-		private IMezzo Mezzo
-		{
-			get => _tabs?.Mezzo ?? _mezzo;
-		}
+		private IMezzo Mezzo => _tabs?.Mezzo ?? _mezzo;
 
 		private bool _editMode;
 		internal bool EditMode
@@ -61,16 +56,28 @@ namespace Flotta.ClientSide
 
 		internal TabGeneralePresenter(IServer server, IMezzo mezzo, ITabGeneraleView view) : this(server, view)
 		{
+			if (mezzo == null)
+				throw new ArgumentNullException("No mezzo specified");
+
 			_mezzo = mezzo;
 		}
 
 		internal TabGeneralePresenter(IServer server, MezzoTabPresenter tabs, ITabGeneraleView view) : this(server, view)
 		{
+			if (tabs == null)
+				throw new ArgumentNullException("No tab presenter specified");
+
 			_tabs = tabs;
 		}
 
 		private TabGeneralePresenter(IServer server, ITabGeneraleView view)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (view == null)
+				throw new ArgumentNullException("No view specified");
+
 			_server = server;
 			_view = view;
 

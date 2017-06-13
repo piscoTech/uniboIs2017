@@ -12,15 +12,21 @@ namespace Flotta.ClientSide
 {
 	class UsersManagerPresenter : IWindowPresenter
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IUsersManagerWindow _window;
-		private IUser _user;
+		private readonly IUser _user;
 
 		private List<IUser> _usersList;
 		private UpdateUserPresenter _updatePresenter;
 
 		internal UsersManagerPresenter(IServer server, IUser user)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (user == null)
+				throw new ArgumentNullException("No user specified");
+
 			_server = server;
 			_server.ObjectChanged += OnObjectChangedRemoved;
 			_server.ObjectRemoved += OnObjectChangedRemoved;

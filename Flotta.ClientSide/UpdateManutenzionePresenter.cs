@@ -13,8 +13,8 @@ namespace Flotta.ClientSide
 {
 	class UpdateManutenzionePresenter : IDialogPresenter
 	{
-		private IServer _server;
-		private IManutenzione _manutenzione;
+		private readonly IServer _server;
+		private readonly IManutenzione _manutenzione;
 		private List<IManutenzioneType> _types;
 		private List<IOfficina> _officine;
 
@@ -22,6 +22,12 @@ namespace Flotta.ClientSide
 
 		internal UpdateManutenzionePresenter(IServer server, IManutenzione manut)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (manut == null)
+				throw new ArgumentNullException("No manutenzione specified");
+
 			_server = server;
 			_manutenzione = manut;
 

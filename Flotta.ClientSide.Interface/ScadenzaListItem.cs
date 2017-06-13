@@ -12,7 +12,7 @@ namespace Flotta.ClientSide.Interface
 
 	class ScadenzaListItem : IScadenzaListItem
 	{
-		private string _name;
+		private readonly string _name;
 		private string _date;
 		private bool _expired;
 		private bool _canRenew;

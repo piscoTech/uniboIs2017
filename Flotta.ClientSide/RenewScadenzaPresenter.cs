@@ -8,12 +8,15 @@ namespace Flotta.ClientSide
 {
 	internal class RenewScadenzaPresenter : IDialogPresenter
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IRenewScadenzaDialog _window;
-		private IScadenzaOwner _scadOwner;
+		private readonly IScadenzaOwner _scadOwner;
 
 		internal RenewScadenzaPresenter(IServer server, IScadenzaOwner scadOwner)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
 			_server = server;
 			// Scadenza cannot be removed directly, an update on their mezzo will result in this 
 			// presenter being automaticcaly closed by TabScadenzePresenter.

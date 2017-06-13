@@ -10,18 +10,24 @@ using System.Windows.Forms;
 
 namespace Flotta.ClientSide
 {
-	class LinkedTypeManagerPresenter<T> : IWindowPresenter where T : LinkedType
+	class LinkedTypesManagerPresenter<T> : IWindowPresenter where T : LinkedType
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private ILinkedTypesManagerWindow _window;
 
 		private List<T> _typeList;
-		private string _typeName;
+		private readonly string _typeName;
 
 		private UpdateLinkedTypePresenter<T> _updatePresenter;
 
-		internal LinkedTypeManagerPresenter(IServer server, string typeName)
+		internal LinkedTypesManagerPresenter(IServer server, string typeName)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (typeName == null)
+				throw new ArgumentNullException("No type name specified");
+
 			_server = server;
 			_server.ObjectChanged += OnObjectChangedRemoved;
 			_server.ObjectRemoved += OnObjectChangedRemoved;

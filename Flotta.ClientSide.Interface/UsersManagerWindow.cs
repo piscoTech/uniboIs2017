@@ -23,7 +23,7 @@ namespace Flotta.ClientSide.Interface
 
 	partial class UsersManagerWindow : Form, IUsersManagerWindow
 	{
-		private BindingList<IUserListItem> _usersList
+		private readonly BindingList<IUserListItem> _usersList
 			= new BindingList<IUserListItem>();
 
 		public UsersManagerWindow()

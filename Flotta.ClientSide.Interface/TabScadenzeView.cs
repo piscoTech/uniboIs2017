@@ -17,7 +17,7 @@ namespace Flotta.ClientSide.Interface
 
 	internal partial class TabScadenzeView : UserControl, ITabScadenzeView
 	{
-		private BindingList<IScadenzaListItem> _scadenzeList = new BindingList<IScadenzaListItem>();
+		private readonly BindingList<IScadenzaListItem> _scadenzeList = new BindingList<IScadenzaListItem>();
 
 		internal TabScadenzeView()
 		{

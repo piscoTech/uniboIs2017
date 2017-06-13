@@ -12,17 +12,21 @@ namespace Flotta.ClientSide
 	internal class MezzoTabPresenter
 	{
 
-		private IServer _server;
-		private Client _client;
+		private readonly IServer _server;
 		private IMezzo _mezzo;
 
-		private IMezzoTabView _tabControl;
-		private ITabPresenter[] _tabPresenters = new ITabPresenter[5];
+		private readonly IMezzoTabView _tabControl;
+		private readonly ITabPresenter[] _tabPresenters = new ITabPresenter[5];
 
-		internal MezzoTabPresenter(IServer server, Client client, IMezzoTabView tabControl)
+		internal MezzoTabPresenter(IServer server, IMezzoTabView tabControl)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (tabControl == null)
+				throw new ArgumentNullException("No tab control specified");
+
 			_server = server;
-			_client = client;
 			_tabControl = tabControl;
 
 			_tabPresenters[0] = new TabGeneralePresenter(_server, this, _tabControl.GeneraleTab);
@@ -74,6 +78,5 @@ namespace Flotta.ClientSide
 		{
 			OnTabChange(_tabControl.CurrentTab);
 		}
-
 	}
 }

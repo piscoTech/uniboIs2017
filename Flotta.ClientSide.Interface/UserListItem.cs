@@ -10,8 +10,8 @@ namespace Flotta.ClientSide.Interface
 
 	class UserListItem : IUserListItem
 	{
-		private string _name;
-		private bool _admin;
+		private readonly string _name;
+		private readonly bool _admin;
 
 		internal UserListItem(string name, bool admin)
 		{

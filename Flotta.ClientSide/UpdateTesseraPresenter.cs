@@ -9,12 +9,18 @@ namespace Flotta.ClientSide
 {
 	internal class UpdateTesseraPresenter : IDialogPresenter
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IUpdateTesseraDialog _window;
-		private ITessera _tessera;
+		private readonly ITessera _tessera;
 
 		internal UpdateTesseraPresenter(IServer server, ITessera t)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (t == null)
+				throw new ArgumentNullException("No tessera specified");
+
 			_server = server;
 			_tessera = t;
 

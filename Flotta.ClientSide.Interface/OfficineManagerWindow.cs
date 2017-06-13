@@ -23,8 +23,7 @@ namespace Flotta.ClientSide.Interface
 
 	internal partial class OfficineManagerWindow : Form, IOfficineManagerWindow
 	{
-		private BindingList<ILinkedTypeListItem> _officinaList
-			= new BindingList<ILinkedTypeListItem>();
+		private readonly BindingList<ILinkedTypeListItem> _officinaList = new BindingList<ILinkedTypeListItem>();
 
 		internal OfficineManagerWindow()
 		{

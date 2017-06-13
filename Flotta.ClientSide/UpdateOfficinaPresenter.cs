@@ -9,13 +9,19 @@ namespace Flotta.ClientSide
 {
 	internal class UpdateOfficinaPresenter : IDialogPresenter
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IUpdateOfficinaDialog _window;
 		private bool _editMode;
-		private IOfficina _officina;
+		private readonly IOfficina _officina;
 
 		internal UpdateOfficinaPresenter(IServer server, IOfficina officina)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (officina == null)
+				throw new ArgumentNullException("No officina specified");
+
 			_server = server;
 			_server.ObjectChanged += OnObjectChanged;
 			_server.ObjectRemoved += OnObjectChanged;

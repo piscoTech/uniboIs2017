@@ -19,7 +19,7 @@ namespace Flotta.ClientSide
 	{
 		private bool _closed = false;
 
-		private IServer _server;
+		private readonly IServer _server;
 		private IClientWindow _mainWindow;
 		private IUser _user;
 
@@ -33,6 +33,9 @@ namespace Flotta.ClientSide
 
 		internal Client(IServer server)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
 			_server = server;
 
 			_server.ClientConnected();
@@ -80,7 +83,7 @@ namespace Flotta.ClientSide
 				_mainWindow.AddNewLinkedType(type.Description, () =>
 				{
 					_typesPresenter?.Close();
-					var presenterType = typeof(LinkedTypeManagerPresenter<>).MakeGenericType(type.Type);
+					var presenterType = typeof(LinkedTypesManagerPresenter<>).MakeGenericType(type.Type);
 					_typesPresenter = Activator.CreateInstance(presenterType,
 															 BindingFlags.NonPublic | BindingFlags.Instance,
 															 null,
@@ -92,7 +95,7 @@ namespace Flotta.ClientSide
 				});
 			}
 
-			_mezzoPresenter = new MezzoTabPresenter(_server, this, _mainWindow.MezzoTabControl);
+			_mezzoPresenter = new MezzoTabPresenter(_server, _mainWindow.MezzoTabControl);
 
 			UpdateMezziList();
 		}
@@ -150,7 +153,7 @@ namespace Flotta.ClientSide
 
 		private void OnManageOfficine()
 		{
-			_officinePresenter = new OfficinaManagerPresenter(_server);
+			_officinePresenter = new OfficineManagerPresenter(_server);
 			_officinePresenter.PresenterClosed += () => _officinePresenter = null;
 			_officinePresenter.Show();
 		}
@@ -184,6 +187,5 @@ namespace Flotta.ClientSide
 
 			_closed = true;
 		}
-
 	}
 }

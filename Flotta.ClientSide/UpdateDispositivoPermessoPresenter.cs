@@ -11,14 +11,23 @@ namespace Flotta.ClientSide
 		where T : LinkedType
 		where O : class, ILinkedObjectWithPDF<T>
 	{
-		private IServer _server;
+		private readonly IServer _server;
 		private IUpdateDispositivoPermessoDialog _window;
-		private O _dispositivoPermesso;
+		private readonly O _dispositivoPermesso;
 
-		private string _description;
+		private readonly string _description;
 
 		internal UpdateDispositivoPermessoPresenter(IServer server, O dispPerm, string description)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (dispPerm == null)
+				throw new ArgumentNullException("No dispositivo/permesso specified");
+
+			if (description == null)
+				throw new ArgumentNullException("No description specified");
+
 			_server = server;
 			_dispositivoPermesso = dispPerm;
 			_description = description;

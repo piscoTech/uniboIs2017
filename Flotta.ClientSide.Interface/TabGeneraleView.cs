@@ -52,9 +52,9 @@ namespace Flotta.ClientSide.Interface
 	internal partial class TabGeneraleView : UserControl, ITabGeneraleView
 	{
 		private bool _editMode;
-		private BindingList<ITesseraListItem> _tessere = new BindingList<ITesseraListItem>();
-		private BindingList<IDispositivoPermessoListItem> _dispositivi = new BindingList<IDispositivoPermessoListItem>();
-		private BindingList<IDispositivoPermessoListItem> _permessi = new BindingList<IDispositivoPermessoListItem>();
+		private readonly BindingList<ITesseraListItem> _tessere = new BindingList<ITesseraListItem>();
+		private readonly BindingList<IDispositivoPermessoListItem> _dispositivi = new BindingList<IDispositivoPermessoListItem>();
+		private readonly BindingList<IDispositivoPermessoListItem> _permessi = new BindingList<IDispositivoPermessoListItem>();
 
 		internal TabGeneraleView()
 		{

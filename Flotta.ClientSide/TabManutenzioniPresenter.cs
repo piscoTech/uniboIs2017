@@ -12,9 +12,9 @@ namespace Flotta.ClientSide
 {
 	class TabManutenzioniPresenter : ITabPresenter
 	{
-		private IServer _server;
-		private MezzoTabPresenter _tabs;
-		private ITabManutenzioniView _view;
+		private readonly IServer _server;
+		private readonly MezzoTabPresenter _tabs;
+		private readonly ITabManutenzioniView _view;
 		private List<IManutenzione> _manutenzioniList;
 		private List<IManutenzioneListItem> _manutenzioneListItem;
 
@@ -22,6 +22,15 @@ namespace Flotta.ClientSide
 
 		internal TabManutenzioniPresenter(IServer server, MezzoTabPresenter tabs, ITabManutenzioniView view)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (tabs == null)
+				throw new ArgumentNullException("No tab presenter specified");
+
+			if (view == null)
+				throw new ArgumentNullException("No view specified");
+
 			_server = server;
 			_tabs = tabs;
 			_view = view;

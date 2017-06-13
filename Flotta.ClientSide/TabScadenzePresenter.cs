@@ -13,19 +13,28 @@ namespace Flotta.ClientSide
 	internal class TabScadenzePresenter : ITabPresenter
 	{
 
-		private IServer _server;
-		private ITabScadenzeView _view;
+		private readonly IServer _server;
+		private readonly ITabScadenzeView _view;
 
-		private MezzoTabPresenter _tabs;
+		private readonly MezzoTabPresenter _tabs;
 
-		private List<IScadenzaOwner> _scadenze = new List<IScadenzaOwner>();
-		private List<IScadenzaListItem> _scadenzeItem = new List<IScadenzaListItem>();
+		private readonly List<IScadenzaOwner> _scadenze = new List<IScadenzaOwner>();
+		private readonly List<IScadenzaListItem> _scadenzeItem = new List<IScadenzaListItem>();
 
 		private UpdateScadenzaPresenter _updatePresenter = null;
 		private RenewScadenzaPresenter _renewPresenter = null;
 
 		internal TabScadenzePresenter(IServer server, MezzoTabPresenter tabs, ITabScadenzeView view)
 		{
+			if (server == null)
+				throw new ArgumentNullException("No server specified");
+
+			if (tabs == null)
+				throw new ArgumentNullException("No tab presenter specified");
+
+			if (view == null)
+				throw new ArgumentNullException("No view specified");
+
 			_tabs = tabs;
 
 			_server = server;
