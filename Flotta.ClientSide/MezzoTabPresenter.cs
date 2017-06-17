@@ -78,5 +78,11 @@ namespace Flotta.ClientSide
 		{
 			OnTabChange(_tabControl.CurrentTab);
 		}
+
+		internal void Close()
+		{
+			foreach (ITabPresenter tab in _tabPresenters)
+				tab?.Close();
+		}
 	}
 }

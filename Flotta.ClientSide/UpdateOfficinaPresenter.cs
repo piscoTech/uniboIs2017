@@ -23,8 +23,6 @@ namespace Flotta.ClientSide
 				throw new ArgumentNullException("No officina specified");
 
 			_server = server;
-			_server.ObjectChanged += OnObjectChanged;
-			_server.ObjectRemoved += OnObjectChanged;
 
 			_editMode = officina == null;
 			_officina = officina ?? ModelFactory.NewOfficina();
@@ -33,8 +31,14 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
-			_window?.Close();
-			_window?.Dispose();
+			_server.ObjectChanged -= OnObjectChanged;
+			_server.ObjectRemoved -= OnObjectChanged;
+
+			var win = _window;
+			_window = null;
+
+			win?.Close();
+			win?.Dispose();
 			PresenterClosed?.Invoke();
 		}
 
@@ -54,6 +58,9 @@ namespace Flotta.ClientSide
 		{
 			using (_window = ClientSideInterfaceFactory.NewUpdateOfficinaDialog())
 			{
+				_server.ObjectChanged += OnObjectChanged;
+				_server.ObjectRemoved += OnObjectChanged;
+
 				Reload();
 				_window.EditMode = _editMode;
 				_window.CancelEdit += OnCancelEdit;

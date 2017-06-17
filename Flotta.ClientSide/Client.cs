@@ -39,8 +39,6 @@ namespace Flotta.ClientSide
 			_server = server;
 
 			_server.ClientConnected();
-			_server.ObjectChanged += OnObjectChanged;
-			_server.ObjectRemoved += OnObjectRemoved;
 		}
 
 		public void Show()
@@ -67,6 +65,9 @@ namespace Flotta.ClientSide
 				Close();
 				return;
 			}
+
+			_server.ObjectChanged += OnObjectChanged;
+			_server.ObjectRemoved += OnObjectRemoved;
 
 			_mainWindow = ClientSideInterfaceFactory.NewClientWindow();
 			_mainWindow.SetUserMode(_user.Username, _user.IsAdmin);
@@ -176,10 +177,14 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectChanged -= OnObjectChanged;
+			_server.ObjectRemoved -= OnObjectRemoved;
+
 			var win = _mainWindow;
 			_mainWindow = null;
-
 			win?.Close();
+
+			_mezzoPresenter.Close();
 			_typesPresenter?.Close();
 			if (!_closed)
 				_server.ClientDisconnected(_user);

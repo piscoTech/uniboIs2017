@@ -4,5 +4,6 @@
 	{
 		void Reload();
 		void OnCancelEdit();
+		void Close();
 	}
 }

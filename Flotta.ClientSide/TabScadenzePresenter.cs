@@ -135,5 +135,11 @@ namespace Flotta.ClientSide
 			_renewPresenter.PresenterClosed += () => _renewPresenter = null;
 			_renewPresenter.ShowDialog();
 		}
+
+		public void Close()
+		{
+			_server.ObjectChanged -= OnObjectChanged;
+			_server.ObjectRemoved -= OnObjectRemoved;
+		}
 	}
 }

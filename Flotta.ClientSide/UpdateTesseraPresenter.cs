@@ -23,8 +23,6 @@ namespace Flotta.ClientSide
 
 			_server = server;
 			_tessera = t;
-
-			_server.ObjectRemoved += OnObjectRemoved;
 		}
 
 		private void OnObjectRemoved(IDBObject obj)
@@ -38,6 +36,8 @@ namespace Flotta.ClientSide
 		{
 			using (_window = ClientSideInterfaceFactory.NewUpdateTesseraDialog())
 			{
+				_server.ObjectRemoved += OnObjectRemoved;
+
 				_window.Codice = _tessera.Codice ?? "";
 				_window.Pin = _tessera.Pin ?? "";
 				_window.Validation = () =>
@@ -64,6 +64,8 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectRemoved -= OnObjectRemoved;
+
 			var win = _window;
 			_window = null;
 

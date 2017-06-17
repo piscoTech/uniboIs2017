@@ -31,6 +31,8 @@ namespace Flotta.ClientSide
 		{
 			using (_window = ClientSideInterfaceFactory.NewUpdateUserDialog())
 			{
+				_server.ObjectRemoved += OnObjectRemoved;
+
 				_window.Validation = () =>
 				{
 					string password = _window.Password;
@@ -61,9 +63,19 @@ namespace Flotta.ClientSide
 			Close();
 		}
 
+		private void OnObjectRemoved(IDBObject obj)
+		{
+			if (obj is IUser u && u == _user)
+			{
+				Close();
+			}
+		}
+
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectRemoved -= OnObjectRemoved;
+
 			var win = _window;
 			_window = null;
 

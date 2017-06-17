@@ -24,12 +24,13 @@ namespace Flotta.ClientSide
 				throw new ArgumentNullException("No server specified");
 
 			_server = server;
-			_server.ObjectChanged += OnObjectChanged;
-			_server.ObjectRemoved += OnObjectRemoved;
 		}
 
 		public void Show()
 		{
+			_server.ObjectChanged += OnObjectChanged;
+			_server.ObjectRemoved += OnObjectRemoved;
+
 			_window = ClientSideInterfaceFactory.NewOfficineManagerWindow();
 			_window.FormClosed += (object sender, FormClosedEventArgs e) => this.Close();
 
@@ -95,6 +96,9 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectChanged -= OnObjectChanged;
+			_server.ObjectRemoved -= OnObjectRemoved;
+
 			var win = _window;
 			_window = null;
 

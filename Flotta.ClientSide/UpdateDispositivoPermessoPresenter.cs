@@ -31,8 +31,6 @@ namespace Flotta.ClientSide
 			_server = server;
 			_dispositivoPermesso = dispPerm;
 			_description = description;
-
-			_server.ObjectRemoved += OnObjectRemoved;
 		}
 
 		private void OnObjectRemoved(IDBObject obj)
@@ -46,6 +44,8 @@ namespace Flotta.ClientSide
 		{
 			using (_window = ClientSideInterfaceFactory.NewUpdateDispositivoPermessoDialog())
 			{
+				_server.ObjectRemoved += OnObjectRemoved;
+
 				_window.Type = _description;
 				_window.Path = _dispositivoPermesso.Allegato?.Path ?? "";
 				_window.Validation = () =>
@@ -73,6 +73,8 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectRemoved -= OnObjectRemoved;
+
 			var win = _window;
 			_window = null;
 

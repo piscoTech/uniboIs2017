@@ -338,5 +338,11 @@ namespace Flotta.ClientSide
 				// The tab will be automatically reloaded exiting display mode automatically with the notification from the server
 			}
 		}
+
+		public void Close()
+		{
+			_server.ObjectChanged -= OnObjectChangedRemoved;
+			_server.ObjectRemoved -= OnObjectChangedRemoved;
+		}
 	}
 }

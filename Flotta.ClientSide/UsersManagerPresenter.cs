@@ -28,9 +28,6 @@ namespace Flotta.ClientSide
 				throw new ArgumentNullException("No user specified");
 
 			_server = server;
-			_server.ObjectChanged += OnObjectChangedRemoved;
-			_server.ObjectRemoved += OnObjectChangedRemoved;
-
 			_user = user;
 		}
 
@@ -41,6 +38,9 @@ namespace Flotta.ClientSide
 				Close();
 				return;
 			}
+
+			_server.ObjectChanged += OnObjectChangedRemoved;
+			_server.ObjectRemoved += OnObjectChangedRemoved;
 
 			_window = ClientSideInterfaceFactory.NewUsersManagerWindow();
 			_window.FormClosed += (object s, FormClosedEventArgs e) => Close();
@@ -105,6 +105,9 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectChanged -= OnObjectChangedRemoved;
+			_server.ObjectRemoved -= OnObjectChangedRemoved;
+
 			var win = _window;
 			_window = null;
 

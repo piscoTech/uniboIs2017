@@ -128,5 +128,11 @@ namespace Flotta.ClientSide
 			if (o is IManutenzione m && m.Mezzo == _tabs.Mezzo && _manutenzioniList.Contains(m))
 				Reload();
 		}
+
+		public void Close()
+		{
+			_server.ObjectChanged -= OnObjectChanged;
+			_server.ObjectRemoved -= OnObjectRemoved;
+		}
 	}
 }

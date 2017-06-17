@@ -36,6 +36,8 @@ namespace Flotta.ClientSide
 		{
 			using (_window = ClientSideInterfaceFactory.NewUpdateLinkedTypeDialog())
 			{
+				_server.ObjectRemoved += OnObjectRemoved;
+
 				_window.NameText = _type.Name ?? "";
 				_window.TypeName = _typeName;
 				_window.Validation = () =>
@@ -64,6 +66,8 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectRemoved -= OnObjectRemoved;
+
 			var win = _window;
 			_window = null;
 

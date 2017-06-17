@@ -30,16 +30,16 @@ namespace Flotta.ClientSide
 
 			_server = server;
 			_manutenzione = manut;
-
-			_server.ObjectChanged += OnObjectChangedRemoved;
-			_server.ObjectRemoved += OnObjectChangedRemoved;
-			_server.ObjectRemoved += OnObjectRemoved;
 		}
 
 		public void ShowDialog()
 		{
 			using (_window = ClientSideInterfaceFactory.NewUpdateManutenzioneDialog())
 			{
+				_server.ObjectChanged += OnObjectChangedRemoved;
+				_server.ObjectRemoved += OnObjectChangedRemoved;
+				_server.ObjectRemoved += OnObjectRemoved;
+
 				_window.Validation = () =>
 				{
 					var errors = _server.UpdateManutenzione(_manutenzione, _window.Data, _window.Note,
@@ -102,6 +102,10 @@ namespace Flotta.ClientSide
 		public event Action PresenterClosed;
 		public void Close()
 		{
+			_server.ObjectChanged -= OnObjectChangedRemoved;
+			_server.ObjectRemoved -= OnObjectChangedRemoved;
+			_server.ObjectRemoved -= OnObjectRemoved;
+
 			var win = _window;
 			_window = null;
 
