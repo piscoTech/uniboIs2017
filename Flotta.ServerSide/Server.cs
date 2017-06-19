@@ -89,38 +89,38 @@ namespace Flotta.ServerSide
 
 			var tess = GetLinkedTypesList<ITesseraType>();
 			ITesseraType tt = ModelFactory.NewLinkedType<ITesseraType>();
-			tt.Update("Tessera 1");
+			tt.Update("Iscrizione SISTRI");
 			tess.Add(tt);
 			tt = ModelFactory.NewLinkedType<ITesseraType>();
-			tt.Update("Tessera 2");
+			tt.Update("Euroshell");
 			tt.Disable();
 			tess.Add(tt);
 
 			var disp = GetLinkedTypesList<IDispositivoType>();
 			IDispositivoType dt = ModelFactory.NewLinkedType<IDispositivoType>();
-			dt.Update("Dispositivo 1");
+			dt.Update("Estintore");
 			dt.Disable();
 			disp.Add(dt);
 			dt = ModelFactory.NewLinkedType<IDispositivoType>();
-			dt.Update("Dispositivo 2");
+			dt.Update("GPS");
 			disp.Add(dt);
 
 			var perm = GetLinkedTypesList<IPermessoType>();
 			IPermessoType pt = ModelFactory.NewLinkedType<IPermessoType>();
-			pt.Update("Permesso 1");
+			pt.Update("ZTL Bologna");
 			perm.Add(pt);
 			pt = ModelFactory.NewLinkedType<IPermessoType>();
-			pt.Update("Permesso 2");
+			pt.Update("ZTL Rimini");
 			pt.Disable();
 			perm.Add(pt);
 
 			var manut = GetLinkedTypesList<IManutenzioneType>();
 			IManutenzioneType mt = ModelFactory.NewLinkedType<IManutenzioneType>();
-			mt.Update("Manutenzione 1");
+			mt.Update("Manutenzione scarichi");
 			mt.Disable();
 			manut.Add(mt);
 			mt = ModelFactory.NewLinkedType<IManutenzioneType>();
-			mt.Update("Manutenzione 2");
+			mt.Update("Sostituzione cuscinetti albero motore");
 			manut.Add(mt);
 
 			IMezzo m = ModelFactory.NewMezzo();

@@ -184,7 +184,7 @@ namespace Flotta.ClientSide
 			_mainWindow = null;
 			win?.Close();
 
-			_mezzoPresenter.Close();
+			_mezzoPresenter?.Close();
 			_typesPresenter?.Close();
 			if (!_closed)
 				_server.ClientDisconnected(_user);

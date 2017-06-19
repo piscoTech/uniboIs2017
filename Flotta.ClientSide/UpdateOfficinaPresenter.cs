@@ -19,9 +19,6 @@ namespace Flotta.ClientSide
 			if (server == null)
 				throw new ArgumentNullException("No server specified");
 
-			if (officina == null)
-				throw new ArgumentNullException("No officina specified");
-
 			_server = server;
 
 			_editMode = officina == null;
