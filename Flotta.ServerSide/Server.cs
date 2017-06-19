@@ -116,11 +116,11 @@ namespace Flotta.ServerSide
 
 			var manut = GetLinkedTypesList<IManutenzioneType>();
 			IManutenzioneType mt = ModelFactory.NewLinkedType<IManutenzioneType>();
-			mt.Update("Manutenzione scarichi");
+			mt.Update("Motore");
 			mt.Disable();
 			manut.Add(mt);
 			mt = ModelFactory.NewLinkedType<IManutenzioneType>();
-			mt.Update("Sostituzione cuscinetti albero motore");
+			mt.Update("Freni");
 			manut.Add(mt);
 
 			IMezzo m = ModelFactory.NewMezzo();
@@ -167,7 +167,10 @@ namespace Flotta.ServerSide
 			_officine.Add(off);
 
 			IManutenzione man = ModelFactory.NewManutenzione(m);
-			man.Update(DateTime.Now, manut.ElementAt(0), "Note", 10, null, off);
+			man.Update(new DateTime(2017, 6, 10), manut.ElementAt(0), "Sostituzione candele", 500, null, off);
+			m.AddManutenzione(man);
+			man = ModelFactory.NewManutenzione(m);
+			man.Update(DateTime.Now, manut.ElementAt(1), "Sostituzione pattini freno anteriori", 220, null, off);
 			m.AddManutenzione(man);
 		}
 
