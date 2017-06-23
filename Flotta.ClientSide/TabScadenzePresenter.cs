@@ -76,6 +76,7 @@ namespace Flotta.ClientSide
 				{
 					item.Date = scadOwner.Scadenza?.DateDescription;
 					item.Expired = scadOwner.Scadenza?.Expired ?? false;
+					item.CanRenew = scadOwner.Scadenza?.HasDate ?? false;
 				}
 				else
 				{
