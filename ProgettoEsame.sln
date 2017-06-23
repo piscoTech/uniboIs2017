@@ -5,16 +5,6 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta", "Flotta\Flotta.csproj", "{C8CC658A-6CF7-445E-A739-CA6815E348AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.Model", "Flotta.Model\Flotta.Model.csproj", "{BE639DF6-5DB3-463B-AD3D-D8AC4F0BC79F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.ServerSide", "Flotta.ServerSide\Flotta.ServerSide.csproj", "{D530E61C-F616-435D-8AAF-874443D05991}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.ServerSide.Interface", "Flotta.ServerSide.Interface\Flotta.ServerSide.Interface.csproj", "{6848B119-DF0D-45DA-8DB5-5EDF9DBECE36}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.ClientSide.Interface", "Flotta.ClientSide.Interface\Flotta.ClientSide.Interface.csproj", "{5726F43B-F170-4728-8FC2-0BF551065211}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flotta.ClientSide", "Flotta.ClientSide\Flotta.ClientSide.csproj", "{276363B5-E2A2-47BD-B689-A45615C2242A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,26 +15,6 @@ Global
 		{C8CC658A-6CF7-445E-A739-CA6815E348AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8CC658A-6CF7-445E-A739-CA6815E348AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8CC658A-6CF7-445E-A739-CA6815E348AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE639DF6-5DB3-463B-AD3D-D8AC4F0BC79F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE639DF6-5DB3-463B-AD3D-D8AC4F0BC79F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE639DF6-5DB3-463B-AD3D-D8AC4F0BC79F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE639DF6-5DB3-463B-AD3D-D8AC4F0BC79F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D530E61C-F616-435D-8AAF-874443D05991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D530E61C-F616-435D-8AAF-874443D05991}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D530E61C-F616-435D-8AAF-874443D05991}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D530E61C-F616-435D-8AAF-874443D05991}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6848B119-DF0D-45DA-8DB5-5EDF9DBECE36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6848B119-DF0D-45DA-8DB5-5EDF9DBECE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6848B119-DF0D-45DA-8DB5-5EDF9DBECE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6848B119-DF0D-45DA-8DB5-5EDF9DBECE36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5726F43B-F170-4728-8FC2-0BF551065211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5726F43B-F170-4728-8FC2-0BF551065211}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5726F43B-F170-4728-8FC2-0BF551065211}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5726F43B-F170-4728-8FC2-0BF551065211}.Release|Any CPU.Build.0 = Release|Any CPU
-		{276363B5-E2A2-47BD-B689-A45615C2242A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{276363B5-E2A2-47BD-B689-A45615C2242A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{276363B5-E2A2-47BD-B689-A45615C2242A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{276363B5-E2A2-47BD-B689-A45615C2242A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

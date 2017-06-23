@@ -66,19 +66,262 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ClientSide\ChangePasswordPresenter.cs" />
+    <Compile Include="ClientSide\Client.cs" />
+    <Compile Include="ClientSide\ClientSideFactory.cs" />
+    <Compile Include="ClientSide\IPresenter.cs" />
+    <Compile Include="ClientSide\ITabPresenter.cs" />
+    <Compile Include="ClientSide\LinkedTypesManagerPresenter.cs" />
+    <Compile Include="ClientSide\MezzoTabPresenter.cs" />
+    <Compile Include="ClientSide\NewMezzoPresenter.cs" />
+    <Compile Include="ClientSide\OfficineManagerPresenter.cs" />
+    <Compile Include="ClientSide\RenewScadenzaPresenter.cs" />
+    <Compile Include="ClientSide\TabGeneralePresenter.cs" />
+    <Compile Include="ClientSide\TabManutenzioniPresenter.cs" />
+    <Compile Include="ClientSide\TabScadenzePresenter.cs" />
+    <Compile Include="ClientSide\UpdateDispositivoPermessoPresenter.cs" />
+    <Compile Include="ClientSide\UpdateLinkedTypePresenter.cs" />
+    <Compile Include="ClientSide\UpdateManutenzionePresenter.cs" />
+    <Compile Include="ClientSide\UpdateOfficinaPresenter.cs" />
+    <Compile Include="ClientSide\UpdateScadenzaPresenter.cs" />
+    <Compile Include="ClientSide\UpdateTesseraPresenter.cs" />
+    <Compile Include="ClientSide\UpdateUserPresenter.cs" />
+    <Compile Include="ClientSide\UsersManagerPresenter.cs" />
+    <Compile Include="ClientSide\View\AuthenticateUserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\AuthenticateUserDialog.Designer.cs">
+      <DependentUpon>AuthenticateUserDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\AuthenticateUserDialog.resx">
+      <DependentUpon>AuthenticateUserDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\ChangePasswordDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\ChangePasswordDialog.Designer.cs">
+      <DependentUpon>ChangePasswordDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\ChangePasswordDialog.resx">
+      <DependentUpon>ChangePasswordDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\ClientSideInterfaceFactory.cs" />
+    <Compile Include="ClientSide\View\ClientWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\ClientWindow.Designer.cs">
+      <DependentUpon>ClientWindow.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\ClientWindow.resx">
+      <DependentUpon>ClientWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\DatatGridViewExtensions.cs" />
+    <Compile Include="ClientSide\View\DispositivoPermessoListItem.cs" />
+    <Compile Include="ClientSide\View\ICloseableDisposable.cs" />
+    <Compile Include="ClientSide\View\LinkedTypeListItem.cs" />
+    <Compile Include="ClientSide\View\LinkedTypesManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\LinkedTypesManagerWindow.Designer.cs">
+      <DependentUpon>LinkedTypesManagerWindow.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\LinkedTypesManagerWindow.resx">
+      <DependentUpon>LinkedTypesManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\ManutenzioneListItem.cs" />
+    <Compile Include="ClientSide\View\MezzoListItem.cs" />
+    <Compile Include="ClientSide\View\MezzoTabView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\MezzoTabView.Designer.cs">
+      <DependentUpon>MezzoTabView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\MezzoTabView.resx">
+      <DependentUpon>MezzoTabView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\NewMezzoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\NewMezzoDialog.Designer.cs">
+      <DependentUpon>NewMezzoDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\NewMezzoDialog.resx">
+      <DependentUpon>NewMezzoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\OfficineManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\OfficineManagerWindow.Designer.cs">
+      <DependentUpon>OfficineManagerWindow.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\OfficineManagerWindow.resx">
+      <DependentUpon>OfficineManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\RenewScadenzaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\RenewScadenzaDialog.Designer.cs">
+      <DependentUpon>RenewScadenzaDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\RenewScadenzaDialog.resx">
+      <DependentUpon>RenewScadenzaDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\ScadenzaListItem.cs" />
+    <Compile Include="ClientSide\View\TabGeneraleView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\TabGeneraleView.Designer.cs">
+      <DependentUpon>TabGeneraleView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\TabGeneraleView.resx">
+      <DependentUpon>TabGeneraleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\TabManutenzioniView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\TabManutenzioniView.Designer.cs">
+      <DependentUpon>TabManutenzioniView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\TabManutenzioniView.resx">
+      <DependentUpon>TabManutenzioniView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\TabScadenzeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\TabScadenzeView.Designer.cs">
+      <DependentUpon>TabScadenzeView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\TabScadenzeView.resx">
+      <DependentUpon>TabScadenzeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\TesseraListItem.cs" />
+    <Compile Include="ClientSide\View\UpdateDispositivoPermessoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UpdateDispositivoPermessoDialog.Designer.cs">
+      <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UpdateDispositivoPermessoDialog.resx">
+      <DependentUpon>UpdateDispositivoPermessoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\UpdateLinkedTypeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UpdateLinkedTypeDialog.Designer.cs">
+      <DependentUpon>UpdateLinkedTypeDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UpdateLinkedTypeDialog.resx">
+      <DependentUpon>UpdateLinkedTypeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\UpdateManutenzioneDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UpdateManutenzioneDialog.Designer.cs">
+      <DependentUpon>UpdateManutenzioneDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UpdateManutenzioneDialog.resx">
+      <DependentUpon>UpdateManutenzioneDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\UpdateOfficinaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UpdateOfficinaDialog.Designer.cs">
+      <DependentUpon>UpdateOfficinaDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UpdateOfficinaDialog.resx">
+      <DependentUpon>UpdateOfficinaDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\UpdateScadenzaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UpdateScadenzaDialog.Designer.cs">
+      <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UpdateScadenzaDialog.resx">
+      <DependentUpon>UpdateScadenzaDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\UpdateTesseraDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UpdateTesseraDialog.Designer.cs">
+      <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UpdateTesseraDialog.resx">
+      <DependentUpon>UpdateTesseraDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\UpdateUserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UpdateUserDialog.Designer.cs">
+      <DependentUpon>UpdateUserDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UpdateUserDialog.resx">
+      <DependentUpon>UpdateUserDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="ClientSide\View\UserListItem.cs" />
+    <Compile Include="ClientSide\View\UsersManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientSide\View\UsersManagerWindow.Designer.cs">
+      <DependentUpon>UsersManagerWindow.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ClientSide\View\UsersManagerWindow.resx">
+      <DependentUpon>UsersManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Model\AssicurazioneType.cs" />
+    <Compile Include="Model\Dispositivo.cs" />
+    <Compile Include="Model\DispositivoType.cs" />
+    <Compile Include="Model\File.cs" />
+    <Compile Include="Model\IDBObject.cs" />
+    <Compile Include="Model\ILinkedObject.cs" />
+    <Compile Include="Model\Immagine.cs" />
+    <Compile Include="Model\Incidente.cs" />
+    <Compile Include="Model\IScadenzaOwner.cs" />
+    <Compile Include="Model\LinkedType.cs" />
+    <Compile Include="Model\LinkedTypeDescriptor.cs" />
+    <Compile Include="Model\Manutenzione.cs" />
+    <Compile Include="Model\ManutenzioneType.cs" />
+    <Compile Include="Model\Mezzo.cs" />
+    <Compile Include="Model\MezzoScadenzaAdapter.cs" />
+    <Compile Include="Model\ModelFactory.cs" />
+    <Compile Include="Model\Officina.cs" />
+    <Compile Include="Model\PDF.cs" />
+    <Compile Include="Model\Permesso.cs" />
+    <Compile Include="Model\PermessoType.cs" />
+    <Compile Include="Model\Scadenza.cs" />
+    <Compile Include="Model\ScadenzaFormat.cs" />
+    <Compile Include="Model\ScadenzaFormatDescriptor.cs" />
+    <Compile Include="Model\ScadenzaIllimitata.cs" />
+    <Compile Include="Model\ScadenzaManuale.cs" />
+    <Compile Include="Model\ScadenzaRecurrencyType.cs" />
+    <Compile Include="Model\ScadenzaRecurrencyTypeDescriptor.cs" />
+    <Compile Include="Model\ScadenzaRicorrente.cs" />
+    <Compile Include="Model\ScadenzaTypeDescriptor.cs" />
+    <Compile Include="Model\Tessera.cs" />
+    <Compile Include="Model\TesseraType.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="ServerSide\Server.cs" />
+    <Compile Include="ServerSide\ServerSideFactory.cs" />
+    <Compile Include="ServerSide\View\ServerSideInterfaceFactory.cs" />
+    <Compile Include="ServerSide\View\ServerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerSide\View\ServerWindow.Designer.cs">
+      <DependentUpon>ServerWindow.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ServerSide\View\ServerWindow.resx">
+      <DependentUpon>ServerWindow.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Flotta.ClientSide\Flotta.ClientSide.csproj">
-      <Project>{276363b5-e2a2-47bd-b689-a45615c2242a}</Project>
-      <Name>Flotta.ClientSide</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Flotta.ServerSide\Flotta.ServerSide.csproj">
-      <Project>{d530e61c-f616-435d-8aaf-874443d05991}</Project>
-      <Name>Flotta.ServerSide</Name>
-    </ProjectReference>
+    <Folder Include="ClientSide\" />
+    <Folder Include="ClientSide\View\" />
+    <Folder Include="ServerSide\" />
+    <Folder Include="ServerSide\View\" />
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
