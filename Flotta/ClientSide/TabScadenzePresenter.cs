@@ -49,7 +49,7 @@ namespace Flotta.ClientSide
 
 		public void Reload()
 		{
-			if (_tabs.Mezzo == null)
+			if (_tabs.Mezzo == null || !_tabs.ShouldReload(this))
 				return;
 
 			_updatePresenter?.Close();

@@ -106,6 +106,9 @@ namespace Flotta.ClientSide
 			if (Mezzo == null)
 				return;
 
+			if (_tabs?.ShouldReload(this) ?? true)
+				return;
+
 			if (EditMode)
 			{
 				_tessereTmp = (from t in Mezzo.Tessere select t.Clone() as ITessera).ToList();

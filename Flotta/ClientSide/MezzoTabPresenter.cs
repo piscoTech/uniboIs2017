@@ -11,7 +11,6 @@ namespace Flotta.ClientSide
 {
 	internal class MezzoTabPresenter
 	{
-
 		private readonly IServer _server;
 		private IMezzo _mezzo;
 
@@ -52,6 +51,21 @@ namespace Flotta.ClientSide
 				_tabControl.CurrentTab = 0;
 				ReloadTab();
 			}
+		}
+
+		internal bool ShouldReload(ITabPresenter tab)
+		{
+			if (tab == null)
+				return false;
+
+			int i = 0;
+			foreach (ITabPresenter t in _tabPresenters)
+			{
+				if (_tabControl.CurrentTab == i++ && t != null && t == tab)
+					return true;
+			}
+
+			return false;
 		}
 
 		internal event Action OnExitEdit;

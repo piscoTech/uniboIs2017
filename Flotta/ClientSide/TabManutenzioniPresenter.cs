@@ -15,7 +15,7 @@ namespace Flotta.ClientSide
 		private readonly IServer _server;
 		private readonly MezzoTabPresenter _tabs;
 		private readonly ITabManutenzioniView _view;
-		private List<IManutenzione> _manutenzioniList;
+		private List<IManutenzione> _manutenzioniList = new List<IManutenzione>();
 		private List<IManutenzioneListItem> _manutenzioneListItem;
 
 		private IDialogPresenter _curPresenter = null;
@@ -45,7 +45,7 @@ namespace Flotta.ClientSide
 
 		public void Reload()
 		{
-			if (_tabs.Mezzo == null)
+			if (_tabs.Mezzo == null || !_tabs.ShouldReload(this))
 				return;
 
 			_manutenzioniList = _tabs.Mezzo.Manutenzioni.ToList();
